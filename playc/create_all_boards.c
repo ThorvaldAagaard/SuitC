@@ -32,14 +32,12 @@ int n, r;
 
 int create_all_boards()
 {
-    int    wc, ec, ic, ii, i, j, jj, k, n, cnt, cnt0, activ[8192];
+    int    ic, ii, i, j, jj, k, n, cnt, cnt0, activ[8192];
     COLOR  ewcards, c, cards, ci, cj;
-    int    fac(), scale, eps;
+    int    fac();
 
     /* count the cards */
     ic = 0;
-    wc = w_vac;
-    ec = e_vac;
     ewcards = hands[west] | hands[east];
     cards = ewcards;
     while ( cards ) {
@@ -55,9 +53,6 @@ int create_all_boards()
     board[cnt0+cnt].s[south] = hands[south];
     board[cnt0+cnt].s[east] = RENONCE;
     board[cnt0+cnt].s[west] = ewcards;
-    board[cnt0+cnt].d = 1;
-    board[cnt0+cnt].p = (double) 100.0 * (double) fac(    wc, ic ) * (double) fac( ec, 0 ) /
-                                       ( (double) fac( wc+ec, ic ) * (double) fac( ic, 0 ) );
     cnt++;
     cnt0 = boardcnt;
     boardcnt += cnt;
@@ -77,10 +72,6 @@ int create_all_boards()
                     board[boardcnt+cnt].s[east] = board[i].s[east] | c;
                     board[boardcnt+cnt].s[west] = ewcards ^
                             ( ewcards & board[boardcnt+cnt].s[east] );
-                    board[boardcnt+cnt].d = 1;
-                    board[boardcnt+cnt].p = (double) 100.0 *
-                            (double) fac(    wc, ic-ii ) * (double) fac( ec, ii) /
-                          ( (double) fac( wc+ec, ic    ) * (double) fac( ic, ii ) );
                     cnt++;
                 }
                 else
@@ -110,7 +101,6 @@ int create_all_boards()
                         ci = ( s_cards[n][east] & board[i].s[east] ) ^ board[i].s[east];
                         cj = ( s_cards[n][east] & board[j].s[east] ) ^ board[j].s[east];
                         if ( activ[i] && ci == cj ) {
-                            board[i].d += board[j].d;
                             activ[j] = NO;
                             break;
                         }
@@ -125,8 +115,6 @@ int create_all_boards()
                 board[cnt].s[south] = board[j].s[south];
                 board[cnt].s[east] = board[j].s[east];
                 board[cnt].s[west] = board[j].s[west];
-                board[cnt].d = board[j].d;
-                board[cnt].p = board[j].p;
                 cnt++;
             }
         }
@@ -139,10 +127,6 @@ int create_all_boards()
         printf( "\nERROR: no boards are left!\n\n" );
         exit( 1 );
     }
-
-    /* scale the percentages */
-    for ( cnt = 0; cnt < boardcnt; cnt++ )
-        board[cnt].p /= scale;
 
     return 0;
 }
