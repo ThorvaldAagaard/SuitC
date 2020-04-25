@@ -7,7 +7,7 @@
 //  parameters:
 //      lnode           in      the old node
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -18,7 +18,7 @@ struct NODE *copy_node( struct NODE *lnode )
     struct NODE  *tnode;
 
     //  create the new node
-    tnode = bump_node();
+    bump_node( tnode );
     tnode->d = NIL;
     tnode->l = NIL;
     tnode->r = NIL;
@@ -32,7 +32,7 @@ struct NODE *copy_node( struct NODE *lnode )
     tnode->i = nextindex;
     lindex = lnode->i;
     while ( lindex ) {
-        tindex = bump_index();
+        bump_index( tindex );
         tindex->i = lindex->i;
         for ( p = 0; p < 4; p++ )
             tindex->c[p] = lindex->c[p];

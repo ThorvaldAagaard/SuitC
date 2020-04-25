@@ -8,13 +8,13 @@
 //      d               in      the depth in the NODE tree
 //      lnode           in      the NODE tree
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
 void check_ns_plays( int d, struct NODE **lnode )
 {
-    int          bstrong, bweak, lbequal, lstrong, lweak;
+    int          bstrong, bweak, lstrong, lweak;
     struct NODE  *bnode[NPLIES+1];
     struct INDEX *lindex, *bindex;
 
@@ -33,7 +33,6 @@ next_lnode:
             lstrong = YES;
             bweak = YES;
             lweak = YES;
-            lbequal = YES;
 
             //  compare the result for all EW distributions
             lindex = lnode[d]->i;
@@ -41,11 +40,11 @@ next_lnode:
             while( lindex ) {
 
                 //  mark plays that are worse than the minimum that can be won
-                if ( limittricks && ( bindex->max < nstricks[lindex->i] ) ) {
+                if ( buildtree == 2 && bindex->max < nstricks[lindex->i] ) {
                     bnode[d] = delete_tree( d, bnode );
                     goto next_bnode;
                 }
-                if ( limittricks && ( lindex->max < nstricks[lindex->i] ) ) {
+                if ( buildtree == 2 && lindex->max < nstricks[lindex->i] ) {
                     lnode[d] = delete_tree( d, lnode );
                     goto next_lnode;
                 }
@@ -55,7 +54,6 @@ next_lnode:
                 bstrong &= bindex->min > lindex->max;
                 lweak &= lindex->min >= bindex->max;
                 bweak &= bindex->min >= lindex->max;
-                lbequal &= ( lindex->min == bindex->max ) && ( bindex->min == lindex->max );
 
                 lindex = lindex->r;
                 bindex = bindex->r;
@@ -70,15 +68,15 @@ next_lnode:
                 goto next_lnode;
             }
 
-            else if ( lbequal && keepnsequal && keepfulltree )
+            else if ( bweak && lweak && keepnsequal && buildtree )
                 bnode[d] = bnode[d]->r;
 
-            else if ( lbequal ) {
+            else if ( bweak && lweak ) {
                 lnode[d] = delete_tree( d, lnode );
                 goto next_lnode;
             }
 
-            else if ( ( lweak || bweak ) && keepnsweak && keepfulltree )
+            else if ( ( lweak || bweak ) && keepnsweak && buildtree )
                 bnode[d] = bnode[d]->r;
 
             else if ( lweak )

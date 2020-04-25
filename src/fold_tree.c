@@ -9,7 +9,7 @@
 //      lnode           in      the first sibling NODE tree
 //      bnode           in      the second sibling NODE tree
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -21,7 +21,7 @@ int fold_tree( int d, struct NODE **lnode, struct NODE **bnode )
     bnode[d] = bnode[d-1]->d;
     lnode[d] = lnode[d-1]->d;
 
-    if ( EW( bnode[d]->p ) ) {
+    if ( EW(bnode[d]->p) ) {
 
         while ( bnode[d] ) {
 

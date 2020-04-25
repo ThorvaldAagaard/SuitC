@@ -10,7 +10,7 @@
 //  parameters:
 //      d               in      the depth in the tree
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -19,42 +19,45 @@ void create_tricks( int d )
     int          i, lead[4], p, q, t = st[d].t, throwinback = throwin;
     COLOR        c;
     struct INDEX *lindex;
-    struct SCARD *sc;
+    struct SCARD *sc, *tc;
 
-    //  collect the remaining cards
-    for ( p = 0; p < 4; p++ )
+    //  collect the remaining cards; complete the current cards with the initial SCARD sequences
+    for ( p = 0; p < 4; p++ ) {
+        lead[p] = NO;
         brd[t][p] = RENONCE;
-    lindex = wnode[d-1]->i;
-    while( lindex ) {
-        for ( p = 0; p < 4; p++ )
+        sc = &scards[0][p];
+        lindex = wnode[d-1]->i;
+        while( lindex ) {
             brd[t][p] |= lindex->c[p];
-        lindex = lindex->r;
+            lindex = lindex->r;
+        }
+        for ( i = 1; i <= sc->n; i++ )
+            if ( brd[t][p] & sc->c[i] )
+                brd[t][p] |= sc->c[i];
     }
 
     //  determine who can lead to this trick
-    for ( p = 0; p < 4; p++ )
-        lead[p] = NO;
     if ( defence ) {
         lead[west] = brd[t][west] && ( w[t-1] == west || w[t-1] == noplayer || ( t > 1 && nfree[t-1][west] ) );
         lead[east] = brd[t][east] && ( w[t-1] == east || w[t-1] == noplayer || ( t > 1 && nfree[t-1][east] ) );
     }
-    if ( throwin && t > 1 && ( NS( w[t-1] ) || ( w[t-1] == west && ! brd[t][west] ) || ( w[t-1] == east && ! brd[t][east] ) ) )
+    else if ( throwin && t > 1 && ( NS(w[t-1]) || ( EW(w[t-1]) && ! brd[t][w[t-1]] ) ) )
         throwin = NO;
-    if ( throwin ) {
+    else if ( throwin ) {
         lead[west] = brd[t][west] && ( w[t-1] == west || w[t-1] == noplayer );
         lead[east] = brd[t][east] && ( w[t-1] == east || w[t-1] == noplayer );
     }
-    if ( ! ( defence || throwin ) ) {
+    else {
         lead[north] = brd[t][north] && ( w[t-1] == north || w[t-1] == noplayer || ( t > 1 && nfree[t-1][north] ) );
         lead[south] = brd[t][south] && ( w[t-1] == south || w[t-1] == noplayer || ( t > 1 && nfree[t-1][south] ) );
     }
 
     //  no more tricks are to be played
-    if ( t == ntricks || ! ( lead[west] | lead[north] | lead[east] || lead[south] ) ) {
+    if ( t == ntricks || ! ( lead[west] || lead[north] || lead[east] || lead[south] ) ) {
 
         wnode[d-1]->term = YES;
 
-        if ( ( lead[west] | lead[north] | lead[east] || lead[south] ) && t == ntricks ) {
+        if ( ( lead[west] || lead[north] || lead[east] || lead[south] ) && t == ntricks ) {
 
             ns[t] = ns[t-1];
             p = brd[t][north] > brd[t][east] ? north : east;
@@ -63,7 +66,7 @@ void create_tricks( int d )
             for ( q = 0; q < 4; q++ )
                 if ( nruff[t-1][q] && ! brd[t][q] )
                     p = q;
-            ns[t] += ( defence ? ( NS( p ) ? 0 : -1 ) : ( NS( p ) ? 1 : 0 ) );
+            ns[t] += defence ? NS(p) ? 0 : -1 : NS(p) ? 1 : 0;
 
             lindex = wnode[d-1]->i;
             while( lindex ) {
@@ -87,20 +90,24 @@ void create_tricks( int d )
         return;
     }
 
-    //  complete the hands by adding equivalent cards
+    //  build the SCARD sequences for the current trick
     for ( p = 0; p < 4; p++ ) {
-        sc = &scards[0][p];
-        for ( i = 0; i <= sc->n; i++ )
-            if ( brd[t][p] & sc->c[i] )
-                brd[t][p] |= sc->c[i];
-    }
 
-    //  initialise
-    for ( p = 0; p < 4; p++ ) {
-        sc = &scards[t][p]; sc->n = 0;
-        if ( nruff[t][p] && ( ncardsmin[p] < t ) )
-            sc->c[sc->n++] = addcard(ruff);
-        sc->c[sc->n] = (COLOR) 0;
+        //  build the SCARD sequences
+        sc = &scards[0][p];
+        tc = &scards[t][p];
+        tc->n = -1;
+        for ( i = 1; i <= sc->n; i++ )
+            if ( sc->c[i] & brd[t][p] )
+                tc->c[++tc->n] = sc->c[i];
+
+        //  add renonces and ruffs
+        tc->m = tc->n;
+        if ( ncardsmin[p] < t ) {
+            tc->c[++tc->m] = (COLOR) 0;
+            if ( nruff[t][p] )
+                tc->c[++tc->m] = addcard(ruff);
+        }
     }
 
     //  lead from each hand in turn

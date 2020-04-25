@@ -7,7 +7,7 @@
 //  parameters:
 //      d               in      the depth in the NODE tree
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 #define w_ew( lnode )   ( lnode[d]->winc & ( brd[0][west] | brd[0][east] ) )
@@ -31,7 +31,7 @@ void select_ns_plays( int d )
         }
     }
 
-    if ( NS( lnode[d]->p ) ) {
+    if ( NS(lnode[d]->p) ) {
 
         //  compare plays by the same player
     next_lnode:

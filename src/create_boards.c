@@ -8,18 +8,19 @@
 //  parameters:
 //      none
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
 void create_boards( void )
 {
-    int          ec, i, k, l, p, q, wc;
+    int          ec, i, k, p, q, wc;
     COLOR        cards;
     struct INDEX *lindex;
     struct SCARD *sc;
 
     //  check for duplicate cards
+    brd[0][east] = brd[0][west];
     if ( brd[0][north] & brd[0][south] || brd[0][north] & brd[0][west] || brd[0][south] & brd[0][west] ) {
         printf( "ERROR: The input contains duplicate cards\n" );
         exit( 1 );
@@ -35,7 +36,12 @@ void create_boards( void )
         }
     }
 
-    //  determine the minimum number of cards in the east and west hands
+    //  determine the number of tricks to be played and the maximum ply number to be printed
+    ntricks = defence ? ncards[west] - MIN( ncardsmin[west], ncardsmin[east] ) : MAX( ncards[north], ncards[south] );
+    tricklimit = MIN( tricklimit, ntricks );
+    maxply = MAX( 0, 4 * MIN( ntricks - 1, ncards[west] / 2 ) );
+
+    //  determine the minimum number of cards in each hand
     ec = 0;
     cards = eastfixed;
     while ( cards ) {
@@ -50,31 +56,21 @@ void create_boards( void )
     }
     ncardsmin[east] = MAX( ncardsmin[east], ec );
     ncardsmin[west] = MAX( ncardsmin[west], wc );
-
-    //  determine the number of tricks to be played and the maximum ply number to be printed
-    ntricks = defence ? ncards[west] - MIN( ncardsmin[west], ncardsmin[east] ) : MAX( ncards[north], ncards[south] );
-    tricklimit = MIN( tricklimit, ntricks );
-    maxply = MAX( 0, 4 * MIN( ntricks - 1, ncards[west] / 2 ) );
-
-    //  initialise the card sequences
-    brd[0][east] = brd[0][west];
-    ncards[east] = ncards[west] - ncardsmin[west];
-    ncards[west] = ncards[west] - ncardsmin[east];
     ncardsmin[north] = ncards[north];
     ncardsmin[south] = ncards[south];
-    for ( p = 0; p < 4; p++ ) {
-        sc = &scards[0][p];
-        sc->n = 0;
-        sc->c[sc->n] = (COLOR) 0;
-    }
+    ncards[east] = ncards[west] - ncardsmin[west];
+    ncards[west] = ncards[west] - ncardsmin[east];
 
-    //  determine the sequences for all players
+    //  determine the SCARD sequences for all players
     for ( p = 0; p < 4; p++ ) {
+
         q = NO;
-        sc = &scards[0][p]; sc->n = 0;
+        sc = &scards[0][p];
+        sc->c[sc->n=0] = (COLOR) 0;
         cards = brd[0][west] | brd[0][north] | brd[0][east] | brd[0][south];
         cards ^= cards & brd[0][p];
-        for ( i = 2; i <= ace; i++ ) {
+
+        for ( i = ace; i >= two; i-- ) {
             if ( brd[0][p] & addcard(i) ) {
                 if ( q )
                     sc->c[sc->n] |= addcard(i);
@@ -86,8 +82,6 @@ void create_boards( void )
             else if ( cards & addcard(i) )
                 q = NO;
         }
-        if ( nruff[0][p] && ( ncardsmin[p] < ntricks ) )
-            sc->c[++sc->n] = addcard(ruff);
     }
 
     //  translate the lead for west in canonical order
@@ -116,8 +110,7 @@ void create_boards( void )
         for ( i = 0; i <= sc->n; i++ )
             if ( westfixed & sc->c[i] )
                 for ( k = two; k <= ace; k++ )
-                    if ( ( addcard(k  ) & sc->c[i] ) &&   ( addcard(k  ) & westfixed ) &&
-                         ( addcard(k+1) & sc->c[i] ) && ! ( addcard(k+1) & westfixed ) )
+                    if ( addcard(k) & sc->c[i] && addcard(k) & westfixed && addcard(k+1) & sc->c[i] && ! ( addcard(k+1) & westfixed ) )
                         westfixed = ( westfixed ^ addcard(k) ) | addcard(k+1);
     }
 
@@ -127,8 +120,7 @@ void create_boards( void )
         for ( i = 0; i <= sc->n; i++ )
             if ( eastfixed & sc->c[i] )
                 for ( k = ace; k >= two; k-- )
-                    if ( ( addcard(k  ) & sc->c[i] ) &&   ( addcard(k  ) & eastfixed ) &&
-                         ( addcard(k-1) & sc->c[i] ) && ! ( addcard(k-1) & eastfixed ) )
+                    if ( addcard(k) & sc->c[i] && addcard(k) & eastfixed && addcard(k-1) & sc->c[i] && ! ( addcard(k-1) & eastfixed ) )
                         eastfixed = ( eastfixed ^ addcard(k) ) | addcard(k-1);
     }
 
@@ -141,14 +133,15 @@ void create_boards( void )
     wnode[0]->r = NIL;
     wnode[0]->i = nextindex;
     wnode[0]->c = RENONCE;
-    wnode[0]->p = ( defence ? north : west );
+    wnode[0]->p = defence ? north : west;
     wnode[0]->winc = RENONCE;
     wnode[0]->match = 0;
     wnode[0]->term = 0;
 
     //  create the index list for the root
     for ( i = 0; i < boardcount; i++ ) {
-        lindex = bump_index();
+        bump_index( lindex );
+        lindex->r = nextindex;
         lindex->i = i;
         lindex->min = 0;
         lindex->max = tricklimit;

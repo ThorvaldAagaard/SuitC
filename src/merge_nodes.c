@@ -9,7 +9,7 @@
 //      node1           in      the first sibling
 //      node2           in      the second sibling
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -42,7 +42,7 @@ void merge_nodes( struct NODE *lnode, struct NODE *bnode )
                     aindex->r = nextindex;
                 else
                     lnode->i = nextindex;
-                aindex = bump_index();
+                bump_index( aindex );
                 aindex->i = bindex->i;
                 for ( p = 0; p < 4; p++ )
                     aindex->c[p] = bindex->c[p];
@@ -61,7 +61,7 @@ void merge_nodes( struct NODE *lnode, struct NODE *bnode )
                 aindex->r = nextindex;
             else
                 lnode->i = nextindex;
-            aindex = bump_index();
+            bump_index( aindex );
             aindex->i = bindex->i;
             for ( p = 0; p < 4; p++ )
                 aindex->c[p] = bindex->c[p];

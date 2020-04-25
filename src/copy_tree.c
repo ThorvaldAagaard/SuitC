@@ -8,7 +8,7 @@
 //      d_              in      the depth in the NODE tree
 //      lnode           in      the NODE tree
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -25,14 +25,12 @@ struct NODE *copy_tree( int d_, struct NODE *rootn )
 
         //  create the new node
         if ( tnode[d] ) {
-            tnode[d]->r = nextnode;
-            bump_node();
+            bump_node( tnode[d]->r );
             tnode[d]->r->l = tnode[d];
             tnode[d] = tnode[d]->r;
         }
         else {
-            tnode[d] =  nextnode;
-            bump_node();
+            bump_node( tnode[d] );
             if ( d > ply )
                 tnode[d-1]->d = tnode[d];
             tnode[d]->l = NIL;
@@ -51,8 +49,7 @@ struct NODE *copy_tree( int d_, struct NODE *rootn )
         tnode[d]->i = nextindex;
         lindex = lnode[d]->i;
         while ( lindex ) {
-            tindex = nextindex;
-            bump_index();
+            bump_index( tindex );
             tindex->i = lindex->i;
             for ( p = 0; p < 4; p++ )
                 tindex->c[p] = lindex->c[p];

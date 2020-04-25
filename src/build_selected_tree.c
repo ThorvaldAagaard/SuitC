@@ -2,12 +2,12 @@
 //      build_selected_tree
 //
 //  purpose:
-//      build_selected_tree builds the tree that mirrors the selected result
+//      build_selected_tree builds the NODE tree that mirrors the selected result
 //
 //  parameters:
 //      none
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -24,7 +24,7 @@ void build_selected_tree( void )
 
         //  check the number of tricks for north and south
         accept = YES;
-        if ( NS( lnode[d]->p ) && ( tnode[d] || lnode[d]->r ) ) {
+        if ( NS(lnode[d]->p) && ( tnode[d] || lnode[d]->r ) ) {
             lindex = lnode[d]->i;
             while ( lindex ) {
                 if ( lindex->max < nstricks[lindex->i] )
@@ -70,7 +70,7 @@ void build_selected_tree( void )
         while( d && ! lnode[d] ) {
 
             //   check the result
-            if ( NS( tnode[d]->p ) )
+            if ( NS(tnode[d]->p) )
                 check_ns_plays( d, tnode );
             else
                 check_ew_plays( d, tnode );

@@ -10,7 +10,7 @@
 //      printboards     in      flag to print the boards
 //      printsiblings   in      flag to print the siblings of the root
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 

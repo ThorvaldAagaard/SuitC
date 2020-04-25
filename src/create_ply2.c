@@ -8,26 +8,27 @@
 //      d               in      the depth in the tree
 //      p               in      the player of this ply
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
 void create_ply2( int d, int p )
 {
-    int          i, n;
+    int          i, t = st[d].t;
     struct NODE  znode;
-    struct SCARD *sc;
+    struct SCARD *tc;
 
     wnode[d] = &znode;
     znode.r = NIL;
-    sc = &scards[0][p];
-    for ( i = sc->n; i >= 0; i-- ) {
-        st[d].c = sc->c[i];
-        st[d].w = st[d-1].winc > sc->c[i] ? st[d-1].w : p;
-        st[d].winc = st[d-1].winc > sc->c[i] ? st[d-1].winc : sc->c[i];
+    tc = &scards[t][p];
+    for ( i = 0; i <= tc->m; i++ ) {
+
+        st[d].c = tc->c[i];
+        st[d].w = st[d-1].winc > tc->c[i] ? st[d-1].w : p;
+        st[d].winc = st[d-1].winc > tc->c[i] ? st[d-1].winc : tc->c[i];
 
         //  create a new node
-        if ( ! ( add_node( d, p, st[d].c ) ) )
+        if ( ! add_node( d, p, tc->c[i] ) )
             continue;
 
         //  handle the 3rd hand play
@@ -37,5 +38,5 @@ void create_ply2( int d, int p )
     //  check the plays
     znode.r->l = NIL;
     wnode[d-1]->d = znode.r;
-    ( NS( znode.r->p ) ? check_ns_plays( d, wnode ) : check_ew_plays( d, wnode ) );
+    NS(znode.r->p) ? check_ns_plays( d, wnode ) : check_ew_plays( d, wnode );
 }

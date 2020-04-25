@@ -7,27 +7,27 @@
 //  parameters:
 //      none
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
 double fac( int n, int r )
 {
+    double       f = 1.0;
     int          i;
-    long         f = 1L;
 
     if ( n < 0 || r < 0 || n < r )
-        return( (double) 0 );
+        return( 0.0 );
     for( i = 0; i < r; i++ )
         f = ( f * (n-i) ) / (i+1);
-    return ( (double) f );
+    return ( f );
 }
 
 void create_all_boards( void )
 {
-    int          cnt, cnt0, cnt1, ec, i, ic, ii, inx[NBOARDS], j, jj, k, n, offs, q, wc, activ[8192];
+    int          activ[8192], cnt, cnt0, cnt1, ec, i, ic, ii, inx[NBOARDS], j, k, n, offs, q, wc;
     COLOR        c, ci, cj, dboard[4][8192];
-    double       eps, scale, ddupl[NBOARDS], dprob[NBOARDS];
+    double       scale, ddupl[NBOARDS], dprob[NBOARDS];
     struct SCARD *sc;
 
     //  count the cards
@@ -49,9 +49,7 @@ void create_all_boards( void )
     board[east][cnt0+cnt] = RENONCE;
     board[west][cnt0+cnt] = brd[0][west] | brd[0][east];
     dupl[cnt0+cnt] = 1;
-    prob[cnt0+cnt] = (double) 1.0 *
-              fac(    wc, ic ) * fac( ec, 0 ) /
-            ( fac( wc+ec, ic ) * fac( ic, 0 ) );
+    prob[cnt0+cnt] = fac( wc, ic ) * fac( ec, 0 ) / ( fac( wc+ec, ic ) * fac( ic, 0 ) );
     cnt++;
     cnt1 += cnt;
 
@@ -67,12 +65,9 @@ void create_all_boards( void )
                     board[north][cnt1+cnt] = board[north][i];
                     board[south][cnt1+cnt] = board[south][i];
                     board[east][cnt1+cnt] = board[east][i] | low_c( c );
-                    board[west][cnt1+cnt] = ( brd[0][west] | brd[0][east] ) ^
-                            ( ( brd[0][west] | brd[0][east] ) & board[east][cnt1+cnt] );
+                    board[west][cnt1+cnt] = ( brd[0][west] | brd[0][east] ) ^ ( ( brd[0][west] | brd[0][east] ) & board[east][cnt1+cnt] );
                     dupl[cnt1+cnt] = 1;
-                    prob[cnt1+cnt] = (double) 1.0 *
-                            fac(    wc, ic-ii ) * fac( ec, ii) /
-                          ( fac( wc+ec, ic    ) * fac( ic, ii ) );
+                    prob[cnt1+cnt] = fac( wc, ic-ii ) * fac( ec, ii) / ( fac( wc+ec, ic ) * fac( ic, ii ) );
                     cnt++;
                 }
                 else
@@ -147,7 +142,7 @@ void create_all_boards( void )
         if ( ncardsmin[west] <= wc && ncardsmin[east] <= ec &&
              westfixed == ( board[west][j] & westfixed ) &&
              eastfixed == ( board[east][j] & eastfixed ) &&
-             prob[j] > eps ) {
+             prob[j] > EPS ) {
             board[north][cnt] = board[north][j];
             board[south][cnt] = board[south][j];
             board[east][cnt] = board[east][j];

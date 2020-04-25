@@ -12,7 +12,7 @@
 //  parameters:
 //      lscore          in      the highest entry to be checked in the SCORE list
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -46,7 +46,6 @@ int check_zermelo( struct SCORE *lscore )
                 printf( "lbequal   l_ix=%04d   l_w=%d   b_ix=%04d   b_w=%d\n", lscore->ix, lscore->w, bscore->ix, bscore->w );
             goon = YES;
             free( lscore->mp );
-            memory -= nplays * sizeof( double );
             lscore->mp = NIL;
             ascore = bscore;
             while( ascore->b )
@@ -63,7 +62,6 @@ int check_zermelo( struct SCORE *lscore )
                 printf( "b_del     l_ix=%04d   l_w=%d   b_ix=%04d   b_w=%d\n", lscore->ix, lscore->w, bscore->ix, bscore->w );
             goon = YES;
             free( bscore->mp );
-            memory -= nplays * sizeof( double );
             bscore->mp = NIL;
             ascore = bscore;
             while( ascore ) {
@@ -80,7 +78,6 @@ int check_zermelo( struct SCORE *lscore )
                 printf( "l_del     l_ix=%04d   l_w=%d   b_ix=%04d   b_w=%d\n", lscore->ix, lscore->w, bscore->ix, bscore->w );
             goon = YES;
             free( lscore->mp );
-            memory -= nplays * sizeof( double );
             lscore->mp = NIL;
             ascore = lscore;
             while( ascore ) {

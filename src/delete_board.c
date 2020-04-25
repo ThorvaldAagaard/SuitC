@@ -10,7 +10,7 @@
 //      lnode           in      the NODE tree
 //      b               in      the board to be deleted
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -35,9 +35,7 @@ void delete_board( int d, struct NODE **lnode, int b )
                 bindex->r = lindex->r;
             else
                 lnode[d]->i = lindex->r;
-            lindex->r = nextindex;
-            nextindex = lindex;
-            icount--;
+            free_index( lindex );
 
             //  delete the boards from the sons
             if ( lnode[d]->i ) {
@@ -52,7 +50,7 @@ void delete_board( int d, struct NODE **lnode, int b )
     }
 
     //  check the siblings
-    if ( lnode[d-1]->d && NS( lnode[d-1]->d->p ) )
+    if ( lnode[d-1]->d && NS(lnode[d-1]->d->p) )
         check_ns_plays( d, lnode );
     else if ( lnode[d-1]->d )
         check_ew_plays( d, lnode );

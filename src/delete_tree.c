@@ -8,7 +8,7 @@
 //      d_              in      the depth in the NODE tree
 //      lnode           in      the NODE tree
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -33,9 +33,7 @@ struct NODE *delete_tree( int d_, struct NODE **lnode )
             lindex = lnode[d]->i;
             while ( lindex ) {
                 lnode[d]->i = lindex->r;
-                lindex->r = nextindex;
-                nextindex = lindex;
-                icount--;
+                free_index( lindex );
                 lindex = lnode[d]->i;
             }
 
@@ -47,9 +45,7 @@ struct NODE *delete_tree( int d_, struct NODE **lnode )
             if ( lnode[d]->r )
                 lnode[d]->r->l = lnode[d]->l;
             znode.r = lnode[d]->r;
-            lnode[d]->r = nextnode;
-            nextnode = lnode[d];
-            ncount--;
+            free_node( lnode[d] );
             lnode[d] = znode.r;
 
             //  we are finished; return the right sibling

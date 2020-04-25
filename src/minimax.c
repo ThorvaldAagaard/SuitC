@@ -9,7 +9,7 @@
 //      jpiv    out     the jpiv array for the colmns
 //      p       out     the probability of this play in the optimal MP strategy
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 

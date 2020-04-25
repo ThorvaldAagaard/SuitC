@@ -14,7 +14,7 @@
 //      d               in      the depth in the NODE tree
 //      lnode           in      the NODE tree
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -70,7 +70,7 @@ void determine_trick_count( int d, struct NODE **lnode )
         lindex = lindex->r;
     }
 
-    if ( d > 1 && lnode[d-1]->term && ( d-1 == maxply || resultsonly || ! keepfulltree ) ) {
+    if ( d > 1 && lnode[d-1]->term && ( d-1 == maxply || resultsonly || buildtree == 0 ) ) {
         lnode[d] = lnode[d-1]->d;
         while ( lnode[d] )
             lnode[d] = delete_tree( d, lnode );

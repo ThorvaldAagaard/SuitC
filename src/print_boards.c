@@ -7,14 +7,14 @@
 //  parameters:
 //      none
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
 void print_boards( void )
 {
     int          i, j, k, n, p, q;
-    char         out[14];
+    char         out[NCARDS+1];
     static char  *symbols[] = { "-123456789TJQKA", "-123456789TBVHA", "-123456789tjqka", "-123456789tbvha" };
     static char  seat[4][6] = { "west", "north", "east", "south" };
     struct INDEX *lindex;
@@ -53,11 +53,6 @@ void print_boards( void )
     for ( p = 0; p < 4; p++ )
         if ( nruff[0][p] )
             printf( "\tnumb. of ruffs %-5s: %d\n", seat[p], nruff[0][p] );
-    if ( impscore ) {
-        for ( n = 0; n <= ntricks; n++ )
-            if ( pointscore[n] )
-                printf( "\t#points for %d tricks: %d\n", n, pointscore[n] );
-    }
     if ( eastfixed ) {
         k = 0;
         out[0] = '-';

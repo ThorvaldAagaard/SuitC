@@ -9,13 +9,13 @@
 //      d               in      the depth in the NODE tree
 //      lnode           in      the NODE tree
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
 void check_ew_plays( int d, struct NODE **lnode )
 {
-    int          b, bstrong, bweak, lbequal, lstrong, lweak, recheck;
+    int          b, bstrong, bweak, lstrong, lweak, recheck;
     struct INDEX *aindex, *bindex, *lindex, anchorb, anchorl;
     struct NODE  *bnode[NPLIES+1];
 
@@ -60,13 +60,12 @@ next_lnode:
                     bstrong = bindex->r->max < lindex->r->min;
                     lweak = lindex->r->max <= bindex->r->min;
                     bweak = bindex->r->max <= lindex->r->min;
-                    lbequal = ( lindex->r->min == bindex->r->max ) && ( bindex->r->min == lindex->r->max );
 
                     //  select the plays
-                    if ( limittricks && bindex->r->max > nstricks[b] )
+                    if ( buildtree == 2 && bindex->r->max > nstricks[b] )
                         goto delete_bboard;
 
-                    else if ( limittricks && ( lindex->r->max > nstricks[b] ) )
+                    else if ( buildtree == 2 && lindex->r->max > nstricks[b] )
                         goto delete_lboard;
 
                     else if ( lstrong )
@@ -75,15 +74,15 @@ next_lnode:
                     else if ( bstrong )
                         goto delete_lboard;
 
-                    else if ( lbequal && keepewequal && keepfulltree ) {
+                    else if ( bweak && lweak && keepewequal && buildtree ) {
                         lindex = lindex->r;
                         continue;
                     }
 
-                    else if ( lbequal )
+                    else if ( bweak && lweak )
                         goto delete_lboard;
 
-                    else if ( ( lweak || bweak ) && keepewweak && keepfulltree ) {
+                    else if ( ( lweak || bweak ) && keepewweak && buildtree ) {
                         lindex = lindex->r;
                         continue;
                     }
@@ -106,9 +105,7 @@ next_lnode:
                     lindex->r = lindex->r->r;
                     lnode[d]->i = anchorl.r;
                     lindex = lindex->r;
-                    aindex->r = nextindex;
-                    nextindex = aindex;
-                    icount--;
+                    free_index( aindex );
 
                     //  handle the sons if any boards left
                     if ( lnode[d]->i ) {
@@ -127,9 +124,7 @@ next_lnode:
                     aindex = bindex->r;
                     bindex->r = bindex->r->r;
                     bnode[d]->i = anchorb.r;
-                    aindex->r = nextindex;
-                    nextindex = aindex;
-                    icount--;
+                    free_index( aindex );
 
                     //  handle the sons if any boards left
                     if ( bnode[d]->i ) {

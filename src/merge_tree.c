@@ -7,7 +7,7 @@
 //  parameters:
 //      d               in      the depth in the NODE tree
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -21,7 +21,7 @@ void merge_tree( int d )
     while ( bnode[d]->r )
         bnode[d] = bnode[d]->r;
 
-    if ( EW( bnode[d]->p ) ) {
+    if ( EW(bnode[d]->p) ) {
 
     next_bnode:
         while ( bnode[d]->l ) {
@@ -30,9 +30,6 @@ void merge_tree( int d )
             while ( tnode[d] ) {
 
                 if ( tnode[d]->p == bnode[d]->p ) {
-
-                    stm.bc = bnode[d]->c;
-                    stm.lc = tnode[d]->c;
 
                     lnode[d] = copy_tree( d, tnode[d] );
                     lnode[d]->r = tnode[d]->r;
@@ -70,7 +67,7 @@ void merge_tree( int d )
     }
 
     //  merge the nodes if there are no sons
-    else if ( EW(tnode[d]->p) ) {
+    else {
         while ( tnode[d]->r ) {
             lnode[d] = tnode[d]->r;
             merge_nodes( tnode[d], lnode[d] );

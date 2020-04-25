@@ -7,7 +7,7 @@
 //  parameters:
 //      none
 //
-//  Copyright 2019, Gerrit A. van der Velde, Leiden
+//  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -35,7 +35,6 @@ void evaluate_mp_results( void )
         while ( lscore->r ) {
             if ( lscore->w & 0x1 ) {
                 free( lscore->mp );
-                memory -= nplays * sizeof( double );
                 lscore->mp = NIL;
                 bscore = lscore;
                 while( bscore ) {
@@ -133,7 +132,6 @@ void evaluate_mp_results( void )
             //  delete the entry from the list
             else {
                 free( lscore->mp );
-                memory -= nplays * sizeof( double );
                 lscore->mp = NIL;
                 bscore = lscore;
                 while ( bscore ) {
@@ -171,7 +169,6 @@ void evaluate_mp_results( void )
             lscore = score[0].r;
             while ( lscore->r ) {
                 free( lscore->mp );
-                memory -= nplays * sizeof( double );
                 lscore->mp = NIL;
                 bscore = lscore;
                 while ( bscore ) {
@@ -196,7 +193,7 @@ void evaluate_mp_results( void )
 
         //  print lists of equivalent MP plays
         lscore = score[0].r;
-        printf( "\nThe matchpoint strategy\n=======================\n\n" );
+        printf( "\n\n\nThe matchpoint strategy\n=======================\n\n" );
         while ( lscore->r ) {
             printf( "\tperc=%7.4f    list:", 100.0 * lscore->perc );
             bscore = lscore;
