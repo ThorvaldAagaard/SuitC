@@ -10,8 +10,6 @@
 //  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
-#define w_ew( lnode )   ( lnode[d]->winc & ( brd[0][west] | brd[0][east] ) )
-#define w_ns( lnode )   ( lnode[d]->winc ^ ( lnode[d]->c & lnode[d]->winc ) )
 
 void select_ns_plays( int d )
 {

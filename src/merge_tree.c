@@ -5,13 +5,14 @@
 //      merge_tree merges subtrees if they contain a common structure of plays
 //
 //  parameters:
+//      p               in      the NODE subtrees are merged for player p
 //      d               in      the depth in the NODE tree
 //
 //  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
-void merge_tree( int d )
+void merge_tree( int d, int p )
 {
     struct NODE  *bnode[NPLIES+1], *lnode[NPLIES+1];
 
@@ -21,7 +22,7 @@ void merge_tree( int d )
     while ( bnode[d]->r )
         bnode[d] = bnode[d]->r;
 
-    if ( EW(bnode[d]->p) ) {
+    if ( EW(p) && EW(bnode[d]->p) ) {
 
     next_bnode:
         while ( bnode[d]->l ) {
@@ -37,7 +38,7 @@ void merge_tree( int d )
                     tnode[d]->r = lnode[d];
                     lnode[d]->l = tnode[d];
 
-                    if ( ! bnode[d]->d || fold_tree( d+1, lnode, bnode ) ) {
+                    if ( ! bnode[d]->d || fold_ew_tree( d+1, lnode, bnode ) ) {
                         merge_nodes( lnode[d], bnode[d] );
                         lnode[d] = bnode[d]->l;
                         delete_tree( d, bnode );
@@ -57,11 +58,14 @@ void merge_tree( int d )
         }
     }
 
+    else if ( NS(p) )
+        return;
+
     //  investigate the sons
     tnode[d] = tnode[d-1]->d;
     if ( tnode[d]->d ) {
         while ( tnode[d] ) {
-            merge_tree( d+1 );
+            merge_tree( d+1, p );
             tnode[d] = tnode[d]->r;
         }
     }

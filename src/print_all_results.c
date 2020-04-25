@@ -97,8 +97,10 @@ void print_all_results( void )
 
                     //  merge identical plays and select the preferred ones
                     if ( maxply && mergeselect & 0x1 )
-                        merge_tree( 1 );
+                        merge_tree( 1, west );
                     if ( maxply && mergeselect & 0x2 )
+                        merge_tree( 1, north );
+                    if ( maxply && mergeselect & 0x4 )
                         select_ns_plays( 1 );
 
                     //  print the tree

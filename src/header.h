@@ -28,11 +28,13 @@
 #define NIL                             0
 #define NNODE                           400
 #define NO                              0
-#define NPLAYS                          60000000L
+#define NPLAYS                          40000000L
 #define NPLIES                          52
 #define NS( p )                         ( ( p == north ) || ( p == south ) )
 #define RENONCE                         ( (COLOR) 0 )
 #define TICK                            1.0e-3
+#define w_ew( lnode )                   ( lnode[d]->winc & ( brd[0][west] | brd[0][east] ) )
+#define w_ns( lnode )                   ( lnode[d]->winc ^ ( lnode[d]->c & lnode[d]->winc ) )
 #define YES                             1
 
 //  list of typedef's and type declarations
@@ -144,7 +146,7 @@ int    matchpoint;                      //  generate the matchpoint plays
 int    maxnodes;                        //  the maximum number of nodes used for the MP evaluattion
 int    maxns;                           //  the maximum number of ns_tricks
 int    maxply;                          //  the maximum depth in the tree
-int    mergeselect;                     //  1=merge the EW plays, 2=select the NS plays
+int    mergeselect;                     //  1=merge the EW plays, 2=merge the NS plays, 4=select the NS plays
 int    minns;                           //  the minimum number of ns_tricks
 int    ncards[4];                       //  the maximum number of cards in each hand
 int    ncardsmin[4];                    //  the minimum number of cards in each hand
@@ -228,13 +230,14 @@ void           determine_trick_count( int d, struct NODE **lnode );
 int            evaluate_best_results( void );
 void           evaluate_mp_results( void );
 void           evaluate_mp_scores( void );
+int            fold_ew_tree( int d, struct NODE **lnode, struct NODE **bnode );
+int            fold_ns_tree( int d, COLOR c, struct NODE **lnode, struct NODE **bnode );
 void           fold_quirkd( int d );
-int            fold_tree( int d, struct NODE **lnode, struct NODE **bnode );
 void           limit_matchpoint_nodes( void );
 void           limit_quirkd( int d );
 void           merge_nodes( struct NODE *lnode, struct NODE *bnode );
 void           merge_quirkd( int d );
-void           merge_tree( int d );
+void           merge_tree( int d, int p );
 void           minimax( int nnode, int *jpiv, double *p );
 void           print_all_results( void );
 void           print_boards( void );

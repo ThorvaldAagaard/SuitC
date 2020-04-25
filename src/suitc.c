@@ -42,7 +42,7 @@ int main( int argc, char **argv )
     printoption = 0;
     printsummary = NO;
     printtrunctree = NO;
-    mergeselect = 0x1 | 0x2;
+    mergeselect = 0x1 | 0x2 | 0x4;
     reorder = NO;
     resultsonly = NO;
     sortplays = NO;

@@ -47,8 +47,9 @@ OBJECTS = 				\
 	  evaluate_best_results.o	\
 	  evaluate_mp_results.o		\
 	  evaluate_mp_scores.o		\
+	  fold_ew_tree.o		\
+	  fold_ns_tree.o		\
 	  fold_quirkd.o			\
-	  fold_tree.o			\
 	  limit_matchpoint_nodes.o	\
 	  limit_quirkd.o		\
 	  merge_nodes.o			\

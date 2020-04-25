@@ -261,7 +261,7 @@ void process_args( int argc, char **argv )
     printf( "    -E<cards>       all east hands contain <cards>\n" );
     printf( "    -em<n>          the minimum number of cards in the east hand is <n>\n" );
     printf( "    -ev<n>          the number of vacant places in the east hand is <n>\n" );
-    printf( "    -F<n>           1=merge the EW plays, 2=select the NS plays\n" );
+    printf( "    -F<n>           1=merge the EW plays, 2=merge the NS plays, 4=select the NS plays\n" );
     printf( "    -f              print the full NODE tree\n" );
     printf( "    -H              lead from east or west in the first trick. the winning side leads in subsequent tricks\n" );
     printf( "    -K              don't keep weakly dominated nodes\n" );

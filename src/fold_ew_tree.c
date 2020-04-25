@@ -1,8 +1,8 @@
 //  name:
-//      fold_tree
+//      fold_ew_tree
 //
 //  purpose:
-//      fold_tree folds the tree
+//      fold_ew_tree folds the tree when east-west branches are merged
 //
 //  parameters:
 //      d               in      the depth in the NODE tree
@@ -13,7 +13,7 @@
 
 #include "header.h"
 
-int fold_tree( int d, struct NODE **lnode, struct NODE **bnode )
+int fold_ew_tree( int d, struct NODE **lnode, struct NODE **bnode )
 {
     struct NODE  *tnode;
 
@@ -39,7 +39,7 @@ int fold_tree( int d, struct NODE **lnode, struct NODE **bnode )
 
             //  both branches make the same play, so fold both trees
             else if ( lnode[d]->p == bnode[d]->p && lnode[d]->c == bnode[d]->c ) {
-                if ( ! bnode[d]->d || fold_tree( d+1, lnode, bnode ) ) {
+                if ( ! bnode[d]->d || fold_ew_tree( d+1, lnode, bnode ) ) {
                     merge_nodes( lnode[d], bnode[d] );
                     bnode[d] = bnode[d]->r;
                 }
@@ -82,7 +82,7 @@ int fold_tree( int d, struct NODE **lnode, struct NODE **bnode )
             while ( bnode[d] ) {
 
                 if ( lnode[d]->p == bnode[d]->p && lnode[d]->c == bnode[d]->c ) {
-                    if ( ! bnode[d]->d || fold_tree( d+1, lnode, bnode ) ) {
+                    if ( ! bnode[d]->d || fold_ew_tree( d+1, lnode, bnode ) ) {
                         lnode[d-1]->match = YES;
                         lnode[d] = lnode[d]->r;
                     }
