@@ -8,7 +8,7 @@
 //  list of cpp defines
 //  ----------------------------------------------------------------------------
 #define addcard( c )                    ( ( (COLOR) 1 ) << ( c ) )
-#define BLANK                           NO
+#define BLANK                           YES
 #define bump_index( lindex )            lindex = nextindex; icount++; if ( icountmax < icount ) { icountmax++; nextindex++; } else nextindex = nextindex->r
 #define bump_node( lnode )              lnode = nextnode; ncount++; if ( ncountmax < ncount ) { ncountmax++; nextnode++; } else nextnode = nextnode->r; lnode->d = NIL; lnode->l = NIL; lnode->r = NIL
 #define bump_quirkd( lquirkd )          lquirkd = nextquirkd; qdcount++; if ( qdcountmax < qdcount ) { qdcountmax++; nextquirkd++; } else nextquirkd = nextquirkd->d; lquirkd->d = NIL; lquirkd->h = NIL; lquirkd->ic = boardcount

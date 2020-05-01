@@ -42,7 +42,6 @@ struct NODE *copy_tree( int d_, struct NODE *rootn )
         tnode[d]->c = lnode[d]->c;
         tnode[d]->winc = lnode[d]->winc;
         tnode[d]->p = lnode[d]->p;
-        tnode[d]->match = lnode[d]->match;
         tnode[d]->term = lnode[d]->term;
 
         //  copy the boards

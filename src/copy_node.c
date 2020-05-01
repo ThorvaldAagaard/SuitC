@@ -25,7 +25,6 @@ struct NODE *copy_node( struct NODE *lnode )
     tnode->c = lnode->c;
     tnode->winc = lnode->winc;
     tnode->p = lnode->p;
-    tnode->match = lnode->match;
     tnode->term = lnode->term;
 
     //  copy the boards

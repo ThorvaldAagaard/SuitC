@@ -15,30 +15,21 @@
 
 int fold_ew_tree( int d, struct NODE **lnode, struct NODE **bnode )
 {
+    int          match;
     struct NODE  *tnode;
 
-    lnode[d-1]->match = NO;
     bnode[d] = bnode[d-1]->d;
     lnode[d] = lnode[d-1]->d;
-
     if ( EW(bnode[d]->p) ) {
 
+        match = YES;
         while ( bnode[d] ) {
 
             while ( lnode[d]->r && ( lnode[d]->p < bnode[d]->p || ( lnode[d]->p == bnode[d]->p && lnode[d]->c > bnode[d]->c ) ) )
                 lnode[d] = lnode[d]->r;
 
-            //  this is the rightmost sibling, so we copy bnode[d] as the right sibling of lnode[d]
-            if ( lnode[d]->p < bnode[d]->p || ( lnode[d]->p == bnode[d]->p && lnode[d]->c > bnode[d]->c ) ) {
-                tnode = copy_tree( d, bnode[d] );
-                tnode->l = lnode[d];
-                lnode[d]->r = tnode;
-                tnode->r = NIL;
-                bnode[d] = bnode[d]->r;
-            }
-
             //  both branches make the same play, so fold both trees
-            else if ( lnode[d]->p == bnode[d]->p && lnode[d]->c == bnode[d]->c ) {
+            if ( lnode[d]->p == bnode[d]->p && lnode[d]->c == bnode[d]->c ) {
                 if ( ! bnode[d]->d || fold_ew_tree( d+1, lnode, bnode ) ) {
                     merge_nodes( lnode[d], bnode[d] );
                     bnode[d] = bnode[d]->r;
@@ -47,34 +38,37 @@ int fold_ew_tree( int d, struct NODE **lnode, struct NODE **bnode )
                     return( NO );
             }
 
-            //  copy bnode[d] as the left sibling of lnode[d]
-            else if ( ( lnode[d]->p == bnode[d]->p && lnode[d]->c < bnode[d]->c ) || lnode[d]->p > bnode[d]->p ) {
+            //  both branches make different plays; copy the bnode subtree into the lnode tree
+            else {
+
                 tnode = copy_tree( d, bnode[d] );
-                tnode->r = lnode[d];
-                if ( lnode[d]->l )
-                    lnode[d]->l->r = tnode;
-                else
-                    lnode[d-1]->d = tnode;
-                tnode->l = lnode[d]->l;
-                lnode[d]->l = tnode;
+
+                //  copy bnode[d] as the left sibling of lnode[d]
+                if ( ( lnode[d]->p == bnode[d]->p && lnode[d]->c < bnode[d]->c ) || lnode[d]->p > bnode[d]->p ) {
+                    tnode->r = lnode[d];
+                    if ( lnode[d]->l )
+                        lnode[d]->l->r = tnode;
+                    else
+                        lnode[d-1]->d = tnode;
+                    tnode->l = lnode[d]->l;
+                    lnode[d]->l = tnode;
+                }
+
+                //  copy bnode[d] as the right sibling of lnode[d]
+                else if ( lnode[d]->p < bnode[d]->p || ( lnode[d]->p == bnode[d]->p && lnode[d]->c > bnode[d]->c ) ) {
+                    tnode->l = lnode[d];
+                    lnode[d]->r = tnode;
+                    tnode->r = NIL;
+                }
+
                 bnode[d] = bnode[d]->r;
             }
         }
-
-        //  determine the winning cards
-        lnode[d] = lnode[d-1]->d;
-        lnode[d-1]->winc = (d-1)%4 ? RENONCE : lnode[d-1]->winc;
-        while ( lnode[d] ) {
-            if ( (d-1)%4 )
-                lnode[d-1]->winc |= lnode[d]->winc;
-            lnode[d] = lnode[d]->r;
-        }
-
-        return( YES );
     }
 
     else if ( NS(lnode[d]->p) ) {
 
+        match = NO;
     next_lnode:
         while ( lnode[d] ) {
 
@@ -83,7 +77,7 @@ int fold_ew_tree( int d, struct NODE **lnode, struct NODE **bnode )
 
                 if ( lnode[d]->p == bnode[d]->p && lnode[d]->c == bnode[d]->c ) {
                     if ( ! bnode[d]->d || fold_ew_tree( d+1, lnode, bnode ) ) {
-                        lnode[d-1]->match = YES;
+                        match = YES;
                         lnode[d] = lnode[d]->r;
                     }
                     else
@@ -96,16 +90,16 @@ int fold_ew_tree( int d, struct NODE **lnode, struct NODE **bnode )
 
             lnode[d] = delete_tree( d, lnode );
         }
-
-        //  determine the winning cards
-        lnode[d] = lnode[d-1]->d;
-        lnode[d-1]->winc = (d-1)%4 ? RENONCE : lnode[d-1]->winc;
-        while ( lnode[d] ) {
-            if ( (d-1)%4 )
-                lnode[d-1]->winc |= lnode[d]->winc;
-            lnode[d] = lnode[d]->r;
-        }
-
-        return( lnode[d-1]->match );
     }
+
+    //  determine the winning cards
+    lnode[d] = lnode[d-1]->d;
+    lnode[d-1]->winc = (d-1)%4 ? RENONCE : lnode[d-1]->winc;
+    while ( lnode[d] ) {
+        if ( (d-1)%4 )
+            lnode[d-1]->winc |= lnode[d]->winc;
+        lnode[d] = lnode[d]->r;
+    }
+
+    return( match );
 }

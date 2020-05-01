@@ -16,13 +16,14 @@ void merge_tree( int d, int p )
 {
     struct NODE  *bnode[NPLIES+1], *lnode[NPLIES+1];
 
+    //  initialise
     bnode[d-1] = tnode[d-1];
     lnode[d-1] = tnode[d-1];
     bnode[d] = tnode[d-1]->d;
     while ( bnode[d]->r )
         bnode[d] = bnode[d]->r;
 
-    if ( EW(p) && EW(bnode[d]->p) ) {
+    if ( EW(p) && EW(bnode[d]->p) || NS(p) && NS(bnode[d]->p) ) {
 
     next_bnode:
         while ( bnode[d]->l ) {
@@ -30,7 +31,7 @@ void merge_tree( int d, int p )
             tnode[d] = bnode[d]->l;
             while ( tnode[d] ) {
 
-                if ( tnode[d]->p == bnode[d]->p ) {
+                if ( tnode[d]->p == bnode[d]->p && ( EW(p) || NS(p) && w_ew(tnode) == w_ew(bnode) ) ) {
 
                     lnode[d] = copy_tree( d, tnode[d] );
                     lnode[d]->r = tnode[d]->r;
@@ -38,7 +39,7 @@ void merge_tree( int d, int p )
                     tnode[d]->r = lnode[d];
                     lnode[d]->l = tnode[d];
 
-                    if ( ! bnode[d]->d || fold_ew_tree( d+1, lnode, bnode ) ) {
+                    if ( ! bnode[d]->d || ( NS(p) ? fold_ns_tree( d+1, lnode[d]->c | bnode[d]->c, lnode, bnode ) : fold_ew_tree( d+1, lnode, bnode ) ) ) {
                         merge_nodes( lnode[d], bnode[d] );
                         lnode[d] = bnode[d]->l;
                         delete_tree( d, bnode );
@@ -47,8 +48,7 @@ void merge_tree( int d, int p )
                         goto next_bnode;
                     }
 
-                    else
-                        delete_tree( d, lnode );
+                    delete_tree( d, lnode );
                 }
 
                 tnode[d] = tnode[d]->l;
@@ -58,24 +58,12 @@ void merge_tree( int d, int p )
         }
     }
 
-    else if ( NS(p) )
-        return;
-
     //  investigate the sons
     tnode[d] = tnode[d-1]->d;
     if ( tnode[d]->d ) {
         while ( tnode[d] ) {
             merge_tree( d+1, p );
             tnode[d] = tnode[d]->r;
-        }
-    }
-
-    //  merge the nodes if there are no sons
-    else {
-        while ( tnode[d]->r ) {
-            lnode[d] = tnode[d]->r;
-            merge_nodes( tnode[d], lnode[d] );
-            delete_tree( d, lnode );
         }
     }
 
