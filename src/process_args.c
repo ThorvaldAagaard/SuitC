@@ -91,36 +91,41 @@ void process_args( int argc, char **argv )
                 throwin = YES;
             else if ( c == 'h' )
                 printoptions = YES;
-            else if ( c == 'K' ) {
-                if ( argv[i][2] ) {
-                    if ( argv[i][2] == 'e' || argv[i][2] == 'w' )
+            else if ( c == 'n' ) {
+                c = argv[i][2];
+                if ( c == 'C' )
+                    compacttree = NO;
+                else if ( c == 'K' ) {
+                    if ( argv[i][3] ) {
+                        if ( argv[i][3] == 'e' || argv[i][3] == 'w' )
+                            keepewweak = NO;
+                        else if ( argv[i][3] == 'n' || argv[i][3] == 's' )
+                            keepnsweak = NO;
+                        else {
+                            printf( "Incorrect option: %s; program stops\n", argv[i] );
+                            exit( 1 );
+                        }
+                    }
+                    else {
                         keepewweak = NO;
-                    else if ( argv[i][2] == 'n' || argv[i][2] == 's' )
                         keepnsweak = NO;
-                    else {
-                        printf( "Incorrect option: %s; program stops\n", argv[i] );
-                        exit( 1 );
                     }
                 }
-                else {
-                    keepewweak = NO;
-                    keepnsweak = NO;
-                }
-            }
-            else if ( c == 'k' ) {
-                if ( argv[i][2] ) {
-                    if ( argv[i][2] == 'e' || argv[i][2] == 'w' )
+                else if ( c == 'k' ) {
+                    if ( argv[i][3] ) {
+                        if ( argv[i][3] == 'e' || argv[i][3] == 'w' )
+                            keepewequal = NO;
+                        else if ( argv[i][3] == 'n' || argv[i][3] == 's' )
+                            keepnsequal = NO;
+                        else {
+                            printf( "Incorrect option: %s; program stops\n", argv[i] );
+                            exit( 1 );
+                        }
+                    }
+                    else {
                         keepewequal = NO;
-                    else if ( argv[i][2] == 'n' || argv[i][2] == 's' )
                         keepnsequal = NO;
-                    else {
-                        printf( "Incorrect option: %s; program stops\n", argv[i] );
-                        exit( 1 );
                     }
-                }
-                else {
-                    keepewequal = NO;
-                    keepnsequal = NO;
                 }
             }
             else if ( c == 'L' ) {
@@ -246,15 +251,16 @@ void process_args( int argc, char **argv )
     printf( "\n" );
     printf( "calling sequence:\n" );
     printf( "\n" );
-    printf( "ExpertPlay [{?|-?|-h}] [-A] [-a] [-b] [-c<cutoff>] [-D] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f] [-H] [-h]\n" );
-    printf( "           [-K[{e|n|s|w}]] [-k[{e|n|s|w}]] [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-o] [-P<n>]\n" );
-    printf( "           [-R{n|e|s|w}<n>] [-r] [-s] [-T<n>] [-t<tricks>] [-W<cards>] [-wm<n>] [-wv<n>] [-z<n>] <ncards> <scards> <ewcards>\n" );
+    printf( "SuitC [{?|-?|-h}] [-A] [-a] [-b] [-C] [-c<cutoff>] [-D] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f] [-H] [-h]\n" );
+    printf( "      [-nK[{e|n|s|w}]] [-k[{e|n|s|w}]] [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-o] [-P<n>]\n" );
+    printf( "      [-R{n|e|s|w}<n>] [-r] [-s] [-T<n>] [-t<tricks>] [-W<cards>] [-wm<n>] [-wv<n>] [-z<n>] <ncards> <scards> <ewcards>\n" );
     printf( "\n" );
     printf( "options:\n" );
     printf( "    {?|-?|-h}       print the options of SuitC\n" );
     printf( "    -A              print a full report of all results\n" );
     printf( "    -a              print a summary of the results\n" );
     printf( "    -b              print a list of the boards\n" );
+    printf( "    -nC             north-south win tricks as soon as possible\n" );
     printf( "    -c<cutoff>      the limit in millions on the product of the number of quirks while merging quirk trees\n" );
     printf( "    -D              the defenders lead to each trick\n" );
     printf( "    -d              print the truncated NODE tree\n" );
@@ -264,12 +270,12 @@ void process_args( int argc, char **argv )
     printf( "    -F<n>           1=merge the EW plays, 2=merge the NS plays, 4=select the NS plays\n" );
     printf( "    -f              print the full NODE tree\n" );
     printf( "    -H              lead from east or west in the first trick. the winning side leads in subsequent tricks\n" );
-    printf( "    -K              don't keep weakly dominated nodes\n" );
-    printf( "    -K{e|w}         don't keep weakly dominated EW nodes\n" );
-    printf( "    -K{n|s}         don't keep weakly dominated NS nodes\n" );
-    printf( "    -k              don't keep tied nodes\n" );
-    printf( "    -k{e|w}         don't keep tied EW nodes\n" );
-    printf( "    -k{n|s}         don't keep tied NS nodes\n" );
+    printf( "    -nK             don't keep weakly dominated nodes\n" );
+    printf( "    -nK{e|w}        don't keep weakly dominated EW nodes\n" );
+    printf( "    -nK{n|s}        don't keep weakly dominated NS nodes\n" );
+    printf( "    -nk             don't keep tied nodes\n" );
+    printf( "    -nk{e|w}        don't keep tied EW nodes\n" );
+    printf( "    -nk{n|s}        don't keep tied NS nodes\n" );
     printf( "    -L{n|e|s|w}[<card>]\n" );
     printf( "                    the lead is in {n|e|s|w} at trick one\n" );
     printf( "                    card <card> is lead if a card is specified\n" );

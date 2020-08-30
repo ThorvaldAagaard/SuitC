@@ -40,22 +40,6 @@ int fold_ns_tree( int d, COLOR c, struct NODE **lnode, struct NODE **bnode )
 
         while ( lnode[d] ) {
 
-            #ifdef OLD
-            lnode[d]->match = NO;
-            bnode[d] = bnode[d-1]->d;
-            while ( bnode[d] ) {
-
-                if ( lnode[d]->p == bnode[d]->p && ( ( c & lnode[d]->c && c & bnode[d]->c && w_ew(lnode) == w_ew(bnode) ) || lnode[d]->c == bnode[d]->c ) ) {
-                    if ( ! bnode[d]->d || fold_ns_tree( d+1, c, lnode, bnode ) ) {
-                        bnode[d]->match = YES;
-                        lnode[d]->match = YES;
-                        lnode[d]->c = c & lnode[d]->c && c & bnode[d]->c ? c : lnode[d]->c;
-                    }
-                }
-
-                bnode[d] = bnode[d]->r;
-            }
-            #endif
             lnode[d]->match = NO;
             bnode[d] = bnode[d-1]->d;
             while ( bnode[d] ) {

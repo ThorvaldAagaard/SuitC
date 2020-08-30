@@ -8,15 +8,12 @@
 #
 #-----------------------------------------------------------------------
 
-SHELL	= /bin/ksh
+SHELL	= /bin/bash
 CC	= gcc -O3
 
-EXEC	= ../bin/ExpertPlay
-EXEC1	= ../bin/xp
-EXEC2	= ../bin/1s
-EXEC3	= ../bin/sp
-EXEC4	= ../bin/sc
-EXEC5	= ../bin/SuitC
+EXEC	= ../bin/SuitC
+EXEC1	= ../bin/sc
+EXEC2	= ../bin/ExpertPlay
 
 OBJECTS = 				\
 	  add_node.o			\
@@ -64,6 +61,7 @@ OBJECTS = 				\
 	  print_summary_results.o	\
 	  print_tree.o			\
 	  process_args.o		\
+	  select_ew_plays.o		\
 	  select_ns_plays.o		\
 	  sort_plays.o			\
 	  suitc.o
@@ -73,9 +71,6 @@ ${EXEC}: ${OBJECTS}
 	[[ -f ${EXEC}.exe ]] && mv ${EXEC}.exe ${EXEC}
 	rm -f ${EXEC1}; ln -s ${EXEC} ${EXEC1}
 	rm -f ${EXEC2}; ln -s ${EXEC} ${EXEC2}
-	rm -f ${EXEC3}; ln -s ${EXEC} ${EXEC3}
-	rm -f ${EXEC4}; ln -s ${EXEC} ${EXEC4}
-	rm -f ${EXEC5}; ln -s ${EXEC} ${EXEC5}
 
 .SUFFIXES:
 .SUFFIXES: .o .c .h

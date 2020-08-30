@@ -131,6 +131,7 @@ double prob[8192];                      //  the a priori probabilities for the b
 int    b_count[NCARDS+1];               //  the number of entries in each line
 int    boardcount;                      //  the number of EW distributions
 int    buildtree;                       //  the type of the NODE tree. 0=truncated tree, 1=full tree, 2=selected tree
+int    compacttree;                     //  north-south win tricks as soon as possible
 int    defence;                         //  lead from east of west in each trick
 int    dupl[8192];                      //  the multiplicity of the boards
 int    eastvac;                         //  the number of vacant places in the east hand
@@ -247,6 +248,7 @@ void           print_results( int best_MAX, int best_MP, int *best_N, double mps
 void           print_summary_results( void );
 void           print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings );
 void           process_args( int argc, char **argv );
+void           select_ew_plays( int d );
 void           select_ns_plays( int d );
 void           sort_plays( void );
 int            suitc( int argc, char **argv );
