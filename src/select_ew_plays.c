@@ -11,6 +11,11 @@
 
 #include "header.h"
 
+#define bwinc_ew()      ( bnode[d]->winc & ( brd[0][west]  | brd[0][east]  ) )
+#define bwinc_ns()      ( bnode[d]->winc & ( brd[0][north] | brd[0][south] ) )
+#define lwinc_ew()      ( lnode[d]->winc & ( brd[0][west]  | brd[0][east]  ) )
+#define lwinc_ns()      ( lnode[d]->winc & ( brd[0][north] | brd[0][south] ) )
+
 void select_ew_plays( int d )
 {
     struct NODE  *bnode[NPLIES+1], *lnode[NPLIES+1];
@@ -38,21 +43,15 @@ void select_ew_plays( int d )
             bnode[d] = lnode[d]->r;
             while ( bnode[d] ) {
 
-                if ( lnode[d]->p == bnode[d]->p ) {
-
-                    //  select the card that minimises the number of east-west cards that can win the trick
-                    if ( w_ew(lnode) > w_ew(bnode) ) {
-                        lnode[d] = delete_tree( d, lnode );
-                        goto next_lnode;
-                    }
-                    else if ( w_ew(lnode) < w_ew(bnode) )
-                        bnode[d] = delete_tree( d, bnode );
-                    else
-                        bnode[d] = bnode[d]->r;
-                }
-
-                else
-                    bnode[d] = bnode[d]->r;
+                if      (   lwinc_ns() &&   lwinc_ew() &&   bwinc_ns() &&   bwinc_ew() ) { bnode[d] = bnode[d]->r; }
+                else if (   lwinc_ns() &&   lwinc_ew() &&   bwinc_ns() && ! bwinc_ew() ) { lnode[d] = delete_tree( d, lnode ); goto next_lnode; }
+                else if (   lwinc_ns() &&   lwinc_ew() && ! bwinc_ns() &&   bwinc_ew() ) { bnode[d] = delete_tree( d, bnode ); }
+                else if (   lwinc_ns() && ! lwinc_ew() &&   bwinc_ns() &&   bwinc_ew() ) { bnode[d] = delete_tree( d, bnode ); }
+                else if (   lwinc_ns() && ! lwinc_ew() &&   bwinc_ns() && ! bwinc_ew() ) { bnode[d] = bnode[d]->r; }
+                else if (   lwinc_ns() && ! lwinc_ew() && ! bwinc_ns() &&   bwinc_ew() ) { bnode[d] = delete_tree( d, bnode ); }
+                else if ( ! lwinc_ns() &&   lwinc_ew() &&   bwinc_ns() &&   bwinc_ew() ) { lnode[d] = delete_tree( d, lnode ); goto next_lnode; }
+                else if ( ! lwinc_ns() &&   lwinc_ew() &&   bwinc_ns() && ! bwinc_ew() ) { lnode[d] = delete_tree( d, lnode ); goto next_lnode; }
+                else if ( ! lwinc_ns() &&   lwinc_ew() && ! bwinc_ns() &&   bwinc_ew() ) { bnode[d] = bnode[d]->r; }
             }
 
             lnode[d] = lnode[d]->r;

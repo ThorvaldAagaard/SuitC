@@ -20,9 +20,7 @@ void process_args( int argc, char **argv )
     static char  symbol1[] = "-123456789TJQKA", symbol2[] = "-123456789tjqka", symbol3[] = "-123456789TBVHA", symbol4[] = "-123456789tbvha";
 
     for ( i = 1; i < argc; i++ ) {
-        if ( argv[i][0] == '?' )
-            printoptions = YES;
-        else if ( argv[i][0] == '-' ) {
+        if ( argv[i][0] == '-' ) {
             c = argv[i][1];
             if ( c == '?' )
                 printoptions = YES;
@@ -251,12 +249,12 @@ void process_args( int argc, char **argv )
     printf( "\n" );
     printf( "calling sequence:\n" );
     printf( "\n" );
-    printf( "SuitC [{?|-?|-h}] [-A] [-a] [-b] [-C] [-c<cutoff>] [-D] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f] [-H] [-h]\n" );
+    printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-C] [-c<cutoff>] [-D] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f] [-H] [-h]\n" );
     printf( "      [-nK[{e|n|s|w}]] [-k[{e|n|s|w}]] [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-o] [-P<n>]\n" );
     printf( "      [-R{n|e|s|w}<n>] [-r] [-s] [-T<n>] [-t<tricks>] [-W<cards>] [-wm<n>] [-wv<n>] [-z<n>] <ncards> <scards> <ewcards>\n" );
     printf( "\n" );
     printf( "options:\n" );
-    printf( "    {?|-?|-h}       print the options of SuitC\n" );
+    printf( "    {-?|-h}         print the options of SuitC\n" );
     printf( "    -A              print a full report of all results\n" );
     printf( "    -a              print a summary of the results\n" );
     printf( "    -b              print a list of the boards\n" );

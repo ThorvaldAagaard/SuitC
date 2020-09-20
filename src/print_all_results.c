@@ -3,7 +3,6 @@
 //
 //  purpose:
 //      print_all_results prints the results of the plays
-//      details of the play
 //
 //  parameters:
 //      none
