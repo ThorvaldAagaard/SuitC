@@ -19,7 +19,7 @@ int main( int argc, char **argv )
     //  set defaults and initial values
     buildtree = 0;
     cutoff = 0;
-    compacttree = YES;
+    compacttree = NO;
     defence = NO;
     eastfixed = RENONCE;
     eastvac = NCARDS;
@@ -43,7 +43,7 @@ int main( int argc, char **argv )
     printoption = 0;
     printsummary = NO;
     printtrunctree = NO;
-    mergeselect = 0x1 | 0x2 | 0x4;
+    mergeselect = 0x1 | 0x4;
     reorder = NO;
     resultsonly = NO;
     sortplays = NO;
