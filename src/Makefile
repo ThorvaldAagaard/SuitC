@@ -55,6 +55,7 @@ OBJECTS = 				\
 	  minimax.o			\
 	  print_all_results.o		\
 	  print_boards.o		\
+	  print_node.o			\
 	  print_play_count.o		\
 	  print_quirkd.o		\
 	  print_results.o		\

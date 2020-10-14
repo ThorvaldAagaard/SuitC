@@ -242,6 +242,7 @@ void           merge_tree( int d, int p );
 void           minimax( int nnode, int *jpiv, double *p );
 void           print_all_results( void );
 void           print_boards( void );
+void           print_node( struct NODE *lnode, char *ident );
 void           print_play_count( void );
 void           print_quirkd( struct QUIRKD *rootqdl, char *ident );
 void           print_results( int best_MAX, int best_MP, int *best_N, double mpscore );

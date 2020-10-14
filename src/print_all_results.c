@@ -95,7 +95,7 @@ void print_all_results( void )
                     build_selected_tree();
 
                     //  create the tree
-                    if ( ! compacttree )
+                    if ( ! compacttree && maxply )
                         select_ew_plays( 1 );
 
                     //  merge identical plays and select the preferred ones

@@ -92,13 +92,13 @@ void print_boards( void )
         i = 0;
         lindex = wnode[0]->i;
         printf( "\n\n%s\n%s\n",
-                "   Probabilities    West         North        East         South",
-                "   =============    ====         =====        ====         =====" );
+                "   Probabilities    West          East",
+                "   =============    ====          ====" );
 
         while ( lindex ) {
 
             printf( "%5d x %7.6f    ", dupl[i], prob[i] );
-            for ( p = 0; p < 4; p++ ) {
+            for ( p = 0; p < 4; p += 2 ) {
                 k = 0;
                 out[0] = '-';
                 out[1] = '\0';
@@ -108,7 +108,7 @@ void print_boards( void )
                         out[++k] = '\0';
                     }
                 }
-                printf( "%-13s", out );
+                printf( "%-14s", out );
             }
             printf( "\n" );
 

@@ -27,11 +27,11 @@ void print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings 
     struct SCARD *sc;
 
     //  return if the root of the tree is the NIL entry
-    if ( rootn == NIL || maxply == 0 )
+    if ( rootn == NIL )
         return;
 
     //  initialise
-    if ( d_ == 0 ) {
+    if ( d_ == 0 && maxply ) {
         d_++;
         rootn = rootn->d;
     }

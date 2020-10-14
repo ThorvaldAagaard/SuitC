@@ -87,7 +87,7 @@ int main( int argc, char **argv )
     if ( printtrunctree ) {
         printf( "\n\nThe truncated NODE tree\n" );
         printf(   "=======================\n" );
-        print_tree( 1, wnode[0]->d, YES, YES );
+        print_tree( 0, wnode[0], YES, YES );
         printf( "\n\n\n" );
         fflush( stdout );
     }
@@ -176,7 +176,7 @@ int main( int argc, char **argv )
         if ( printfulltree ) {
             printf( "\n\n\nThe full NODE tree\n" );
             printf(   "==================\n" );
-            print_tree( 1, wnode[0]->d, YES, YES );
+            print_tree( 0, wnode[0], YES, YES );
             fflush( stdout );
         }
     }
