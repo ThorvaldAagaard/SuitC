@@ -19,7 +19,7 @@ int main( int argc, char **argv )
     //  set defaults and initial values
     buildtree = 0;
     cutoff = 0;
-    compacttree = NO;
+    compacttree = YES;
     defence = NO;
     eastfixed = RENONCE;
     eastvac = NCARDS;

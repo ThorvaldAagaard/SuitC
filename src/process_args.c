@@ -30,8 +30,6 @@ void process_args( int argc, char **argv )
                 printsummary = YES;
             else if ( c == 'b' )
                 printboards = YES;
-            else if ( c == 'C' )
-                compacttree = YES;
             else if ( c == 'c' ) {
                 k = 2;
                 val = 0;
@@ -93,7 +91,9 @@ void process_args( int argc, char **argv )
                 printoptions = YES;
             else if ( c == 'n' ) {
                 c = argv[i][2];
-                if ( c == 'K' ) {
+                if ( c == 'C' )
+                    compacttree = NO;
+                else if ( c == 'K' ) {
                     if ( argv[i][3] ) {
                         if ( argv[i][3] == 'e' || argv[i][3] == 'w' )
                             keepewweak = NO;
@@ -258,7 +258,7 @@ void process_args( int argc, char **argv )
     printf( "    -A              print a full report of all results\n" );
     printf( "    -a              print a summary of the results\n" );
     printf( "    -b              print a list of the boards\n" );
-    printf( "    -C              north-south delay winning tricks if it results in a more compact tree\n" );
+    printf( "    -nC             north-south win tricks as soon as possible\n" );
     printf( "    -c<cutoff>      the limit in millions on the product of the number of quirks while merging quirk trees\n" );
     printf( "    -D              the defenders lead to each trick\n" );
     printf( "    -d              print the truncated NODE tree\n" );
