@@ -20,7 +20,7 @@ int fold_ew_tree( int d, struct NODE **lnode, struct NODE **bnode )
 
     bnode[d] = bnode[d-1]->d;
     lnode[d] = lnode[d-1]->d;
-    if ( EW(bnode[d]->p) ) {
+    if ( EW(lnode[d]->p) && EW(bnode[d]->p) ) {
 
         match = YES;
         while ( bnode[d] ) {
@@ -66,7 +66,7 @@ int fold_ew_tree( int d, struct NODE **lnode, struct NODE **bnode )
         }
     }
 
-    else if ( NS(lnode[d]->p) ) {
+    else if ( NS(lnode[d]->p) && NS(bnode[d]->p) ) {
 
         match = NO;
     next_lnode:
@@ -91,6 +91,10 @@ int fold_ew_tree( int d, struct NODE **lnode, struct NODE **bnode )
             lnode[d] = delete_tree( d, lnode );
         }
     }
+
+    //  one of the branches is a throwin play
+    else
+        return( NO );
 
     //  determine the winning cards
     lnode[d] = lnode[d-1]->d;

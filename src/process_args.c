@@ -85,8 +85,14 @@ void process_args( int argc, char **argv )
             }
             else if ( c == 'f' )
                 printfulltree = YES;
-            else if ( c == 'H' )
-                throwin = YES;
+            else if ( c == 'H' ) {
+                c = argv[i][2];
+                throwin = c == 'e' ? east : c == 'w' ? west : noplayer;
+                if ( throwin == noplayer ) {
+                    printf( "Incorrect player can be thrown in: %s; program stops\n", argv[i] );
+                    exit( 1 );
+                }
+            }
             else if ( c == 'h' )
                 printoptions = YES;
             else if ( c == 'n' ) {
@@ -227,12 +233,6 @@ void process_args( int argc, char **argv )
         }
     }
 
-    //  check for incompatible options
-    if ( ( leader != noplayer ) && ( NS(leader) && ( defence || throwin ) || EW(leader) && ! ( defence || throwin ) ) ) {
-        printf( "The -D option is incompatible with the specified lead\n" );
-        exit( 1 );
-    }
-
     //  clear some options if only the results are required
     if ( resultsonly ) {
         keepewequal = NO;
@@ -249,7 +249,7 @@ void process_args( int argc, char **argv )
     printf( "\n" );
     printf( "calling sequence:\n" );
     printf( "\n" );
-    printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-C] [-c<cutoff>] [-D] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f] [-H] [-h]\n" );
+    printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-C] [-c<cutoff>] [-D] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f] [-H{e|w}] [-h]\n" );
     printf( "      [-nK[{e|n|s|w}]] [-k[{e|n|s|w}]] [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-o] [-P<n>]\n" );
     printf( "      [-R{n|e|s|w}<n>] [-r] [-s] [-T<n>] [-t<tricks>] [-W<cards>] [-wm<n>] [-wv<n>] [-z<n>] <ncards> <scards> <ewcards>\n" );
     printf( "\n" );
@@ -267,7 +267,7 @@ void process_args( int argc, char **argv )
     printf( "    -ev<n>          the number of vacant places in the east hand is <n>\n" );
     printf( "    -F<n>           1=merge the EW plays, 2=merge the NS plays, 4=select the NS plays\n" );
     printf( "    -f              print the full NODE tree\n" );
-    printf( "    -H              lead from east or west in the first trick. the winning side leads in subsequent tricks\n" );
+    printf( "    -H{e|w}         the designated player leads to the current trick if he won the last trick\n" );
     printf( "    -nK             don't keep weakly dominated nodes\n" );
     printf( "    -nK{e|w}        don't keep weakly dominated EW nodes\n" );
     printf( "    -nK{n|s}        don't keep weakly dominated NS nodes\n" );

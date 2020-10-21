@@ -45,7 +45,7 @@ void print_summary_results( void )
     else
         for ( i = minns; i <= maxns; i++ )
             printf( "  -- %x --", i );
-    printf( "  ++++++\n" );
+    printf( "  + R ++\n" );
 
     //  loop over all quirks in the tree
     lquirkdl[0] = quirkd;

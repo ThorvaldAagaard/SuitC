@@ -51,7 +51,7 @@ int main( int argc, char **argv )
         st[d].ld = ( d & 3 ) == 1;
         st[d].t = ( d + 3 ) / 4;
     }
-    throwin = NO;
+    throwin = noplayer;
     trace = 0x0;
     tricklimit = NCARDS;
     for ( d = 0; d < NPLIES+2; d++ )

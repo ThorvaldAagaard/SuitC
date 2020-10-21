@@ -16,7 +16,7 @@
 
 void create_tricks( int d )
 {
-    int          i, lead[4], p, q, t = st[d].t, throwinback = throwin;
+    int          i, lead[4], p, q, t = st[d].t;
     COLOR        c;
     struct INDEX *lindex;
     struct SCARD *sc, *tc;
@@ -37,19 +37,18 @@ void create_tricks( int d )
     }
 
     //  determine who can lead to this trick
-    if ( defence ) {
-        lead[west] = brd[t][west] && ( w[t-1] == west || w[t-1] == noplayer || ( t > 1 && nfree[t-1][west] ) );
-        lead[east] = brd[t][east] && ( w[t-1] == east || w[t-1] == noplayer || ( t > 1 && nfree[t-1][east] ) );
-    }
-    else if ( throwin && t > 1 && ( NS(w[t-1]) || ( EW(w[t-1]) && ! brd[t][w[t-1]] ) ) )
-        throwin = NO;
-    else if ( throwin ) {
-        lead[west] = brd[t][west] && ( w[t-1] == west || w[t-1] == noplayer );
-        lead[east] = brd[t][east] && ( w[t-1] == east || w[t-1] == noplayer );
+    //  printf( "t=%d throwin=%d leader=%d w[t-1]=%d nfree={%d,%d,%d,%d}\n", t, throwin, leader, w[t-1], nfree[t-1][west], nfree[t-1][north], nfree[t-1][east], nfree[t-1][south] );
+    if ( t == 1 && leader != noplayer )
+        lead[leader] = YES;
+    else if ( throwin != noplayer && throwin == w[t-1] && brd[t][throwin] >> 2 )
+        lead[throwin] = YES;
+    else if ( defence ) {
+        lead[west] = brd[t][west] && ( w[t-1] == west || nfree[t-1][west] );
+        lead[east] = brd[t][east] && ( w[t-1] == east || nfree[t-1][east] );
     }
     else {
-        lead[north] = brd[t][north] && ( w[t-1] == north || w[t-1] == noplayer || ( t > 1 && nfree[t-1][north] ) );
-        lead[south] = brd[t][south] && ( w[t-1] == south || w[t-1] == noplayer || ( t > 1 && nfree[t-1][south] ) );
+        lead[north] = brd[t][north] && ( w[t-1] == north || nfree[t-1][north] );
+        lead[south] = brd[t][south] && ( w[t-1] == south || nfree[t-1][south] );
     }
 
     //  no more tricks are to be played
@@ -76,7 +75,7 @@ void create_tricks( int d )
             }
         }
 
-        else if ( throwin ) {
+        else if ( throwin != noplayer ) {
 
             ns[t] = ns[t-1] + tricklimit - t + 1;
             lindex = wnode[d-1]->i;
@@ -112,6 +111,4 @@ void create_tricks( int d )
 
     //  lead from each hand in turn
     create_ply1( d, lead );
-
-    throwin = throwinback;
 }
