@@ -183,6 +183,24 @@ void process_args( int argc, char **argv )
             }
             else if ( c == 'r' )
                 resultsonly = YES;
+            else if ( c == 'S' ) {
+                k = 2;
+                cards = RENONCE;
+                while ( argv[i][k] ) {
+                    c = argv[i][k];
+                    if ( c == ':' ) {
+                        h2rule[nrules] = cards;
+                        cards = RENONCE;
+                    }
+                    for ( n = two; n <= ace; n++ )
+                        if ( ( c == symbol1[n] ) || ( c == symbol2[n] ) || ( c == symbol3[n] ) || ( c == symbol4[n] ) )
+                            cards |= addcard(n);
+                    k++;
+                }
+                h3rule[nrules] = cards;
+                nrules++;
+                buildtree = 1;
+            }
             else if ( c == 's' )
                 sortplays = YES;
             else if ( c == 'T' ) {
@@ -250,8 +268,8 @@ void process_args( int argc, char **argv )
     printf( "calling sequence:\n" );
     printf( "\n" );
     printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-C] [-c<cutoff>] [-D] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f] [-H{e|w}] [-h]\n" );
-    printf( "      [-nK[{e|n|s|w}]] [-k[{e|n|s|w}]] [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-o] [-P<n>]\n" );
-    printf( "      [-R{n|e|s|w}<n>] [-r] [-s] [-T<n>] [-t<tricks>] [-W<cards>] [-wm<n>] [-wv<n>] [-z<n>] <ncards> <scards> <ewcards>\n" );
+    printf( "      [-nK[{e|n|s|w}]] [-k[{e|n|s|w}]] [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-o] [-P<n>] [-R{n|e|s|w}<n>] \n" );
+    printf( "      [-r] [-S<card2>:<card3>] [-s] [-T<n>] [-t<tricks>] [-W<cards>] [-wm<n>] [-wv<n>] [-z<n>] <ncards> <scards> <ewcards>\n" );
     printf( "\n" );
     printf( "options:\n" );
     printf( "    {-?|-h}         print the options of SuitC\n" );
@@ -282,6 +300,7 @@ void process_args( int argc, char **argv )
     printf( "    -o              sort the boards in the same order as that used by Jeroen Warmerdam\n" );
     printf( "    -P<n>           select printoption (0=English lower, 1=Dutch lower, 2=English upper, 3=Dutch upper\n" );
     printf( "    -R{n|e|s|w}<n>  the number of ruffs available in {n|e|s|w}\n" );
+    printf( "    -S<card2>:<card3> play in 3rd hand a card from card3 if 2nd hand plays a card from card2\n" );
     printf( "    -s              sort the plays in decreasing number of leaves\n" );
     printf( "    -r              print only the results\n" );
     printf( "    -T<n>           trace options: 1=timing, 2=minimax progress\n" );

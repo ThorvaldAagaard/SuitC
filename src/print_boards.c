@@ -47,6 +47,26 @@ void print_boards( void )
                 if ( opening_lead & addcard(i) )
                     printf( "\tthe lead is the     : %c\n", symbols[printoption&0x1][i] );
     }
+    if ( nrules ) {
+        for ( n = 0; n < nrules; n++ ) {
+            if ( n == 0 ) {
+                if ( defence )
+                    printf( "\tsecond hand strategy: " );
+                else
+                    printf( "\tthird hand strategy : " );
+            }
+            else
+                printf( "\t                      " );
+            for ( i = 14; i >= 2; i-- )
+                if ( h2rule[n] & addcard(i) )
+                    printf( "%c", symbols[printoption&0x1][i] );
+            printf( " -> " );
+            for ( i = 14; i >= 2; i-- )
+                if ( h3rule[n] & addcard(i) )
+                    printf( "%c", symbols[printoption&0x1][i] );
+            printf( "\n" );
+        }
+    }
     if ( throwin != noplayer )
         printf( "\tthrowin is enabled  : %s\n", seat[throwin] );
     for ( p = 0; p < 4; p++ )

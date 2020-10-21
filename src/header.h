@@ -124,6 +124,8 @@ char   b_print[NCARDS+2][512];          //  the board_header
 COLOR  board[4][8192];                  //  the holding for all possible distributions of the east-west cards
 COLOR  brd[NCARDS+1][4];                //  the unplayed cards at the start of each trick
 COLOR  eastfixed;                       //  the known cards in the east hand
+COLOR  h2rule[NCARDS];                  //  the second hand conditions of the third hand rules
+COLOR  h3rule[NCARDS];                  //  the rules for the third hand strategy
 COLOR  westfixed;                       //  the known cards in the west hand
 double a[NNODE][2*NNODE];               //  the matrix with MP scores
 double perc[NBOARDS];                   //  the percentage of the distributions for which the percentage is defined
@@ -156,6 +158,7 @@ int    ncountmax;                       //  the maximum number of active NODE en
 int    nfree[NCARDS+1][4];              //  the number of remaining directional leads
 int    nplays;                          //  number of possible plays
 int    nruff[NCARDS+1][4];              //  the number of remaining ruffs
+int    nrules;                          //  the number of rules for the 3d hand strategy
 int    ns[NCARDS+1];                    //  the number of tricks won by north-south
 int    nstricks[NBOARDS];               //  the number of tricks for north-south on each board
 int    ntricks;                         //  the number of tricks to be played

@@ -14,7 +14,7 @@
 
 void create_ply3( int d, int p )
 {
-    int          i, t = st[d].t;
+    int          i, n, t = st[d].t;
     struct NODE  znode;
     struct SCARD *tc;
 
@@ -27,12 +27,21 @@ void create_ply3( int d, int p )
         st[d].w = st[d-1].winc > tc->c[i] ? st[d-1].w : p;
         st[d].winc = st[d-1].winc > tc->c[i] ? st[d-1].winc : tc->c[i];
 
+        //  check for selected third hand strategies in trick one
+        if ( d == 3 && nrules )
+            for ( n = 0; n < nrules; n++ )
+                if ( wnode[d-1]->c & h2rule[n] && ! ( st[d].c & h3rule[n] ) )
+                    goto next_i;
+
         //  create a new node
         if ( ! add_node( d, p, tc->c[i] ) )
             continue;
 
         //  handle the 4th hand play
         create_ply4( d+1, (p+1)%4 );
+
+    next_i:
+        continue;
     }
 
     //  check the plays

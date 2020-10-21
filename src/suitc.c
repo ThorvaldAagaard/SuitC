@@ -44,6 +44,7 @@ int main( int argc, char **argv )
     printsummary = NO;
     printtrunctree = NO;
     mergeselect = 0x1 | 0x4;
+    nrules = 0;
     reorder = NO;
     resultsonly = NO;
     sortplays = NO;
