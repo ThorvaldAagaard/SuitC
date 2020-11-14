@@ -44,6 +44,12 @@ void create_ply3( int d, int p )
         continue;
     }
 
+    //  check for errors in the specification of the third hand strategy
+    if ( nrules && ! znode.r ) {
+        printf( "ERROR: The third hand strategy is incorrectly specified\n" );
+        exit( 1 );
+    }
+
     //  check the plays
     znode.r->l = NIL;
     wnode[d-1]->d = znode.r;
