@@ -69,7 +69,7 @@ OBJECTS = 				\
 
 ${EXEC}: ${OBJECTS}
 	${CC} -o ${EXEC} ${OBJECTS}
-	[[ -f ${EXEC}.exe ]] && mv ${EXEC}.exe ${EXEC}
+	[[ -f ${EXEC}.exe ]] && mv ${EXEC}.exe ${EXEC} || true
 	rm -f ${EXEC1}; ln -s ${EXEC} ${EXEC1}
 	rm -f ${EXEC2}; ln -s ${EXEC} ${EXEC2}
 

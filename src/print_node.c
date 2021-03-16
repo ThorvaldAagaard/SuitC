@@ -20,14 +20,14 @@ void print_node( struct NODE *lnode, char *ident )
     struct INDEX *lindex;
 
     if ( lnode )
-        printf( "\nnode=%08x", lnode );
+        printf( "\nnode=%lx", (unsigned long) lnode );
     else {
-        printf( "\nnode=%08x ident=%s\n", lnode, ident );
+        printf( "\nnode=%lx ident=%s\n", (unsigned long) lnode, ident );
         return;
     }
-    printf( " l=%08x", lnode->l );
-    printf( " r=%08x", lnode->r );
-    printf( " d=%08x", lnode->d );
+    printf( " l=%lx", (unsigned long) lnode->l );
+    printf( " r=%lx", (unsigned long) lnode->r );
+    printf( " d=%lx", (unsigned long) lnode->d );
     printf( " ident=%s\n", ident );
     printf( "p=%d", lnode->p );
     printf( " cards=%04x", lnode->c >> 2 );

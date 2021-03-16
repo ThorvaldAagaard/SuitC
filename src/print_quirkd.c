@@ -20,9 +20,9 @@ void print_quirkd( struct QUIRKD *rootqdl, char *ident )
     struct TRICKS *t;
 
     if ( rootqdl->h )
-        printf( "\nrootqdl->h=%lx", rootqdl->h );
+        printf( "\nrootqdl->h=%lx", (unsigned long) rootqdl->h );
     else {
-        printf( "\nrootqdl->h=%lx ident=%s\n", rootqdl->h, ident );
+        printf( "\nrootqdl->h=%lx ident=%s\n", (unsigned long) rootqdl->h, ident );
         return;
     }
 
