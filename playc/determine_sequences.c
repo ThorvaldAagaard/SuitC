@@ -18,11 +18,10 @@
  *      step2:  return the number of sequences that have been found
  */
 
-#include "header.h"
+/* #include "header.h"
+*/
 
-int determine_sequences( hand, ref_hand, p )
-COLOR hand, ref_hand;
-int   p;
+int determine_sequences( COLOR hand, COLOR ref_hand, int p )
 {
     COLOR c, ref_cards, cards, low_ref, lowc;
     int   cnt, nseq;

@@ -9,10 +9,12 @@ CC	= gcc
 LDFLAGS	=
 LD	= gcc
 
-OBJECTS	= create_all_boards.o	\
-	  determine_sequences.o	\
-	  playc.o		\
-	  print_boards.o
+OBJECTS	= playcode.o
+
+SOURCES	= create_all_boards.c	\
+	  determine_sequences.c	\
+	  playc.c		\
+	  print_boards.c
 
 EXEC	= ../bin/playc
 
@@ -29,7 +31,7 @@ ${EXEC}: ${OBJECTS}
 .c.o:
 	${CC} ${CFLAGS} -c $*.c
 
-${OBJECTS}: Makefile header.h
+${OBJECTS}: Makefile header.h ${SOURCES}
 
 clean:
 	-@rm -f ${OBJECTS} > /dev/null 2>&1

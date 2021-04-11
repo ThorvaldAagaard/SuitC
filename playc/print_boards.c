@@ -13,17 +13,17 @@
  *      step3:  print the full set of boards
  */
 
-#include "header.h"
+/* #include "header.h"
+*/
 
 int print_boards()
 {
     int i, j, k, n, p;
     char out[14];
     static char symbols[] = "23456789abcde";
-    static char seat[4][6] = { "west", "north", "east", "south" };
 
     /* print the full set of boards */
-    for ( i = 0; i < (boardcnt+1)/2; i++ ) {
+    for ( i = 0; i < boardcnt; i++ ) {
         for ( n = 0; n < 3; n++ ) {
             p = 2;
             p = ( n == 1 ? 0 : p );

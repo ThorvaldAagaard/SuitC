@@ -26,3 +26,7 @@ COLOR hands[4];         /* the initial hand pattern */
 int   s_cnt[4];         /* the number of sequences in each hand */
 SUIT  s_cards[NCARDS];  /* the sequences in the initial hands */
 BOARD board[BOARDS];    /* the set of all possible suit distributions */
+
+int create_all_boards();
+int determine_sequences( COLOR hand, COLOR ref_hand, int p );
+int print_boards();

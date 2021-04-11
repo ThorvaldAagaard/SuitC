@@ -17,7 +17,8 @@
  *              scale the percentages
  */
 
-#include "header.h"
+/* #include "header.h"
+*/
 
 int fac( n, r )
 int n, r;
