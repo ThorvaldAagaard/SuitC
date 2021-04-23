@@ -10,7 +10,7 @@
 //
 //  Copyright 2020, Gerrit A. van der Velde, Leiden
 
-#include "header.h"
+//  #include "header.h"
 
 void create_ply1( int d, int lead[4] )
 {

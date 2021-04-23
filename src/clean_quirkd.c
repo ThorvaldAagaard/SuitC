@@ -10,7 +10,7 @@
 //
 //  Copyright 2020, Gerrit A. van der Velde, Leiden
 
-#include "header.h"
+//  #include "header.h"
 
 int clean_quirkd( int d, struct LIMIT *results )
 {

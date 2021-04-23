@@ -11,7 +11,7 @@
 //
 //  Copyright 2020, Gerrit A. van der Velde, Leiden
 
-#include "header.h"
+//  #include "header.h"
 
 void merge_nodes( struct NODE *lnode, struct NODE *bnode )
 {

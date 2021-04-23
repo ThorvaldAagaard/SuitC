@@ -11,7 +11,7 @@
 //
 //  Copyright 2020, Gerrit A. van der Velde, Leiden
 
-#include "header.h"
+//  #include "header.h"
 
 void printm( int nnode, int ip, int jp, int *jpiv, double *p, double *v, double z )
 {

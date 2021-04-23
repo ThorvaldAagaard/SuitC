@@ -10,7 +10,7 @@
 //
 //  Copyright 2020, Gerrit A. van der Velde, Leiden
 
-#include "header.h"
+//  #include "header.h"
 
 struct NODE *copy_tree( int d_, struct NODE *rootn )
 {

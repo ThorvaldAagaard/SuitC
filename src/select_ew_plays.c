@@ -9,7 +9,7 @@
 //
 //  Copyright 2020, Gerrit A. van der Velde, Leiden
 
-#include "header.h"
+//  #include "header.h"
 
 #define bwinc_ew()      ( bnode[d]->winc & ( brd[0][west]  | brd[0][east]  ) )
 #define bwinc_ns()      ( bnode[d]->winc & ( brd[0][north] | brd[0][south] ) )

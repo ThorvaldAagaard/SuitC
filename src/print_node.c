@@ -10,7 +10,7 @@
 //
 //  Copyright 2019, Gerrit A. van der Velde, Leiden
 
-#include "header.h"
+//  #include "header.h"
 
 void print_node( struct NODE *lnode, char *ident )
 {

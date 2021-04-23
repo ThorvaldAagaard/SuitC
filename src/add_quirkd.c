@@ -15,7 +15,7 @@
 //
 //  Copyright 2020, Gerrit A. van der Velde, Leiden
 
-#include "header.h"
+//  #include "header.h"
 
 int add_quirkd( int i, int ns, int s, int t, int ih, struct QUIRKD **tquirkd, struct QUIRKD **tquirkdl )
 {

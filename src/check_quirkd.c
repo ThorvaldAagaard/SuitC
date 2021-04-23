@@ -13,7 +13,7 @@
 //
 //  Copyright 2020, Gerrit A. van der Velde, Leiden
 
-#include "header.h"
+//  #include "header.h"
 
 void check_quirkd( int d, int t, struct QUIRKD **tquirkd, struct QUIRKD **tquirkdl )
 {

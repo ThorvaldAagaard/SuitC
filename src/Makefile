@@ -15,57 +15,59 @@ EXEC	= ../bin/SuitC
 EXEC1	= ../bin/sc
 EXEC2	= ../bin/ExpertPlay
 
-OBJECTS = 				\
-	  add_node.o			\
-	  add_quirkd.o			\
-	  build_selected_tree.o		\
-	  check_ew_plays.o		\
-	  check_ns_plays.o		\
-	  check_quirkd.o		\
-	  check_zermelo.o		\
-	  clean_quirkd.o		\
-	  convert_tree_to_quirk.o	\
-	  copy_node.o			\
-	  copy_tree.o			\
-	  count_plays.o			\
-	  count_quirkd.o		\
-	  create_all_boards.o		\
-	  create_board_header.o		\
-	  create_boards.o		\
-	  create_ply1.o			\
-	  create_ply2.o			\
-	  create_ply3.o			\
-	  create_ply4.o			\
-	  create_tricks.o		\
-	  delete_board.o		\
-	  delete_quirkd.o		\
-	  delete_tree.o			\
-	  determine_trick_count.o	\
-	  evaluate_best_results.o	\
-	  evaluate_mp_results.o		\
-	  evaluate_mp_scores.o		\
-	  fold_ew_tree.o		\
-	  fold_ns_tree.o		\
-	  fold_quirkd.o			\
-	  limit_matchpoint_nodes.o	\
-	  limit_quirkd.o		\
-	  merge_nodes.o			\
-	  merge_quirkd.o		\
-	  merge_tree.o			\
-	  minimax.o			\
-	  print_all_results.o		\
-	  print_boards.o		\
-	  print_node.o			\
-	  print_play_count.o		\
-	  print_quirkd.o		\
-	  print_results.o		\
-	  print_summary_results.o	\
-	  print_tree.o			\
-	  process_args.o		\
-	  select_ew_plays.o		\
-	  select_ns_plays.o		\
-	  sort_plays.o			\
-	  suitc.o
+OBJECTS = suitall.o
+
+SOURCES =				\
+	  add_node.c			\
+	  add_quirkd.c			\
+	  build_selected_tree.c		\
+	  check_ew_plays.c		\
+	  check_ns_plays.c		\
+	  check_quirkd.c		\
+	  check_zermelo.c		\
+	  clean_quirkd.c		\
+	  convert_tree_to_quirk.c	\
+	  copy_node.c			\
+	  copy_tree.c			\
+	  count_plays.c			\
+	  count_quirkd.c		\
+	  create_all_boards.c		\
+	  create_board_header.c		\
+	  create_boards.c		\
+	  create_ply1.c			\
+	  create_ply2.c			\
+	  create_ply3.c			\
+	  create_ply4.c			\
+	  create_tricks.c		\
+	  delete_board.c		\
+	  delete_quirkd.c		\
+	  delete_tree.c			\
+	  determine_trick_count.c	\
+	  evaluate_best_results.c	\
+	  evaluate_mp_results.c		\
+	  evaluate_mp_scores.c		\
+	  fold_ew_tree.c		\
+	  fold_ns_tree.c		\
+	  fold_quirkd.c			\
+	  limit_matchpoint_nodes.c	\
+	  limit_quirkd.c		\
+	  merge_nodes.c			\
+	  merge_quirkd.c		\
+	  merge_tree.c			\
+	  minimax.c			\
+	  print_all_results.c		\
+	  print_boards.c		\
+	  print_node.c			\
+	  print_play_count.c		\
+	  print_quirkd.c		\
+	  print_results.c		\
+	  print_summary_results.c	\
+	  print_tree.c			\
+	  process_args.c		\
+	  select_ew_plays.c		\
+	  select_ns_plays.c		\
+	  sort_plays.c			\
+	  suitc.c			\
 
 ${EXEC}: ${OBJECTS}
 	${CC} -o ${EXEC} ${OBJECTS}
@@ -79,7 +81,7 @@ ${EXEC}: ${OBJECTS}
 .c.o:
 	${CC} -c $*.c
 
-${OBJECTS}:	Makefile	header.h
+${OBJECTS}:	Makefile	header.h	${SOURCES}
 
 clean:
 	-@rm -f ${OBJECTS} > /dev/null 2>&1

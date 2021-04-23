@@ -12,7 +12,7 @@
 //
 //  Copyright 2020, Gerrit A. van der Velde, Leiden
 
-#include "header.h"
+//  #include "header.h"
 
 int fold_ns_tree( int d, COLOR c, struct NODE **lnode, struct NODE **bnode )
 {

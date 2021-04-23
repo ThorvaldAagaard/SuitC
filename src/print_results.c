@@ -12,7 +12,7 @@
 //
 //  Copyright 2020, Gerrit A. van der Velde, Leiden
 
-#include "header.h"
+//  #include "header.h"
 
 void print_results( int best_MAX, int best_MP, int *best_N, double mpscore )
 {

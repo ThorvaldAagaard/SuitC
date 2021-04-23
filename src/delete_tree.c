@@ -10,7 +10,7 @@
 //
 //  Copyright 2020, Gerrit A. van der Velde, Leiden
 
-#include "header.h"
+//  #include "header.h"
 
 struct NODE *delete_tree( int d_, struct NODE **lnode )
 {

@@ -12,7 +12,7 @@
 //
 //  Copyright 2020, Gerrit A. van der Velde, Leiden
 
-#include "header.h"
+//  #include "header.h"
 
 void create_tricks( int d )
 {
@@ -37,7 +37,6 @@ void create_tricks( int d )
     }
 
     //  determine who can lead to this trick
-    //  printf( "t=%d throwin=%d leader=%d w[t-1]=%d nfree={%d,%d,%d,%d}\n", t, throwin, leader, w[t-1], nfree[t-1][west], nfree[t-1][north], nfree[t-1][east], nfree[t-1][south] );
     if ( t == 1 && leader != noplayer )
         lead[leader] = YES;
     else if ( throwin != noplayer && throwin == w[t-1] && brd[t][throwin] >> 2 )
