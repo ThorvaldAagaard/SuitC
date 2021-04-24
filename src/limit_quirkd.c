@@ -106,6 +106,5 @@ void limit_quirkd( int d )
         clean_quirkd( d+i, results[i] );
     }
 
-    printf( "\tcutoff:%8d%6d ->%8d%6d\n", nplays[0], nplays[1], count[0], count[1] );
     fflush( stdout );
 }

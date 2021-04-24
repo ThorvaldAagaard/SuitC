@@ -36,8 +36,10 @@ void print_boards( void )
     printf( "\n" );
 
     //  print additional information
-    if ( cutoff )
-        printf( "\tcutoff              : %.0fe6\n", 1.e-6 * cutoff );
+    if ( cutoff && cutoff == CUTOFF )
+        printf( "\tcutoff              : enabled\n" );
+    else if ( cutoff )
+        printf( "\tcutoff              : %d\n", cutoff );
     if ( tricklimit < ntricks )
         printf( "\tterminate play after: %d tricks\n", tricklimit );
     if ( w[0] != noplayer ) {

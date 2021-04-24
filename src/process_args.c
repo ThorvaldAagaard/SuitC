@@ -37,7 +37,7 @@ void process_args( int argc, char **argv )
                     val = 10 * val + argv[i][k] - '0';
                     k++;
                 }
-                cutoff = 1000000L * val;
+                cutoff = val ? MAX(val,10000) : CUTOFF;
             }
             else if ( c == 'D' )
                 defence = YES;

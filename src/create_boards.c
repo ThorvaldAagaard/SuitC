@@ -14,8 +14,8 @@
 
 void create_boards( void )
 {
-    int          ec, i, k, p, q, wc;
-    COLOR        cards;
+    int          ec, i, k, l, p, q, wc;
+    COLOR        cards, fixed;
     struct INDEX *lindex;
     struct SCARD *sc;
 
@@ -106,22 +106,39 @@ void create_boards( void )
 
     //  translate the fixed cards for west in canonical order
     if ( westfixed ) {
+        COLOR fixed = RENONCE;
         sc = &scards[0][west];
-        for ( i = 0; i <= sc->n; i++ )
-            if ( westfixed & sc->c[i] )
-                for ( k = two; k <= ace; k++ )
-                    if ( addcard(k) & sc->c[i] && addcard(k) & westfixed && addcard(k+1) & sc->c[i] && ! ( addcard(k+1) & westfixed ) )
-                        westfixed = ( westfixed ^ addcard(k) ) | addcard(k+1);
+        for ( i = 0; i <= sc->n; i++ ) {
+            if ( westfixed & sc->c[i] ) {
+                for ( k = ace; k >= two; k-- ) {
+                    if ( addcard(k) & westfixed && addcard(k) & sc->c[i] ) {
+                        l = k;
+                        while ( addcard(l+1) & sc->c[i] && ! ( addcard(l+1) & fixed ) )
+                            l++;
+                        fixed |= addcard(l);
+                    }
+                }
+            }
+        }
+        westfixed = fixed;
     }
 
     //  translate the fixed cards for east in canonical order
     if ( eastfixed ) {
         sc = &scards[0][east];
-        for ( i = 0; i <= sc->n; i++ )
-            if ( eastfixed & sc->c[i] )
-                for ( k = ace; k >= two; k-- )
-                    if ( addcard(k) & sc->c[i] && addcard(k) & eastfixed && addcard(k-1) & sc->c[i] && ! ( addcard(k-1) & eastfixed ) )
-                        eastfixed = ( eastfixed ^ addcard(k) ) | addcard(k-1);
+        for ( i = 0; i <= sc->n; i++ ) {
+            if ( eastfixed & sc->c[i] ) {
+                for ( k = two; k <= ace; k++ ) {
+                    if ( addcard(k) & eastfixed && addcard(k) & sc->c[i] ) {
+                        l = k;
+                        while ( addcard(l-1) & sc->c[i] && ! ( addcard(l-1) & fixed ) )
+                            l--;
+                        fixed |= addcard(l);
+                    }
+                }
+            }
+        }
+        eastfixed = fixed;
     }
 
     //  generate the full set of boards

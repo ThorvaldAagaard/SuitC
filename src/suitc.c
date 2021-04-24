@@ -18,8 +18,8 @@ int main( int argc, char **argv )
 
     //  set defaults and initial values
     buildtree = 0;
-    cutoff = 0;
     compacttree = YES;
+    cutoff = 0;
     defence = NO;
     eastfixed = RENONCE;
     eastvac = NCARDS;
@@ -69,11 +69,19 @@ int main( int argc, char **argv )
     icount = 0;
     icountmax = 0;
     nextindex = malloc( 12000000 * sizeof( struct INDEX ) );
+    if ( ! nextindex ) {
+        printf( "The memory assignment for the INDEX entries failed\n" );
+        exit( 1 );
+    }
 
     //  initialize the NODE tree
     ncount = 1;
     ncountmax = 1;
     wnode[0] = malloc( 8000000 * sizeof( struct NODE ) );
+    if ( ! wnode[0] ) {
+        printf( "The memory assignment for the NODE entries failed\n" );
+        exit( 1 );
+    }
     nextnode = wnode[0];
     nextnode++;
 
@@ -99,12 +107,24 @@ int main( int argc, char **argv )
     qdcount = 0;
     qdcountmax = 0;
     nextquirkd = malloc( 2 * NPLAYS * sizeof( struct QUIRKD ) );
+    if ( ! nextquirkd ) {
+        printf( "The memory assignment for the QUIRKD entries failed\n" );
+        exit( 1 );
+    }
 
     //  initialise the QUIRKH and TRICKS lists
     qhcount = 0;
     qhcountmax = 0;
     nextquirkh = malloc( NPLAYS * sizeof( struct QUIRKH ) );
+    if ( ! nextquirkh ) {
+        printf( "The memory assignment for the TRICKS entries failed\n" );
+        exit( 1 );
+    }
     tricks = malloc( (long) boardcount * NPLAYS * sizeof( struct TRICKS ) );
+    if ( ! tricks ) {
+        printf( "The memory assignment for the TRICKS entries failed\n" );
+        exit( 1 );
+    }
 
     //  build the quirk tree
     if ( sortplays ) {
