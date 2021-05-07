@@ -21,7 +21,7 @@ void print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings 
     COLOR        cards;
     static char  hexdigit[] = "0123456789abcdef";
     static char  *symbols[] = { "-123456789tjqka=", "-123456789tbvha=", "-123456789TJQKA=", "-123456789TBVHA=" };
-    static char  seats[] = "wnes";
+    static char  seats[] = "WNES";
     struct INDEX *lindex;
     struct NODE  *lnode[NPLIES+1];
     struct SCARD *sc;

@@ -106,7 +106,7 @@ void create_boards( void )
 
     //  translate the fixed cards for west in canonical order
     if ( westfixed ) {
-        COLOR fixed = RENONCE;
+        fixed = RENONCE;
         sc = &scards[0][west];
         for ( i = 0; i <= sc->n; i++ ) {
             if ( westfixed & sc->c[i] ) {
@@ -125,6 +125,7 @@ void create_boards( void )
 
     //  translate the fixed cards for east in canonical order
     if ( eastfixed ) {
+        fixed = RENONCE;
         sc = &scards[0][east];
         for ( i = 0; i <= sc->n; i++ ) {
             if ( eastfixed & sc->c[i] ) {

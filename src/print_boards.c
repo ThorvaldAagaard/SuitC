@@ -16,7 +16,7 @@ void print_boards( void )
     int          i, j, k, n, p, q;
     char         out[NCARDS+1];
     static char  *symbols[] = { "-123456789TJQKA", "-123456789TBVHA", "-123456789tjqka", "-123456789tbvha" };
-    static char  seat[4][6] = { "west", "north", "east", "south" };
+    static char  seat[4][6] = { "West", "North", "East", "South" };
     struct INDEX *lindex;
 
     //  print the 4 hands

@@ -59,7 +59,7 @@ void evaluate_mp_results( void )
 
     //  check the number of plays
     if ( nnode > NNODE ) {
-        printf( "\nERROR: Increase NNODE to at leat %d\n" , nnode );
+        printf( "\nERROR: Increase NNODE to at least %d\n" , nnode );
         exit( 1 );
     }
 

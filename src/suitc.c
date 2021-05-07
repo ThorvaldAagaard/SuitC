@@ -40,7 +40,7 @@ int main( int argc, char **argv )
     printallresults = NO;
     printboards = NO;
     printfulltree = NO;
-    printoption = 0;
+    printoption = 2;
     printsummary = NO;
     printtrunctree = NO;
     mergeselect = 0x1 | 0x4;
