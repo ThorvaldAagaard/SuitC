@@ -89,7 +89,7 @@ void process_args( int argc, char **argv )
                 c = argv[i][2];
                 throwin = c == 'e' ? east : c == 'w' ? west : noplayer;
                 if ( throwin == noplayer ) {
-                    printf( "Incorrect player can be thrown in: %s; program stops\n", argv[i] );
+                    printf( "Incorrect player can be thrown in: %s; the program stops\n", argv[i] );
                     exit( 1 );
                 }
             }
@@ -106,7 +106,7 @@ void process_args( int argc, char **argv )
                         else if ( argv[i][3] == 'n' || argv[i][3] == 's' )
                             keepnsweak = NO;
                         else {
-                            printf( "Incorrect option: %s; program stops\n", argv[i] );
+                            printf( "Incorrect option: %s; the program stops\n", argv[i] );
                             exit( 1 );
                         }
                     }
@@ -122,7 +122,7 @@ void process_args( int argc, char **argv )
                         else if ( argv[i][3] == 'n' || argv[i][3] == 's' )
                             keepnsequal = NO;
                         else {
-                            printf( "Incorrect option: %s; program stops\n", argv[i] );
+                            printf( "Incorrect option: %s; the program stops\n", argv[i] );
                             exit( 1 );
                         }
                     }
@@ -136,7 +136,7 @@ void process_args( int argc, char **argv )
                 c = argv[i][2];
                 leader = c == 'n' ? north : c == 'e' ? east : c == 's' ? south : c == 'w' ? west : noplayer;
                 if ( leader == noplayer ) {
-                    printf( "Incorrect player in %s; program stops\n", argv[i] );
+                    printf( "Incorrect player in %s; the program stops\n", argv[i] );
                     exit( 1 );
                 }
                 w[0] = leader;
@@ -152,7 +152,7 @@ void process_args( int argc, char **argv )
                 c = argv[i][2];
                 pl = c == 'w' ? west : c == 'n' ? north : c == 'e' ? east : c == 's' ? south : -1;
                 if ( pl < 0 ) {
-                    printf( "Incorrect player in %s; program stops\n", argv[i] );
+                    printf( "Incorrect player in %s; the program stops\n", argv[i] );
                     exit( 1 );
                 }
                 nfree[0][pl] = argv[i][3] - '0';
@@ -176,7 +176,7 @@ void process_args( int argc, char **argv )
                 c = argv[i][2];
                 pl =  c == 'n' ? north :  c == 's' ? south : c == 'w' ? west : c == 'e' ? east : -1;
                 if ( pl < 0 ) {
-                    printf( "Incorrect player in %s; program stops\n", argv[i] );
+                    printf( "Incorrect player in %s; the program stops\n", argv[i] );
                     exit( 1 );
                 }
                 nruff[0][pl] = argv[i][3] - '0';
@@ -231,7 +231,7 @@ void process_args( int argc, char **argv )
                 zermelo = val;
             }
             else {
-                printf( "Incorrect option: %s; program stops\n", argv[i] );
+                printf( "Incorrect option: %s; the program stops\n", argv[i] );
                 exit( 1 );
             }
         }

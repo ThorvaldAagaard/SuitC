@@ -136,21 +136,24 @@ int main( int argc, char **argv )
     //  determine best_result, the minimum and maximum number of tricks and the number of plays
     nplays = evaluate_best_results();
 
-    if ( defence ) {
-        printf( "\tmin number of losers: %d\n", tricklimit - maxns );
-        printf( "\tmax number of losers: %d\n", tricklimit - minns );
+    if ( trace & 0x1 ) {
+        if ( defence ) {
+            printf( "\tmin number of losers: %d\n", tricklimit - maxns );
+            printf( "\tmax number of losers: %d\n", tricklimit - minns );
+        }
+        else {
+            printf( "\tmin number of tricks: %d\n", minns );
+            printf( "\tmax number of tricks: %d\n", maxns );
+        }
+        printf( "\tnumber of plays     : %d\n", nplays );
     }
-    else {
-        printf( "\tmin number of tricks: %d\n", minns );
-        printf( "\tmax number of tricks: %d\n", maxns );
-    }
-    printf( "\tnumber of plays     : %d\n", nplays );
 
     //  restrict the number of plays for the matchpoint analysis
     if ( matchpoint && nplays > maxnodes )
         limit_matchpoint_nodes();
 
-    printf( "\n\tCopyright 2020, Gerrit A. van der Velde, Leiden\n" );
+    if ( trace & 0x1 )
+        printf( "\n\tCopyright 2020, Gerrit A. van der Velde, Leiden\n" );
 
     if ( sortplays )
         print_play_count();
