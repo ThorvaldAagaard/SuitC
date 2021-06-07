@@ -73,7 +73,7 @@ struct NODE *add_node( int d, int p, COLOR c )
         }
     }
 
-    //  return if this cannot be played
+    //  return if this card cannot be played
     if ( ! zindex.r )
         return( NIL );
 
