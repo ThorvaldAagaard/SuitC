@@ -19,7 +19,7 @@ int main( int argc, char **argv )
     //  set defaults and initial values
     buildtree = 0;
     compacttree = YES;
-    cutoff = 0;
+    cutoff = SUITCAPP ? CUTOFF : 0;
     defence = NO;
     eastfixed = RENONCE;
     eastvac = NCARDS;
@@ -136,7 +136,7 @@ int main( int argc, char **argv )
     //  determine best_result, the minimum and maximum number of tricks and the number of plays
     nplays = evaluate_best_results();
 
-    if ( trace & 0x1 ) {
+    if ( ! SUITCAPP ) {
         if ( defence ) {
             printf( "\tmin number of losers: %d\n", tricklimit - maxns );
             printf( "\tmax number of losers: %d\n", tricklimit - minns );
@@ -152,8 +152,8 @@ int main( int argc, char **argv )
     if ( matchpoint && nplays > maxnodes )
         limit_matchpoint_nodes();
 
-    if ( trace & 0x1 )
-        printf( "\n\tCopyright 2020, Gerrit A. van der Velde, Leiden\n" );
+    if ( ! SUITCAPP )
+        printf( "\n\tCopyright 2021, Gerrit A. van der Velde, Leiden\n" );
 
     if ( sortplays )
         print_play_count();

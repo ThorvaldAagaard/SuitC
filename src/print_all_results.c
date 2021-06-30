@@ -14,7 +14,7 @@
 void print_all_results( void )
 {
     int           accept, best_MAX, best_MP, best_N[NCARDS], i, ih, ix = 0, k, l = 0;
-    double        mpscore, tsum;
+    double        mpscore, tricksum;
     struct INDEX  *tindex;
     struct NODE   *lnode[NPLIES+1];
     struct QUIRKD *lquirkd[NBOARDS], *lquirkdl[NBOARDS];
@@ -53,21 +53,21 @@ void print_all_results( void )
             //  check for an optimal play
             ix++;
             ih = lquirkd[l]->ih;
-            tsum = 0.0;
+            tricksum = 0.0;
             best_MAX = result[ih].result > best_result.result - EPS;
             best_MP = matchpoint ? score[ix].best_MP : NO;
             accept = best_MAX | best_MP;
             if ( defence ) {
                 for ( i = minns; i <= maxns; i++ ) {
-                    tsum += result[ih].tricks[i];
-                    best_N[i] = tsum < best_result.tricks[i] + EPS && result[ih].result > best_result.res[i] - EPS;
+                    tricksum += result[ih].tricks[i];
+                    best_N[i] = tricksum < best_result.tricks[i] + EPS && result[ih].result > best_result.res[i] - EPS;
                     accept |= best_N[i];
                 }
             }
             else {
                 for ( i = maxns; i >= minns; i-- ) {
-                    tsum += result[ih].tricks[i];
-                    best_N[i] = tsum > best_result.tricks[i] - EPS && result[ih].result > best_result.res[i] - EPS;
+                    tricksum += result[ih].tricks[i];
+                    best_N[i] = tricksum > best_result.tricks[i] - EPS && result[ih].result > best_result.res[i] - EPS;
                     accept |= best_N[i];
                 }
             }

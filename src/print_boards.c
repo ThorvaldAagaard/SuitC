@@ -36,9 +36,7 @@ void print_boards( void )
     printf( "\n" );
 
     //  print additional information
-    if ( cutoff && cutoff == CUTOFF )
-        printf( "\tcutoff              : enabled\n" );
-    else if ( cutoff )
+    if ( cutoff && ! SUITCAPP )
         printf( "\tcutoff              : %d\n", cutoff );
     if ( tricklimit < ntricks )
         printf( "\tterminate play after: %d tricks\n", tricklimit );
