@@ -5,7 +5,7 @@
 //      print_quirkd prints a QUIRKD tree
 //
 //  parameters:
-//      rootqdl         in      the left sibling of root of the QUIRKD tree
+//      rootqdl         in      the left sibling of the root of the QUIRKD tree
 //      ident           in      identification string
 //
 //  Copyright 2020, Gerrit A. van der Velde, Leiden

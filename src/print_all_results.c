@@ -72,6 +72,23 @@ void print_all_results( void )
                 }
             }
 
+            //  restrict the number of plays that is reported
+            if ( accept && SUITCAPP ) {
+                for ( k = 0; k < nbest_plays; k++ ) {
+                    int match = YES, l;
+                    for ( i = minns; i <= maxns; i++ )
+                        if ( best_play[k].tricks[i] < result[ih].tricks[i] - EPS || best_play[k].tricks[i] > result[ih].tricks[i] + EPS )
+                            match = NO;
+                    if ( match ) {
+                        if ( best_play[k].dupl )
+                            best_play[k].dupl--;
+                        else
+                            accept = NO;
+                        break;
+                    }
+                }
+            }
+
             //  print the results of this play
             if ( accept || printallresults ) {
 
