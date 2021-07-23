@@ -20,7 +20,16 @@ void build_node( int d, int s, int p, COLOR c )
     dwin = lnode[d-1]->dwin;
     dwin = st[d].ld ? d : s == lnode[dwin]->s && c > lnode[dwin]->c || s == trump && lnode[dwin]->s != trump ? d : dwin;
 
-    bump_node( lnode[d]->r );
+    //  create a new NODE entry
+    ncount++;
+    ncalls[0]++;
+    lnode[d]->r = nextnode;
+    if ( ncount > ncountmax ) {
+        ncountmax++;
+        nextnode++;
+    }
+    else
+        nextnode = nextnode->r;
     lnode[d] = lnode[d]->r;
     lnode[d]->d = NIL;
     lnode[d]->r = NIL;

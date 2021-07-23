@@ -5,7 +5,7 @@
 //      join_scard joins adjacent card sequences of the same player
 //
 //  parameters:
-//      d               in      the depth in the NODE tree
+//      d               in      the depth in the DNODE tree
 //      s               in      the suit that is analysed
 
 //  #include "header.h"
@@ -41,7 +41,9 @@ void join_scard( int d, int s )
     }
 
     //  create a new JOINC slot
-    bump_joinc( ljoinc );
+    jfill++;
+    ljoinc = nextjoinc;
+    nextjoinc++;
     ljoinc->r = joinctable[inx];
     joinctable[inx]= ljoinc;
     ljoinc->s = s;
@@ -49,7 +51,7 @@ void join_scard( int d, int s )
         ljoinc->brd[p] = brd[t-1][s][p];
 
     //  convert the cards into a SCARD list
-    lscard = build_scard( d, s );
+    lscard = build_scard( s, brd[t-1][s] );
 
     //  locate an existing SCARD slot
     ncalls[4]++;
@@ -77,9 +79,11 @@ void join_scard( int d, int s )
 
             //  we found an old SCARD slot
             if ( match ) {
-                ljoinc->sc = ltable;
+                scount--;
+                lscard->r = nextscard;
+                nextscard = lscard;
                 scard[t][s] = ltable;
-                free_scard( lscard );
+                ljoinc->sc = ltable;
                 for ( p = 0; p < 4; p++ )
                     brd[t][s][p] = ltable->brd[p];
                 return;
@@ -93,8 +97,12 @@ void join_scard( int d, int s )
     sfill++;
     lscard->r = scardtable[inx];
     scardtable[inx] = lscard;
-    ljoinc->sc = lscard;
     scard[t][s] = lscard;
+    ljoinc->sc = lscard;
+    for ( p = 0; p < 4; p++ ) {
+        brd[t][s][p] = brd[t-1][s][p];
+        scard[t][s]->brd[p] = brd[t-1][s][p];
+    }
 
     //  check the fill factor of the hash table
     if ( 2 * sfill >= SHASHL ) {

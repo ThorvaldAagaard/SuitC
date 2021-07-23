@@ -57,7 +57,9 @@ int hashbackup( int d )
     build_ply( d, lnode[d-1]->w );
 
     //  create a new BACKUP slot
-    bump_backup( lbackup );
+    bfill++;
+    lbackup = nextbackup;
+    nextbackup++;
     lbackup->r = backuptable[inx];
     backuptable[inx] = lbackup;
     backup[t-1] = lbackup;

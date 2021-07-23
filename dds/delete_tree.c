@@ -40,8 +40,10 @@ struct NODE *delete_tree( int b, struct NODE *root )
 
         while ( d > b && ! bnode[d] ) {
             d--;
+            ncount--;
             anode = bnode[d]->r;
-            free_node( bnode[d] );
+            bnode[d]->r = nextnode;
+            nextnode = bnode[d];
             bnode[d] = anode;
         }
     }

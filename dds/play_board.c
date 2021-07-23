@@ -22,20 +22,20 @@ void play_board( int d, int p )
     struct { int i, ns, s; } res[13];
 
     //  copy the board from the previous trick and build the SCARD lists
-redo:
-    d_back = d;
     if ( st[d].ld ) {
         for ( s = 0; s < 4; s++ ) {
             for ( q = 0; q < 4; q++ )
                 brd[t][s][q] = brd[t-1][s][q];
             if ( brd[t][s][0] | brd[t][s][1] | brd[t][s][2] | brd[t][s][3] )
-                scard[t][s] = build_scard( d, s );
+                scard[t][s] = build_scard( s, brd[t][s] );
             else
                 scard[t][s] = NIL;
         }
     }
 
     //  analyse the board
+redo:
+    d_back = d;
     d_ab = d+1;
     d_start = d;
     nresult = 0;
@@ -154,7 +154,7 @@ redo:
     build_node( d, s, p, set(i) );
     lnode[d-1]->d = lnode[d];
     lnode[d]->nd = lnode[d-1]->nd + lnode[d-1]->nc;
-    brd[t][s][p] ^= low_c( brd[t][s][p] & lnode[d]->c );
+    brd[t][s][p] ^= brd[t][s][p] & set(i);
 
     //  play the next card
     if ( d < 4*ntricks ) {
