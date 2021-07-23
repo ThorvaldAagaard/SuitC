@@ -1,0 +1,46 @@
+#-----------------------------------------------------------------------
+#
+#  Makefile for program dds
+#
+#-----------------------------------------------------------------------
+
+SHELL	= /bin/bash
+CC	= gcc
+CFLAGS	= -O3 -DTICK=1.0e-3
+
+EXEC	= ../bin/dds
+
+OBJECTS	= 			\
+	  bottomup_tree.o	\
+	  build_node.o		\
+	  build_scard.o		\
+	  build_tree.o		\
+	  build_trick.o		\
+	  check_board.o		\
+	  delete_tree.o		\
+	  hashbackup.o		\
+	  join_scard.o		\
+	  play_board.o		\
+	  play_board_start.o	\
+	  print_board.o		\
+	  print_node.o		\
+	  print_scard.o		\
+	  print_stat.o		\
+	  print_tree.o		\
+	  process_args.o	\
+	  dds.o
+
+${EXEC}: ${OBJECTS}
+	${CC} ${CFLAGS} -o ${EXEC} ${OBJECTS}
+	[[ -f ${EXEC}.exe ]] && mv ${EXEC}.exe ${EXEC}
+
+.SUFFIXES:
+.SUFFIXES: .o .c .h
+
+.c.o:
+	${CC} ${CFLAGS} -c $*.c
+
+${OBJECTS}: Makefile header.h
+
+clean:
+	-@rm -f ${OBJECTS} > /dev/null 2>&1

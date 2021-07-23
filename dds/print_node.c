@@ -1,0 +1,52 @@
+//  name:
+//      print_node
+//
+//  purpose:
+//      print_node prints a NODE entry
+//
+//  parameters:
+//      d               in      the depth in the tree
+//      root            in      the node to be printed
+//      ident           in      an identification string
+
+#include "header.h"
+
+void print_node( int d, struct NODE *root, char *ident )
+{
+    int           i, l;
+    char          out[14];
+    static char   symbols[] = "-123456789tjqka=";
+    static char   *seat[] = { "west", "north", "east", "south", "unknown" };
+    static char   *suit[] = { "spades", "hearts", "diamonds", "clubs", "notrump", "discard" };
+
+    if ( root )
+        printf( "\nply=%02d   node=%lx", d, root );
+    else {
+        printf( "\nply=%02d   node=%lx ident=%s\n", d, root, ident );
+        return;
+    }
+
+    l = 0;
+    for ( i = ace+1; i >= 0; i-- )
+        if ( set(i) & root->c )
+            out[l++] = symbols[i];
+    if ( l == 0 )
+        out[l++] = '-';
+    out[l] = '\0';
+
+    printf( " d=%lx", root->d );
+    printf( " r=%lx", root->r );
+    printf( " t=%d", root->t );
+    printf( "   s=%-8s", suit[root->s] );
+    printf( " c=%-7s", out );
+    printf( " p=%-5s", seat[root->p] );
+    printf( " w=%-5s", seat[root->w] );
+    printf( "   qt=%x", root->qt );
+    printf( " nd=%x", root->nd );
+    printf( " nc=%x", root->nc );
+    printf( " nl=%x", root->nl + root->nd + root->nc );
+    printf( " nh=%x", root->nh + root->nd + root->nc );
+    if ( target.set )
+        printf( "   t.d=%02d t.p=%-5s t.ns=%x", target.d, seat[target.p], target.ns );
+    printf( "   ident=%s\n", ident );
+}
