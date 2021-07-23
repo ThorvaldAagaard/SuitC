@@ -5,7 +5,7 @@
 //      print_node prints a NODE entry
 //
 //  parameters:
-//      d               in      the depth in the tree
+//      d               in      the depth in the NODE tree
 //      root            in      the node to be printed
 //      ident           in      an identification string
 

@@ -5,7 +5,7 @@
 //      join_scard joins adjacent card sequences of the same player
 //
 //  parameters:
-//      d               in      the depth in the DNODE tree
+//      d               in      the depth in the NODE tree
 //      s               in      the suit that is analysed
 
 //  #include "header.h"
@@ -16,6 +16,7 @@ void join_scard( int d, int s )
     unsigned long inx;
     struct JOINC  *ljoinc;
     struct SCARD  *ltable;
+    struct SEQC   *sq, *tq;
 
     //  locate an existing JOINC slot
     inx = ( (unsigned long) s * IA + IC ) % IM;
@@ -54,29 +55,39 @@ void join_scard( int d, int s )
 
     //  locate an existing SCARD slot
     ncalls[4]++;
+    sq = scard[t][s]->sq;
     inx = ( (unsigned long) scard[t][s]->s * IA + IC ) % IM;
-    for ( p = 0; p < 4; p++ )
-        inx = ( ( inx + (unsigned long) scard[t][s]->brd[p] ) * IA + IC ) % IM;
+    for ( n = 0; n < scard[t][s]->n; n++ ) {
+        inx = ( ( inx + (unsigned long) sq[n].n ) * IA + IC ) % IM;
+        inx = ( ( inx + (unsigned long) sq[n].p ) * IA + IC ) % IM;
+    }
     inx = inx % SHASHL;
 
     //  check the old SCARD slots
     ltable = scardtable[inx];
     while ( ltable ) {
 
+        sq = scard[t][s]->sq;
+        tq = ltable->sq;
         match = YES;
-        for ( p = 0; p < 4; p++ )
-            match &= scard[t][s]->brd[p] == ltable->brd[p];
+        if ( scard[t][s]->n == ltable->n ) {
 
-        //  we found an old SCARD slot
-        if ( match ) {
-            scount--;
-            scard[t][s]->r = nextscard;
-            nextscard = scard[t][s];
-            scard[t][s] = ltable;
-            ljoinc->sc = ltable;
-            for ( p = 0; p < 4; p++ )
-                brd[t][s][p] = ltable->brd[p];
-            return;
+            for ( n = 0; n < scard[t][s]->n; n++ ) {
+                match &= sq[n].n == tq[n].n;
+                match &= sq[n].p == tq[n].p;
+            }
+
+            //  we found an old SCARD slot
+            if ( match ) {
+                scount--;
+                scard[t][s]->r = nextscard;
+                nextscard = scard[t][s];
+                scard[t][s] = ltable;
+                ljoinc->sc = ltable;
+                for ( p = 0; p < 4; p++ )
+                    brd[t][s][p] = ltable->brd[p];
+                return;
+            }
         }
 
         ltable = ltable->r;

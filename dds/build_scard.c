@@ -12,8 +12,8 @@
 
 void build_scard( int d, int s )
 {
-    int           i, p, sh[20], shcnt = 0, t = st[d].t;
-    COLOR         c;
+    int           i, n = -1, p, q = unknown, t= st[d].t;
+    struct SEQC   *sq;
 
     //  create a new SCARD entry
     scount++;
@@ -32,18 +32,24 @@ void build_scard( int d, int s )
         brd[t][s][p] = scard[t][s]->brd[p];
     }
 
-    //  build the shifted card holding of each player
-    c = brd[t-1][s][0] | brd[t-1][s][1] | brd[t-1][s][2] | brd[t-1][s][3];
+    //  build the card sequences
+    sq = scard[t][s]->sq;
     for ( i = ace; i >= two; i-- ) {
-        if ( ! ( c & set(i) ) )
-            shcnt++;
-        sh[i] = shcnt;
+        for ( p = 0; p < 4; p++ ) {
+            if ( scard[t][s]->brd[p] & set(i) ) {
+                if ( p != q ) {
+                    q = p;
+                    n++;
+                    sq[n].n = 1;
+                    sq[n].p = p;
+                    sq[n].c = set(i);
+                }
+                else {
+                    sq[n].n++;
+                    sq[n].c |= set(i);
+                }
+            }
+        }
     }
-    for ( p = 0; p < 4; p++ ) {
-        scard[t][s]->brd[p] = RENONCE;
-        for ( i = ace; i >= two; i-- )
-            if ( brd[t-1][s][p] & set(i) )
-                scard[t][s]->brd[p] |= set(i) << sh[i];
-        brd[t][s][p] = scard[t][s]->brd[p];
-    }
+    scard[t][s]->n = ++n;
 }

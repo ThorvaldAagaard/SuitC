@@ -21,6 +21,10 @@ void play_board( int d, int p )
     struct SCARD  *lc, zscard;
     struct { int i, ns, s; } res[13];
 
+    if ( st[d].ld )
+        for ( s = 0; s < 4; s++ )
+            build_scard( d, s );
+
 redo:
     d_back = d;
     d_ab = d+1;
@@ -28,10 +32,6 @@ redo:
     nresult = 0;
     lnode[d-1]->nl = 0;
     lnode[d-1]->nh = ntricks - d/4;
-    if ( st[d].ld )
-        for ( s = 0; s < 4; s++ )
-            for ( q = 0; q < 4; q++ )
-                brd[t][s][q] = brd[t-1][s][q];
     build_ply( d, p );
     build_tree( d );
 
