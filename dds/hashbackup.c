@@ -19,52 +19,52 @@ int hashbackup( int d )
 
     //  create the JOINC slots
     for ( s = 0; s < 4; s++ ) {
-        if ( ! ( brd[t][s][0] | brd[t][s][1] | brd[t][s][2] | brd[t][s][3] ) ) {
-            sc[t+1][s] = NIL;
-            for ( p = 0; p < 4; p++ )
-                brd[t+1][s][p] = RENONCE;
-        }
-        else
+        if ( brd[t-1][s][0] | brd[t-1][s][1] | brd[t-1][s][2] | brd[t-1][s][3] )
             join_scard( d, s );
+        else {
+            sc[t][s] = NIL;
+            for ( p = 0; p < 4; p++ )
+                brd[t][s][p] = RENONCE;
+        }
     }
 
     //  locate an existing BACKUP slot
     ncalls[3]++;
-    inx = ( (unsigned long) lnode[d]->w * IA + IC ) % IM;
+    inx = ( (unsigned long) lnode[d-1]->w * IA + IC ) % IM;
     inx = ( ( inx + (unsigned long) trump ) * IA + IC ) % IM;
     for ( s = 0; s < 4; s++ )
-        inx = ( ( inx + (unsigned long) sc[t+1][s] ) * IA + IC ) % IM;
+        inx = ( ( inx + (unsigned long) sc[t][s] ) * IA + IC ) % IM;
     inx = inx % BHASHL;
 
     //  check the old BACKUP slots
     lbackup = backuptable[inx];
     while ( lbackup ) {
-        match = lnode[d]->w == lbackup->ld && trump == lbackup->ts;
+        match = lnode[d-1]->w == lbackup->ld && trump == lbackup->ts;
         for ( s = 0; s < 4; s++ )
-            match &= sc[t+1][s] == lbackup->sc[s];
+            match &= sc[t][s] == lbackup->sc[s];
         if ( match ) {
-            st[d].backup = lbackup;
-            lnode[d]->nh = lbackup->nh;
-            lnode[d]->nl = lbackup->nl;
-            lnode[d]->d = lbackup->dnode;
-            lnode[d]->t = lbackup->t;
+            st[d-1].backup = lbackup;
+            lnode[d-1]->nh = lbackup->nh;
+            lnode[d-1]->nl = lbackup->nl;
+            lnode[d-1]->d = lbackup->dnode;
+            lnode[d-1]->t = lbackup->t;
             return( YES );
         }
         lbackup = lbackup->r;
     }
 
     //  build the NODE tree for the next trick
-    build_trick( d+1, lnode[d]->w );
+    build_trick( d, lnode[d-1]->w );
 
     //  create a new BACKUP slot
     bump_backup( lbackup );
     lbackup->r = backuptable[inx];
     backuptable[inx] = lbackup;
-    st[d].backup = lbackup;
-    lbackup->ld = lnode[d]->w;
+    st[d-1].backup = lbackup;
+    lbackup->ld = lnode[d-1]->w;
     lbackup->ts = trump;
     for ( s = 0; s < 4; s++ )
-        lbackup->sc[s] = sc[t+1][s];
+        lbackup->sc[s] = sc[t][s];
 
     //  check the fill factor of the hash table
     if ( ( 2 * bfill >= BHASHL ) ) {

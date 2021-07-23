@@ -12,23 +12,15 @@
 
 void check_board( void )
 {
-    int           n, p, q, s;
-
-    //  count the cards
-    for ( p = 0; p < 4; p++ ) {
-        for ( s = 0; s < 6; s++ )
-            nc[s][p] = 0;
-        for ( s = 0; s < 4; s++ )
-            for ( n = two; n <= ace; n++ )
-                if ( set(n) & brd[0][s][p] )
-                    nc[s][p]++;
-    }
+    int           i, n, p, q, s;
 
     //  has each player the same number of cards?
     for ( p = 0; p < 4; p++ ) {
         n = 0;
         for ( s = 0; s < 4; s++ )
-            n += nc[s][p];
+            for ( i = two; i <= ace; i++ )
+                if ( set(i) & brd[0][s][p] )
+                    n++;
         if ( p == 0 )
             ntricks = n;
         else if ( n != ntricks ) {

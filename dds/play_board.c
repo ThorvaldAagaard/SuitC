@@ -151,23 +151,20 @@ redo:
     build_node( d, s, p, set(i) );
     lnode[d-1]->d = lnode[d];
     lnode[d]->nd = lnode[d-1]->nd + lnode[d-1]->nc;
-    ba[d].brd = brd[t][s][p];
-    ba[d].nc = nc[s][p];
+    bbrd[d] = brd[t][s][p];
     brd[t][s][p] ^= low_c( brd[t][s][p] & lnode[d]->c );
 
     //  play the next card
     if ( d < 4*ntricks ) {
         q = st[d].la ? lnode[d]->w : (p+1)%4;
         play_board( d+1, q );
-        brd[t][s][p] = ba[d].brd;
-        nc[s][p] = ba[d].nc;
+        brd[t][s][p] = bbrd[d];
     }
 
     //  We are finished
     else {
 
-        brd[t][s][p] = ba[d].brd;
-        nc[s][p] = ba[d].nc;
+        brd[t][s][p] = bbrd[d];
         ns = lnode[d]->nd + lnode[d]->nc;
         printf( "\nd=%02d    ns=%x ew=%x   %s\n", d, ns, st[d].t - ns, suit[trump] );
         printf( "\n%s", "We are finished. What next? {b<n>|a|.}: " );

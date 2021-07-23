@@ -25,8 +25,7 @@ void build_tree( void )
         lds = lnode[st[d].l]->s;
 
         //  handle the play of the cards
-        ba[d].brd = brd[t][s][p];
-        ba[d].nc = nc[s][p];
+        bbrd[d] = brd[t][s][p];
         brd[t][s][p] ^= low_c( brd[t][s][p] & lnode[d]->c );
 
         //  generate the next trick
@@ -43,7 +42,7 @@ void build_tree( void )
             }
 
             //  check the BACKUP hash table
-            else if ( hashbackup( d ) ) {
+            else if ( hashbackup( d+1 ) ) {
 
                 //  check the alpha-beta pruning
                 nh = lnode[d]->nd + lnode[d]->nc + lnode[d]->nh;

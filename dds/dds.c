@@ -70,6 +70,6 @@ int main( int argc, char **argv )
     if ( ld == unknown || trump == discard )
         play_board_start();
     else
-        hashbackup( 0 );
+        hashbackup( 1 );
     play_board( 1, ld );
 }
