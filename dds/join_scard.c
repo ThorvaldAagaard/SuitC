@@ -8,7 +8,7 @@
 //      d               in      the depth in the tree
 //      s               in      the suit that is analysed
 
-#include "header.h"
+//  #include "header.h"
 
 void join_scard( int d, int s )
 {

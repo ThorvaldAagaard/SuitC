@@ -7,7 +7,7 @@
 //  parameters:
 //      t               in      the trick that is printed
 
-#include "header.h"
+//  #include "header.h"
 
 void print_board( int t )
 {

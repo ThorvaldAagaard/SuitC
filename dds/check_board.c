@@ -8,7 +8,7 @@
 //  parameters:
 //      none
 
-#include "header.h"
+//  #include "header.h"
 
 void check_board( void )
 {

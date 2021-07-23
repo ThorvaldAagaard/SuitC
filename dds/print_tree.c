@@ -9,7 +9,7 @@
 //      root            in      the root of the NODE tree
 //      ident           in      an identification string
 
-#include "header.h"
+//  #include "header.h"
 
 void print_tree( int b, struct NODE *root, char *ident )
 {

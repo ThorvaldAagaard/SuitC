@@ -7,7 +7,7 @@
 //  parameters:
 //      d               in      the depth in the tree
 
-#include "header.h"
+//  #include "header.h"
 
 void play_board( int d, int p )
 {

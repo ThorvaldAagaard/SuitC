@@ -8,7 +8,7 @@
 //      root            in      the SCARD tree or list to be printed
 //      id              in      an identification string
 
-#include "header.h"
+//  #include "header.h"
 
 void print_scard( struct SCARD *root, char *id )
 {

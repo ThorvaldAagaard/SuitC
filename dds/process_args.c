@@ -7,7 +7,7 @@
 //  to produce a list of options:
 //      dds -h
 
-#include "header.h"
+//  #include "header.h"
 
 void process_args( int argc, char **argv )
 {

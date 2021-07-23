@@ -9,7 +9,7 @@
 //  parameters:
 //      d               in      the depth in the tree
 
-#include "header.h"
+//  #include "header.h"
 
 int hashbackup( int d )
 {
@@ -22,7 +22,7 @@ int hashbackup( int d )
         if ( ! ( brd[t][s][0] | brd[t][s][1] | brd[t][s][2] | brd[t][s][3] ) ) {
             sc[t+1][s] = NIL;
             for ( p = 0; p < 4; p++ )
-                brd[t+1][s][p] = brd[t][s][p];
+                brd[t+1][s][p] = RENONCE;
         }
         else
             join_scard( d, s );

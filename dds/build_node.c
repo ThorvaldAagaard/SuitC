@@ -10,7 +10,7 @@
 //      p               in      the player of this node
 //      c               in      the cards of this node
 
-#include "header.h"
+//  #include "header.h"
 
 void build_node( int d, int s, int p, COLOR c )
 {

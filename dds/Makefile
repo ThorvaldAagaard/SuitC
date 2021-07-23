@@ -10,25 +10,27 @@ CFLAGS	= -O3 -DTICK=1.0e-3
 
 EXEC	= ../bin/dds
 
-OBJECTS	= 			\
-	  bottomup_tree.o	\
-	  build_node.o		\
-	  build_scard.o		\
-	  build_tree.o		\
-	  build_trick.o		\
-	  check_board.o		\
-	  delete_tree.o		\
-	  hashbackup.o		\
-	  join_scard.o		\
-	  play_board.o		\
-	  play_board_start.o	\
-	  print_board.o		\
-	  print_node.o		\
-	  print_scard.o		\
-	  print_stat.o		\
-	  print_tree.o		\
-	  process_args.o	\
-	  dds.o
+OBJECTS	= dda.o
+
+SOURCES	= 			\
+	  bottomup_tree.c	\
+	  build_node.c		\
+	  build_scard.c		\
+	  build_tree.c		\
+	  build_trick.c		\
+	  check_board.c		\
+	  delete_tree.c		\
+	  hashbackup.c		\
+	  join_scard.c		\
+	  play_board.c		\
+	  play_board_start.c	\
+	  print_board.c		\
+	  print_node.c		\
+	  print_scard.c		\
+	  print_stat.c		\
+	  print_tree.c		\
+	  process_args.c	\
+	  dds.c
 
 ${EXEC}: ${OBJECTS}
 	${CC} ${CFLAGS} -o ${EXEC} ${OBJECTS}
@@ -40,7 +42,7 @@ ${EXEC}: ${OBJECTS}
 .c.o:
 	${CC} ${CFLAGS} -c $*.c
 
-${OBJECTS}: Makefile header.h
+${OBJECTS}: Makefile header.h ${SOURCES}
 
 clean:
 	-@rm -f ${OBJECTS} > /dev/null 2>&1

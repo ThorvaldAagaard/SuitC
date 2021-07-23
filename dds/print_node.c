@@ -9,7 +9,7 @@
 //      root            in      the node to be printed
 //      ident           in      an identification string
 
-#include "header.h"
+//  #include "header.h"
 
 void print_node( int d, struct NODE *root, char *ident )
 {

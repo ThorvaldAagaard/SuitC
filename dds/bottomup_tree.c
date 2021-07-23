@@ -8,7 +8,7 @@
 //  parameters:
 //      d               in      the depth in the tree
 
-#include "header.h"
+//  #include "header.h"
 
 void bottomup_tree( int d )
 {

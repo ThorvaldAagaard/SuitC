@@ -8,7 +8,7 @@
 //      b               in      the depth in the tree
 //      root            in      the root of the NODE tree to be deleted
 
-#include "header.h"
+//  #include "header.h"
 
 struct NODE *delete_tree( int b, struct NODE *root )
 {

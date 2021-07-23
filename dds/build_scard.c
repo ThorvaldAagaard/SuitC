@@ -8,7 +8,7 @@
 //      s               in      the suit that is analysed
 //      c               in      the cards of the four players
 
-#include "header.h"
+//  #include "header.h"
 
 struct SCARD *build_scard( int s, COLOR c[4] )
 {

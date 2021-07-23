@@ -8,7 +8,7 @@
 //      d               in      the depth in the tree
 //      p               in      the player of this ply
 
-#include "header.h"
+//  #include "header.h"
 
 void build_trick( int d, int p )
 {
