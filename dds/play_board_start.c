@@ -32,7 +32,7 @@ void play_board_start( void )
                 lnode[0]->nl = 0;
                 lnode[0]->nh = ntricks;
                 hashbackup( 1 );
-                build_tree();
+                build_tree( d_start );
                 ns[ld][trump] = lnode[0]->nh;
             }
         }

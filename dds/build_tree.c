@@ -5,40 +5,33 @@
 //      build_tree builds the complete NODE tree
 //
 //  parameters:
-//      none
+//      d               in      the depth in the NODE tree
 
 //  #include "header.h"
 
-void build_tree( void )
+void build_tree( int d )
 {
-    int           d = d_start, i, lds, nh, nl, ns, p, s, t;
+    int           nh, nl, p, s, t = st[d].t;
     struct BACKUP zbackup;
 
     //  loop over the nodes
+    lnode[d] = lnode[d-1]->d;
     while ( lnode[d] ) {
 
+        //  play the cards and prepare for the next ply
         st[d].n++;
-        t = st[d].t;
-
         p = lnode[d]->p;
         s = lnode[d]->s;
-        lds = lnode[st[d].l]->s;
-
-        //  handle the play of the cards
-        brd[t][s][p] ^= low_c( brd[t][s][p] & lnode[d]->c );
-
-        //  generate the next trick
         lnode[d]->nd = lnode[d-1]->nd + lnode[d-1]->nc;
+        brd[t][s][p] ^= low_c( brd[t][s][p] & lnode[d]->c );
         if ( st[d].la && d < 4*ntricks ) {
 
             //  check the alpha-beta pruning
             nh = lnode[d]->nd + lnode[d]->nc + lnode[d]->nh;
             nl = lnode[d]->nd + lnode[d]->nc + lnode[d]->nl;
-            if ( ( target.set && NS(target.p) && ( nh <= target.ns || target.ns <  nl ) ) ||
-                 ( target.set && EW(target.p) && ( nh <  target.ns || target.ns <= nl ) ) ) {
+            if ( target.set && NS(target.p) && ( nh <= target.ns || target.ns <  nl ) ||
+                 target.set && EW(target.p) && ( nh <  target.ns || target.ns <= nl ) )
                 backup[t] = &zbackup;
-                lnode[d+1] = NIL;
-            }
 
             //  check the BACKUP hash table
             else if ( hashbackup( d+1 ) ) {
@@ -46,37 +39,34 @@ void build_tree( void )
                 //  check the alpha-beta pruning
                 nh = lnode[d]->nd + lnode[d]->nc + lnode[d]->nh;
                 nl = lnode[d]->nd + lnode[d]->nc + lnode[d]->nl;
-                if ( ( target.set && NS(target.p) && ( nh <= target.ns || target.ns <  nl ) ) ||
-                     ( target.set && EW(target.p) && ( nh <  target.ns || target.ns <= nl ) ) ) {
+                if ( target.set && NS(target.p) && ( nh <= target.ns || target.ns <  nl ) ||
+                     target.set && EW(target.p) && ( nh <  target.ns || target.ns <= nl ) )
                     backup[t] = &zbackup;
-                    lnode[d+1] = NIL;
-                }
 
-                else
-                    lnode[d+1] = lnode[d]->d;
+                //  the NODE tree contains still branches
+                else if ( lnode[d]->d )
+                    build_tree( d+1 );
             }
 
+            //  no backup NODE tree exists
             else
-                lnode[d+1] = lnode[d]->d;
+                build_tree( d+1 );
         }
 
-        else if ( st[d].la || lnode[d]->t || lnode[d]->d )
-            lnode[d+1] = lnode[d]->d;
+        //  the NODE tree is fully analysed
+        else if ( st[d].la || lnode[d]->t ) ;
 
+        //  the NODE tree contains still branches
+        else if ( lnode[d]->d )
+            build_tree( d+1 );
+
+        //  build the next ply of the NODE tree
         else {
             build_ply( d+1, (p+1)%4 );
-            lnode[d+1] = lnode[d]->d;
+            build_tree( d+1 );
         }
-        d++;
 
-        //  get the next node
-        while ( d && ! lnode[d] ) {
-
-            d--;
-            if ( d < d_start )
-                return;
-
-            bottomup_tree( d );
-        }
+        //  backup the NODE tree
+        bottomup_tree( d );
     }
 }

@@ -42,7 +42,7 @@ redo:
     lnode[d-1]->nl = 0;
     lnode[d-1]->nh = ntricks - d/4;
     build_ply( d, p );
-    build_tree();
+    build_tree( d_start );
 
     //  collect the results
     k = 0;
