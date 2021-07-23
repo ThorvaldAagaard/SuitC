@@ -41,7 +41,7 @@ redo:
     nresult = 0;
     lnode[d-1]->nl = 0;
     lnode[d-1]->nh = ntricks - d/4;
-    build_trick( d, p );
+    build_ply( d, p );
     build_tree();
 
     //  collect the results

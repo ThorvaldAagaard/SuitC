@@ -64,7 +64,7 @@ void build_tree( void )
             lnode[d+1] = lnode[d]->d;
 
         else {
-            build_trick( d+1, (p+1)%4 );
+            build_ply( d+1, (p+1)%4 );
             lnode[d+1] = lnode[d]->d;
         }
         d++;

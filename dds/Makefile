@@ -8,16 +8,16 @@ SHELL	= /bin/bash
 CC	= gcc
 CFLAGS	= -O3 -DTICK=1.0e-3
 
-EXEC	= ../bin/dds
+EXEC	= ../bin/dda
 
 OBJECTS	= dda.o
 
 SOURCES	= 			\
 	  bottomup_tree.c	\
 	  build_node.c		\
+	  build_ply.c		\
 	  build_scard.c		\
 	  build_tree.c		\
-	  build_trick.c		\
 	  check_board.c		\
 	  delete_tree.c		\
 	  hashbackup.c		\

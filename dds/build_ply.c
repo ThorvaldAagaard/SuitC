@@ -1,16 +1,16 @@
 //  name:
-//      build_trick
+//      build_ply
 //
 //  purpose:
-//      build_trick builds the NODE tree for a ply
+//      build_ply builds the NODE tree for a ply
 //
 //  parameters:
-//      d               in      the depth in the tree
+//      d               in      the depth in the NODE tree
 //      p               in      the player of this ply
 
 //  #include "header.h"
 
-void build_trick( int d, int p )
+void build_ply( int d, int p )
 {
     int           lds, n, s, t = st[d].t;
     struct NODE   *anode, *bnode, *nnode, znode;
