@@ -25,7 +25,6 @@ void build_tree( void )
         lds = lnode[st[d].l]->s;
 
         //  handle the play of the cards
-        bbrd[d] = brd[t][s][p];
         brd[t][s][p] ^= low_c( brd[t][s][p] & lnode[d]->c );
 
         //  generate the next trick
@@ -37,7 +36,7 @@ void build_tree( void )
             nl = lnode[d]->nd + lnode[d]->nc + lnode[d]->nl;
             if ( ( target.set && NS(target.p) && ( nh <= target.ns || target.ns <  nl ) ) ||
                  ( target.set && EW(target.p) && ( nh <  target.ns || target.ns <= nl ) ) ) {
-                st[d].backup = &zbackup;
+                backup[t] = &zbackup;
                 lnode[d+1] = NIL;
             }
 
@@ -49,7 +48,7 @@ void build_tree( void )
                 nl = lnode[d]->nd + lnode[d]->nc + lnode[d]->nl;
                 if ( ( target.set && NS(target.p) && ( nh <= target.ns || target.ns <  nl ) ) ||
                      ( target.set && EW(target.p) && ( nh <  target.ns || target.ns <= nl ) ) ) {
-                    st[d].backup = &zbackup;
+                    backup[t] = &zbackup;
                     lnode[d+1] = NIL;
                 }
 

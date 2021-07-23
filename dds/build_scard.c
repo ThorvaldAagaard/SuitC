@@ -2,42 +2,46 @@
 //      build_scard
 //
 //  purpose:
-//      build_scard builds a list of SCARD sequences
+//      build_scard builds an array of card sequences
 //
 //  parameters:
+//      d               in      the depth in the NODE tree
 //      s               in      the suit that is analysed
-//      c               in      the cards of the four players
 
 //  #include "header.h"
 
-struct SCARD *build_scard( int s, COLOR c[4] )
+struct SCARD *build_scard( int d, int s )
 {
-    int           i, p;
-    struct SCARD  *lc, zscard;
+    int           i, n = -1, p, q = unknown, t = st[d].t;
+    struct SCARD  *lscard;
+    struct SEQC   *sq;
 
-    //  convert the cards into a SCARD list
-    lc = &zscard;
-    zscard.d = NIL;
-    zscard.p = unknown;
+    bump_scard( lscard );
+    lscard->s = s;
+    for ( p = 0; p < 4; p++ ) {
+        brd[t][s][p] = brd[t-1][s][p];
+        lscard->brd[p] = brd[t-1][s][p];
+    }
+
+    sq = lscard->sq;
     for ( i = ace; i >= two; i-- ) {
-
         for ( p = 0; p < 4; p++ ) {
-            if ( c[p] & set(i) ) {
-                if ( lc->p == p ) {
-                    lc->n++;
-                    lc->c |= set(i);
+            if ( brd[t][s][p] & set(i) ) {
+                if ( p != q ) {
+                    n++;
+                    q = p;
+                    sq[n].n = 1;
+                    sq[n].p = p;
+                    sq[n].c = set(i);
                 }
                 else {
-                    bump_scard( lc->d );
-                    lc = lc->d;
-                    lc->n = 1;
-                    lc->p = p;
-                    lc->s = s;
-                    lc->c = set(i);
+                    sq[n].n++;
+                    sq[n].c |= set(i);
                 }
             }
         }
     }
 
-    return( zscard.d );
+    lscard->n = ++n;
+    return( lscard );
 }

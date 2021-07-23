@@ -5,17 +5,18 @@
 //      join_scard joins adjacent card sequences of the same player
 //
 //  parameters:
-//      d               in      the depth in the tree
+//      d               in      the depth in the NODE tree
 //      s               in      the suit that is analysed
 
 //  #include "header.h"
 
 void join_scard( int d, int s )
 {
-    int           match, p, t = st[d].t;
+    int           match, n, p, t = st[d].t;
     unsigned long inx;
     struct JOINC  *ljoinc;
-    struct SCARD  *lc, *lscard, *ltable, *tc;
+    struct SCARD  *lscard, *ltable;
+    struct SEQC   *sq, *tq;
 
     //  locate an existing JOINC slot
     inx = ( (unsigned long) s * IA + IC ) % IM;
@@ -31,9 +32,9 @@ void join_scard( int d, int s )
         for ( p = 0; p < 4; p++ )
             match &= brd[t-1][s][p] == ljoinc->brd[p];
         if ( match ) {
-            sc[t][s] = ljoinc->sc;
+            scard[t][s] = ljoinc->sc;
             for ( p = 0; p < 4; p++ )
-                brd[t][s][p] = ljoinc->outc[p];
+                brd[t][s][p] = scard[t][s]->brd[p];
             return;
         }
         ljoinc = ljoinc->r;
@@ -44,23 +45,19 @@ void join_scard( int d, int s )
     ljoinc->r = joinctable[inx];
     joinctable[inx]= ljoinc;
     ljoinc->s = s;
-    for ( p = 0; p < 4; p++ ) {
+    for ( p = 0; p < 4; p++ )
         ljoinc->brd[p] = brd[t-1][s][p];
-        ljoinc->outc[p] = brd[t-1][s][p];
-    }
 
     //  convert the cards into a SCARD list
-    lscard = build_scard( s, brd[t-1][s] );
+    lscard = build_scard( d, s );
 
     //  locate an existing SCARD slot
-    inx = 0;
     ncalls[4]++;
-    lc = lscard;
-    while ( lc ) {
-        inx = ( ( inx + (unsigned long) lc->n ) * IA + IC ) % IM;
-        inx = ( ( inx + (unsigned long) lc->p ) * IA + IC ) % IM;
-        inx = ( ( inx + (unsigned long) lc->s ) * IA + IC ) % IM;
-        lc = lc->d;
+    sq = lscard->sq;
+    inx = ( (unsigned long) lscard->s * IA + IC ) % IM;
+    for ( n = 0; n < lscard->n; n++ ) {
+        inx = ( ( inx + (unsigned long) sq[n].n ) * IA + IC ) % IM;
+        inx = ( ( inx + (unsigned long) sq[n].p ) * IA + IC ) % IM;
     }
     inx = inx % SHASHL;
 
@@ -68,48 +65,25 @@ void join_scard( int d, int s )
     ltable = scardtable[inx];
     while ( ltable ) {
 
+        sq = lscard->sq;
+        tq = ltable->sq;
         match = YES;
-        lc = lscard;
-        tc = ltable->d;
-        while ( lc && tc && match ) {
-            match &= lc->n == tc->n;
-            match &= lc->p == tc->p;
-            match &= lc->s == tc->s;
-            lc = lc->d;
-            tc = tc->d;
-        }
+        if ( lscard->n == ltable->n ) {
 
-        //  we located a slot
-        if ( match && ! lc && ! tc ) {
-
-            ljoinc->sc = ltable->d;
-
-            //  delete the old SCARD list
-            scount--;
-            lc = lscard;
-            while ( lc->d ) {
-                scount--;
-                lc->r = lc->d;
-                lc = lc->d;
-            }
-            lc->r = nextscard;
-            nextscard = lscard;
-
-            //  collect the cards
-            lc = ljoinc->sc;
-            for ( p = 0; p < 4; p++ )
-                ljoinc->outc[p] = RENONCE;
-            while ( lc ) {
-                ljoinc->outc[lc->p] |= lc->c;
-                lc = lc->d;
+            for ( n = 0; n < lscard->n; n++ ) {
+                match &= sq[n].n == tq[n].n;
+                match &= sq[n].p == tq[n].p;
             }
 
-            //  create the stack entries
-            sc[t][s] = ljoinc->sc;
-            for ( p = 0; p < 4; p++ )
-                brd[t][s][p] = ljoinc->outc[p];
-
-            return;
+            //  we found an old SCARD slot
+            if ( match ) {
+                ljoinc->sc = ltable;
+                scard[t][s] = ltable;
+                free_scard( lscard );
+                for ( p = 0; p < 4; p++ )
+                    brd[t][s][p] = ltable->brd[p];
+                return;
+            }
         }
 
         ltable = ltable->r;
@@ -117,16 +91,10 @@ void join_scard( int d, int s )
 
     //  insert the SCARD entry in the hash tables
     sfill++;
-    bump_scard( ltable );
-    ltable->d = lscard;
-    ltable->r = scardtable[inx];
-    scardtable[inx] = ltable;
-    ljoinc->sc = scardtable[inx]->d;
-
-    //  create the stack entries
-    sc[t][s] = ljoinc->sc;
-    for ( p = 0; p < 4; p++ )
-        brd[t][s][p] = ljoinc->outc[p];
+    lscard->r = scardtable[inx];
+    scardtable[inx] = lscard;
+    ljoinc->sc = lscard;
+    scard[t][s] = lscard;
 
     //  check the fill factor of the hash table
     if ( 2 * sfill >= SHASHL ) {

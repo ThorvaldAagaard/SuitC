@@ -12,24 +12,21 @@
 
 void build_trick( int d, int p )
 {
-    int           lds, s, t = st[d].t;
+    int           lds, n, s, t = st[d].t;
     struct NODE   *anode, *bnode, *nnode, znode;
-    struct SCARD  *lc;
+    struct SEQC   *sq;
 
     //  initialise
     lnode[d] = &znode;
     znode.r = NIL;
 
     for ( s = 0; s < 4; s++ ) {
-
         lds = st[d].ld ? s : lnode[st[d].l]->s;
         if ( brd[t][s][p] && ( st[d].ld || s == lds || ! brd[t][lds][p] ) ) {
-            lc = sc[t][s];
-            while ( lc ) {
-                if ( lc->p == p )
-                    build_node( d, s, p, lc->c );
-                lc = lc->d;
-            }
+            sq = scard[t][s]->sq;
+            for ( n = 0; n < scard[t][s]->n; n++ )
+                if ( sq[n].p == p )
+                    build_node( d, s, p, sq[n].c );
         }
     }
 

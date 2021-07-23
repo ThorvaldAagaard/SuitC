@@ -19,7 +19,7 @@ void print_tree( int b, struct NODE *root, char *ident )
     static char   *blank[] = { "", "       ", "              ", "                     " };
     static char   symbols[] = "-123456789tjqka=";
     static char   seats[] = "wnes";
-    static char   suits[] = "shdc-";
+    static char   suits[] = "shdc--";
     struct NODE  *nnode[53];
 
     if ( root == NIL || b < 0 ) {
@@ -87,7 +87,7 @@ void print_tree( int b, struct NODE *root, char *ident )
         printf( "%s%s%4d%4d%4d%4d%4d%4d%4d", out, blank[4*((d+3)/4)-d], nnode[d]->t, nnode[d]->w, nnode[d]->qt,
                 nnode[d]->nd, nnode[d]->nc, nnode[d]->nl + dc, nnode[d]->nh + dc );
         if ( st[d].la && nnode[d]->d && d < MIN( st[MIN(b+bo,4*ntricks)].l+3, 4*ntricks ) )
-            printf( "    w  qt  nd  nc  nl  nh\n" );
+            printf( "        t   w  qt  nd  nc  nl  nh\n" );
         else
             printf( "\n" );
         k = n + 1 + ( d & 1 == 1 ? 2 : d & 1 == 0 ? 3 : 0 );
@@ -95,8 +95,10 @@ void print_tree( int b, struct NODE *root, char *ident )
             out[i] = ' ';
 
         //  handle the sons
-        if ( nnode[d]->d && d < MIN( st[MIN(b+bo,4*ntricks)].l+3, 4*ntricks ) )
-            nnode[d+1] = nnode[d++]->d;
+        if ( nnode[d]->d && d < MIN( st[MIN(b+bo,4*ntricks)].l+3, 4*ntricks ) ) {
+            nnode[d+1] = nnode[d]->d;
+            d++;
+        }
 
         else {
 

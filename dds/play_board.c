@@ -28,7 +28,10 @@ redo:
         for ( s = 0; s < 4; s++ ) {
             for ( q = 0; q < 4; q++ )
                 brd[t][s][q] = brd[t-1][s][q];
-            sc[t][s] = build_scard( s, brd[t][s] );
+            if ( brd[t][s][0] | brd[t][s][1] | brd[t][s][2] | brd[t][s][3] )
+                scard[t][s] = build_scard( d, s );
+            else
+                scard[t][s] = NIL;
         }
     }
 
@@ -151,20 +154,19 @@ redo:
     build_node( d, s, p, set(i) );
     lnode[d-1]->d = lnode[d];
     lnode[d]->nd = lnode[d-1]->nd + lnode[d-1]->nc;
-    bbrd[d] = brd[t][s][p];
     brd[t][s][p] ^= low_c( brd[t][s][p] & lnode[d]->c );
 
     //  play the next card
     if ( d < 4*ntricks ) {
         q = st[d].la ? lnode[d]->w : (p+1)%4;
         play_board( d+1, q );
-        brd[t][s][p] = bbrd[d];
+        brd[t][s][p] = scard[t][s]->brd[p];
     }
 
     //  We are finished
     else {
 
-        brd[t][s][p] = bbrd[d];
+        brd[t][s][p] = scard[t][s]->brd[p];
         ns = lnode[d]->nd + lnode[d]->nc;
         printf( "\nd=%02d    ns=%x ew=%x   %s\n", d, ns, st[d].t - ns, suit[trump] );
         printf( "\n%s", "We are finished. What next? {b<n>|a|.}: " );

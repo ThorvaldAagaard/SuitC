@@ -22,7 +22,7 @@ int hashbackup( int d )
         if ( brd[t-1][s][0] | brd[t-1][s][1] | brd[t-1][s][2] | brd[t-1][s][3] )
             join_scard( d, s );
         else {
-            sc[t][s] = NIL;
+            scard[t][s] = NIL;
             for ( p = 0; p < 4; p++ )
                 brd[t][s][p] = RENONCE;
         }
@@ -33,7 +33,7 @@ int hashbackup( int d )
     inx = ( (unsigned long) lnode[d-1]->w * IA + IC ) % IM;
     inx = ( ( inx + (unsigned long) trump ) * IA + IC ) % IM;
     for ( s = 0; s < 4; s++ )
-        inx = ( ( inx + (unsigned long) sc[t][s] ) * IA + IC ) % IM;
+        inx = ( ( inx + (unsigned long) scard[t][s] ) * IA + IC ) % IM;
     inx = inx % BHASHL;
 
     //  check the old BACKUP slots
@@ -41,9 +41,9 @@ int hashbackup( int d )
     while ( lbackup ) {
         match = lnode[d-1]->w == lbackup->ld && trump == lbackup->ts;
         for ( s = 0; s < 4; s++ )
-            match &= sc[t][s] == lbackup->sc[s];
+            match &= scard[t][s] == lbackup->sc[s];
         if ( match ) {
-            st[d-1].backup = lbackup;
+            backup[t-1] = lbackup;
             lnode[d-1]->nh = lbackup->nh;
             lnode[d-1]->nl = lbackup->nl;
             lnode[d-1]->d = lbackup->dnode;
@@ -60,11 +60,11 @@ int hashbackup( int d )
     bump_backup( lbackup );
     lbackup->r = backuptable[inx];
     backuptable[inx] = lbackup;
-    st[d-1].backup = lbackup;
+    backup[t-1] = lbackup;
     lbackup->ld = lnode[d-1]->w;
     lbackup->ts = trump;
     for ( s = 0; s < 4; s++ )
-        lbackup->sc[s] = sc[t][s];
+        lbackup->sc[s] = scard[t][s];
 
     //  check the fill factor of the hash table
     if ( ( 2 * bfill >= BHASHL ) ) {
