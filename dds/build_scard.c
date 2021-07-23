@@ -5,52 +5,45 @@
 //      build_scard builds an array of SCARD sequences
 //
 //  parameters:
+//      d               in      the depth in the NODE tree
 //      s               in      the suit that is analysed
-//      brd             in      the cards of the players
 
 //  #include "header.h"
 
-struct SCARD *build_scard( int s, COLOR *brd )
+void build_scard( int d, int s )
 {
-    int           i, n = -1, p, q = unknown;
-    struct SCARD  *lscard;
-    struct SEQC   *sq;
+    int           i, p, sh[20], shcnt = 0, t = st[d].t;
+    COLOR         c;
 
     //  create a new SCARD entry
     scount++;
     ncalls[1]++;
-    lscard = nextscard;
+    scard[t][s] = nextscard;
     if ( scountmax < scount ) {
         scountmax++;
         nextscard++;
     }
     else
         nextscard = nextscard->r;
-    lscard->r = NIL;
-    lscard->s = s;
-    for ( p = 0; p < 4; p++ )
-        lscard->brd[p] = brd[p];
-
-    //  build the card sequences
-    sq = lscard->sq;
-    for ( i = ace; i >= two; i-- ) {
-        for ( p = 0; p < 4; p++ ) {
-            if ( brd[p] & set(i) ) {
-                if ( p != q ) {
-                    q = p;
-                    n++;
-                    sq[n].n = 1;
-                    sq[n].p = p;
-                    sq[n].c = set(i);
-                }
-                else {
-                    sq[n].n++;
-                    sq[n].c |= set(i);
-                }
-            }
-        }
+    scard[t][s]->r = NIL;
+    scard[t][s]->s = s;
+    for ( p = 0; p < 4; p++ ) {
+        scard[t][s]->brd[p] = brd[t-1][s][p];
+        brd[t][s][p] = scard[t][s]->brd[p];
     }
 
-    lscard->n = ++n;
-    return( lscard );
+    //  build the shifted card holding of each player
+    c = brd[t-1][s][0] | brd[t-1][s][1] | brd[t-1][s][2] | brd[t-1][s][3];
+    for ( i = ace; i >= two; i-- ) {
+        if ( ! ( c & set(i) ) )
+            shcnt++;
+        sh[i] = shcnt;
+    }
+    for ( p = 0; p < 4; p++ ) {
+        scard[t][s]->brd[p] = RENONCE;
+        for ( i = ace; i >= two; i-- )
+            if ( brd[t-1][s][p] & set(i) )
+                scard[t][s]->brd[p] |= set(i) << sh[i];
+        brd[t][s][p] = scard[t][s]->brd[p];
+    }
 }

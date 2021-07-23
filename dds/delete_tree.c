@@ -5,23 +5,23 @@
 //      delete_tree deletes a NODE tree
 //
 //  parameters:
-//      b               in      the depth in the tree
+//      d_start         in      the depth in the NODE tree
 //      root            in      the root of the NODE tree to be deleted
 
 //  #include "header.h"
 
-struct NODE *delete_tree( int b, struct NODE *root )
+struct NODE *delete_tree( int d_start, struct NODE *root )
 {
-    int           d = b;
+    int           d = d_start;
     struct NODE   *anode, *bnode[53], *nnode;
 
     //  unlink root from the tree
     nnode = root->r;
-    if ( lnode[b-1]->d == root ) {
-        lnode[b-1]->d = root->r;
+    if ( lnode[d_start-1]->d == root ) {
+        lnode[d_start-1]->d = root->r;
     }
     else {
-        anode = lnode[b-1]->d;
+        anode = lnode[d_start-1]->d;
         while ( anode->r != root )
             anode = anode->r;
         anode->r = root->r;
@@ -38,7 +38,7 @@ struct NODE *delete_tree( int b, struct NODE *root )
             bnode[d+1] = NIL;
         d++;
 
-        while ( d > b && ! bnode[d] ) {
+        while ( d > d_start && ! bnode[d] ) {
             d--;
             ncount--;
             anode = bnode[d]->r;

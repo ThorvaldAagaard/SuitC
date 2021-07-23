@@ -69,7 +69,5 @@ int main( int argc, char **argv )
     //  build the NODE tree and determine the optimal result for north-south
     if ( ld == unknown || trump == discard )
         play_board_start();
-    else
-        hashbackup( 1 );
     play_board( 1, ld );
 }

@@ -23,6 +23,7 @@ void build_tree( int d )
         p = lnode[d]->p;
         s = lnode[d]->s;
         lnode[d]->nd = lnode[d-1]->nd + lnode[d-1]->nc;
+        st[d].brd = brd[t][s][p];
         brd[t][s][p] ^= low_c( brd[t][s][p] & lnode[d]->c );
         if ( st[d].la && d < 4*ntricks ) {
 
@@ -62,7 +63,7 @@ void build_tree( int d )
 
         //  build the next ply of the NODE tree
         else {
-            build_ply( d+1, (p+1)%4 );
+            build_trick( d+1, (p+1)%4 );
             build_tree( d+1 );
         }
 

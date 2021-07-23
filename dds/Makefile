@@ -18,9 +18,11 @@ SOURCES	= 			\
 	  build_ply.c		\
 	  build_scard.c		\
 	  build_tree.c		\
+	  build_trick.c		\
 	  check_board.c		\
 	  delete_tree.c		\
 	  hashbackup.c		\
+	  order_plays.c		\
 	  join_scard.c		\
 	  play_board.c		\
 	  play_board_start.c	\

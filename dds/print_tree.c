@@ -5,15 +5,15 @@
 //      print_tree prints a NODE tree
 //
 //  parameters:
-//      b               in      the depth in the tree
+//      d_start         in      the depth in the NODE tree
 //      root            in      the root of the NODE tree
 //      ident           in      an identification string
 
 //  #include "header.h"
 
-void print_tree( int b, struct NODE *root, char *ident )
+void print_tree( int d_start, struct NODE *root, char *ident )
 {
-    int           bo = 8, d = b, dc, i, k, l = 0, n = 6;
+    int           bo = 8, d = d_start, dc, i, k, l = 0, n = 6;
     COLOR         cards;
     char          out[446];
     static char   *blank[] = { "", "       ", "              ", "                     " };
@@ -22,23 +22,23 @@ void print_tree( int b, struct NODE *root, char *ident )
     static char   suits[] = "shdc--";
     struct NODE  *nnode[53];
 
-    if ( root == NIL || b < 0 ) {
-        printf( "\nply=%02d   id=%-18s\n", b, ident );
+    if ( root == NIL || d_start < 0 ) {
+        printf( "\nd=%02d   id=%s\n", d_start, ident );
         return;
     }
 
-    if ( b == 0 ) {
-        print_tree( b+1, lnode[b]->d, ident );
+    if ( d_start == 0 ) {
+        print_tree( d_start+1, lnode[d_start]->d, ident );
         return;
     }
 
     //  initialise
     nnode[d-1] = lnode[d-1];
     nnode[d] = root;
-    printf( "\nply=%02d   id=%-18s   t   w  qt  nd  nc  nl  nh\n", b, ident );
+    printf( "\nd=%02d   id=%-20s   t   w  qt  nd  nc  nl  nh\n", d_start, ident );
 
     //  fill in of unreported plies
-    for ( k = 4*((b-1)/4)+1; k < b; k++ ) {
+    for ( k = 4*((d_start-1)/4)+1; k < d_start; k++ ) {
         if ( ( k & 3 ) == 1 ) {
             out[l++] = ' ';
             out[l++] = ' ';
@@ -55,7 +55,7 @@ void print_tree( int b, struct NODE *root, char *ident )
         //  handle the leader to the trick
         cards = nnode[d]->c;
         if ( ( d & 3 ) == 1 ) {
-            if ( d != b ) {
+            if ( d != d_start ) {
                out[l++] = ' ';
                out[l++] = ' ';
                out[l++] = ' ';
@@ -86,7 +86,7 @@ void print_tree( int b, struct NODE *root, char *ident )
         dc = nnode[d]->nd + nnode[d]->nc;
         printf( "%s%s%4d%4d%4d%4d%4d%4d%4d", out, blank[4*((d+3)/4)-d], nnode[d]->t, nnode[d]->w, nnode[d]->qt,
                 nnode[d]->nd, nnode[d]->nc, nnode[d]->nl + dc, nnode[d]->nh + dc );
-        if ( st[d].la && nnode[d]->d && d < MIN( st[MIN(b+bo,4*ntricks)].l+3, 4*ntricks ) )
+        if ( st[d].la && nnode[d]->d && d < MIN( st[MIN(d_start+bo,4*ntricks)].l+3, 4*ntricks ) )
             printf( "        t   w  qt  nd  nc  nl  nh\n" );
         else
             printf( "\n" );
@@ -95,7 +95,7 @@ void print_tree( int b, struct NODE *root, char *ident )
             out[i] = ' ';
 
         //  handle the sons
-        if ( nnode[d]->d && d < MIN( st[MIN(b+bo,4*ntricks)].l+3, 4*ntricks ) ) {
+        if ( nnode[d]->d && d < MIN( st[MIN(d_start+bo,4*ntricks)].l+3, 4*ntricks ) ) {
             nnode[d+1] = nnode[d]->d;
             d++;
         }
@@ -108,10 +108,10 @@ void print_tree( int b, struct NODE *root, char *ident )
                     out[l++] = ' ';
 
             //  get the next sibling
-            while ( d > b && ! nnode[d]->r )
+            while ( d > d_start && ! nnode[d]->r )
                 d--;
 
-            if ( d == b && ! nnode[d] )
+            if ( d == d_start && ! nnode[d] )
                 return;
 
             nnode[d] = nnode[d]->r;
@@ -119,7 +119,7 @@ void print_tree( int b, struct NODE *root, char *ident )
             //  fill in of unreported plies
             if ( nnode[d] ) {
                 l = 0;
-                for ( k = 4*((b-1)/4)+1; k < d; k++ ) {
+                for ( k = 4*((d_start-1)/4)+1; k < d; k++ ) {
                     if ( ( k & 3 ) == 1 )
                         l += 2;
                     l += n + 1;

@@ -6,7 +6,7 @@
 //      to get the next sibling
 //
 //  parameters:
-//      d               in      the depth in the tree
+//      d               in      the depth in the NODE tree
 
 //  #include "header.h"
 
@@ -25,9 +25,9 @@ void bottomup_tree( int d )
     else         lnode[d-1]->nh = MIN( lnode[d-1]->nh, lnode[d]->nc + lnode[d]->nh );
 
     //  save the BACKUP status
-    brd[t][s][p] = scard[t][s]->brd[p];
+    brd[t][s][p] = st[d].brd;
     if ( st[d].la && d < 4*ntricks ) {
-        backup[t]->dnode = lnode[d]->d;
+        backup[t]->node = lnode[d]->d;
         backup[t]->nh = lnode[d]->nh;
         backup[t]->nl = lnode[d]->nl;
         backup[t]->t = lnode[d]->t;

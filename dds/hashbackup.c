@@ -7,7 +7,7 @@
 //      backuptable and NO otherwise.
 //
 //  parameters:
-//      d               in      the depth in the tree
+//      d               in      the depth in the NODE tree
 
 //  #include "header.h"
 
@@ -46,7 +46,7 @@ int hashbackup( int d )
             backup[t-1] = lbackup;
             lnode[d-1]->nh = lbackup->nh;
             lnode[d-1]->nl = lbackup->nl;
-            lnode[d-1]->d = lbackup->dnode;
+            lnode[d-1]->d = lbackup->node;
             lnode[d-1]->t = lbackup->t;
             return( YES );
         }
@@ -54,7 +54,7 @@ int hashbackup( int d )
     }
 
     //  build the NODE tree for the next trick
-    build_ply( d, lnode[d-1]->w );
+    build_trick( d, lnode[d-1]->w );
 
     //  create a new BACKUP slot
     bfill++;

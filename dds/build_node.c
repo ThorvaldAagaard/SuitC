@@ -5,7 +5,7 @@
 //      build_node builds a NODE entry
 //
 //  parameters:
-//      d               in      the depth in the tree
+//      d               in      the depth in the NODE tree
 //      s               in      the suit of this node
 //      p               in      the player of this node
 //      c               in      the cards of this node

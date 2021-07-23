@@ -5,7 +5,7 @@
 //      play_board builds the NODE tree for a ply
 //
 //  parameters:
-//      d               in      the depth in the tree
+//      d               in      the depth in the NODE tree
 
 //  #include "header.h"
 
@@ -21,19 +21,6 @@ void play_board( int d, int p )
     struct SCARD  *lc, zscard;
     struct { int i, ns, s; } res[13];
 
-    //  copy the board from the previous trick and build the SCARD lists
-    if ( st[d].ld ) {
-        for ( s = 0; s < 4; s++ ) {
-            for ( q = 0; q < 4; q++ )
-                brd[t][s][q] = brd[t-1][s][q];
-            if ( brd[t][s][0] | brd[t][s][1] | brd[t][s][2] | brd[t][s][3] )
-                scard[t][s] = build_scard( s, brd[t][s] );
-            else
-                scard[t][s] = NIL;
-        }
-    }
-
-    //  analyse the board
 redo:
     d_back = d;
     d_ab = d+1;
@@ -41,8 +28,12 @@ redo:
     nresult = 0;
     lnode[d-1]->nl = 0;
     lnode[d-1]->nh = ntricks - d/4;
+    if ( st[d].ld )
+        for ( s = 0; s < 4; s++ )
+            for ( q = 0; q < 4; q++ )
+                brd[t][s][q] = brd[t-1][s][q];
     build_ply( d, p );
-    build_tree( d_start );
+    build_tree( d );
 
     //  collect the results
     k = 0;
@@ -81,7 +72,7 @@ redo:
     lds = st[d].ld ? discard : lnode[st[d].l]->s;
     printf( "%s", "\nSelect the play " );
     for ( s = 0; s < 4; s++ ) {
-        if ( brd[t][s][p] && ( st[d].ld || s == lds || ! brd[lds][p] ) ) {
+        if ( brd[t][s][p] && ( st[d].ld || s == lds || ! brd[t][lds][p] ) ) {
             l = 0;
             for ( i = ace; i >= two; i-- )
                 if ( brd[t][s][p] & set(i) )
@@ -154,13 +145,14 @@ redo:
     build_node( d, s, p, set(i) );
     lnode[d-1]->d = lnode[d];
     lnode[d]->nd = lnode[d-1]->nd + lnode[d-1]->nc;
+    st[d].brd = brd[t][s][p];
     brd[t][s][p] ^= brd[t][s][p] & set(i);
 
     //  play the next card
     if ( d < 4*ntricks ) {
         q = st[d].la ? lnode[d]->w : (p+1)%4;
         play_board( d+1, q );
-        brd[t][s][p] = scard[t][s]->brd[p];
+        brd[t][s][p] = st[d].brd;
     }
 
     //  We are finished
