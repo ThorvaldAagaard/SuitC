@@ -61,13 +61,14 @@ SOURCES =				\
 	  print_play_count.c		\
 	  print_quirkd.c		\
 	  print_results.c		\
+	  print_suitc.c			\
 	  print_summary_results.c	\
 	  print_tree.c			\
 	  process_args.c		\
 	  select_ew_plays.c		\
 	  select_ns_plays.c		\
 	  sort_plays.c			\
-	  suitc.c			\
+	  suitc.c
 
 ${EXEC}: ${OBJECTS}
 	${CC} -o ${EXEC} ${OBJECTS}

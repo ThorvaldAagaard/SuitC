@@ -174,6 +174,8 @@ int main( int argc, char **argv )
     //  print a summary of the results
     if ( printsummary )
         print_summary_results();
+    if ( printboards )
+        print_boards();
 
     times[1] = TICK * clock();
 

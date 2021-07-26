@@ -170,6 +170,6 @@ void create_boards( void )
     //  generate the board header
     create_board_header();
 
-    //  print the boards
-    print_boards();
+    //  print the information about the suit combination and restrictions
+    print_suitc();
 }

@@ -42,6 +42,7 @@
 #include "print_play_count.c"
 #include "print_quirkd.c"
 #include "print_results.c"
+#include "print_suitc.c"
 #include "print_summary_results.c"
 #include "print_tree.c"
 #include "process_args.c"

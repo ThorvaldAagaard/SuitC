@@ -16,6 +16,7 @@ int evaluate_best_results( void )
     int           i, ih, ix = 0, k, l = 0, match, nreport = 0;
     COLOR         optcode;
     double        tricksum;
+    struct INDEX *lindex;
     struct QUIRKD *lquirkd[NBOARDS], *lquirkdl[NBOARDS];
     struct RESULT result[NBOARDS];
 
@@ -24,6 +25,10 @@ int evaluate_best_results( void )
     minns = tricklimit;
     lquirkdl[0] = quirkd;
     lquirkd[0] = lquirkdl[0]->h ? lquirkdl[0]->h->d : NIL;
+    for ( k = 0; k < boardcount; k++ ) {
+        nslimits[0][k] = ntricks;
+        nslimits[1][k] = 0;
+    }
 
     //  initialise the results
     nbest_plays = 0;
@@ -39,6 +44,8 @@ int evaluate_best_results( void )
         for ( k = lquirkd[l]->il; k <= lquirkd[l]->ih; k++ ) {
             minns = MIN( minns, lquirkdl[l]->h->t[k].ns );
             maxns = MAX( maxns, lquirkdl[l]->h->t[k].ns );
+            nslimits[0][k] = MIN( nslimits[0][k], lquirkdl[l]->h->t[k].ns );
+            nslimits[1][k] = MAX( nslimits[1][k], lquirkdl[l]->h->t[k].ns );
             result[k].result = prob[k] * dupl[k] * lquirkdl[l]->h->t[k].ns + ( k ? result[k-1].result : 0.0 );
             for ( i = 0; i <= ntricks; i++ )
                 result[k].tricks[i] = k ? result[k-1].tricks[i] : 0.0;
