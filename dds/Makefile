@@ -8,7 +8,7 @@ SHELL	= /bin/bash
 CC	= gcc
 CFLAGS	= -O3 -DTICK=1.0e-3
 
-EXEC	= ../bin/dda
+EXEC	= ../bin/dds
 
 OBJECTS	= dda.o
 
