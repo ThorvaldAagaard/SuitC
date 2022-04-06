@@ -7,7 +7,6 @@
 //  to produce a list of options:
 //      SuitC {?|-?|-h}
 //
-//
 //  Copyright 2020, Gerrit A. van der Velde, Leiden
 
 //  #include "header.h"
@@ -32,12 +31,12 @@ void process_args( int argc, char **argv )
                 printboards = YES;
             else if ( c == 'c' ) {
                 k = 2;
-                val = 0;
+                cutoff = 0;
                 while ( argv[i][k] ) {
-                    val = 10 * val + argv[i][k] - '0';
+                    cutoff = 10 * cutoff + argv[i][k] - '0';
                     k++;
                 }
-                cutoff = val ? MAX(val,10000) : CUTOFF;
+                cutoff = cutoff ? MAX(cutoff,10000L) : CUTOFF;
             }
             else if ( c == 'D' )
                 defence = YES;

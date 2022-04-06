@@ -36,7 +36,7 @@ void print_suitc( void )
 
     //  print additional information
     if ( cutoff && ! SUITCAPP )
-        printf( "\tcutoff              : %d\n", cutoff );
+        printf( "\tcutoff              : %ld\n", cutoff );
     if ( tricklimit < ntricks )
         printf( "\tterminate play after: %d tricks\n", tricklimit );
     if ( w[0] != noplayer ) {

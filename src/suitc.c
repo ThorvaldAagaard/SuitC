@@ -117,7 +117,7 @@ int main( int argc, char **argv )
     qhcountmax = 0;
     nextquirkh = malloc( NPLAYS * sizeof( struct QUIRKH ) );
     if ( ! nextquirkh ) {
-        printf( "The memory assignment for the TRICKS entries failed\n" );
+        printf( "The memory assignment for the QUIRKH entries failed\n" );
         exit( 1 );
     }
     tricks = malloc( (long) boardcount * NPLAYS * sizeof( struct TRICKS ) );
