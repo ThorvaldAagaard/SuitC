@@ -4,7 +4,6 @@
 #include "build_ply.c"
 #include "build_scard.c"
 #include "build_tree.c"
-#include "build_trick.c"
 #include "check_board.c"
 #include "delete_tree.c"
 #include "hashbackup.c"

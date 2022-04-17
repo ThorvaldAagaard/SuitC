@@ -63,7 +63,7 @@ void build_tree( int d )
 
         //  build the next ply of the NODE tree
         else {
-            build_trick( d+1, (p+1)%4 );
+            build_ply( d+1, (p+1)%4 );
             build_tree( d+1 );
         }
 

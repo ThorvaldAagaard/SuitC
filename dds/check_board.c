@@ -59,4 +59,5 @@ void check_board( void )
     lnode[0]->s = discard;
     lnode[0]->t = ntricks ? NO : YES;
     lnode[0]->w = ld;
+    printf( "\n#\n" );
 }

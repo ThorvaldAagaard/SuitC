@@ -54,7 +54,7 @@ int hashbackup( int d )
     }
 
     //  build the NODE tree for the next trick
-    build_trick( d, lnode[d-1]->w );
+    build_ply( d, lnode[d-1]->w );
 
     //  create a new BACKUP slot
     bfill++;
