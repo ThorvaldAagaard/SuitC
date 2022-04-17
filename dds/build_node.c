@@ -9,6 +9,8 @@
 //      s               in      the suit of this node
 //      p               in      the player of this node
 //      c               in      the cards of this node
+//
+//  Copyright 2022, Gerrit A. van der Velde, Leiden
 
 //  #include "header.h"
 
@@ -27,9 +29,14 @@ void build_node( int d, int s, int p, COLOR c )
     if ( ncount > ncountmax ) {
         ncountmax++;
         nextnode++;
+        if ( ncountmax == NNODE ) {
+            printf( "No more memory for the NODE tree; increase the value of NNODE\n" );
+            exit( 99 );
+        }
     }
     else
         nextnode = nextnode->r;
+
     lnode[d] = lnode[d]->r;
     lnode[d]->d = NIL;
     lnode[d]->r = NIL;
@@ -57,5 +64,5 @@ void build_node( int d, int s, int p, COLOR c )
             { w.p = q; w.s = trump; w.c = brd[t][trump][q]; }
     }
 
-    lnode[d]->qt = NS(lnode[d]->p) == NS(w.p) ? 1 : 0;
+    lnode[d]->rnk = NS(lnode[d]->p) == NS(w.p) ? 60 : 0;
 }

@@ -6,6 +6,8 @@
 //
 //  parameters:
 //      none
+//
+//  Copyright 2022, Gerrit A. van der Velde, Leiden
 
 //  #include "header.h"
 

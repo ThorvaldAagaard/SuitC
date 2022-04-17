@@ -6,14 +6,16 @@
 //
 //  parameters:
 //      t               in      the trick that is printed
+//
+//  Copyright 2022, Gerrit A. van der Velde, Leiden
 
 //  #include "header.h"
 
 void print_scard( int t )
 {
     int           i, k, n, nc, s;
-    COLOR         *brd;
     char          str[14];
+    COLOR         *brd;
     static char   card[] = "-123456789TJQKA";
     static char   seats[] = "wnes";
     static char   suits[] = "SHDC";

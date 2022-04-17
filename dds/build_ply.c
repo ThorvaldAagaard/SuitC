@@ -7,6 +7,8 @@
 //  parameters:
 //      d               in      the depth in the NODE tree
 //      p               in      the player of this ply
+//
+//  Copyright 2022, Gerrit A. van der Velde, Leiden
 
 //  #include "header.h"
 

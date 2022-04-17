@@ -6,6 +6,8 @@
 //
 //  parameters:
 //      d               in      the depth in the NODE tree
+//
+//  Copyright 2022, Gerrit A. van der Velde, Leiden
 
 //  #include "header.h"
 
@@ -24,9 +26,9 @@ next_node:
         nnode = bnode->r;
         while ( nnode ) {
 
-            if ( ( lnode[d]->qt  < nnode->qt ) ||
-                 ( lnode[d]->qt == nnode->qt && lnode[d]->s == nnode->s && lnode[d]->c  > nnode->c ) ||
-                 ( lnode[d]->qt == nnode->qt && lnode[d]->s == trump    && nnode->s    != trump    ) ) {
+            if ( ( lnode[d]->rnk  < nnode->rnk ) ||
+                 ( lnode[d]->rnk == nnode->rnk && lnode[d]->s == nnode->s && lnode[d]->c  > nnode->c ) ||
+                 ( lnode[d]->rnk == nnode->rnk && lnode[d]->s == trump    && nnode->s    != trump    ) ) {
                 bnode->r = nnode->r;
                 anode->r = nnode;
                 nnode->r = lnode[d];

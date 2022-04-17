@@ -8,6 +8,8 @@
 //      d_start         in      the depth in the NODE tree
 //      root            in      the root of the NODE tree
 //      ident           in      an identification string
+//
+//  Copyright 2022, Gerrit A. van der Velde, Leiden
 
 //  #include "header.h"
 
@@ -20,7 +22,7 @@ void print_tree( int d_start, struct NODE *root, char *ident )
     static char   symbols[] = "-123456789tjqka=";
     static char   seats[] = "wnes";
     static char   suits[] = "shdc--";
-    struct NODE  *nnode[53];
+    struct NODE   *nnode[53];
 
     if ( root == NIL || d_start < 0 ) {
         printf( "\nd=%02d   id=%s\n", d_start, ident );
@@ -35,7 +37,7 @@ void print_tree( int d_start, struct NODE *root, char *ident )
     //  initialise
     nnode[d-1] = lnode[d-1];
     nnode[d] = root;
-    printf( "\nd=%02d   id=%-20s   t   w  qt  nd  nc  nl  nh\n", d_start, ident );
+    printf( "\nd=%02d   id=%-20s   t   w rnk  nd  nc  nl  nh\n", d_start, ident );
 
     //  fill in of unreported plies
     for ( k = 4*((d_start-1)/4)+1; k < d_start; k++ ) {
@@ -84,10 +86,10 @@ void print_tree( int d_start, struct NODE *root, char *ident )
         //  print the the results
         out[l] = '\0';
         dc = nnode[d]->nd + nnode[d]->nc;
-        printf( "%s%s%4d%4d%4d%4d%4d%4d%4d", out, blank[4*((d+3)/4)-d], nnode[d]->t, nnode[d]->w, nnode[d]->qt,
+        printf( "%s%s%4d%4d%4d%4d%4d%4d%4d", out, blank[4*((d+3)/4)-d], nnode[d]->t, nnode[d]->w, nnode[d]->rnk,
                 nnode[d]->nd, nnode[d]->nc, nnode[d]->nl + dc, nnode[d]->nh + dc );
         if ( st[d].la && nnode[d]->d && d < MIN( st[MIN(d_start+bo,4*ntricks)].l+3, 4*ntricks ) )
-            printf( "        t   w  qt  nd  nc  nl  nh\n" );
+            printf( "        t   w rnk  nd  nc  nl  nh\n" );
         else
             printf( "\n" );
         k = n + 1 + ( d & 1 == 1 ? 2 : d & 1 == 0 ? 3 : 0 );

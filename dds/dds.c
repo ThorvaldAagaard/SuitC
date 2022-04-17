@@ -6,8 +6,28 @@
 //
 //  to produce a list of options type:
 //      dds -h
+//
+//  Copyright 2022, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
+#include "bottomup_tree.c"
+#include "build_node.c"
+#include "build_ply.c"
+#include "build_scard.c"
+#include "build_tree.c"
+#include "check_board.c"
+#include "delete_tree.c"
+#include "hashbackup.c"
+#include "join_scard.c"
+#include "order_plays.c"
+#include "play_board.c"
+#include "play_board_start.c"
+#include "print_board.c"
+#include "print_node.c"
+#include "print_scard.c"
+#include "print_stat.c"
+#include "print_tree.c"
+#include "process_args.c"
 
 int main( int argc, char **argv )
 {
@@ -53,10 +73,10 @@ int main( int argc, char **argv )
     //  initialise the NODE tree
     lnode[0] = &znode;
     lnode[0]->r = NIL;
-    nextnode = malloc( 600 * 1048576L * sizeof( struct NODE ) );
+    nextnode = malloc( NNODE * sizeof( struct NODE ) );
 
     //  initialise the SCARD tree
-    nextscard = malloc( 1048576L * sizeof( struct SCARD ) );
+    nextscard = malloc( NSCARD * sizeof( struct SCARD ) );
 
     //  process the command line
     ld = unknown;

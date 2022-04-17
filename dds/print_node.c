@@ -8,6 +8,8 @@
 //      d               in      the depth in the NODE tree
 //      root            in      the node to be printed
 //      ident           in      an identification string
+//
+//  Copyright 2022, Gerrit A. van der Velde, Leiden
 
 //  #include "header.h"
 
@@ -20,9 +22,9 @@ void print_node( int d, struct NODE *root, char *ident )
     static char   *suit[] = { "spades", "hearts", "diamonds", "clubs", "notrump", "discard" };
 
     if ( root )
-        printf( "\nply=%02d   node=%lx", d, root );
+        printf( "\nd=%02d   node=%lx", d, root );
     else {
-        printf( "\nply=%02d   node=%lx ident=%s\n", d, root, ident );
+        printf( "\nd=%02d   node=%lx ident=%s\n", d, root, ident );
         return;
     }
 
@@ -41,7 +43,7 @@ void print_node( int d, struct NODE *root, char *ident )
     printf( " c=%-7s", out );
     printf( " p=%-5s", seat[root->p] );
     printf( " w=%-5s", seat[root->w] );
-    printf( "   qt=%x", root->qt );
+    printf( "   rnk=%x", root->rnk );
     printf( " nd=%x", root->nd );
     printf( " nc=%x", root->nc );
     printf( " nl=%x", root->nl + root->nd + root->nc );

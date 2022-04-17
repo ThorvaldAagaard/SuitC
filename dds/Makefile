@@ -2,6 +2,8 @@
 #
 #  Makefile for program dds
 #
+#  Copyright 2022, Gerrit A. van der Velde, Leiden
+#
 #-----------------------------------------------------------------------
 
 SHELL	= /bin/bash
@@ -10,7 +12,7 @@ CFLAGS	= -O3 -DTICK=1.0e-3
 
 EXEC	= ../bin/dds
 
-OBJECTS	= dda.o
+OBJECTS	= dds.o
 
 SOURCES	= 			\
 	  bottomup_tree.c	\

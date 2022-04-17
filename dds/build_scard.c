@@ -7,6 +7,8 @@
 //  parameters:
 //      d               in      the depth in the NODE tree
 //      s               in      the suit that is analysed
+//
+//  Copyright 2022, Gerrit A. van der Velde, Leiden
 
 //  #include "header.h"
 
@@ -22,6 +24,10 @@ void build_scard( int d, int s )
     if ( scountmax < scount ) {
         scountmax++;
         nextscard++;
+        if ( scountmax == NSCARD ) {
+            printf( "No more memory for the SCARD entries; increase the value of NSCARD\n" );
+            exit( 99 );
+        }
     }
     else
         nextscard = nextscard->r;

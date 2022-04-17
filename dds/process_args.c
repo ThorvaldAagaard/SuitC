@@ -6,6 +6,8 @@
 //
 //  to produce a list of options:
 //      dds -h
+//
+//  Copyright 2022, Gerrit A. van der Velde, Leiden
 
 //  #include "header.h"
 
