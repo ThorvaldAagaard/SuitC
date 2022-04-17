@@ -16,7 +16,7 @@
 
 void build_node( int d, int s, int p, COLOR c )
 {
-    int           b, leads, q, t = st[d].t;
+    int           b, lds, q, t = st[d].t;
     struct        { int p, s; COLOR c; } w;
 
     ncount++;
@@ -59,16 +59,16 @@ void build_node( int d, int s, int p, COLOR c )
     w.p = lnode[d]->w_p;
     w.s = lnode[d]->w_s;
     w.c = lnode[d]->w_c;
-    leads = lnode[st[d].l]->s;
+    lds = lnode[st[d].l]->s;
 
     for ( b = d+1; b <= st[d].l+3; b++ ) {
         q = (p+b-d)%4;
-        if ( w.s == leads && brd[t][leads][q] > w.c ) {
+        if ( w.s == lds && brd[t][lds][q] > w.c ) {
             w.p = q;
-            w.s = leads;
-            w.c = brd[t][leads][q];
+            w.s = lds;
+            w.c = brd[t][lds][q];
         }
-        if ( ! brd[t][leads][q] && ( w.s == trump && brd[t][trump][q] > w.c || w.s != trump && brd[t][trump][q] ) ) {
+        if ( ! brd[t][lds][q] && ( w.s == trump && brd[t][trump][q] > w.c || w.s != trump && brd[t][trump][q] ) ) {
             w.p = q;
             w.s = trump;
             w.c = brd[t][trump][q];

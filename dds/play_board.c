@@ -147,14 +147,13 @@ redo:
     build_node( d, s, p, set(i) );
     lnode[d-1]->d = lnode[d];
     lnode[d]->nd = lnode[d-1]->nd + lnode[d-1]->nc;
-    st[d].brd = brd[t][s][p];
     brd[t][s][p] ^= brd[t][s][p] & set(i);
 
     //  play the next card
     if ( d < 4*ntricks ) {
         q = st[d].la ? lnode[d]->w_p : (p+1)%4;
         play_board( d+1, q );
-        brd[t][s][p] = st[d].brd;
+        brd[t][s][p] = scard[t][s]->brd[p];
     }
 
     //  We are finished

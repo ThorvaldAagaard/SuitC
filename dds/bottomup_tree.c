@@ -27,7 +27,7 @@ void bottomup_tree( int d )
     else         lnode[d-1]->nh = MIN( lnode[d-1]->nh, lnode[d]->nc + lnode[d]->nh );
 
     //  save the BACKUP status
-    brd[t][s][p] = st[d].brd;
+    brd[t][s][p] = scard[t][s]->brd[p];
     if ( st[d].la && d < 4*ntricks ) {
         backup[t]->node = lnode[d]->d;
         backup[t]->nh = lnode[d]->nh;

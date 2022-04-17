@@ -120,7 +120,6 @@ struct {
 } result[13];
 
 struct {
-    COLOR         brd;                  //  the old holding
     unsigned int  l,                    //  the lowest ply in this trick
                   la,                   //  YES if this is the last player to this trick
                   ld,                   //  YES if the lead is made in this ply
