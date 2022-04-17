@@ -152,7 +152,7 @@ redo:
 
     //  play the next card
     if ( d < 4*ntricks ) {
-        q = st[d].la ? lnode[d]->w : (p+1)%4;
+        q = st[d].la ? lnode[d]->w_p : (p+1)%4;
         play_board( d+1, q );
         brd[t][s][p] = st[d].brd;
     }

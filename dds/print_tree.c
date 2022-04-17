@@ -86,7 +86,7 @@ void print_tree( int d_start, struct NODE *root, char *ident )
         //  print the the results
         out[l] = '\0';
         dc = nnode[d]->nd + nnode[d]->nc;
-        printf( "%s%s%4d%4d%4d%4d%4d%4d%4d", out, blank[4*((d+3)/4)-d], nnode[d]->t, nnode[d]->w, nnode[d]->rnk,
+        printf( "%s%s%4d%4d%4d%4d%4d%4d%4d", out, blank[4*((d+3)/4)-d], nnode[d]->t, nnode[d]->w_p, nnode[d]->rnk,
                 nnode[d]->nd, nnode[d]->nc, nnode[d]->nl + dc, nnode[d]->nh + dc );
         if ( st[d].la && nnode[d]->d && d < MIN( st[MIN(d_start+bo,4*ntricks)].l+3, 4*ntricks ) )
             printf( "        t   w rnk  nd  nc  nl  nh\n" );

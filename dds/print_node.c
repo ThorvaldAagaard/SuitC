@@ -42,7 +42,7 @@ void print_node( int d, struct NODE *root, char *ident )
     printf( "   s=%-8s", suit[root->s] );
     printf( " c=%-7s", out );
     printf( " p=%-5s", seat[root->p] );
-    printf( " w=%-5s", seat[root->w] );
+    printf( " w=%-5s", seat[root->w_p] );
     printf( "   rnk=%x", root->rnk );
     printf( " nd=%x", root->nd );
     printf( " nc=%x", root->nc );

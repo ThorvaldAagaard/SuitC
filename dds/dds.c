@@ -37,13 +37,6 @@ int main( int argc, char **argv )
 
     //  initialise variables
     times[0] = TICK * clock();
-    bfill = 0;
-    jfill = 0;
-    ncount = 0;
-    ncountmax = 0;
-    scount = 0;
-    scountmax = 0;
-    sfill = 0;
     target.set = NO;
     for ( s = 0; s < 5; s++ )
         for ( p = 0; p < 4; p++ )
@@ -57,26 +50,33 @@ int main( int argc, char **argv )
         st[d].n = 0;
         st[d].t = ( d + 3 ) / 4;
     }
-    for ( inx = 0; inx < BHASHL+100; inx++ )
-        backuptable[inx] = NIL;
-    for ( inx = 0; inx < JHASHL+100; inx++ )
-        joinctable[inx] = NIL;
-    for ( inx = 0; inx < SHASHL+100; inx++ )
-        scardtable[inx] = NIL;
 
     //  initialise the BACKUP tree
+    bfill = 0;
     nextbackup = malloc( BHASHL * sizeof( struct BACKUP ) );
+    for ( inx = 0; inx < BHASHL+100; inx++ )
+        backuptable[inx] = NIL;
 
     //  initialise the JOINC tree
+    jfill = 0;
     nextjoinc = malloc( JHASHL * sizeof( struct JOINC ) );
+    for ( inx = 0; inx < JHASHL+100; inx++ )
+        joinctable[inx] = NIL;
 
     //  initialise the NODE tree
+    ncount = 0;
+    ncountmax = 0;
     lnode[0] = &znode;
     lnode[0]->r = NIL;
     nextnode = malloc( NNODE * sizeof( struct NODE ) );
 
     //  initialise the SCARD tree
+    sfill = 0;
+    scount = 0;
+    scountmax = 0;
     nextscard = malloc( NSCARD * sizeof( struct SCARD ) );
+    for ( inx = 0; inx < SHASHL+100; inx++ )
+        scardtable[inx] = NIL;
 
     //  process the command line
     ld = unknown;

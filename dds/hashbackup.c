@@ -32,7 +32,7 @@ int hashbackup( int d )
 
     //  locate an existing BACKUP slot
     ncalls[3]++;
-    inx = ( (unsigned long) lnode[d-1]->w * IA + IC ) % IM;
+    inx = ( (unsigned long) lnode[d-1]->w_p * IA + IC ) % IM;
     inx = ( ( inx + (unsigned long) trump ) * IA + IC ) % IM;
     for ( s = 0; s < 4; s++ )
         inx = ( ( inx + (unsigned long) scard[t][s] ) * IA + IC ) % IM;
@@ -41,7 +41,7 @@ int hashbackup( int d )
     //  check the old BACKUP slots
     lbackup = backuptable[inx];
     while ( lbackup ) {
-        match = lnode[d-1]->w == lbackup->ld && trump == lbackup->ts;
+        match = lnode[d-1]->w_p == lbackup->ld && trump == lbackup->ts;
         for ( s = 0; s < 4; s++ )
             match &= scard[t][s] == lbackup->sc[s];
         if ( match ) {
@@ -56,7 +56,7 @@ int hashbackup( int d )
     }
 
     //  build the NODE tree for the next trick
-    build_ply( d, lnode[d-1]->w );
+    build_ply( d, lnode[d-1]->w_p );
 
     //  create a new BACKUP slot
     bfill++;
@@ -65,7 +65,7 @@ int hashbackup( int d )
     lbackup->r = backuptable[inx];
     backuptable[inx] = lbackup;
     backup[t-1] = lbackup;
-    lbackup->ld = lnode[d-1]->w;
+    lbackup->ld = lnode[d-1]->w_p;
     lbackup->ts = trump;
     for ( s = 0; s < 4; s++ )
         lbackup->sc[s] = scard[t][s];

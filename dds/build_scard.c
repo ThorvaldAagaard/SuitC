@@ -14,7 +14,7 @@
 
 void build_scard( int d, int s )
 {
-    int           i, n = -1, p, q = unknown, t= st[d].t;
+    int           i, n = -1, p, q = unknown, t = st[d].t;
     struct SEQC   *sq;
 
     //  create a new SCARD entry

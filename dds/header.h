@@ -55,9 +55,9 @@ struct JOINC {
 struct NODE {
     struct NODE   *d,                   //  pointer to the oldest son node
                   *r;                   //  pointer to the right sibling node
-    COLOR         c;                    //  the cards that are played
-    unsigned int  dwin:6,               //  the winning ply
-                  nc:1,                 //  1 if north-south win the current trick
+    COLOR         c,                    //  the cards that are played
+                  w_c:16;               //  the winning card of the current trick
+    unsigned int  nc:1,                 //  1 if north-south win the current trick
                   nd:4,                 //  the number of north-south tricks made in previous plies
                   nh:4,                 //  the maximum number of north-south tricks
                   nl:4,                 //  the minimum number of north-south tricks
@@ -65,7 +65,8 @@ struct NODE {
                   rnk:6,                //  the ranking of the play
                   s:3,                  //  the suit that is played
                   t:1,                  //  the indicator for terminal nodes
-                  w:2;                  //  the winner of the current trick
+                  w_p:3,                //  the winning player of the current trick
+                  w_s:3;                //  the winning suit of the current trick
 };
 
 struct SEQC {

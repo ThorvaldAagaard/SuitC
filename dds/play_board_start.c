@@ -30,7 +30,7 @@ void play_board_start( void )
             if ( ( p == ld || p == unknown ) && ( s == trump || s == discard ) ) {
                 nresult = 0;
                 target.set = NO;
-                lnode[0]->w = ld;
+                lnode[0]->w_p = ld;
                 lnode[0]->nl = 0;
                 lnode[0]->nh = ntricks;
                 hashbackup( 1 );
@@ -41,7 +41,7 @@ void play_board_start( void )
     }
     ld = p;
     trump = s;
-    lnode[0]->w = ld;
+    lnode[0]->w_p = ld;
 
     //  print the results
     printf( "\n" );
@@ -86,7 +86,7 @@ redo:
            : c == 'e' || c == 'E' || c == 'o' || c == 'O' ? east
            : c == 's' || c == 'S' || c == 'z' || c == 'Z' ? south
            : unknown;
-        lnode[0]->w = ld;
+        lnode[0]->w_p = ld;
     }
 
     //  select the denomination

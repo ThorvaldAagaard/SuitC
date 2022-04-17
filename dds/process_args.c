@@ -5,7 +5,10 @@
 //      process_args processes the command line
 //
 //  to produce a list of options:
-//      dds -h
+//      dds {?|-h|-?}
+//
+//  parameters:
+//      none
 //
 //  Copyright 2022, Gerrit A. van der Velde, Leiden
 
@@ -37,7 +40,7 @@ void process_args( int argc, char **argv )
                     printf( "Incorrect leader: %s; program stops\n", argv[i] );
                     exit( 99 );
                 }
-                lnode[0]->w = ld;
+                lnode[0]->w_p = ld;
             }
             else if ( c == 'T' ) {
                 c = argv[i][2];
@@ -89,9 +92,9 @@ void process_args( int argc, char **argv )
         printf( "\n" );
         printf( "calling sequence:\n" );
         printf( "\n" );
-        printf( "dds [-h] [-L{W|N|E|S}] [-T{s|h|d|c|n}] <west> <north> <east> <south>\n" );
+        printf( "dds [{?|-h|-?}] [-L{W|N|E|S}] [-T{s|h|d|c|n}] <west> <north> <east> <south>\n" );
         printf( "\noptions:\n" );
-        printf( "    -h              print the options of dds\n" );
+        printf( "    ?|-h|-?         print the options of dds\n" );
         printf( "    -L[W|N|E|S]     the opening leader at trick one\n" );
         printf( "    -T{s|h|d|c|n}   the trump suit\n" );
         printf( "    <west>          the west hand\n" );

@@ -47,7 +47,7 @@ void join_scard( int d, int s )
     ljoinc = nextjoinc;
     nextjoinc++;
     ljoinc->r = joinctable[inx];
-    joinctable[inx]= ljoinc;
+    joinctable[inx] = ljoinc;
     ljoinc->s = s;
     for ( p = 0; p < 4; p++ )
         ljoinc->brd[p] = brd[t-1][s][p];
