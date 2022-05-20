@@ -28,7 +28,6 @@
 
 //  list of typedef's and type declarations
 //  ----------------------------------------------------------------------------
-typedef unsigned char BYTE;
 typedef unsigned short COLOR;
 typedef enum { west, north, east, south, unknown } SEAT;
 typedef enum { spades, hearts, diamonds, clubs, notrump, discard } SUITS;
@@ -42,14 +41,14 @@ struct BACKUP {
                   nh:4,                 //  the backup value of the maximum number of north-south tricks
                   nl:4,                 //  the backup value of the minimum number of north-south tricks
                   t:1,                  //  indicator for terminal nodes
-                  ts:3;                 //  the trump suit
+                  trump:3;              //  the trump suit
 };
 
 struct JOINC {
     struct JOINC  *r;                   //  pointer to the right sibling node
     struct SCARD  *sc;                  //  pointer to the output SCARD tree
     COLOR         brd[4];               //  the cards of each player
-    BYTE          s;                    //  the suit
+    unsigned int  s:4;                  //  the suit
 };
 
 struct NODE {
@@ -71,16 +70,16 @@ struct NODE {
 
 struct SEQC {
     COLOR         c;                    //  the cards in the sequence
-    BYTE          n,                    //  the number of cards in the sequence
-                  p;                    //  the player of the sequence
+    unsigned int  n:4,                  //  the number of cards in the sequence
+                  p:4;                  //  the player of the sequence
 };
 
 struct SCARD {
     struct SCARD  *r;                   //  pointer to the right sibling
     struct SEQC   sq[13];               //  the card sequences
     COLOR         brd[4];               //  the cards of each player
-    BYTE          n,                    //  the number of used elements in sq
-                  s;                    //  the suit of the sequence
+    unsigned int  n:4,                  //  the number of used elements in sq
+                  s:4;                  //  the suit of the sequence
 };
 
 //  list of variables
@@ -151,7 +150,7 @@ void           play_board( int d, int p );
 void           play_board_start( void );
 void           print_board( int t );
 void           print_node( int d, struct NODE *root, char *ident );
-void           print_scard( int t );
+void           print_scard( int t, int s );
 void           print_stat( void );
 void           print_tree( int d_start, struct NODE *root, char *ident );
 void           process_args( int argc, char **argv );

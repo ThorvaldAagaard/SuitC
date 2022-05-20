@@ -41,7 +41,7 @@ int hashbackup( int d )
     //  check the old BACKUP slots
     lbackup = backuptable[inx];
     while ( lbackup ) {
-        match = lnode[d-1]->w_p == lbackup->ld && trump == lbackup->ts;
+        match = lnode[d-1]->w_p == lbackup->ld && trump == lbackup->trump;
         for ( s = 0; s < 4; s++ )
             match &= scard[t][s] == lbackup->sc[s];
         if ( match ) {
@@ -66,7 +66,7 @@ int hashbackup( int d )
     backuptable[inx] = lbackup;
     backup[t-1] = lbackup;
     lbackup->ld = lnode[d-1]->w_p;
-    lbackup->ts = trump;
+    lbackup->trump = trump;
     for ( s = 0; s < 4; s++ )
         lbackup->sc[s] = scard[t][s];
 

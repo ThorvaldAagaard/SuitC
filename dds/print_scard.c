@@ -6,14 +6,15 @@
 //
 //  parameters:
 //      t               in      the trick that is printed
+//      s               in      the suit that is reported
 //
 //  Copyright 2022, Gerrit A. van der Velde, Leiden
 
 //  #include "header.h"
 
-void print_scard( int t )
+void print_scard( int t, int s )
 {
-    int           i, k, n, nc, s;
+    int           i, k, n, nc;
     char          str[14];
     COLOR         *brd;
     static char   card[] = "-123456789TJQKA";
@@ -24,75 +25,66 @@ void print_scard( int t )
 
     //  print the north hand
     printf( "\n" );
-    for ( s = 0; s < 4; s++ ) {
+    if ( scard[t][s] ) {
 
-        if ( scard[t][s] ) {
-
-            nc = 13;
-            brd = scard[t][s]->brd;
-            printf( "        %c: ", suits[s] );
-            for ( n = ace; n >= two; n-- ) {
-                if ( set(n) & brd[north] ) {
-                    printf( "%c", card[n] );
-                    nc--;
-                }
+        nc = 13;
+        brd = scard[t][s]->brd;
+        printf( "        %c: ", suits[s] );
+        for ( n = ace; n >= two; n-- ) {
+            if ( set(n) & brd[north] ) {
+                printf( "%c", card[n] );
+                nc--;
             }
-            for ( n = 0; n < nc; n++ )
-                printf( " " );
-            printf( "         " );
-
-            sq = scard[t][s]->sq;
-            for ( n = 0; n < scard[t][s]->n; n++ ) {
-                k = 0;
-                for ( i = ace+1; i >= 0; i-- )
-                    if ( set(i) & sq[n].c )
-                        str[k++] = symbols[i];
-                str[k] = '\0';
-                if ( k < 6 )
-                    printf( "%c:%x:%-6s", seats[sq[n].p], sq[n].n, str );
-                else
-                    printf( "%c:%x:%s ", seats[sq[n].p], sq[n].n, str );
-            }
-            printf( "\n" );
         }
+        for ( n = 0; n < nc; n++ )
+            printf( " " );
+        printf( "         " );
+
+        sq = scard[t][s]->sq;
+        for ( n = 0; n < scard[t][s]->n; n++ ) {
+            k = 0;
+            for ( i = ace+1; i >= 0; i-- )
+                if ( set(i) & sq[n].c )
+                    str[k++] = symbols[i];
+            str[k] = '\0';
+            if ( k < 6 )
+                printf( "%c:%x:%-6s", seats[sq[n].p], sq[n].n, str );
+            else
+                printf( "%c:%x:%s ", seats[sq[n].p], sq[n].n, str );
+        }
+        printf( "\n" );
     }
 
     //  print the west and east hands
-    for ( s = 0; s < 4; s++ ) {
+    if ( scard[t][s] ) {
 
-        if ( scard[t][s] ) {
-
-            nc = 13;
-            brd = scard[t][s]->brd;
-            printf( "%c: ", suits[s] );
-            for ( n = ace; n >= two; n-- ) {
-                if ( set(n) & brd[west] ) {
-                    nc--;
-                    printf( "%c", card[n] );
-                }
+        nc = 13;
+        brd = scard[t][s]->brd;
+        printf( "%c: ", suits[s] );
+        for ( n = ace; n >= two; n-- ) {
+            if ( set(n) & brd[west] ) {
+                nc--;
+                printf( "%c", card[n] );
             }
-
-            for ( n = 0; n < nc; n++ )
-                printf( " " );
-            printf( "%c: ", suits[s] );
-            for ( n = ace; n >= two; n-- )
-                if ( set(n) & brd[east] )
-                    printf( "%c", card[n] );
-            printf( "\n" );
         }
+
+        for ( n = 0; n < nc; n++ )
+            printf( " " );
+        printf( "%c: ", suits[s] );
+        for ( n = ace; n >= two; n-- )
+            if ( set(n) & brd[east] )
+                printf( "%c", card[n] );
+        printf( "\n" );
     }
 
     //  print the south hand
-    for ( s = 0; s < 4; s++ ) {
+    if ( scard[t][s] ) {
 
-        if ( scard[t][s] ) {
-
-            brd = scard[t][s]->brd;
-            printf( "        %c: ", suits[s] );
-            for ( n = ace; n >= two; n-- )
-                if ( set(n) & brd[south] )
-                    printf( "%c", card[n] );
-            printf( "\n" );
-        }
+        brd = scard[t][s]->brd;
+        printf( "        %c: ", suits[s] );
+        for ( n = ace; n >= two; n-- )
+            if ( set(n) & brd[south] )
+                printf( "%c", card[n] );
+        printf( "\n" );
     }
 }
