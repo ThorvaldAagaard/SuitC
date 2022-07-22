@@ -93,7 +93,7 @@ void print_all_results( void )
             if ( accept || printallresults ) {
 
                 //  print the results
-                if ( matchpoint && best_MAX && ! best_MP ) {
+                if ( matchpoint ) {
                     mpscore = 0.0;
                     lscore = score[0].r;
                     while ( lscore->r ) {

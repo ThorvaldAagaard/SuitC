@@ -2,7 +2,7 @@
 //      print_results
 //
 //  purpose:
-//      print_results prints the results of the siblings at play=1
+//      print_results prints the results of the currently selected play
 //
 //  parameters:
 //      best_MAX        in      indicator for MAX
@@ -79,6 +79,6 @@ void print_results( int best_MAX, int best_MP, int *best_N, double mpscore )
     }
 
     //  print the MP score
-    if ( matchpoint && best_MAX && ! best_MP )
+    if ( matchpoint )
         printf( "\tMP-score: %8.4f\n", 100.0 * mpscore + EPS );
 }
