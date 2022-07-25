@@ -69,7 +69,7 @@ int evaluate_best_results( void )
                 optcode |= 0x8000;
                 best_result.result = result[ih].result;
                 for ( k = 0; k <= nbest_plays; k++ )
-                    best_play[k].optcode ^= best_play[k].optcode & 0x8000; 
+                    best_play[k].optcode ^= best_play[k].optcode & 0x8000;
             }
             else if ( best_result.result < result[ih].result + EPS )
                 optcode |= 0x8000;
@@ -93,7 +93,7 @@ int evaluate_best_results( void )
                         best_result.tricks[i] = tricksum;
                         best_result.res[i] = result[ih].result;
                         for ( k = 0; k <= nbest_plays; k++ )
-                            best_play[k].optcode ^= best_play[k].optcode & ( 1 << i ); 
+                            best_play[k].optcode ^= best_play[k].optcode & ( 1 << i );
                     }
                     else if ( best_result.tricks[i] < tricksum + EPS && best_result.res[i] < result[ih].result + EPS )
                         optcode |= 1 << i;

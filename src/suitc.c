@@ -148,7 +148,7 @@ int main( int argc, char **argv )
         printf( "\tnumber of plays     : %d\n", nplays );
     }
 
-    //  restrict the number of plays for the matchpoint analysis
+    //  restrict the number of plays for the MP or IMP analysis
     if ( matchpoint && nplays > maxnodes )
         limit_matchpoint_nodes();
 
@@ -179,7 +179,7 @@ int main( int argc, char **argv )
 
     times[1] = TICK * clock();
 
-    //  evaluate the matchpoint plays
+    //  evaluate the MP or IMP plays
     if ( matchpoint ) {
         evaluate_mp_scores();
         evaluate_mp_results();

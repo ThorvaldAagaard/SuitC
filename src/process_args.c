@@ -94,6 +94,27 @@ void process_args( int argc, char **argv )
             }
             else if ( c == 'h' )
                 printoptions = YES;
+            else if ( c == 'I' ) {
+                matchpoint = IMP;
+                k = 2;
+                val = 0;
+                sign = +1;
+                while ( argv[i][k] ) {
+                    c = argv[i][k];
+                    if ( c == ':' ) {
+                        n = val;
+                        val = 0;
+                    }
+                    else if ( c == '+' )
+                        sign = +1;
+                    else if ( c == '-' )
+                        sign = -1;
+                    else
+                        val = 10 * val + c - '0';
+                    k++;
+                }
+                pointscore[n] = sign * val;
+            }
             else if ( c == 'n' ) {
                 c = argv[i][2];
                 if ( c == 'C' )
@@ -163,7 +184,7 @@ void process_args( int argc, char **argv )
                     val = 10 * val + argv[i][k] - '0';
                     k++;
                 }
-                matchpoint = YES;
+                matchpoint = MP;
                 if ( val )
                     maxnodes = val;
             }
@@ -266,7 +287,7 @@ void process_args( int argc, char **argv )
     printf( "\n" );
     printf( "calling sequence:\n" );
     printf( "\n" );
-    printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-nC] [-c<cutoff>] [-D] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f] [-H{e|w}] [-h]\n" );
+    printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-nC] [-c<cutoff>] [-D] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f] [-H{e|w}]\n" );
     printf( "      [-nK[{e|n|s|w}]] [-k[{e|n|s|w}]] [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-o] [-P<n>] [-R{n|e|s|w}<n>] \n" );
     printf( "      [-r] [-S<card2>:<card3>] [-s] [-T<n>] [-t<tricks>] [-W<cards>] [-wm<n>] [-wv<n>] [-z<n>] <ncards> <scards> <ewcards>\n" );
     printf( "\n" );
@@ -284,6 +305,7 @@ void process_args( int argc, char **argv )
     printf( "    -F<n>           1=merge the EW plays, 2=merge the NS plays, 4=select the NS plays\n" );
     printf( "    -f              print the full NODE tree\n" );
     printf( "    -H{e|w}         the designated player leads to the current trick if he won the last trick\n" );
+    printf( "    -I<n>:<score>   the score for <n> tricks is <score> points\n" );
     printf( "    -nC             north-south win tricks as soon as possible\n" );
     printf( "    -nK             don't keep weakly dominated nodes\n" );
     printf( "    -nK{e|w}        don't keep weakly dominated EW nodes\n" );
@@ -295,7 +317,7 @@ void process_args( int argc, char **argv )
     printf( "                    the lead is in {n|e|s|w} at trick one\n" );
     printf( "                    card <card> is lead if a card is specified\n" );
     printf( "    -l{n|e|s|w}<n>  limit the number of free directed leads from {n|e|s|w} to <n>\n" );
-    printf( "    -M[nodes]       generate the optimal matchpoint play with maximal <nodes> nodes\n" );
+    printf( "    -M[nodes]       generate the optimal MP play with maximal <nodes> nodes\n" );
     printf( "    -o              sort the boards in the same order as that used by Jeroen Warmerdam\n" );
     printf( "    -P<n>           select printoption (0=English lower, 1=Dutch lower, 2=English upper, 3=Dutch upper\n" );
     printf( "    -R{n|e|s|w}<n>  the number of ruffs available in {n|e|s|w}\n" );

@@ -8,7 +8,7 @@
 //      best_MAX        in      indicator for MAX
 //      best_MP         in      indicator for MATCHPOINT
 //      best_N          in      indicator for N tricks
-//      mpscore         in      the matchpoint score of this play
+//      mpscore         in      the MP or IMP score of this play
 //
 //  Copyright 2020, Gerrit A. van der Velde, Leiden
 
@@ -36,7 +36,9 @@ void print_results( int best_MAX, int best_MP, int *best_N, double mpscore )
         else
             printf( " MAX" );
     }
-    if ( matchpoint && best_MP )
+    if ( matchpoint == IMP && best_MP )
+        printf( " IMP" );
+    if ( matchpoint == MP && best_MP )
         printf( " MP" );
     if ( defence ) {
         for ( i = maxns - 1; i >= minns; i-- )
@@ -51,7 +53,9 @@ void print_results( int best_MAX, int best_MP, int *best_N, double mpscore )
     printf( "\n=====================" );
     if ( best_MAX )
         printf( "====" );
-    if ( matchpoint && best_MP )
+    if ( matchpoint == IMP && best_MP )
+        printf( "====" );
+    if ( matchpoint == MP && best_MP )
         printf( "===" );
     if ( defence ) {
         for ( i = maxns - 1; i >= minns; i-- )
@@ -78,7 +82,9 @@ void print_results( int best_MAX, int best_MP, int *best_N, double mpscore )
         printf( "\tResult  : %8.4f\n", result );
     }
 
-    //  print the MP score
-    if ( matchpoint )
+    //  print the IMP or MP score
+    if ( matchpoint == IMP && best_MAX && ! best_MP )
+        printf( "\tIMPscore: %8.4f\n", mpscore + EPS );
+    if ( matchpoint == MP && best_MAX && ! best_MP )
         printf( "\tMP-score: %8.4f\n", 100.0 * mpscore + EPS );
 }

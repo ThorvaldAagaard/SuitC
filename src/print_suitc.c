@@ -74,6 +74,11 @@ void print_suitc( void )
     for ( p = 0; p < 4; p++ )
         if ( nruff[0][p] )
             printf( "\tnumb. of ruffs %-5s: %d\n", seat[p], nruff[0][p] );
+    if ( matchpoint == IMP ) {
+        for ( n = 0; n <= ntricks; n++ )
+            if ( pointscore[n] )
+                printf( "\t#points for %d tricks: %d\n", n, pointscore[n] );
+    }
     if ( eastfixed ) {
         k = 0;
         out[0] = '-';
