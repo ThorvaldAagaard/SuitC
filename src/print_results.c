@@ -83,8 +83,8 @@ void print_results( int best_MAX, int best_MP, int *best_N, double mpscore )
     }
 
     //  print the IMP or MP score
-    if ( matchpoint == IMP && best_MAX && ! best_MP )
+    if ( matchpoint == IMP && ( best_MAX && ! best_MP || printallmatchpoint ) )
         printf( "\tIMPscore: %8.4f\n", mpscore + EPS );
-    if ( matchpoint == MP && best_MAX && ! best_MP )
+    if ( matchpoint == MP && ( best_MAX && ! best_MP || printallmatchpoint ) )
         printf( "\tMP-score: %8.4f\n", 100.0 * mpscore + EPS );
 }

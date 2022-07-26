@@ -37,6 +37,7 @@ int main( int argc, char **argv )
     for ( p = 0; p < 4; p++ )
         nruff[0][p] = 0;
     opening_lead = 0x7fff;
+    printallmatchpoint = YES;
     printallresults = NO;
     printboards = NO;
     printfulltree = NO;

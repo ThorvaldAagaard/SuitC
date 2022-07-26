@@ -156,7 +156,7 @@ void evaluate_mp_results( void )
     }
 
     //  clear the matchpoint flag if no MAX play scores worse than a MP or IMP play
-    if ( nnode == 1 ) {
+    if ( nnode == 1 && ! printallmatchpoint ) {
 
         //  clear the matchpoint flag if the list contains a MAX play
         best_MP = NO;

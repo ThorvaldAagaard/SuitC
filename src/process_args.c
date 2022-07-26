@@ -151,6 +151,8 @@ void process_args( int argc, char **argv )
                         keepnsequal = NO;
                     }
                 }
+                else if ( c == 'p' )
+                    printallmatchpoint = NO;
             }
             else if ( c == 'L' ) {
                 c = argv[i][2];
@@ -313,6 +315,7 @@ void process_args( int argc, char **argv )
     printf( "    -nk             don't keep tied nodes\n" );
     printf( "    -nk{e|w}        don't keep tied EW nodes\n" );
     printf( "    -nk{n|s}        don't keep tied NS nodes\n" );
+    printf( "    -np             print MP or IMP information only for selected MP or IMP plays\n" );
     printf( "    -L{n|e|s|w}[<card>]\n" );
     printf( "                    the lead is in {n|e|s|w} at trick one\n" );
     printf( "                    card <card> is lead if a card is specified\n" );
