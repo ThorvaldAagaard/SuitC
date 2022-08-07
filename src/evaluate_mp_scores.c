@@ -134,7 +134,6 @@ void evaluate_mp_scores( void )
                 for ( k = bquirkd[b]->il; k <= bquirkd[b]->ih; k++ ) {
                     if ( lquirkd[v]->ih < k )
                         v++;
-                        mpscore[k] = lquirkdl[v]->h->t[k].ns > bquirkdl[b]->h->t[k].ns ? 1.0 : lquirkdl[v]->h->t[k].ns < bquirkdl[b]->h->t[k].ns ? -1.0 : 0.0;
                     if ( matchpoint == MP )
                         mpscore[k] = lquirkdl[v]->h->t[k].ns > bquirkdl[b]->h->t[k].ns ? 1.0 : lquirkdl[v]->h->t[k].ns < bquirkdl[b]->h->t[k].ns ? -1.0 : 0.0;
                     else if ( matchpoint == IMP ) {

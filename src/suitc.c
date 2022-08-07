@@ -225,7 +225,10 @@ int main( int argc, char **argv )
         printf( "\t--------------------------         ----\n" );
         printf( "\tThe tree is created        %12.3f\n", times[0] );
         printf( "\tThe quirk tree is build    %12.3f\n", times[1] );
-        printf( "\tThe MP plays are evaluated %12.3f\n", times[2] );
+        if ( matchpoint == 1 )
+            printf( "\tThe MP plays are evaluated %12.3f\n", times[2] );
+        if ( matchpoint == 2 )
+            printf( "\tThe IMP plays are evaluated%12.3f\n", times[2] );
         printf( "\tThe program is finished    %12.3f\n", times[3] );
     }
 

@@ -151,7 +151,7 @@ void process_args( int argc, char **argv )
                         keepnsequal = NO;
                     }
                 }
-                else if ( c == 'p' )
+                else if ( c == 'I' || c == 'M' )
                     printallmatchpoint = NO;
             }
             else if ( c == 'L' ) {
@@ -309,13 +309,13 @@ void process_args( int argc, char **argv )
     printf( "    -H{e|w}         the designated player leads to the current trick if he won the last trick\n" );
     printf( "    -I<n>:<score>   the score for <n> tricks is <score> points\n" );
     printf( "    -nC             north-south win tricks as soon as possible\n" );
+    printf( "    -n{I|M}         print MP or IMP information only for MAX plays that are not MP or IMP plays\n" );
     printf( "    -nK             don't keep weakly dominated nodes\n" );
     printf( "    -nK{e|w}        don't keep weakly dominated EW nodes\n" );
     printf( "    -nK{n|s}        don't keep weakly dominated NS nodes\n" );
     printf( "    -nk             don't keep tied nodes\n" );
     printf( "    -nk{e|w}        don't keep tied EW nodes\n" );
     printf( "    -nk{n|s}        don't keep tied NS nodes\n" );
-    printf( "    -np             print MP or IMP information only for selected MP or IMP plays\n" );
     printf( "    -L{n|e|s|w}[<card>]\n" );
     printf( "                    the lead is in {n|e|s|w} at trick one\n" );
     printf( "                    card <card> is lead if a card is specified\n" );
