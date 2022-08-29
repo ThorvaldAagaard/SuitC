@@ -29,6 +29,7 @@ int main( int argc, char **argv )
     keepnsweak = YES;
     leader = noplayer;
     matchpoint = NO;
+    matchpointtime = NO;
     maxnodes = 16000;
     ncardsmin[east] = 0;
     ncardsmin[west] = 0;
@@ -37,7 +38,7 @@ int main( int argc, char **argv )
     for ( p = 0; p < 4; p++ )
         nruff[0][p] = 0;
     opening_lead = 0x7fff;
-    printallmatchpoint = YES;
+    printallmatchpoint = NO;
     printallresults = NO;
     printboards = NO;
     printfulltree = NO;
@@ -154,7 +155,7 @@ int main( int argc, char **argv )
         limit_matchpoint_nodes();
 
     if ( ! SUITCAPP )
-        printf( "\n\tCopyright 2021, Gerrit A. van der Velde, Leiden\n" );
+        printf( "\n\tCopyright 2022, Gerrit A. van der Velde, Leiden\n" );
 
     if ( sortplays )
         print_play_count();
@@ -225,10 +226,10 @@ int main( int argc, char **argv )
         printf( "\t--------------------------         ----\n" );
         printf( "\tThe tree is created        %12.3f\n", times[0] );
         printf( "\tThe quirk tree is build    %12.3f\n", times[1] );
-        if ( matchpoint == 1 )
-            printf( "\tThe MP plays are evaluated %12.3f\n", times[2] );
-        if ( matchpoint == 2 )
+        if ( matchpointtime == IMP )
             printf( "\tThe IMP plays are evaluated%12.3f\n", times[2] );
+        if ( matchpointtime == MP )
+            printf( "\tThe MP plays are evaluated %12.3f\n", times[2] );
         printf( "\tThe program is finished    %12.3f\n", times[3] );
     }
 

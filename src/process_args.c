@@ -96,6 +96,7 @@ void process_args( int argc, char **argv )
                 printoptions = YES;
             else if ( c == 'I' ) {
                 matchpoint = IMP;
+                matchpointtime = IMP;
                 k = 2;
                 val = 0;
                 sign = +1;
@@ -151,8 +152,6 @@ void process_args( int argc, char **argv )
                         keepnsequal = NO;
                     }
                 }
-                else if ( c == 'I' || c == 'M' )
-                    printallmatchpoint = NO;
             }
             else if ( c == 'L' ) {
                 c = argv[i][2];
@@ -187,6 +186,7 @@ void process_args( int argc, char **argv )
                     k++;
                 }
                 matchpoint = MP;
+                matchpointtime = MP;
                 if ( val )
                     maxnodes = val;
             }
@@ -194,6 +194,8 @@ void process_args( int argc, char **argv )
                 reorder = YES;
             else if ( c == 'P' )
                  printoption= argv[i][2] - '0';
+            else if ( c == 'p' )
+                printallmatchpoint = YES;
             else if ( c == 'R' ) {
                 c = argv[i][2];
                 pl =  c == 'n' ? north :  c == 's' ? south : c == 'w' ? west : c == 'e' ? east : -1;
@@ -290,7 +292,7 @@ void process_args( int argc, char **argv )
     printf( "calling sequence:\n" );
     printf( "\n" );
     printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-nC] [-c<cutoff>] [-D] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f] [-H{e|w}]\n" );
-    printf( "      [-nK[{e|n|s|w}]] [-k[{e|n|s|w}]] [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-o] [-P<n>] [-R{n|e|s|w}<n>] \n" );
+    printf( "      [-nK[{e|n|s|w}]] [-k[{e|n|s|w}]] [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-o] [-P<n>] [-p[{I|M}]] [-R{n|e|s|w}<n>] \n" );
     printf( "      [-r] [-S<card2>:<card3>] [-s] [-T<n>] [-t<tricks>] [-W<cards>] [-wm<n>] [-wv<n>] [-z<n>] <ncards> <scards> <ewcards>\n" );
     printf( "\n" );
     printf( "options:\n" );
@@ -323,6 +325,7 @@ void process_args( int argc, char **argv )
     printf( "    -M[nodes]       generate the optimal MP play with maximal <nodes> nodes\n" );
     printf( "    -o              sort the boards in the same order as that used by Jeroen Warmerdam\n" );
     printf( "    -P<n>           select printoption (0=English lower, 1=Dutch lower, 2=English upper, 3=Dutch upper\n" );
+    printf( "    -p[{I|M}]       print MP or IMP information for all plays\n" );
     printf( "    -R{n|e|s|w}<n>  the number of ruffs available in {n|e|s|w}\n" );
     printf( "    -S<card2>:<card3> play in 3rd hand a card from card3 if 2nd hand plays a card from card2\n" );
     printf( "    -s              sort the plays in decreasing number of leaves\n" );
