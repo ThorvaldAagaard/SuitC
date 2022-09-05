@@ -20,6 +20,9 @@ int fold_ew_tree( int d, struct NODE **lnode, struct NODE **bnode )
 
     bnode[d] = bnode[d-1]->d;
     lnode[d] = lnode[d-1]->d;
+    if ( ! ( lnode[d] && bnode[d] ) )
+        return( NO );
+
     if ( EW(lnode[d]->p) && EW(bnode[d]->p) ) {
 
         match = YES;
