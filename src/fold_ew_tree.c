@@ -81,6 +81,7 @@ int fold_ew_tree( int d, struct NODE **lnode, struct NODE **bnode )
                 if ( lnode[d]->p == bnode[d]->p && lnode[d]->c == bnode[d]->c ) {
                     if ( ! bnode[d]->d || fold_ew_tree( d+1, lnode, bnode ) ) {
                         match = YES;
+                        merge_nodes( lnode[d], bnode[d] );
                         lnode[d] = lnode[d]->r;
                     }
                     else

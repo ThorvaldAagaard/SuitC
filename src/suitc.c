@@ -47,7 +47,7 @@ int main( int argc, char **argv )
     printtrunctree = NO;
     mergeselect = 0x1 | 0x4;
     nrules = 0;
-    reorder = NO;
+    reorder = YES;
     resultsonly = NO;
     sortplays = NO;
     for ( d = 0; d <= NPLIES; d++ ) {

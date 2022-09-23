@@ -191,7 +191,7 @@ void process_args( int argc, char **argv )
                     maxnodes = val;
             }
             else if ( c == 'o' )
-                reorder = YES;
+                reorder = NO;
             else if ( c == 'P' )
                  printoption= argv[i][2] - '0';
             else if ( c == 'p' )
@@ -323,7 +323,7 @@ void process_args( int argc, char **argv )
     printf( "                    card <card> is lead if a card is specified\n" );
     printf( "    -l{n|e|s|w}<n>  limit the number of free directed leads from {n|e|s|w} to <n>\n" );
     printf( "    -M[nodes]       generate the optimal MP play with maximal <nodes> nodes\n" );
-    printf( "    -o              sort the boards in the same order as that used by Jeroen Warmerdam\n" );
+    printf( "    -o              sort the boards in decreasing number of cards in the South hand\n" );
     printf( "    -P<n>           select printoption (0=English lower, 1=Dutch lower, 2=English upper, 3=Dutch upper\n" );
     printf( "    -p[{I|M}]       print MP or IMP information for all plays\n" );
     printf( "    -R{n|e|s|w}<n>  the number of ruffs available in {n|e|s|w}\n" );
