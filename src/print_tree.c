@@ -69,7 +69,7 @@ void print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings 
     for ( l = 0; l < wlen; l++ )
         out[l] = ' ';
     if ( printboards ) {
-        for ( i = ( DUALHEAD ? z_count-1 : ew_c_count-1 ); i >= 0; i-- ) {
+        for ( i = z_count-1; i >= 0; i-- ) {
             l = wlen;
             for ( k = 0; k < boardcount; k++ ) { out[l++] = ' '; out[l++] = b_print[i][k]; }
             out[l++] = '\0'; printf( "%s\n", out );
@@ -93,7 +93,7 @@ void print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings 
                 cards |= sc->c[i];
 
         //  select the NS card to be played; lead highest from equals, follow lowest from equals
-        if ( NS(lnode[d]->p) && cards != 0x1 ) {
+        if ( NS(lnode[d]->p) && ! printhighcard && cards != 0x1 ) {
             cards &= brd[st[d].t-1][lnode[d]->p];
             if ( st[d].ld && YES )
                 while ( cards ^ low_c(cards) )

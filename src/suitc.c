@@ -42,7 +42,9 @@ int main( int argc, char **argv )
     printallresults = NO;
     printboards = NO;
     printfulltree = NO;
+    printhighcard = NO;
     printoption = 2;
+    printscard = NO;
     printsummary = NO;
     printtrunctree = NO;
     mergeselect = 0x1 | 0x4;

@@ -194,8 +194,15 @@ void process_args( int argc, char **argv )
                 reorder = NO;
             else if ( c == 'P' )
                  printoption= argv[i][2] - '0';
-            else if ( c == 'p' )
-                printallmatchpoint = YES;
+            else if ( c == 'p' ) {
+                c = argv[i][2];
+                if ( c == 'H' )
+                    printhighcard = YES;
+                if ( c == 'I' || c == 'M' )
+                    printallmatchpoint = YES;
+                if ( c == 'S' )
+                    printscard = YES;
+            }
             else if ( c == 'R' ) {
                 c = argv[i][2];
                 pl =  c == 'n' ? north :  c == 's' ? south : c == 'w' ? west : c == 'e' ? east : -1;
@@ -291,8 +298,8 @@ void process_args( int argc, char **argv )
     printf( "\n" );
     printf( "calling sequence:\n" );
     printf( "\n" );
-    printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-nC] [-c<cutoff>] [-D] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f] [-H{e|w}]\n" );
-    printf( "      [-nK[{e|n|s|w}]] [-k[{e|n|s|w}]] [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-o] [-P<n>] [-p[{I|M}]] [-R{n|e|s|w}<n>] \n" );
+    printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-nC] [-C<n>] [-c<cutoff>] [-D] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f] [-H{e|w}]\n" );
+    printf( "      [-nK[{e|n|s|w}]] [-k[{e|n|s|w}]] [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-o] [-P<n>] [-p[{H|I|M|S}]] [-R{n|e|s|w}<n>] \n" );
     printf( "      [-r] [-S<card2>:<card3>] [-s] [-T<n>] [-t<tricks>] [-W<cards>] [-wm<n>] [-wv<n>] [-z<n>] <ncards> <scards> <ewcards>\n" );
     printf( "\n" );
     printf( "options:\n" );
@@ -300,6 +307,7 @@ void process_args( int argc, char **argv )
     printf( "    -A              print a full report of all results\n" );
     printf( "    -a              print a summary of the results\n" );
     printf( "    -b              print a list of the boards\n" );
+    printf( "    -C<n>           1=print dual header, 2=print header with equal cards, 4=print north-south cards in sequence\n" );
     printf( "    -c<cutoff>      the limit in millions on the product of the number of quirks while merging quirk trees\n" );
     printf( "    -D              the defenders lead to each trick\n" );
     printf( "    -d              print the truncated NODE tree\n" );
@@ -325,7 +333,9 @@ void process_args( int argc, char **argv )
     printf( "    -M[nodes]       generate the optimal MP play with maximal <nodes> nodes\n" );
     printf( "    -o              sort the boards in decreasing number of cards in the South hand\n" );
     printf( "    -P<n>           select printoption (0=English lower, 1=Dutch lower, 2=English upper, 3=Dutch upper\n" );
-    printf( "    -p[{I|M}]       print MP or IMP information for all plays\n" );
+    printf( "    -p[{H|I|M|S}]   H=print the the highest card of a north-south card sequence in the game tree\n" );
+    printf( "                    {I|M}=print MP or IMP information for all plays\n" );
+    printf( "                    S=print different card symbols for each card in a card sequence\n" );
     printf( "    -R{n|e|s|w}<n>  the number of ruffs available in {n|e|s|w}\n" );
     printf( "    -S<card2>:<card3> play in 3rd hand a card from card3 if 2nd hand plays a card from card2\n" );
     printf( "    -s              sort the plays in decreasing number of leaves\n" );
