@@ -198,10 +198,14 @@ void process_args( int argc, char **argv )
                 c = argv[i][2];
                 if ( c == 'H' )
                     printhighcard = YES;
-                if ( c == 'I' || c == 'M' )
+                else if ( c == 'I' || c == 'M' )
                     printallmatchpoint = YES;
-                if ( c == 'S' )
+                else if ( c == 'S' )
                     printscard = YES;
+                else {
+                    printf( "Incorrect print option; the program stops\n", argv[i] );
+                    exit( 1 );
+                }
             }
             else if ( c == 'R' ) {
                 c = argv[i][2];
