@@ -2,7 +2,7 @@
 //      evaluate_mp_results
 //
 //  purpose:
-//      evaluate_mp_results calculates the percentage contributionms to the MP or IMP plays
+//      evaluate_mp_results calculates the percentage contributions to the MP or IMP plays
 //
 //  parameters:
 //      none
@@ -156,7 +156,7 @@ void evaluate_mp_results( void )
     }
 
     //  clear the matchpoint flag if no MAX play scores worse than a MP or IMP play
-    if ( nnode == 1 && ! printallmatchpoint ) {
+    if ( nnode == 1 ) {
 
         //  clear the matchpoint flag if the list contains a MAX play
         best_MP = NO;
@@ -164,20 +164,9 @@ void evaluate_mp_results( void )
             best_MP |= score[i].best_MAX != score[i].best_MP;
 
         //  clear the best_MP flag
-        if ( ! best_MP ) {
-            matchpoint = NO;
-            lscore = score[0].r;
-            while ( lscore->r ) {
-                free( lscore->mp );
-                lscore->mp = NIL;
-                bscore = lscore;
-                while ( bscore ) {
-                    bscore->best_MP = NO;
-                    bscore = bscore->b;
-                }
-                lscore = lscore->r;
-            }
-        }
+        if ( ! best_MP )
+            for ( i = 1; i <= nplays; i++ )
+                score[i].best_MP = NO;
     }
 
     //  print the MP or IMP matrix for a mixed MP or IMP strategy

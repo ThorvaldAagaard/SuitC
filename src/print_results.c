@@ -36,10 +36,8 @@ void print_results( int best_MAX, int best_MP, int *best_N, double mpscore )
         else
             printf( " MAX" );
     }
-    if ( matchpoint == IMP && best_MP )
-        printf( " IMP" );
-    if ( matchpoint == MP && best_MP )
-        printf( " MP" );
+    if ( matchpoint && best_MP )
+        printf( " %s", matchpoint == IMP ? "IMP" : "MP" );
     if ( defence ) {
         for ( i = maxns - 1; i >= minns; i-- )
             if ( best_N[i] )
@@ -53,10 +51,8 @@ void print_results( int best_MAX, int best_MP, int *best_N, double mpscore )
     printf( "\n=====================" );
     if ( best_MAX )
         printf( "====" );
-    if ( matchpoint == IMP && best_MP )
-        printf( "====" );
-    if ( matchpoint == MP && best_MP )
-        printf( "===" );
+    if ( matchpoint && best_MP )
+        printf( "%s", matchpoint == IMP ? "====" : "===" );
     if ( defence ) {
         for ( i = maxns - 1; i >= minns; i-- )
             if ( best_N[i] )
@@ -83,8 +79,6 @@ void print_results( int best_MAX, int best_MP, int *best_N, double mpscore )
     }
 
     //  print the IMP or MP score
-    if ( matchpoint == IMP && ( best_MAX && ! best_MP || printallmatchpoint ) )
-        printf( "\tIMPscore: %8.4f\n", mpscore + EPS );
-    if ( matchpoint == MP && ( best_MAX && ! best_MP || printallmatchpoint ) )
-        printf( "\tMP-score: %8.4f\n", 100.0 * mpscore + EPS );
+    if ( matchpoint && best_MAX && ! best_MP || printallmatchpoint )
+        printf( "\t%sscore: %8.4f\n", matchpoint == IMP ? "IMP" : "MP-", mpscore + EPS );
 }

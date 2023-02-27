@@ -72,7 +72,7 @@ int main( int argc, char **argv )
     //  initialize the INDEX list
     icount = 0;
     icountmax = 0;
-    nextindex = malloc( 12000000 * sizeof( struct INDEX ) );
+    nextindex = malloc( 16000000 * sizeof( struct INDEX ) );
     if ( ! nextindex ) {
         printf( "The memory assignment for the INDEX entries failed\n" );
         exit( 1 );

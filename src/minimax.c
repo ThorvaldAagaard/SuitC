@@ -2,7 +2,7 @@
 //      minimax
 //
 //  purpose
-//      minimax determines the optimal staregy for both players
+//      minimax determines the optimal strategy for both players
 //
 //  parameters
 //      nnode   in      the dimension of the MP or IMP matrix
