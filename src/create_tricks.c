@@ -42,12 +42,12 @@ void create_tricks( int d )
     else if ( throwin != noplayer && throwin == w[t-1] && brd[t][throwin] >> 2 )
         lead[throwin] = YES;
     else if ( defence ) {
-        lead[west] = brd[t][west] && ( w[t-1] == west || nfree[t-1][west] );
-        lead[east] = brd[t][east] && ( w[t-1] == east || nfree[t-1][east] );
+        lead[west] = brd[t][west] && ( w[t-1] == west || t == 1 || nfree[t-1][west] );
+        lead[east] = brd[t][east] && ( w[t-1] == east || t == 1 || nfree[t-1][east] );
     }
     else {
-        lead[north] = brd[t][north] && ( w[t-1] == north || nfree[t-1][north] );
-        lead[south] = brd[t][south] && ( w[t-1] == south || nfree[t-1][south] );
+        lead[north] = brd[t][north] && ( w[t-1] == north || t == 1 || nfree[t-1][north] );
+        lead[south] = brd[t][south] && ( w[t-1] == south || t == 1 || nfree[t-1][south] );
     }
 
     //  no more tricks are to be played

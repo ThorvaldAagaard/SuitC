@@ -77,7 +77,7 @@ void print_suitc( void )
     if ( matchpoint == IMP ) {
         for ( n = 0; n <= ntricks; n++ )
             if ( pointscore[n] )
-                printf( "\t#points for %d tricks: %d\n", n, pointscore[n] );
+                printf( "\t#score for %d tricks : %d\n", n, pointscore[n] );
     }
     if ( eastfixed ) {
         k = 0;

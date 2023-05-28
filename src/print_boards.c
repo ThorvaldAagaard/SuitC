@@ -21,15 +21,15 @@ void print_boards( void )
 
     pad[MAX(4,ncards[west])-1] = '\0';
     printf( "\n\n\n%s%s%s%s%s\n%s%s%s%s%s\n",
-            "   Probabilities    West", pad, "East", pad, "tricks",
-            "   =============    ====", pad, "====", pad, "======" );
+            "       Probabilities    West", pad, "East", pad, "tricks",
+            "     ===============    ====", pad, "====", pad, "======" );
     pad[MAX(4,ncards[west])-1] = ' ';
 
     i = 0;
     lindex = wnode[0]->i;
     while ( lindex ) {
 
-        printf( "%6d x %7.4f    ", dupl[i], 100. * prob[i] );
+        printf( "%6d x %11.8f    ", dupl[i], 100. * prob[i] );
         for ( p = 0; p < 4; p += 2 ) {
             k = 0;
             out[0] = '-';
