@@ -116,43 +116,6 @@ void process_args( int argc, char **argv )
                 }
                 pointscore[n] = sign * val;
             }
-            else if ( c == 'n' ) {
-                c = argv[i][2];
-                if ( c == 'C' )
-                    compacttree = NO;
-                else if ( c == 'K' ) {
-                    if ( argv[i][3] ) {
-                        if ( argv[i][3] == 'e' || argv[i][3] == 'w' )
-                            keepewweak = NO;
-                        else if ( argv[i][3] == 'n' || argv[i][3] == 's' )
-                            keepnsweak = NO;
-                        else {
-                            printf( "Incorrect option: %s; the program stops\n", argv[i] );
-                            exit( 1 );
-                        }
-                    }
-                    else {
-                        keepewweak = NO;
-                        keepnsweak = NO;
-                    }
-                }
-                else if ( c == 'k' ) {
-                    if ( argv[i][3] ) {
-                        if ( argv[i][3] == 'e' || argv[i][3] == 'w' )
-                            keepewequal = NO;
-                        else if ( argv[i][3] == 'n' || argv[i][3] == 's' )
-                            keepnsequal = NO;
-                        else {
-                            printf( "Incorrect option: %s; the program stops\n", argv[i] );
-                            exit( 1 );
-                        }
-                    }
-                    else {
-                        keepewequal = NO;
-                        keepnsequal = NO;
-                    }
-                }
-            }
             else if ( c == 'L' ) {
                 c = argv[i][2];
                 leader = c == 'n' ? north : c == 'e' ? east : c == 's' ? south : c == 'w' ? west : noplayer;
@@ -189,6 +152,47 @@ void process_args( int argc, char **argv )
                 matchpointtime = MP;
                 if ( val )
                     maxnodes = val;
+            }
+            else if ( c == 'n' ) {
+                c = argv[i][2];
+                if ( c == 'C' )
+                    compacttree = NO;
+                else if ( c == 'K' ) {
+                    if ( argv[i][3] ) {
+                        if ( argv[i][3] == 'e' || argv[i][3] == 'w' )
+                            keepewweak = NO;
+                        else if ( argv[i][3] == 'n' || argv[i][3] == 's' )
+                            keepnsweak = NO;
+                        else {
+                            printf( "Incorrect option: %s; the program stops\n", argv[i] );
+                            exit( 1 );
+                        }
+                    }
+                    else {
+                        keepewweak = NO;
+                        keepnsweak = NO;
+                    }
+                }
+                else if ( c == 'k' ) {
+                    if ( argv[i][3] ) {
+                        if ( argv[i][3] == 'e' || argv[i][3] == 'w' )
+                            keepewequal = NO;
+                        else if ( argv[i][3] == 'n' || argv[i][3] == 's' )
+                            keepnsequal = NO;
+                        else {
+                            printf( "Incorrect option: %s; the program stops\n", argv[i] );
+                            exit( 1 );
+                        }
+                    }
+                    else {
+                        keepewequal = NO;
+                        keepnsequal = NO;
+                    }
+                }
+                else {
+                    printf( "Incorrect option: %s; the program stops\n", argv[i] );
+                    exit( 1 );
+                }
             }
             else if ( c == 'o' )
                 reorder = NO;
@@ -323,7 +327,6 @@ void process_args( int argc, char **argv )
     printf( "    -H{e|w}         the designated player leads to the current trick if he won the last trick\n" );
     printf( "    -I<n>:<score>   the score for <n> tricks is <score> points\n" );
     printf( "    -nC             north-south win tricks as soon as possible\n" );
-    printf( "    -n{I|M}         print MP or IMP information only for MAX plays that are not MP or IMP plays\n" );
     printf( "    -nK             don't keep weakly dominated nodes\n" );
     printf( "    -nK{e|w}        don't keep weakly dominated EW nodes\n" );
     printf( "    -nK{n|s}        don't keep weakly dominated NS nodes\n" );
@@ -349,9 +352,7 @@ void process_args( int argc, char **argv )
     printf( "    -W<cards>       all west hands contain <cards>\n" );
     printf( "    -wm<n>          the minimum number of cards in the west hand is <n>\n" );
     printf( "    -wv<n>          the number of vacant places in the west hand is <n>\n" );
-    printf( "    -z<n>           delete weakly dominated plays in evaluate_mp_results (zermelo==2) or in check_zermelo (zermelo==1)\n" );
-    printf( "\n" );
-    printf( "    <n>             a numeric value between 0 and 13\n" );
+    printf( "    -z<n>           delete weakly dominated plays in check_zermelo (zermelo==1) or in evaluate_mp_results (zermelo==2)\n" );
     printf( "    <cards>, etc    a sequence of Dutch or English card symbols.\n" );
     printf( "                    <cards> can have the special values '.', '=' or '#'\n" );
     printf( "                    for the north or south hand to denote a renonce\n" );

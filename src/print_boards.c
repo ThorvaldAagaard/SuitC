@@ -19,11 +19,11 @@ void print_boards( void )
     static char  *symbols[] = { "-123456789TJQKA", "-123456789TBVHA", "-123456789tjqka", "-123456789tbvha" };
     struct INDEX *lindex;
 
-    pad[MAX(4,ncards[west])-1] = '\0';
+    pad[MAX(6,ncards[west])-1] = '\0';
     printf( "\n\n\n%s%s%s%s%s\n%s%s%s%s%s\n",
             "       Probabilities    West", pad, "East", pad, "tricks",
             "     ===============    ====", pad, "====", pad, "======" );
-    pad[MAX(4,ncards[west])-1] = ' ';
+    pad[MAX(6,ncards[west])-1] = ' ';
 
     i = 0;
     lindex = wnode[0]->i;
@@ -41,11 +41,11 @@ void print_boards( void )
                 }
             }
             k = out[0] == '-' ? k+1 : k;
-            pad[ncards[p]-k+3] = '\0';
+            pad[ncards[p]-k+4] = '\0';
             printf( "%s%s", out, pad );
-            pad[ncards[p]-k+3] = ' ';
+            pad[ncards[p]-k+4] = ' ';
         }
-        printf( "%2d -%2d\n", nslimits[0][i], nslimits[1][i] );
+        printf( "%4d -%2d\n", nslimits[0][i], nslimits[1][i] );
 
         i++;
         lindex = lindex->r;
