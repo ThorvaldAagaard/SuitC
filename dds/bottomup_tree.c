@@ -8,9 +8,7 @@
 //  parameters:
 //      d               in      the depth in the NODE tree
 //
-//  Copyright 2022, Gerrit A. van der Velde, Leiden
-
-//  #include "header.h"
+//  Copyright 2023, Gerrit A. van der Velde, Leiden
 
 void bottomup_tree( int d )
 {

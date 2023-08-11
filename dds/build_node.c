@@ -10,9 +10,7 @@
 //      p               in      the player of this node
 //      c               in      the cards of this node
 //
-//  Copyright 2022, Gerrit A. van der Velde, Leiden
-
-//  #include "header.h"
+//  Copyright 2023, Gerrit A. van der Velde, Leiden
 
 void build_node( int d, int s, int p, COLOR c )
 {

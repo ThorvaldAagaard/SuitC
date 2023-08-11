@@ -3,7 +3,7 @@
 #include <string.h>
 #include <time.h>
 
-//  Copyright 2022, Gerrit A. van der Velde, Leiden
+//  Copyright 2023, Gerrit A. van der Velde, Leiden
 
 //  list of cpp defines
 //  ----------------------------------------------------------------------------
@@ -151,6 +151,6 @@ void           play_board_start( void );
 void           print_board( int t );
 void           print_node( int d, struct NODE *root, char *ident );
 void           print_scard( int t, int s );
-void           print_stat( void );
+void           print_stat( char c );
 void           print_tree( int d_start, struct NODE *root, char *ident );
 void           process_args( int argc, char **argv );

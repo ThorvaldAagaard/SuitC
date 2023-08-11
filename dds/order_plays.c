@@ -7,9 +7,7 @@
 //  parameters:
 //      d               in      the depth in the NODE tree
 //
-//  Copyright 2022, Gerrit A. van der Velde, Leiden
-
-//  #include "header.h"
+//  Copyright 2023, Gerrit A. van der Velde, Leiden
 
 void order_plays( int d )
 {

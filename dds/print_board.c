@@ -7,9 +7,7 @@
 //  parameters:
 //      t               in      the trick that is printed
 //
-//  Copyright 2022, Gerrit A. van der Velde, Leiden
-
-//  #include "header.h"
+//  Copyright 2023, Gerrit A. van der Velde, Leiden
 
 void print_board( int t )
 {

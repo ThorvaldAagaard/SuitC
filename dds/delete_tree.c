@@ -8,9 +8,7 @@
 //      d_start         in      the depth in the NODE tree
 //      root            in      the root of the NODE tree to be deleted
 //
-//  Copyright 2022, Gerrit A. van der Velde, Leiden
-
-//  #include "header.h"
+//  Copyright 2023, Gerrit A. van der Velde, Leiden
 
 struct NODE *delete_tree( int d_start, struct NODE *root )
 {

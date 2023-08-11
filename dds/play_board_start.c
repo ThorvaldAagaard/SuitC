@@ -7,9 +7,7 @@
 //  parameters:
 //      none
 //
-//  Copyright 2022, Gerrit A. van der Velde, Leiden
-
-//  #include "header.h"
+//  Copyright 2023, Gerrit A. van der Velde, Leiden
 
 void play_board_start( void )
 {
@@ -77,8 +75,8 @@ redo:
         printf( "\nEnter the leader {w|n|e|s|a|.}: " );
         scanf( "%s", in );
         c = in[0];
-        if ( c == 'a' )
-            print_stat();
+        if ( c == 's' || c == 'S' )
+            print_stat( c );
         if ( c == '.' )
             exit( 0 );
         ld = c == 'w' || c == 'W'                         ? west
@@ -94,8 +92,8 @@ redo:
         printf( "\nEnter the denomination {s|h|d|c|n|a|.}: " );
         scanf( "%s", in );
         c = in[0];
-        if ( c == 'a' )
-            print_stat();
+        if ( c == 's' || c == 'S' )
+            print_stat( c );
         if ( c == '.' )
             exit( 0 );
         trump = c == 's' || c == 'S'                         ? spades

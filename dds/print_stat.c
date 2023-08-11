@@ -5,13 +5,11 @@
 //      print_stat prints the statistics of an analysis
 //
 //  parameters:
-//      none
+//      c               in      the print option
 //
-//  Copyright 2022, Gerrit A. van der Velde, Leiden
+//  Copyright 2023, Gerrit A. van der Velde, Leiden
 
-//  #include "header.h"
-
-void print_stat( void )
+void print_stat( char c )
 {
     int           d;
 
@@ -28,9 +26,11 @@ void print_stat( void )
     printf( "%-11s %11d\n", "join_scard", ncalls[2] );
     printf( "%-11s %11d\n", "hashbackup", ncalls[3] );
     printf( "%-11s %11d\n", "hashscard", ncalls[4] );
-    printf( "\n d     count\n==    ======\n" );
-    for ( d = 1; d <= 4*ntricks; d++ )
-        printf( "%2d%10d\n", d, st[d].n );
+    if ( c == 'S' ) {
+        printf( "\n d     count\n==    ======\n" );
+            for ( d = 1; d <= 4*ntricks; d++ )
+                printf( "%2d%10d\n", d, st[d].n );
+    }
 
     exit( 0 );
 }

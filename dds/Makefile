@@ -2,7 +2,7 @@
 #
 #  Makefile for program dds
 #
-#  Copyright 2022, Gerrit A. van der Velde, Leiden
+#  Copyright 2023, Gerrit A. van der Velde, Leiden
 #
 #-----------------------------------------------------------------------
 

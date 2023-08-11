@@ -7,9 +7,7 @@
 //  parameters:
 //      d               in      the depth in the NODE tree
 //
-//  Copyright 2022, Gerrit A. van der Velde, Leiden
-
-//  #include "header.h"
+//  Copyright 2023, Gerrit A. van der Velde, Leiden
 
 void play_board( int d, int p )
 {
@@ -88,13 +86,13 @@ redo:
                 printf( "|%c:%s", suits[s], out );
         }
     }
-    printf( "%s", "|b<n>|a|.}: " );
+    printf( "%s", "|b<n>|s|S|.}: " );
 
     //  select the play
     scanf( "%s", in );
     c = in[0];
-    if ( c == 'a' )
-        print_stat();
+    if ( c == 's' || c == 'S' )
+        print_stat( c );
     if ( c == '.' )
         exit( 0 );
 
@@ -162,11 +160,11 @@ redo:
         brd[t][s][p] = scard[t][s]->brd[p];
         ns = lnode[d]->nd + lnode[d]->nc;
         printf( "\nd=%02d    ns=%x ew=%x   %s\n", d, ns, st[d].t - ns, suit[trump] );
-        printf( "\n%s", "We are finished. What next? {b<n>|a|.}: " );
+        printf( "\n%s", "We are finished. What next? {b<n>|s|S|.}: " );
         scanf( "%s", in );
         c = in[0];
-        if ( c == 'a' )
-            print_stat();
+        if ( c == 's' || c == 'S' )
+            print_stat( c );
         if ( c == '.' )
             exit( 0 );
 
