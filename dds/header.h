@@ -16,6 +16,7 @@
 #define low_c( c )                      ( ( c ) & -( c ) )
 #define MAX( i, j )                     ( ( i ) > ( j ) ? ( i ) : ( j ) )
 #define MIN( i, j )                     ( ( i ) < ( j ) ? ( i ) : ( j ) )
+#define NHANDS                          64
 #define NIL                             (void *) 0
 #define NNODE                           600000000L
 #define NO                              0
@@ -84,7 +85,7 @@ struct SCARD {
 
 //  list of variables
 //  ----------------------------------------------------------------------------
-COLOR  brd[14][5][4];                   //  the unplayed cards
+COLOR  brd[NHANDS][14][5][4];           //  the unplayed cards
 double times[2];                        //  the cpu time measured at the start and the end of the program
 int    bfill;                           //  the number of occupied slots in the BACKUP hash table
 int    d_ab;                            //  the lowest ply in the alpha-beta pruning
@@ -95,6 +96,7 @@ int    ld;                              //  the opening leader
 int    ncalls[5];                       //  the number of calls of selected routines
 int    ncount;                          //  the number of active NODE entries
 int    ncountmax;                       //  the maximum number of active NODE entries
+int    nhands;                          //  the number hands that is analysed
 int    nresult;                         //  the number of results
 int    ntricks;                         //  the number of tricks that will be played
 int    scount;                          //  the number of active SCARD entries
@@ -109,7 +111,7 @@ struct JOINC  *nextjoinc;               //  the first unused slot in the JOINC h
 struct NODE   *lnode[54];               //  the stack of NODE entries
 struct NODE   *nextnode;                //  the first unused slot in the NODE tree
 struct SCARD  *nextscard;               //  the first unused slot in the SCARD tree
-struct SCARD  *scard[14][4];            //  pointer to the SCARD slots with remaining cards
+struct SCARD  *scard[NHANDS][14][4];    //  pointer to the SCARD slots with remaining cards
 struct SCARD  *scardtable[SHASHL+100];  //  the SCARD hash table
 
 struct {
@@ -135,22 +137,22 @@ struct {
 
 //  list of routines
 //  ----------------------------------------------------------------------------
-void           bottomup_tree( int d );
-void           build_node( int d, int s, int p, COLOR c );
-void           build_ply( int d, int p );
-void           build_scard( int d, int s );
-void           build_tree( int d );
+void           bottomup_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] );
+void           build_node( int d, int s, int p, COLOR c, struct SCARD *scard[14][4] );
+void           build_ply( int d, int p, COLOR brd[14][5][4], struct SCARD *scard[14][4] );
+void           build_scard( int d, int s, COLOR brd[14][5][4], struct SCARD *scard[14][4] );
+void           build_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] );
 void           check_board( void );
 int            dds( int argc, char **argv );
 struct NODE   *delete_tree( int d_start, struct NODE *root );
-int            hashbackup( int d );
-void           join_scard( int d, int s );
+int            hashbackup( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] );
+void           join_scard( int d, int s, COLOR brd[14][5][4], struct SCARD *scard[14][4] );
 void           order_plays( int d );
 void           play_board( int d, int p );
 void           play_board_start( void );
-void           print_board( int t );
+void           print_board( COLOR brd[5][4] );
 void           print_node( int d, struct NODE *root, char *ident );
-void           print_scard( int t, int s );
+void           print_scard( int t, int s, struct SCARD *scard[4][4] );
 void           print_stat( char c );
 void           print_tree( int d_start, struct NODE *root, char *ident );
 void           process_args( int argc, char **argv );

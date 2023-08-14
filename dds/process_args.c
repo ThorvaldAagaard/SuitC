@@ -63,16 +63,19 @@ void process_args( int argc, char **argv )
         else {
             k = 0;
             s = spades;
+            brd[nhands][0][s][p] = RENONCE;
             while ( argv[i][k] ) {
                 c = argv[i][k];
-                if ( c == '.' )
+                if ( c == '.' ) {
                     s++;
+                    brd[nhands][0][s][p] = RENONCE;
+                }
                 else {
                     match = NO;
                     for ( n = two; n <= ace; n++ ) {
                         if ( ( c == symbols[0][n] ) || ( c == symbols[1][n] ) || ( c == symbols[2][n] ) || ( c == symbols[3][n] ) ) {
                             match = YES;
-                            brd[0][s][p] |= set(n);
+                            brd[nhands][0][s][p] |= set(n);
                         }
                     }
                     if ( ! match ) {
@@ -82,7 +85,12 @@ void process_args( int argc, char **argv )
                 }
                 k++;
             }
-            p++;
+            if ( p == south ) {
+               nhands++;
+               p = west;
+            }
+            else
+                p++;
         }
     }
 

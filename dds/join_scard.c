@@ -7,10 +7,12 @@
 //  parameters:
 //      d               in      the depth in the NODE tree
 //      s               in      the suit that is analysed
+//      brd             in      the hand that is analysed
+//      scard           out     the SCARD sequences that are build
 //
 //  Copyright 2023, Gerrit A. van der Velde, Leiden
 
-void join_scard( int d, int s )
+void join_scard( int d, int s, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
 {
     int           match, n, p, t = st[d].t;
     unsigned long inx;
@@ -51,7 +53,7 @@ void join_scard( int d, int s )
         ljoinc->brd[p] = brd[t-1][s][p];
 
     //  convert the cards into a SCARD list
-    build_scard( d, s );
+    build_scard( d, s, brd, scard );
 
     //  locate an existing SCARD slot
     ncalls[4]++;

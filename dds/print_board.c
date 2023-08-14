@@ -5,11 +5,11 @@
 //      print_board prints the board
 //
 //  parameters:
-//      t               in      the trick that is printed
+//      brd             in      the hand that is printed
 //
 //  Copyright 2023, Gerrit A. van der Velde, Leiden
 
-void print_board( int t )
+void print_board( COLOR brd[5][4] )
 {
     int           n, nc, s;
     static char   suits[] = "SHDC";
@@ -19,7 +19,7 @@ void print_board( int t )
     for ( s = 0; s < 4; s++ ) {
         printf( "        %c: ", suits[s] );
         for ( n = ace; n >= two; n-- )
-            if ( set(n) & brd[t][s][north] )
+            if ( set(n) & brd[s][north] )
                 printf( "%c", card[n] );
         printf( "\n" );
     }
@@ -29,7 +29,7 @@ void print_board( int t )
         nc = 13;
         printf( "%c: ", suits[s] );
         for ( n = ace; n >= two; n-- ) {
-            if ( set(n) & brd[t][s][west] ) {
+            if ( set(n) & brd[s][west] ) {
                 nc--;
                 printf( "%c", card[n] );
             }
@@ -38,7 +38,7 @@ void print_board( int t )
             printf( " " );
         printf( "%c: ", suits[s] );
         for ( n = ace; n >= two; n-- )
-            if ( set(n) & brd[t][s][east] )
+            if ( set(n) & brd[s][east] )
                 printf( "%c", card[n] );
         printf( "\n" );
     }
@@ -47,7 +47,7 @@ void print_board( int t )
     for ( s = 0; s < 4; s++ ) {
         printf( "        %c: ", suits[s] );
         for ( n = ace; n >= two; n-- )
-            if ( set(n) & brd[t][s][south] )
+            if ( set(n) & brd[s][south] )
                 printf( "%c", card[n] );
         printf( "\n" );
     }

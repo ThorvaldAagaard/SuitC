@@ -6,10 +6,12 @@
 //
 //  parameters:
 //      d               in      the depth in the NODE tree
+//      brd             in      the hand that is analysed
+//      scard           out     the SCARD sequences that are build
 //
 //  Copyright 2023, Gerrit A. van der Velde, Leiden
 
-void build_tree( int d )
+void build_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
 {
     int           nh, nl, p, s, t = st[d].t;
     struct BACKUP zbackup;
@@ -34,7 +36,7 @@ void build_tree( int d )
                 backup[t] = &zbackup;
 
             //  check the BACKUP hash table
-            else if ( hashbackup( d+1 ) ) {
+            else if ( hashbackup( d+1, brd, scard ) ) {
 
                 //  check the alpha-beta pruning
                 nh = lnode[d]->nd + lnode[d]->nc + lnode[d]->nh;
@@ -45,12 +47,12 @@ void build_tree( int d )
 
                 //  the NODE tree contains still branches
                 else if ( lnode[d]->d )
-                    build_tree( d+1 );
+                    build_tree( d+1, brd, scard );
             }
 
             //  no backup NODE tree exists
             else
-                build_tree( d+1 );
+                build_tree( d+1, brd, scard );
         }
 
         //  the NODE tree is fully analysed
@@ -58,15 +60,15 @@ void build_tree( int d )
 
         //  the NODE tree contains still branches
         else if ( lnode[d]->d )
-            build_tree( d+1 );
+            build_tree( d+1, brd, scard );
 
         //  build the next ply of the NODE tree
         else {
-            build_ply( d+1, (p+1)%4 );
-            build_tree( d+1 );
+            build_ply( d+1, (p+1)%4, brd, scard );
+            build_tree( d+1, brd, scard );
         }
 
         //  backup the NODE tree
-        bottomup_tree( d );
+        bottomup_tree( d, brd, scard );
     }
 }

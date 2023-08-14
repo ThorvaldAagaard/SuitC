@@ -26,7 +26,7 @@ void print_stat( char c )
     printf( "%-11s %11d\n", "join_scard", ncalls[2] );
     printf( "%-11s %11d\n", "hashbackup", ncalls[3] );
     printf( "%-11s %11d\n", "hashscard", ncalls[4] );
-    if ( c == 'S' ) {
+    if ( c == 'P' ) {
         printf( "\n d     count\n==    ======\n" );
             for ( d = 1; d <= 4*ntricks; d++ )
                 printf( "%2d%10d\n", d, st[d].n );

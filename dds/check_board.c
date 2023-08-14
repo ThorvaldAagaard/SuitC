@@ -12,20 +12,22 @@
 
 void check_board( void )
 {
-    int           i, n, p, q, s;
+    int           h, i, n, p, q, s;
 
     //  has each player the same number of cards?
-    for ( p = 0; p < 4; p++ ) {
-        n = 0;
-        for ( s = 0; s < 4; s++ )
-            for ( i = two; i <= ace; i++ )
-                if ( set(i) & brd[0][s][p] )
-                    n++;
-        if ( p == 0 )
-            ntricks = n;
-        else if ( n != ntricks ) {
-            printf( "The number of cards isn't the same for all players\n" );
-            exit( 99 );
+    for ( h = 0; h < nhands; h++ ) {
+        for ( p = 0; p < 4; p++ ) {
+            n = 0;
+            for ( s = 0; s < 4; s++ )
+                for ( i = two; i <= ace; i++ )
+                    if ( set(i) & brd[h][0][s][p] )
+                        n++;
+            if ( h == 0 && p == 0 )
+                ntricks = n;
+            else if ( n != ntricks ) {
+                printf( "The number of cards isn't the same for all players\n" );
+                exit( 99 );
+            }
         }
     }
 
@@ -36,18 +38,22 @@ void check_board( void )
     }
 
     //  check for duplicate cards
-    for ( s = 0; s < 4; s++ ) {
-        for ( p = 0; p < 4; p++ ) {
-            for ( q = p+1; q < 4; q++ ) {
-                if ( brd[0][s][p] & brd[0][s][q] ) {
-                    printf( "The hand contains duplicate cards: c[%d][%d]=%04x and  c[%d][%d]=%04x\n", s, p, brd[0][s][p] >> 2, s, q, brd[0][s][q] >> 2 );
-                    exit( 99 );
+    for ( h = 0; h < nhands; h++ ) {
+        for ( s = 0; s < 4; s++ ) {
+            for ( p = 0; p < 4; p++ ) {
+                for ( q = p+1; q < 4; q++ ) {
+                    if ( brd[h][0][s][p] & brd[h][0][s][q] ) {
+                        printf( "The hand contains duplicate cards: brd[%02d][0][%d][%d]=%04x and brd[%02d][0][%d][%d]=%04x\n",
+                                h, s, p, brd[h][0][s][p] >> 2, h, s, q, brd[h][0][s][q] >> 2 );
+                        exit( 99 );
+                    }
                 }
             }
         }
     }
 
     //  initialise the root of the NODE tree
+    h = 0;
     lnode[0]->c = RENONCE;
     lnode[0]->d = NIL;
     lnode[0]->nc = 0;
@@ -59,5 +65,6 @@ void check_board( void )
     lnode[0]->s = discard;
     lnode[0]->t = ntricks ? NO : YES;
     lnode[0]->w_p = ld;
+
     printf( "\n#\n" );
 }

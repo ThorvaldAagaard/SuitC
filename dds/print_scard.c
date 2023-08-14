@@ -10,7 +10,7 @@
 //
 //  Copyright 2023, Gerrit A. van der Velde, Leiden
 
-void print_scard( int t, int s )
+void print_scard( int t, int s, struct SCARD *scard[4][4] )
 {
     int           i, k, n, nc;
     char          str[14];

@@ -8,10 +8,12 @@
 //
 //  parameters:
 //      d               in      the depth in the NODE tree
+//      brd             in      the hand that is analysed
+//      scard           out     the SCARD sequences that are build
 //
 //  Copyright 2023, Gerrit A. van der Velde, Leiden
 
-int hashbackup( int d )
+int hashbackup( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
 {
     int           match, p, s, t = st[d].t;
     unsigned long inx;
@@ -20,7 +22,7 @@ int hashbackup( int d )
     //  create the JOINC slots
     for ( s = 0; s < 4; s++ ) {
         if ( brd[t-1][s][0] | brd[t-1][s][1] | brd[t-1][s][2] | brd[t-1][s][3] )
-            join_scard( d, s );
+            join_scard( d, s, brd, scard );
         else {
             scard[t][s] = NIL;
             for ( p = 0; p < 4; p++ )
@@ -54,7 +56,7 @@ int hashbackup( int d )
     }
 
     //  build the NODE tree for the next trick
-    build_ply( d, lnode[d-1]->w_p );
+    build_ply( d, lnode[d-1]->w_p, brd, scard );
 
     //  create a new BACKUP slot
     bfill++;

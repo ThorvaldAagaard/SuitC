@@ -31,16 +31,14 @@
 
 int main( int argc, char **argv )
 {
-    int           d, inx, p, s;
+    int           d, inx;
     double        times[2];
     struct NODE   znode;
 
     //  initialise variables
     times[0] = TICK * clock();
+    nhands = 0;
     target.set = NO;
-    for ( s = 0; s < 5; s++ )
-        for ( p = 0; p < 4; p++ )
-            brd[0][s][p] = RENONCE;
     for ( d = 0; d < 5; d++ )
         ncalls[d] = 0;
     for ( d = 0; d <= 52; d++ ) {

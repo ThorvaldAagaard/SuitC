@@ -7,10 +7,12 @@
 //  parameters:
 //      d               in      the depth in the NODE tree
 //      s               in      the suit that is analysed
+//      brd             in      the hand that is analysed
+//      scard           out     the SCARD sequences that are build
 //
 //  Copyright 2023, Gerrit A. van der Velde, Leiden
 
-void build_scard( int d, int s )
+void build_scard( int d, int s, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
 {
     int           i, n = -1, p, q = unknown, t = st[d].t;
     struct SEQC   *sq;

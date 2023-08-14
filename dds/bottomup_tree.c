@@ -7,10 +7,12 @@
 //
 //  parameters:
 //      d               in      the depth in the NODE tree
+//      brd             in      the hand that is analysed
+//      scard           out     the SCARD sequences that are build
 //
 //  Copyright 2023, Gerrit A. van der Velde, Leiden
 
-void bottomup_tree( int d )
+void bottomup_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
 {
     int           nh, nl, p, s, t = st[d].t;
     struct NODE   *nnode;
