@@ -28,7 +28,7 @@ void build_ply( int d, int p, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
             sq = scard[t][s]->sq;
             for ( n = 0; n < scard[t][s]->n; n++ )
                 if ( sq[n].p == p )
-                    build_node( d, s, p, sq[n].c, scard );
+                    build_node( d, s, p, sq[n].c, brd );
         }
     }
 

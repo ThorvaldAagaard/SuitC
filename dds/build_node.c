@@ -9,11 +9,11 @@
 //      s               in      the suit of this node
 //      p               in      the player of this node
 //      c               in      the cards of this node
-//      scard           out     the SCARD sequences that are build
+//      brd             in      the hand that is analysed
 //
 //  Copyright 2023, Gerrit A. van der Velde, Leiden
 
-void build_node( int d, int s, int p, COLOR c, struct SCARD *scard[14][4] )
+void build_node( int d, int s, int p, COLOR c, COLOR brd[14][5][4] )
 {
     int           b, lds, q, t = st[d].t;
     struct        { int p, s; COLOR c; } w;
@@ -62,16 +62,15 @@ void build_node( int d, int s, int p, COLOR c, struct SCARD *scard[14][4] )
 
     for ( b = d+1; b <= st[d].l+3; b++ ) {
         q = (p+b-d)%4;
-        if ( w.s == lds && scard[t][lds]->brd[q] > w.c ) {
+        if ( w.s == lds && brd[t][lds][q] > w.c ) {
             w.p = q;
             w.s = lds;
-            w.c = scard[t][lds]->brd[q];
+            w.c = brd[t][lds][q];
         }
-        else if ( ! brd[t][lds][q] && trump != notrump && scard[t][trump] &&
-                  ( w.s == trump && scard[t][trump]->brd[q] > w.c || w.s != trump && scard[t][trump]->brd[q] ) ) {
+        if ( ! brd[t][lds][q] && ( w.s == trump && brd[t][trump][q] > w.c || w.s != trump && brd[t][trump][q] ) ) {
             w.p = q;
             w.s = trump;
-            w.c = scard[t][trump]->brd[q];
+            w.c = brd[t][trump][q];
         }
     }
 

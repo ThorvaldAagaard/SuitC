@@ -96,7 +96,6 @@ int    ld;                              //  the opening leader
 int    ncalls[5];                       //  the number of calls of selected routines
 int    ncount;                          //  the number of active NODE entries
 int    ncountmax;                       //  the maximum number of active NODE entries
-int    nhands;                          //  the number hands that is analysed
 int    nresult;                         //  the number of results
 int    ntricks;                         //  the number of tricks that will be played
 int    scount;                          //  the number of active SCARD entries
@@ -113,6 +112,11 @@ struct NODE   *nextnode;                //  the first unused slot in the NODE tr
 struct SCARD  *nextscard;               //  the first unused slot in the SCARD tree
 struct SCARD  *scard[NHANDS][14][4];    //  pointer to the SCARD slots with remaining cards
 struct SCARD  *scardtable[SHASHL+100];  //  the SCARD hash table
+
+struct {
+    int           n,                    //  the number of hands for each ply
+                  h[NHANDS];            //  the hand indices
+} hlist[53];
 
 struct {
     COLOR         c;                    //  the cards that are lead
@@ -138,7 +142,7 @@ struct {
 //  list of routines
 //  ----------------------------------------------------------------------------
 void           bottomup_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] );
-void           build_node( int d, int s, int p, COLOR c, struct SCARD *scard[14][4] );
+void           build_node( int d, int s, int p, COLOR c, COLOR brd[14][5][4] );
 void           build_ply( int d, int p, COLOR brd[14][5][4], struct SCARD *scard[14][4] );
 void           build_scard( int d, int s, COLOR brd[14][5][4], struct SCARD *scard[14][4] );
 void           build_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] );

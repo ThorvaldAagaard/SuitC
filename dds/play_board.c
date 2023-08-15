@@ -17,26 +17,31 @@ void play_board( int d, int p )
     static char   suits[] = "shdc-";
     static char   *suit[] = { "spades", "hearts", "diamonds", "clubs", "notrump", "discard" };
     static char   symbols[] = "-123456789tjqka=";
-    struct NODE   znode;
+    struct NODE   *bnode[53], znode;
     struct SCARD  *lc, zscard;
-    struct { int i, ns, s; } res[13];
+    struct { int i, ns, s; } res[NHANDS][13];
 
-    for ( h = 0; h < nhands; h++ )
-    if ( st[d].ld )
-        for ( s = 0; s < 4; s++ )
-            build_scard( d, s, brd[h], scard[h] );
+    if ( st[d].ld ) {
+        for ( l = 0; l < hlist[d].n; l++ ) {
+            h = hlist[d].h[l];
+            for ( s = 0; s < 4; s++ )
+                build_scard( d, s, brd[h], scard[h] );
+        }
+    }
 
 redo:
     d_back = d;
     d_ab = d+1;
     d_start = d;
-    for ( h = 0; h < nhands; h++ ) {
+    for ( l = 0; l < hlist[d].n; l++ ) {
+        h = hlist[d].h[l];
         nresult = 0;
         lnode[d-1]->t = NO;
         lnode[d-1]->nl = 0;
         lnode[d-1]->nh = ntricks - d/4;
         build_ply( d, p, brd[h], scard[h] );
         build_tree( d, brd[h], scard[h] );
+        printf( "\n" ); print_board( brd[h][t] );
 
         //  collect the results
         k = 0;
@@ -44,21 +49,23 @@ redo:
             for ( i = ace; i >= two; i-- ) {
                 for ( n = 0; n < nresult; n++ ) {
                     if ( result[n].s == s && result[n].c & set(i) ) {
-                        res[k].i = i;
-                        res[k].ns = result[n].ns;
-                        res[k].s = s;
+                        res[h][k].i = i;
+                        res[h][k].ns = result[n].ns;
+                        res[h][k].s = s;
                         k++;
                     }
                 }
             }
         }
+    }
 
-        //  print the results
-        printf( "\n" ); print_board( brd[h][t] );
+    //  print the results
+    for ( l = 0; l < hlist[d].n; l++ ) {
+        h = hlist[d].h[l];
         printf( "\nd=%02d", d );
-        printf( "  " ); for ( n = 0; n < k; n++ ) printf( "  %c", suits[res[n].s] ); printf( "\n    " );
-        printf( "  " ); for ( n = 0; n < k; n++ ) printf( "  %c", symbols[res[n].i] ); printf( "\n    " );
-        printf( "  " ); for ( n = 0; n < k; n++ ) printf( "  %x", res[n].ns ); printf( "\n" );
+        printf( "  " ); for ( n = 0; n < k; n++ ) printf( "  %c", suits[res[h][n].s] ); printf( "\n    " );
+        printf( "  " ); for ( n = 0; n < k; n++ ) printf( "  %c", symbols[res[h][n].i] ); printf( "\n    " );
+        printf( "  " ); for ( n = 0; n < k; n++ ) printf( "  %x", res[h][n].ns ); printf( "\n" );
     }
 
     ns = lnode[st[d].l-1]->nd + lnode[st[d].l-1]->nc;
@@ -139,30 +146,58 @@ redo:
         printf( "The selected play is incorrect\n" );
         goto redo;
     }
+    #ifdef SKIP
     else if ( brd[h][t][s][p] && ( st[d].ld || s == lds || ! brd[h][t][lds][p] ) && brd[h][t][s][p] & set(i) ) ;
     else {
+        printf( "The selected play is incorrect\n" );
+        goto redo;
+    }
+    #endif
+    else {
+        hlist[d+1].n = 0;
+        for ( l = 0; l < hlist[d].n; l++ ) {
+            h = hlist[d].h[l];
+            if ( brd[h][t][s][p] && ( st[d].ld || s == lds || ! brd[h][t][lds][p] ) && brd[h][t][s][p] & set(i) ) {
+                hlist[d+1].h[hlist[d+1].n] = h;
+                hlist[d+1].n++;
+            }
+        }
+    }
+    if ( hlist[d+1].n == 0 ) {
         printf( "The selected play is incorrect\n" );
         goto redo;
     }
 
     znode.r = NIL;
     lnode[d] = &znode;
-    build_node( d, s, p, set(i), scard[h] );
+    bnode[d] = lnode[d-1]->d;
+    h = hlist[d+1].h[0];
+    build_node( d, s, p, set(i), brd[h] );
     lnode[d-1]->d = lnode[d];
     lnode[d]->nd = lnode[d-1]->nd + lnode[d-1]->nc;
-    brd[h][t][s][p] ^= brd[h][t][s][p] & set(i);
+    for ( l = 0; l < hlist[d].n; l++ ) {
+        h = hlist[d].h[l];
+        brd[h][t][s][p] ^= brd[h][t][s][p] & set(i);
+    }
 
     //  play the next card
     if ( d < 4*ntricks ) {
         q = st[d].la ? lnode[d]->w_p : (p+1)%4;
         play_board( d+1, q );
-        brd[h][t][s][p] = scard[h][t][s]->brd[p];
+        for ( l = 0; l < hlist[d].n; l++ ) {
+            h = hlist[d].h[l];
+            brd[h][t][s][p] = scard[h][t][s]->brd[p];
+        }
     }
 
     //  We are finished
     else {
 
-        brd[h][t][s][p] = scard[h][t][s]->brd[p];
+        lnode[d-1]->d = bnode[d];
+        for ( l = 0; l < hlist[d].n; l++ ) {
+            h = hlist[d].h[l];
+            brd[h][t][s][p] = scard[h][t][s]->brd[p];
+        }
         ns = lnode[d]->nd + lnode[d]->nc;
         printf( "\nd=%02d    ns=%x ew=%x   %s\n", d, ns, st[d].t - ns, suit[trump] );
         printf( "\n%s", "We are finished. What next? {b<n>|p|P|.}: " );
@@ -182,8 +217,10 @@ redo:
                 if ( in[2] != '\0' )
                     d_back = 10 * d_back + in[2] - '0';
             }
-            if ( d_back < d )
+            if ( d_back < d ) {
+                lnode[d_back-1]->d = bnode[d_back];
                 return;
+            }
             else {
                 printf( "Forward backtracking isn't allowed\n" );
                 goto redo;

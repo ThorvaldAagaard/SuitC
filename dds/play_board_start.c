@@ -11,7 +11,7 @@
 
 void play_board_start( void )
 {
-    int           h, ns[4][5], p = ld, s = trump;
+    int           h, l, ns[4][5], p = ld, s = trump;
     char          c, in[10];
     static char   hdr[] = "S H D C N";
     static char   *seat[] = { "west", "north", "east", "south" };
@@ -23,7 +23,8 @@ void play_board_start( void )
     d_start = 1;
 
     //  determine the result for all combinations of leader and denomination
-    for ( h = 0; h < nhands; h++ ) {
+    for ( l = 0; l < hlist[1].n; l++ ) {
+        h = hlist[1].h[l];
         for ( ld = 0; ld < 4; ld++ ) {
             for ( trump = 0; trump < 5; trump++ ) {
                 if ( ( p == ld || p == unknown ) && ( s == trump || s == discard ) ) {

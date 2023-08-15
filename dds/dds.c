@@ -31,13 +31,13 @@
 
 int main( int argc, char **argv )
 {
-    int           d, inx;
+    int           d, inx, l;
     double        times[2];
     struct NODE   znode;
 
     //  initialise variables
     times[0] = TICK * clock();
-    nhands = 0;
+    hlist[0].n = 0;
     target.set = NO;
     for ( d = 0; d < 5; d++ )
         ncalls[d] = 0;
@@ -85,6 +85,9 @@ int main( int argc, char **argv )
     check_board();
 
     //  build the NODE tree and determine the optimal result for north-south
+    hlist[1].n = hlist[0].n;
+    for ( l = 0; l < hlist[0].n; l++ )
+        hlist[1].h[l] = hlist[0].h[l];
     if ( ld == unknown || trump == discard )
         play_board_start();
     play_board( 1, ld );

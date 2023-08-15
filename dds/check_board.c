@@ -12,10 +12,11 @@
 
 void check_board( void )
 {
-    int           h, i, n, p, q, s;
+    int           h, i, l, n, p, q, s;
 
     //  has each player the same number of cards?
-    for ( h = 0; h < nhands; h++ ) {
+    for ( l = 0; l < hlist[0].n; l++ ) {
+        h = hlist[0].h[l];
         for ( p = 0; p < 4; p++ ) {
             n = 0;
             for ( s = 0; s < 4; s++ )
@@ -38,7 +39,8 @@ void check_board( void )
     }
 
     //  check for duplicate cards
-    for ( h = 0; h < nhands; h++ ) {
+    for ( l = 0; l < hlist[0].n; l++ ) {
+        h = hlist[0].h[l];
         for ( s = 0; s < 4; s++ ) {
             for ( p = 0; p < 4; p++ ) {
                 for ( q = p+1; q < 4; q++ ) {
