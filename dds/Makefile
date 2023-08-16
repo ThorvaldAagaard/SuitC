@@ -27,6 +27,8 @@ SOURCES	= 			\
 	  join_scard.c		\
 	  play_board.c		\
 	  play_board_start.c	\
+	  print_all_boards.c	\
+	  print_all_results.c	\
 	  print_board.c		\
 	  print_node.c		\
 	  print_scard.c		\

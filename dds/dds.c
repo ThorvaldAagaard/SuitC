@@ -22,6 +22,8 @@
 #include "order_plays.c"
 #include "play_board.c"
 #include "play_board_start.c"
+#include "print_all_boards.c"
+#include "print_all_results.c"
 #include "print_board.c"
 #include "print_node.c"
 #include "print_scard.c"

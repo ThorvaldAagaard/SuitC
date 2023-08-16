@@ -119,6 +119,13 @@ struct {
 } hlist[53];
 
 struct {
+    int           k,                    //  the number of results
+                  i[13],                //  the card index
+                  ns[13],               //  the number north-south tricks
+                  s[13];                //  the suit
+} res[NHANDS];
+
+struct {
     COLOR         c;                    //  the cards that are lead
     unsigned int  s,                    //  the suit that is lead
                   ns;                   //  the result
@@ -154,6 +161,8 @@ void           join_scard( int d, int s, COLOR brd[14][5][4], struct SCARD *scar
 void           order_plays( int d );
 void           play_board( int d, int p );
 void           play_board_start( void );
+void           print_all_boards( int d );
+void           print_all_results( int d, COLOR *cards );
 void           print_board( COLOR brd[5][4] );
 void           print_node( int d, struct NODE *root, char *ident );
 void           print_scard( int t, int s, struct SCARD *scard[4][4] );

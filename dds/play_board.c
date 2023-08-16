@@ -13,13 +13,13 @@ void play_board( int d, int p )
 {
     int           b, h, i, k, l, lds, n, ns, q, s, start, t = st[d].t;
     char          c, in[10], out[14];
+    COLOR         cards[4];
     static char   seats[] = "wnes";
     static char   suits[] = "shdc-";
     static char   *suit[] = { "spades", "hearts", "diamonds", "clubs", "notrump", "discard" };
     static char   symbols[] = "-123456789tjqka=";
     struct NODE   *bnode[53], znode;
     struct SCARD  *lc, zscard;
-    struct { int i, ns, s; } res[NHANDS][13];
 
     if ( st[d].ld ) {
         for ( l = 0; l < hlist[d].n; l++ ) {
@@ -41,7 +41,6 @@ redo:
         lnode[d-1]->nh = ntricks - d/4;
         build_ply( d, p, brd[h], scard[h] );
         build_tree( d, brd[h], scard[h] );
-        printf( "\n" ); print_board( brd[h][t] );
 
         //  collect the results
         k = 0;
@@ -49,25 +48,20 @@ redo:
             for ( i = ace; i >= two; i-- ) {
                 for ( n = 0; n < nresult; n++ ) {
                     if ( result[n].s == s && result[n].c & set(i) ) {
-                        res[h][k].i = i;
-                        res[h][k].ns = result[n].ns;
-                        res[h][k].s = s;
+                        res[h].i[k] = i;
+                        res[h].ns[k] = result[n].ns;
+                        res[h].s[k] = s;
                         k++;
                     }
                 }
             }
         }
+        res[h].k = k;
     }
 
     //  print the results
-    for ( l = 0; l < hlist[d].n; l++ ) {
-        h = hlist[d].h[l];
-        printf( "\nd=%02d", d );
-        printf( "  " ); for ( n = 0; n < k; n++ ) printf( "  %c", suits[res[h][n].s] ); printf( "\n    " );
-        printf( "  " ); for ( n = 0; n < k; n++ ) printf( "  %c", symbols[res[h][n].i] ); printf( "\n    " );
-        printf( "  " ); for ( n = 0; n < k; n++ ) printf( "  %x", res[h][n].ns ); printf( "\n" );
-    }
-
+    print_all_boards( d );
+    print_all_results( d, cards );
     ns = lnode[st[d].l-1]->nd + lnode[st[d].l-1]->nc;
     printf( "\nd=%02d    ns=%x ew=%x   %s", d, ns, st[st[d].l-1].t - ns, suit[trump] );
     for ( b = st[d].l; b < d; b++ ) {
@@ -84,10 +78,10 @@ redo:
     lds = st[d].ld ? discard : lnode[st[d].l]->s;
     printf( "%s", "\nSelect the play " );
     for ( s = 0; s < 4; s++ ) {
-        if ( brd[h][t][s][p] && ( st[d].ld || s == lds || ! brd[h][t][lds][p] ) ) {
+        if ( cards[s] && ( st[d].ld || s == lds || ! cards[lds] ) ) {
             l = 0;
             for ( i = ace; i >= two; i-- )
-                if ( brd[h][t][s][p] & set(i) )
+                if ( cards[s] & set(i) )
                     out[l++] = symbols[i];
             out[l] = '\0';
             if ( start && l ) {
@@ -147,7 +141,7 @@ redo:
         goto redo;
     }
     #ifdef SKIP
-    else if ( brd[h][t][s][p] && ( st[d].ld || s == lds || ! brd[h][t][lds][p] ) && brd[h][t][s][p] & set(i) ) ;
+    else if ( cards[s] && ( st[d].ld || s == lds || ! brd[h][t][lds][p] ) && brd[h][t][s][p] & set(i) ) ;
     else {
         printf( "The selected play is incorrect\n" );
         goto redo;
