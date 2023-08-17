@@ -140,13 +140,6 @@ redo:
         printf( "The selected play is incorrect\n" );
         goto redo;
     }
-    #ifdef SKIP
-    else if ( cards[s] && ( st[d].ld || s == lds || ! brd[h][t][lds][p] ) && brd[h][t][s][p] & set(i) ) ;
-    else {
-        printf( "The selected play is incorrect\n" );
-        goto redo;
-    }
-    #endif
     else {
         hlist[d+1].n = 0;
         for ( l = 0; l < hlist[d].n; l++ ) {

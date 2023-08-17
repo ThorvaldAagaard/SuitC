@@ -28,7 +28,7 @@ void print_all_results( int d, COLOR *cards )
     }
 
     //  print the suits
-    printf( "\nd=%02d  ", d );
+    printf( "\n\n\nd=%02d  ", d );
     for ( s = 0; s < 4; s++ )
         for ( i = ace; i >= two; i-- )
             if ( cards[s] & set(i) )
@@ -40,6 +40,14 @@ void print_all_results( int d, COLOR *cards )
         for ( i = ace; i >= two; i-- )
             if ( cards[s] & set(i) )
                 printf( "%3c", symbols[i] );
+    printf( "\n      " );
+
+    //  print a separator line
+    match = NO;
+    for ( s = 0; s < 4; s++ )
+        for ( i = ace; i >= two; i-- )
+            if ( cards[s] & set(i) )
+                { printf( "%s", match ? "---" : "  -" ); match = YES; }
     printf( "\n" );
 
     //  print the results
@@ -64,15 +72,4 @@ void print_all_results( int d, COLOR *cards )
         }
         printf( "\n" );
     }
-
-    #ifdef SKIP
-    for ( l = 0; l < hlist[d].n; l++ ) {
-        h = hlist[d].h[l];
-        k = res[h].k;
-        printf( "\nd=%02d", d );
-        printf( "  " ); for ( n = 0; n < k; n++ ) printf( "  %c", suits[res[h].s[n]] ); printf( "\n    " );
-        printf( "  " ); for ( n = 0; n < k; n++ ) printf( "  %c", symbols[res[h].i[n]] ); printf( "\n    " );
-        printf( "  " ); for ( n = 0; n < k; n++ ) printf( "  %c", hexdigit[res[h].ns[n]] ); printf( "\n" );
-    }
-    #endif
 }
