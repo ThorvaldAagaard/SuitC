@@ -67,7 +67,7 @@ void print_tree( int d_start, struct NODE *root, char *ident )
         //  translate the suit
         out[l++] = suits[nnode[d]->s];
         out[l++] = ':';
-        //  translate the hand into card symbols
+        //  translate the suit into card symbols
         k = l;
         if ( d )
             for ( i = 0; i < n-1; i++ )

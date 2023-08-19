@@ -9,7 +9,7 @@
 //      s               in      the suit of this node
 //      p               in      the player of this node
 //      c               in      the cards of this node
-//      brd             in      the hand that is analysed
+//      brd             in      the board that is analysed
 //
 //  Copyright 2023, Gerrit A. van der Velde, Leiden
 

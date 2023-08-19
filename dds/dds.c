@@ -39,7 +39,7 @@ int main( int argc, char **argv )
 
     //  initialise variables
     times[0] = TICK * clock();
-    hlist[0].n = 0;
+    blist[0].n = 0;
     target.set = NO;
     for ( d = 0; d < 5; d++ )
         ncalls[d] = 0;
@@ -87,9 +87,9 @@ int main( int argc, char **argv )
     check_board();
 
     //  build the NODE tree and determine the optimal result for north-south
-    hlist[1].n = hlist[0].n;
-    for ( l = 0; l < hlist[0].n; l++ )
-        hlist[1].h[l] = hlist[0].h[l];
+    blist[1].n = blist[0].n;
+    for ( l = 0; l < blist[0].n; l++ )
+        blist[1].b[l] = blist[0].b[l];
     if ( ld == unknown || trump == discard )
         play_board_start();
     play_board( 1, ld );

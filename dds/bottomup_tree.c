@@ -7,7 +7,7 @@
 //
 //  parameters:
 //      d               in      the depth in the NODE tree
-//      brd             in      the hand that is analysed
+//      brd             in      the board that is analysed
 //      scard           out     the SCARD sequences that are build
 //
 //  Copyright 2023, Gerrit A. van der Velde, Leiden

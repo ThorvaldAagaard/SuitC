@@ -5,7 +5,7 @@
 //      print_board prints the board
 //
 //  parameters:
-//      brd             in      the hand that is printed
+//      brd             in      the board that is printed
 //
 //  Copyright 2023, Gerrit A. van der Velde, Leiden
 

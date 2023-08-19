@@ -6,13 +6,13 @@
 //
 //  parameters:
 //      d               in      the depth in the NODE tree
-//      cards           out     the cards c$in all hands
+//      cards           out     the cards in each hand
 //
 //  Copyright 2023, Gerrit A. van der Velde, Leiden
 
 void print_all_results( int d, COLOR *cards )
 {
-    int           h, i, k, l, match, n, s;
+    int           b, i, k, l, match, n, s;
     static char   hexdigit[] = "0123456789abcdef";
     static char   suits[] = "shdc-";
     static char   symbols[] = "-123456789tjqka=";
@@ -20,11 +20,11 @@ void print_all_results( int d, COLOR *cards )
     //  collect the cards
     for ( s = 0; s < 4; s++ )
         cards[s] = RENONCE;
-    for ( l = 0; l < hlist[d].n; l++ ) {
-        h = hlist[d].h[l];
-        k = res[h].k;
+    for ( l = 0; l < blist[d].n; l++ ) {
+        b = blist[d].b[l];
+        k = res[b].k;
         for ( n = 0; n < k; n++ )
-            cards[res[h].s[n]] |= set(res[h].i[n]);
+            cards[res[b].s[n]] |= set(res[b].i[n]);
     }
 
     //  print the suits
@@ -51,18 +51,18 @@ void print_all_results( int d, COLOR *cards )
     printf( "\n" );
 
     //  print the results
-    for ( l = 0; l < hlist[d].n; l++ ) {
-        h = hlist[d].h[l];
-        k = res[h].k;
-        printf( "h=%02d  ", h+1 );
+    for ( l = 0; l < blist[d].n; l++ ) {
+        b = blist[d].b[l];
+        k = res[b].k;
+        printf( "b=%02d  ", b+1 );
         for ( s = 0; s < 4; s++ ) {
             for ( i = ace; i >= two; i-- ) {
                 if ( cards[s] & set(i) ) {
                     match = NO;
                     for ( n = 0; n < k; n++ ) {
-                        if ( s == res[h].s[n] && i == res[h].i[n] ) {
+                        if ( s == res[b].s[n] && i == res[b].i[n] ) {
                             match = YES;
-                            printf( "%3c", hexdigit[res[h].ns[n]] );
+                            printf( "%3c", hexdigit[res[b].ns[n]] );
                         }
                     }
                     if ( ! match )

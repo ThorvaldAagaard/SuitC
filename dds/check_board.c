@@ -12,18 +12,18 @@
 
 void check_board( void )
 {
-    int           h, i, l, n, p, q, s;
+    int           b, i, l, n, p, q, s;
 
     //  has each player the same number of cards?
-    for ( l = 0; l < hlist[0].n; l++ ) {
-        h = hlist[0].h[l];
+    for ( l = 0; l < blist[0].n; l++ ) {
+        b = blist[0].b[l];
         for ( p = 0; p < 4; p++ ) {
             n = 0;
             for ( s = 0; s < 4; s++ )
                 for ( i = two; i <= ace; i++ )
-                    if ( set(i) & brd[h][0][s][p] )
+                    if ( set(i) & brd[b][0][s][p] )
                         n++;
-            if ( h == 0 && p == 0 )
+            if ( b == 0 && p == 0 )
                 ntricks = n;
             else if ( n != ntricks ) {
                 printf( "The number of cards isn't the same for all players\n" );
@@ -39,14 +39,14 @@ void check_board( void )
     }
 
     //  check for duplicate cards
-    for ( l = 0; l < hlist[0].n; l++ ) {
-        h = hlist[0].h[l];
+    for ( l = 0; l < blist[0].n; l++ ) {
+        b = blist[0].b[l];
         for ( s = 0; s < 4; s++ ) {
             for ( p = 0; p < 4; p++ ) {
                 for ( q = p+1; q < 4; q++ ) {
-                    if ( brd[h][0][s][p] & brd[h][0][s][q] ) {
-                        printf( "The hand contains duplicate cards: brd[%02d][0][%d][%d]=%04x and brd[%02d][0][%d][%d]=%04x\n",
-                                h, s, p, brd[h][0][s][p] >> 2, h, s, q, brd[h][0][s][q] >> 2 );
+                    if ( brd[b][0][s][p] & brd[b][0][s][q] ) {
+                        printf( "The board contains duplicate cards: brd[%02d][0][%d][%d]=%04x and brd[%02d][0][%d][%d]=%04x\n",
+                                b, s, p, brd[b][0][s][p] >> 2, b, s, q, brd[b][0][s][q] >> 2 );
                         exit( 99 );
                     }
                 }
@@ -55,7 +55,6 @@ void check_board( void )
     }
 
     //  initialise the root of the NODE tree
-    h = 0;
     lnode[0]->c = RENONCE;
     lnode[0]->d = NIL;
     lnode[0]->nc = 0;

@@ -16,7 +16,7 @@
 #define low_c( c )                      ( ( c ) & -( c ) )
 #define MAX( i, j )                     ( ( i ) > ( j ) ? ( i ) : ( j ) )
 #define MIN( i, j )                     ( ( i ) < ( j ) ? ( i ) : ( j ) )
-#define NHANDS                          64
+#define NBOARDS                         64
 #define NIL                             (void *) 0
 #define NNODE                           600000000L
 #define NO                              0
@@ -43,6 +43,11 @@ struct BACKUP {
                   nl:4,                 //  the backup value of the minimum number of north-south tricks
                   t:1,                  //  indicator for terminal nodes
                   trump:3;              //  the trump suit
+};
+
+struct BLIST {
+    int           n,                    //  the number of boards for each ply
+                  b[NBOARDS];           //  the board indices
 };
 
 struct JOINC {
@@ -85,7 +90,7 @@ struct SCARD {
 
 //  list of variables
 //  ----------------------------------------------------------------------------
-COLOR  brd[NHANDS][14][5][4];           //  the unplayed cards
+COLOR  brd[NBOARDS][14][5][4];           //  the unplayed cards
 double times[2];                        //  the cpu time measured at the start and the end of the program
 int    bfill;                           //  the number of occupied slots in the BACKUP hash table
 int    d_ab;                            //  the lowest ply in the alpha-beta pruning
@@ -105,33 +110,29 @@ int    trump;                           //  the trump suit
 struct BACKUP *backup[14];              //  the pointers to the BACKUP slots for each trick
 struct BACKUP *backuptable[BHASHL+100]; //  the BACKUP hash table
 struct BACKUP *nextbackup;              //  the first unused slot in the BACKUP hash table
+struct BLIST  blist[53];                //  the list of boards
 struct JOINC  *joinctable[JHASHL+100];  //  the JOINC hash table
 struct JOINC  *nextjoinc;               //  the first unused slot in the JOINC hash table
 struct NODE   *lnode[54];               //  the stack of NODE entries
 struct NODE   *nextnode;                //  the first unused slot in the NODE tree
 struct SCARD  *nextscard;               //  the first unused slot in the SCARD tree
-struct SCARD  *scard[NHANDS][14][4];    //  pointer to the SCARD slots with remaining cards
+struct SCARD  *scard[NBOARDS][14][4];   //  pointer to the SCARD slots with remaining cards
 struct SCARD  *scardtable[SHASHL+100];  //  the SCARD hash table
 
-struct {
-    int           n,                    //  the number of hands for each ply
-                  h[NHANDS];            //  the hand indices
-} hlist[53];
-
-struct {
+struct RES {
     int           k,                    //  the number of results
                   i[13],                //  the card index
                   ns[13],               //  the number north-south tricks
                   s[13];                //  the suit
-} res[NHANDS];
+} res[NBOARDS];
 
-struct {
+struct RESULT {
     COLOR         c;                    //  the cards that are lead
     unsigned int  s,                    //  the suit that is lead
                   ns;                   //  the result
 } result[13];
 
-struct {
+struct STACK {
     unsigned int  l,                    //  the lowest ply in this trick
                   la,                   //  YES if this is the last player to this trick
                   ld,                   //  YES if the lead is made in this ply
@@ -139,7 +140,7 @@ struct {
                   t;                    //  the trick number
 } st[53];                               //  the description of each ply
 
-struct {
+struct TARGET {
     unsigned int  d,                    //  the ply number of the target root
                   p,                    //  the player that plays at the target root
                   ns,                   //  the number of north-south tricks

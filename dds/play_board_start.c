@@ -11,7 +11,7 @@
 
 void play_board_start( void )
 {
-    int           h, l, ns[4][5], p = ld, s = trump;
+    int           b, l, ns[4][5], p = ld, s = trump;
     char          c, in[10];
     static char   hdr[] = "S H D C N";
     static char   *seat[] = { "west", "north", "east", "south" };
@@ -23,8 +23,8 @@ void play_board_start( void )
     d_start = 1;
 
     //  determine the result for all combinations of leader and denomination
-    for ( l = 0; l < hlist[1].n; l++ ) {
-        h = hlist[1].h[l];
+    for ( l = 0; l < blist[1].n; l++ ) {
+        b = blist[1].b[l];
         for ( ld = 0; ld < 4; ld++ ) {
             for ( trump = 0; trump < 5; trump++ ) {
                 if ( ( p == ld || p == unknown ) && ( s == trump || s == discard ) ) {
@@ -33,8 +33,8 @@ void play_board_start( void )
                     lnode[0]->w_p = ld;
                     lnode[0]->nl = 0;
                     lnode[0]->nh = ntricks;
-                    hashbackup( 1, brd[h], scard[h] );
-                    build_tree( d_start, brd[h], scard[h] );
+                    hashbackup( 1, brd[b], scard[b] );
+                    build_tree( d_start, brd[b], scard[b] );
                     ns[ld][trump] = lnode[0]->nh;
                 }
             }
@@ -45,7 +45,7 @@ void play_board_start( void )
 
         //  print the results
         printf( "\n" );
-        print_board( brd[h][0] );
+        print_board( brd[b][0] );
 
         if ( ld == unknown && trump == discard ) {
             printf( "\n%12s%s\n", "", hdr );

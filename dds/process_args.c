@@ -63,19 +63,19 @@ void process_args( int argc, char **argv )
         else {
             k = 0;
             s = spades;
-            brd[hlist[0].n][0][s][p] = RENONCE;
+            brd[blist[0].n][0][s][p] = RENONCE;
             while ( argv[i][k] ) {
                 c = argv[i][k];
                 if ( c == '.' ) {
                     s++;
-                    brd[hlist[0].n][0][s][p] = RENONCE;
+                    brd[blist[0].n][0][s][p] = RENONCE;
                 }
                 else {
                     match = NO;
                     for ( n = two; n <= ace; n++ ) {
                         if ( ( c == symbols[0][n] ) || ( c == symbols[1][n] ) || ( c == symbols[2][n] ) || ( c == symbols[3][n] ) ) {
                             match = YES;
-                            brd[hlist[0].n][0][s][p] |= set(n);
+                            brd[blist[0].n][0][s][p] |= set(n);
                         }
                     }
                     if ( ! match ) {
@@ -86,8 +86,8 @@ void process_args( int argc, char **argv )
                 k++;
             }
             if ( p == south ) {
-                hlist[0].h[hlist[0].n] = hlist[0].n;
-                hlist[0].n++;
+                blist[0].b[blist[0].n] = blist[0].n;
+                blist[0].n++;
                 p = west;
             }
             else
@@ -99,10 +99,10 @@ void process_args( int argc, char **argv )
         printf( "\n" );
         printf( "calling sequence:\n" );
         printf( "\n" );
-        printf( "dds [{?|-h|-?}] [-L{W|N|E|S}] [-T{s|h|d|c|n}] <west> <north> <east> <south>\n" );
+        printf( "dds [{?|-h|-?}] [-L{w|n|e|s}] [-T{s|h|d|c|n}] <west> <north> <east> <south> <west> <north> <east> <south> ...\n" );
         printf( "\noptions:\n" );
         printf( "    ?|-h|-?         print the options of dds\n" );
-        printf( "    -L[W|N|E|S]     the opening leader at trick one\n" );
+        printf( "    -L{w|n|e|s}     the opening leader at trick one\n" );
         printf( "    -T{s|h|d|c|n}   the trump suit\n" );
         printf( "    <west>          the west hand\n" );
         printf( "    <north>         the north hand\n" );
