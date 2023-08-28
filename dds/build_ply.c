@@ -6,13 +6,12 @@
 //
 //  parameters:
 //      d               in      the depth in the NODE tree
+//      b               in      the board that is analysed
 //      p               in      the player of this ply
-//      brd             in      the board that is analysed
-//      scard           out     the SCARD sequences that are build
 //
 //  Copyright 2023, Gerrit A. van der Velde, Leiden
 
-void build_ply( int d, int p, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
+void build_ply( int d, int b, int p )
 {
     int           lds, n, s, t = st[d].t;
     struct NODE   znode;
@@ -24,11 +23,11 @@ void build_ply( int d, int p, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
 
     for ( s = 0; s < 4; s++ ) {
         lds = st[d].ld ? s : lnode[st[d].l]->s;
-        if ( brd[t][s][p] && ( st[d].ld || s == lds || ! brd[t][lds][p] ) ) {
-            sq = scard[t][s]->sq;
-            for ( n = 0; n < scard[t][s]->n; n++ )
+        if ( brd[b][t][s][p] && ( st[d].ld || s == lds || ! brd[b][t][lds][p] ) ) {
+            sq = scard[b][t][s]->sq;
+            for ( n = 0; n < scard[b][t][s]->n; n++ )
                 if ( sq[n].p == p )
-                    build_node( d, s, p, sq[n].c, brd );
+                    build_node( d, b, s, p, sq[n].c );
         }
     }
 

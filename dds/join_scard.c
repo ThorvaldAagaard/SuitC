@@ -6,13 +6,12 @@
 //
 //  parameters:
 //      d               in      the depth in the NODE tree
+//      b               in      the board that is analysed
 //      s               in      the suit that is analysed
-//      brd             in      the hand that is analysed
-//      scard           out     the SCARD sequences that are build
 //
 //  Copyright 2023, Gerrit A. van der Velde, Leiden
 
-void join_scard( int d, int s, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
+void join_scard( int d, int b, int s )
 {
     int           match, n, p, t = st[d].t;
     unsigned long inx;
@@ -23,7 +22,7 @@ void join_scard( int d, int s, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
     //  locate an existing JOINC slot
     inx = ( (unsigned long) s * IA + IC ) % IM;
     for ( p = 0; p < 4; p++ )
-        inx = ( ( inx + (unsigned long) brd[t-1][s][p] ) * IA + IC ) % IM;
+        inx = ( ( inx + (unsigned long) brd[b][t-1][s][p] ) * IA + IC ) % IM;
     inx = inx % JHASHL;
 
     //  check the old JOINC slots
@@ -32,11 +31,11 @@ void join_scard( int d, int s, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
     while ( ljoinc ) {
         match = s == ljoinc->s;
         for ( p = 0; p < 4; p++ )
-            match &= brd[t-1][s][p] == ljoinc->brd[p];
+            match &= brd[b][t-1][s][p] == ljoinc->brd[p];
         if ( match ) {
-            scard[t][s] = ljoinc->sc;
+            scard[b][t][s] = ljoinc->sc;
             for ( p = 0; p < 4; p++ )
-                brd[t][s][p] = scard[t][s]->brd[p];
+                brd[b][t][s][p] = scard[b][t][s]->brd[p];
             return;
         }
         ljoinc = ljoinc->r;
@@ -50,16 +49,16 @@ void join_scard( int d, int s, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
     joinctable[inx] = ljoinc;
     ljoinc->s = s;
     for ( p = 0; p < 4; p++ )
-        ljoinc->brd[p] = brd[t-1][s][p];
+        ljoinc->brd[p] = brd[b][t-1][s][p];
 
     //  convert the cards into a SCARD list
-    build_scard( d, s, brd, scard );
+    build_scard( d, b, s );
 
     //  locate an existing SCARD slot
     ncalls[4]++;
-    sq = scard[t][s]->sq;
-    inx = ( (unsigned long) scard[t][s]->s * IA + IC ) % IM;
-    for ( n = 0; n < scard[t][s]->n; n++ ) {
+    sq = scard[b][t][s]->sq;
+    inx = ( (unsigned long) scard[b][t][s]->s * IA + IC ) % IM;
+    for ( n = 0; n < scard[b][t][s]->n; n++ ) {
         inx = ( ( inx + (unsigned long) sq[n].n ) * IA + IC ) % IM;
         inx = ( ( inx + (unsigned long) sq[n].p ) * IA + IC ) % IM;
     }
@@ -69,12 +68,12 @@ void join_scard( int d, int s, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
     ltable = scardtable[inx];
     while ( ltable ) {
 
-        sq = scard[t][s]->sq;
+        sq = scard[b][t][s]->sq;
         tq = ltable->sq;
         match = YES;
-        if ( scard[t][s]->n == ltable->n ) {
+        if ( scard[b][t][s]->n == ltable->n ) {
 
-            for ( n = 0; n < scard[t][s]->n; n++ ) {
+            for ( n = 0; n < scard[b][t][s]->n; n++ ) {
                 match &= sq[n].n == tq[n].n;
                 match &= sq[n].p == tq[n].p;
             }
@@ -82,12 +81,12 @@ void join_scard( int d, int s, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
             //  we found an old SCARD slot
             if ( match ) {
                 scount--;
-                scard[t][s]->r = nextscard;
-                nextscard = scard[t][s];
-                scard[t][s] = ltable;
+                scard[b][t][s]->r = nextscard;
+                nextscard = scard[b][t][s];
+                scard[b][t][s] = ltable;
                 ljoinc->sc = ltable;
                 for ( p = 0; p < 4; p++ )
-                    brd[t][s][p] = ltable->brd[p];
+                    brd[b][t][s][p] = ltable->brd[p];
                 return;
             }
         }
@@ -97,9 +96,9 @@ void join_scard( int d, int s, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
 
     //  insert the SCARD entry in the hash tables
     sfill++;
-    scard[t][s]->r = scardtable[inx];
-    scardtable[inx] = scard[t][s];
-    ljoinc->sc = scard[t][s];
+    scard[b][t][s]->r = scardtable[inx];
+    scardtable[inx] = scard[b][t][s];
+    ljoinc->sc = scard[b][t][s];
 
     //  check the fill factor of the hash table
     if ( 2 * sfill >= SHASHL ) {

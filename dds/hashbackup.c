@@ -8,12 +8,11 @@
 //
 //  parameters:
 //      d               in      the depth in the NODE tree
-//      brd             in      the board that is analysed
-//      scard           out     the SCARD sequences that are build
+//      b               in      the board that is analysed
 //
 //  Copyright 2023, Gerrit A. van der Velde, Leiden
 
-int hashbackup( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
+int hashbackup( int d, int b )
 {
     int           match, p, s, t = st[d].t;
     unsigned long inx;
@@ -21,12 +20,12 @@ int hashbackup( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
 
     //  create the JOINC slots
     for ( s = 0; s < 4; s++ ) {
-        if ( brd[t-1][s][0] | brd[t-1][s][1] | brd[t-1][s][2] | brd[t-1][s][3] )
-            join_scard( d, s, brd, scard );
+        if ( brd[b][t-1][s][0] | brd[b][t-1][s][1] | brd[b][t-1][s][2] | brd[b][t-1][s][3] )
+            join_scard( d, b, s );
         else {
-            scard[t][s] = NIL;
+            scard[b][t][s] = NIL;
             for ( p = 0; p < 4; p++ )
-                brd[t][s][p] = RENONCE;
+                brd[b][t][s][p] = RENONCE;
         }
     }
 
@@ -35,7 +34,7 @@ int hashbackup( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
     inx = ( (unsigned long) lnode[d-1]->w_p * IA + IC ) % IM;
     inx = ( ( inx + (unsigned long) trump ) * IA + IC ) % IM;
     for ( s = 0; s < 4; s++ )
-        inx = ( ( inx + (unsigned long) scard[t][s] ) * IA + IC ) % IM;
+        inx = ( ( inx + (unsigned long) scard[b][t][s] ) * IA + IC ) % IM;
     inx = inx % BHASHL;
 
     //  check the old BACKUP slots
@@ -43,7 +42,7 @@ int hashbackup( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
     while ( lbackup ) {
         match = lnode[d-1]->w_p == lbackup->ld && trump == lbackup->trump;
         for ( s = 0; s < 4; s++ )
-            match &= scard[t][s] == lbackup->sc[s];
+            match &= scard[b][t][s] == lbackup->sc[s];
         if ( match ) {
             backup[t-1] = lbackup;
             lnode[d-1]->nh = lbackup->nh;
@@ -56,7 +55,7 @@ int hashbackup( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
     }
 
     //  build the NODE tree for the next trick
-    build_ply( d, lnode[d-1]->w_p, brd, scard );
+    build_ply( d, b, lnode[d-1]->w_p );
 
     //  create a new BACKUP slot
     bfill++;
@@ -68,7 +67,7 @@ int hashbackup( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
     lbackup->ld = lnode[d-1]->w_p;
     lbackup->trump = trump;
     for ( s = 0; s < 4; s++ )
-        lbackup->sc[s] = scard[t][s];
+        lbackup->sc[s] = scard[b][t][s];
 
     //  check the fill factor of the hash table
     if ( ( 2 * bfill >= BHASHL ) ) {

@@ -6,13 +6,12 @@
 //
 //  parameters:
 //      d               in      the depth in the NODE tree
+//      b               in      the board that is analysed
 //      s               in      the suit that is analysed
-//      brd             in      the board that is analysed
-//      scard           out     the SCARD sequences that are build
 //
 //  Copyright 2023, Gerrit A. van der Velde, Leiden
 
-void build_scard( int d, int s, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
+void build_scard( int d, int b, int s )
 {
     int           i, n = -1, p, q = unknown, t = st[d].t;
     struct SEQC   *sq;
@@ -20,7 +19,7 @@ void build_scard( int d, int s, COLOR brd[14][5][4], struct SCARD *scard[14][4] 
     //  create a new SCARD entry
     scount++;
     ncalls[1]++;
-    scard[t][s] = nextscard;
+    scard[b][t][s] = nextscard;
     if ( scountmax < scount ) {
         scountmax++;
         nextscard++;
@@ -31,18 +30,18 @@ void build_scard( int d, int s, COLOR brd[14][5][4], struct SCARD *scard[14][4] 
     }
     else
         nextscard = nextscard->r;
-    scard[t][s]->r = NIL;
-    scard[t][s]->s = s;
+    scard[b][t][s]->r = NIL;
+    scard[b][t][s]->s = s;
     for ( p = 0; p < 4; p++ ) {
-        scard[t][s]->brd[p] = brd[t-1][s][p];
-        brd[t][s][p] = scard[t][s]->brd[p];
+        scard[b][t][s]->brd[p] = brd[b][t-1][s][p];
+        brd[b][t][s][p] = scard[b][t][s]->brd[p];
     }
 
     //  build the card sequences
-    sq = scard[t][s]->sq;
+    sq = scard[b][t][s]->sq;
     for ( i = ace; i >= two; i-- ) {
         for ( p = 0; p < 4; p++ ) {
-            if ( scard[t][s]->brd[p] & set(i) ) {
+            if ( scard[b][t][s]->brd[p] & set(i) ) {
                 if ( p != q ) {
                     q = p;
                     n++;
@@ -57,5 +56,5 @@ void build_scard( int d, int s, COLOR brd[14][5][4], struct SCARD *scard[14][4] 
             }
         }
     }
-    scard[t][s]->n = ++n;
+    scard[b][t][s]->n = ++n;
 }

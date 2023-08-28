@@ -7,7 +7,7 @@
 //  to produce a list of options type:
 //      dds -h
 //
-//  Copyright 2022, Gerrit A. van der Velde, Leiden
+//  Copyright 2023, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 #include "bottomup_tree.c"

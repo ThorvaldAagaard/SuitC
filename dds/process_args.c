@@ -99,7 +99,7 @@ void process_args( int argc, char **argv )
         printf( "\n" );
         printf( "calling sequence:\n" );
         printf( "\n" );
-        printf( "dds [{?|-h|-?}] [-L{w|n|e|s}] [-T{s|h|d|c|n}] <west> <north> <east> <south> <west> <north> <east> <south> ...\n" );
+        printf( "dds [{?|-h|-?}] [-L{w|n|e|s}] [-T{s|h|d|c|n}] <west> <north> <east> <south> [<west> <north> <east> <south> ...]\n" );
         printf( "\noptions:\n" );
         printf( "    ?|-h|-?         print the options of dds\n" );
         printf( "    -L{w|n|e|s}     the opening leader at trick one\n" );

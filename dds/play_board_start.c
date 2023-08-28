@@ -33,8 +33,8 @@ void play_board_start( void )
                     lnode[0]->w_p = ld;
                     lnode[0]->nl = 0;
                     lnode[0]->nh = ntricks;
-                    hashbackup( 1, brd[b], scard[b] );
-                    build_tree( d_start, brd[b], scard[b] );
+                    hashbackup( 1, b );
+                    build_tree( d_start, b );
                     ns[ld][trump] = lnode[0]->nh;
                 }
             }

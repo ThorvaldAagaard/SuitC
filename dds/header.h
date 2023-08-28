@@ -90,7 +90,7 @@ struct SCARD {
 
 //  list of variables
 //  ----------------------------------------------------------------------------
-COLOR  brd[NBOARDS][14][5][4];           //  the unplayed cards
+COLOR  brd[NBOARDS][14][5][4];          //  the unplayed cards
 double times[2];                        //  the cpu time measured at the start and the end of the program
 int    bfill;                           //  the number of occupied slots in the BACKUP hash table
 int    d_ab;                            //  the lowest ply in the alpha-beta pruning
@@ -150,15 +150,15 @@ struct TARGET {
 //  list of routines
 //  ----------------------------------------------------------------------------
 void           bottomup_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] );
-void           build_node( int d, int s, int p, COLOR c, COLOR brd[14][5][4] );
-void           build_ply( int d, int p, COLOR brd[14][5][4], struct SCARD *scard[14][4] );
-void           build_scard( int d, int s, COLOR brd[14][5][4], struct SCARD *scard[14][4] );
-void           build_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] );
+void           build_node( int d, int b, int s, int p, COLOR c );
+void           build_ply( int d, int b, int p );
+void           build_scard( int d, int b, int s );
+void           build_tree( int d, int b );
 void           check_board( void );
 int            dds( int argc, char **argv );
 struct NODE   *delete_tree( int d_start, struct NODE *root );
-int            hashbackup( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] );
-void           join_scard( int d, int s, COLOR brd[14][5][4], struct SCARD *scard[14][4] );
+int            hashbackup( int d, int b );
+void           join_scard( int d, int b, int s );
 void           order_plays( int d );
 void           play_board( int d, int p );
 void           play_board_start( void );

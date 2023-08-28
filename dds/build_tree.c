@@ -6,12 +6,11 @@
 //
 //  parameters:
 //      d               in      the depth in the NODE tree
-//      brd             in      the board that is analysed
-//      scard           out     the SCARD sequences that are build
+//      b               in      the board that is analysed
 //
 //  Copyright 2023, Gerrit A. van der Velde, Leiden
 
-void build_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
+void build_tree( int d, int b )
 {
     int           nh, nl, p, s, t = st[d].t;
     struct BACKUP zbackup;
@@ -25,7 +24,7 @@ void build_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
         p = lnode[d]->p;
         s = lnode[d]->s;
         lnode[d]->nd = lnode[d-1]->nd + lnode[d-1]->nc;
-        brd[t][s][p] ^= low_c( brd[t][s][p] & lnode[d]->c );
+        brd[b][t][s][p] ^= low_c( brd[b][t][s][p] & lnode[d]->c );
         if ( st[d].la && d < 4*ntricks ) {
 
             //  check the alpha-beta pruning
@@ -36,7 +35,7 @@ void build_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
                 backup[t] = &zbackup;
 
             //  check the BACKUP hash table
-            else if ( hashbackup( d+1, brd, scard ) ) {
+            else if ( hashbackup( d+1, b ) ) {
 
                 //  check the alpha-beta pruning
                 nh = lnode[d]->nd + lnode[d]->nc + lnode[d]->nh;
@@ -47,12 +46,12 @@ void build_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
 
                 //  the NODE tree contains still branches
                 else if ( lnode[d]->d )
-                    build_tree( d+1, brd, scard );
+                    build_tree( d+1, b );
             }
 
             //  no backup NODE tree exists
             else
-                build_tree( d+1, brd, scard );
+                build_tree( d+1, b );
         }
 
         //  the NODE tree is fully analysed
@@ -60,15 +59,15 @@ void build_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
 
         //  the NODE tree contains still branches
         else if ( lnode[d]->d )
-            build_tree( d+1, brd, scard );
+            build_tree( d+1, b );
 
         //  build the next ply of the NODE tree
         else {
-            build_ply( d+1, (p+1)%4, brd, scard );
-            build_tree( d+1, brd, scard );
+            build_ply( d+1, b, (p+1)%4 );
+            build_tree( d+1, b );
         }
 
         //  backup the NODE tree
-        bottomup_tree( d, brd, scard );
+        bottomup_tree( d, brd[b], scard[b] );
     }
 }

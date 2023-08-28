@@ -25,7 +25,7 @@ void play_board( int d, int p )
         for ( l = 0; l < blist[d].n; l++ ) {
             b = blist[d].b[l];
             for ( s = 0; s < 4; s++ )
-                build_scard( d, s, brd[b], scard[b] );
+                build_scard( d, b, s );
         }
     }
 
@@ -39,8 +39,8 @@ redo:
         lnode[d-1]->t = NO;
         lnode[d-1]->nl = 0;
         lnode[d-1]->nh = ntricks - d/4;
-        build_ply( d, p, brd[b], scard[b] );
-        build_tree( d, brd[b], scard[b] );
+        build_ply( d, b, p );
+        build_tree( d, b );
 
         //  collect the results
         k = 0;
@@ -159,7 +159,7 @@ redo:
     lnode[d] = &znode;
     bnode[d] = lnode[d-1]->d;
     b = blist[d+1].b[0];
-    build_node( d, s, p, set(i), brd[b] );
+    build_node( d, b, s, p, set(i) );
     lnode[d-1]->d = lnode[d];
     lnode[d]->nd = lnode[d-1]->nd + lnode[d-1]->nc;
     for ( l = 0; l < blist[d].n; l++ ) {

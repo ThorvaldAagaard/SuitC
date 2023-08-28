@@ -6,16 +6,16 @@
 //
 //  parameters:
 //      d               in      the depth in the NODE tree
+//      b               in      the board that is analysed
 //      s               in      the suit of this node
 //      p               in      the player of this node
 //      c               in      the cards of this node
-//      brd             in      the board that is analysed
 //
 //  Copyright 2023, Gerrit A. van der Velde, Leiden
 
-void build_node( int d, int s, int p, COLOR c, COLOR brd[14][5][4] )
+void build_node( int d, int b, int s, int p, COLOR c )
 {
-    int           b, lds, q, t = st[d].t;
+    int           l, lds, q, t = st[d].t;
     struct        { int p, s; COLOR c; } w;
 
     ncount++;
@@ -60,17 +60,17 @@ void build_node( int d, int s, int p, COLOR c, COLOR brd[14][5][4] )
     w.c = lnode[d]->w_c;
     lds = lnode[st[d].l]->s;
 
-    for ( b = d+1; b <= st[d].l+3; b++ ) {
-        q = (p+b-d)%4;
-        if ( w.s == lds && brd[t][lds][q] > w.c ) {
+    for ( l = d+1; l <= st[d].l+3; l++ ) {
+        q = (p+l-d)%4;
+        if ( w.s == lds && brd[b][t][lds][q] > w.c ) {
             w.p = q;
             w.s = lds;
-            w.c = brd[t][lds][q];
+            w.c = brd[b][t][lds][q];
         }
-        if ( ! brd[t][lds][q] && ( w.s == trump && brd[t][trump][q] > w.c || w.s != trump && brd[t][trump][q] ) ) {
+        if ( ! brd[b][t][lds][q] && ( w.s == trump && brd[b][t][trump][q] > w.c || w.s != trump && brd[b][t][trump][q] ) ) {
             w.p = q;
             w.s = trump;
-            w.c = brd[t][trump][q];
+            w.c = brd[b][t][trump][q];
         }
     }
 
