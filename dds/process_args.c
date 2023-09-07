@@ -15,7 +15,7 @@
 void process_args( int argc, char **argv )
 {
     char          c;
-    int           i, k, match, n, p = west, printoptions = NO, s;
+    int           i, k, match, n, p, p_start = west, printoptions = NO, s;
     static char   *symbols[] = { "-123456789tjqka", "-123456789tbvha", "-123456789TJQKA", "-123456789TBVHA" };
 
     for ( i = 1; i < argc; i++ ) {
@@ -27,7 +27,7 @@ void process_args( int argc, char **argv )
             c = argv[i][1];
             if ( c == 'h' || c == '?' )
                 printoptions = YES;
-            else if ( c == 'L' ) {
+            else if ( c == 'L' || c == 'l' ) {
                 c = argv[i][2];
                 ld = c == 'w' || c == 'W'                        ? west
                    : c == 'n' || c == 'N'                        ? north
@@ -35,12 +35,24 @@ void process_args( int argc, char **argv )
                    : c == 's' || c == 'S' || c =='z' || c == 'Z' ? south
                    :                                               unknown;
                 if ( ld == unknown ) {
-                    printf( "Incorrect leader: %s; program stops\n", argv[i] );
+                    printf( "Incorrect leader: %s; the program stops\n", argv[i] );
                     exit( 99 );
                 }
-                lnode[0]->w_p = ld;
             }
-            else if ( c == 'T' ) {
+            else if ( c == 'P' || c == 'p' ) {
+                c = argv[i][2];
+                p_start = c == 'w' || c == 'W'                        ? west
+                        : c == 'n' || c == 'N'                        ? north
+                        : c == 'e' || c == 'E' || c =='o' || c == 'O' ? east
+                        : c == 's' || c == 'S' || c =='z' || c == 'Z' ? south
+                        :                                               unknown;
+                p = p_start;
+                if ( p_start == unknown ) {
+                    printf( "Incorrect start player: %s; the program stops\n", argv[i] );
+                    exit( 99 );
+                }
+            }
+            else if ( c == 'T' || c == 't' ) {
                 c = argv[i][2];
                 trump = c == 's' || c == 'S'                         ? spades
                       : c == 'h' || c == 'H'                         ? hearts
@@ -49,18 +61,19 @@ void process_args( int argc, char **argv )
                       : c == 'n' || c == 'N'                         ? notrump
                       :                                                discard;
                 if ( trump == discard ) {
-                    printf( "Incorrect trump suit: %s; program stops\n", argv[i] );
+                    printf( "Incorrect trump suit: %s; the program stops\n", argv[i] );
                     exit( 99 );
                 }
             }
             else {
-                printf( "Incorrect option: %s; program stops\n", argv[i] );
+                printf( "Incorrect option: %s; the program stops\n", argv[i] );
                 exit( 99 );
             }
         }
 
         //  enter the hands in the order: west, north, east, south
         else {
+
             k = 0;
             s = spades;
             brd[blist[0].n][0][s][p] = RENONCE;
@@ -79,19 +92,22 @@ void process_args( int argc, char **argv )
                         }
                     }
                     if ( ! match ) {
-                        printf( "Incorrect symbol: %c; program stops\n", c );
+                        printf( "Incorrect symbol: %c; the program stops\n", c );
                         exit( 99 );
                     }
                 }
                 k++;
             }
-            if ( p == south ) {
+
+            p = (p+1)%4;
+            if ( p == p_start ) {
                 blist[0].b[blist[0].n] = blist[0].n;
+                if ( blist[0].n == NBOARDS-2 ) {
+                    printf( "No more memory in the brd array; increase the value of NBOARDS\n" );
+                    exit( 99 );
+                }
                 blist[0].n++;
-                p = west;
             }
-            else
-                p++;
         }
     }
 
@@ -99,17 +115,18 @@ void process_args( int argc, char **argv )
         printf( "\n" );
         printf( "calling sequence:\n" );
         printf( "\n" );
-        printf( "dds [{?|-h|-?}] [-L{w|n|e|s}] [-T{s|h|d|c|n}] <west> <north> <east> <south> [<west> <north> <east> <south> ...]\n" );
+        printf( "dds [{?|-h|-?}] [-{L|l}{w|n|e|s}] [-{T|t}{s|h|d|c|n}]\n" );
+        printf( "    <west> <north> <east> <south> [<west> <north> <east> <south> ...]\n" );
         printf( "\noptions:\n" );
-        printf( "    ?|-h|-?         print the options of dds\n" );
-        printf( "    -L{w|n|e|s}     the opening leader at trick one\n" );
-        printf( "    -T{s|h|d|c|n}   the trump suit\n" );
-        printf( "    <west>          the west hand\n" );
-        printf( "    <north>         the north hand\n" );
-        printf( "    <east>          the east hand\n" );
-        printf( "    <south>         the south hand\n" );
-        printf( "                    each hand is described as <spades>.<hearts>.<diamonds>.<clubs>\n" );
-        printf( "                    both English and Dutch card symbols are accepted in upper and lower case\n" );
+        printf( "    ?|-h|-?             print the options of sds\n" );
+        printf( "    -{L|l}{w|n|e|s}     the opening leader at trick one\n" );
+        printf( "    -{T|t}{s|h|d|c|n}   the trump suit\n" );
+        printf( "    <west>              the west hand\n" );
+        printf( "    <north>             the north hand\n" );
+        printf( "    <east>              the east hand\n" );
+        printf( "    <south>             the south hand\n" );
+        printf( "                        each hand is described as <spades>.<hearts>.<diamonds>.<clubs>\n" );
+        printf( "                        both English and Dutch card symbols are accepted in upper and lower case\n" );
         printf( "\n" );
 
         exit( 0 );
