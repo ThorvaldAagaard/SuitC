@@ -17,38 +17,38 @@ void bottomup_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
     int           nh, nl, p, s, t = st[d].t;
     struct NODE   *nnode;
 
-    p = lnode[d]->p;
-    s = lnode[d]->s;
+    p = wnode[d]->p;
+    s = wnode[d]->s;
 
-    nh = lnode[d]->nd + lnode[d]->nc + lnode[d]->nh;
-    nl = lnode[d]->nd + lnode[d]->nc + lnode[d]->nl;
+    nh = wnode[d]->nd + wnode[d]->nc + wnode[d]->nh;
+    nl = wnode[d]->nd + wnode[d]->nc + wnode[d]->nl;
 
-    if ( NS(p) ) lnode[d-1]->nl = MAX( lnode[d-1]->nl, lnode[d]->nc + lnode[d]->nl );
-    else         lnode[d-1]->nh = MIN( lnode[d-1]->nh, lnode[d]->nc + lnode[d]->nh );
+    if ( NS(p) ) wnode[d-1]->nl = MAX( wnode[d-1]->nl, wnode[d]->nc + wnode[d]->nl );
+    else         wnode[d-1]->nh = MIN( wnode[d-1]->nh, wnode[d]->nc + wnode[d]->nh );
 
     //  save the BACKUP status
     brd[t][s][p] = scard[t][s]->brd[p];
     if ( st[d].la && d < 4*ntricks ) {
-        backup[t]->node = lnode[d]->d;
-        backup[t]->nh = lnode[d]->nh;
-        backup[t]->nl = lnode[d]->nl;
-        backup[t]->t = lnode[d]->t;
-        lnode[d]->d = NIL;
+        backup[t]->node = wnode[d]->d;
+        backup[t]->nh = wnode[d]->nh;
+        backup[t]->nl = wnode[d]->nl;
+        backup[t]->t = wnode[d]->t;
+        wnode[d]->d = NIL;
     }
 
     //  delete all siblings if one side wins all remaining tricks
-    if ( d > d_start && ( NS(p) && lnode[d-1]->nl == ntricks - t + 1 || EW(p) && lnode[d-1]->nh == 0 ) ) {
+    if ( d > d_start && ( NS(p) && wnode[d-1]->nl == ntricks - t + 1 || EW(p) && wnode[d-1]->nh == 0 ) ) {
 
         if ( target.set && target.d == d )
             target.set = NO;
 
-        if ( NS(p) ) lnode[d-1]->nh = lnode[d-1]->nl;
-        else         lnode[d-1]->nl = lnode[d-1]->nh;
+        if ( NS(p) ) wnode[d-1]->nh = wnode[d-1]->nl;
+        else         wnode[d-1]->nl = wnode[d-1]->nh;
 
-        lnode[d-1]->t = YES;
-        while ( lnode[d-1]->d )
-            delete_tree( d, lnode[d-1]->d );
-        lnode[d] = NIL;
+        wnode[d-1]->t = YES;
+        while ( wnode[d-1]->d )
+            delete_tree( d, wnode[d-1]->d );
+        wnode[d] = NIL;
     }
 
     //  check the alpha-beta pruning root
@@ -61,8 +61,8 @@ void bottomup_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
 
             target.set = NO;
 
-            while ( lnode[d-1]->d != lnode[d] )
-                delete_tree( d, lnode[d-1]->d );
+            while ( wnode[d-1]->d != wnode[d] )
+                delete_tree( d, wnode[d-1]->d );
         }
 
         //  alpha-beta root: NS don't beat the NS target
@@ -70,18 +70,18 @@ void bottomup_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
         else if ( ( NS(target.p) && nl <= target.ns ) ||
                   ( EW(target.p) && nh >= target.ns ) ) {
 
-            lnode[d] = delete_tree( d, lnode[d] );
+            wnode[d] = delete_tree( d, wnode[d] );
 
-            if ( lnode[d] == NIL ) {
+            if ( wnode[d] == NIL ) {
 
                 target.set = NO;
 
-                if ( NS(p) ) lnode[d-1]->nh = lnode[d-1]->nl;
-                else         lnode[d-1]->nl = lnode[d-1]->nh;
+                if ( NS(p) ) wnode[d-1]->nh = wnode[d-1]->nl;
+                else         wnode[d-1]->nl = wnode[d-1]->nh;
 
-                lnode[d-1]->t = YES;
-                while ( lnode[d-1]->d )
-                    delete_tree( d, lnode[d-1]->d );
+                wnode[d-1]->t = YES;
+                while ( wnode[d-1]->d )
+                    delete_tree( d, wnode[d-1]->d );
             }
         }
     }
@@ -96,27 +96,27 @@ void bottomup_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
              ( NS(target.p) && EW(p) && nh <= target.ns ) ||
              ( EW(target.p) && EW(p) && nh <  target.ns ) ) {
 
-            while ( lnode[d-1]->d != lnode[d] )
-                delete_tree( d, lnode[d-1]->d );
+            while ( wnode[d-1]->d != wnode[d] )
+                delete_tree( d, wnode[d-1]->d );
 
-            lnode[d-1]->t = YES;
+            wnode[d-1]->t = YES;
 
-            nnode = lnode[d-1]->d;
+            nnode = wnode[d-1]->d;
             while ( nnode ) {
-                lnode[d-1]->t &= nnode->t;
+                wnode[d-1]->t &= nnode->t;
                 nnode = nnode->r;
             }
 
-            if ( lnode[d-1]->t ) {
+            if ( wnode[d-1]->t ) {
 
-                if ( NS(p) ) lnode[d-1]->nh = lnode[d-1]->nl;
-                else         lnode[d-1]->nl = lnode[d-1]->nh;
+                if ( NS(p) ) wnode[d-1]->nh = wnode[d-1]->nl;
+                else         wnode[d-1]->nl = wnode[d-1]->nh;
 
-                while ( lnode[d-1]->d )
-                    nnode = delete_tree( d, lnode[d-1]->d );
+                while ( wnode[d-1]->d )
+                    nnode = delete_tree( d, wnode[d-1]->d );
             }
 
-            lnode[d] = NIL;
+            wnode[d] = NIL;
         }
 
         //  alpha-beta check: NS don't beat the target
@@ -126,25 +126,25 @@ void bottomup_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
                   ( NS(target.p) && EW(p) && nh >  target.ns ) ||
                   ( EW(target.p) && EW(p) && nh >= target.ns ) ) {
 
-            lnode[d] = lnode[d]->r;
+            wnode[d] = wnode[d]->r;
 
-            if ( lnode[d] == NIL ) {
+            if ( wnode[d] == NIL ) {
 
-                lnode[d-1]->t = YES;
-                if ( NS(p) ) lnode[d-1]->nh = lnode[d-1]->nl;
-                else         lnode[d-1]->nl = lnode[d-1]->nh;
+                wnode[d-1]->t = YES;
+                if ( NS(p) ) wnode[d-1]->nh = wnode[d-1]->nl;
+                else         wnode[d-1]->nl = wnode[d-1]->nh;
 
-                nnode = lnode[d-1]->d;
+                nnode = wnode[d-1]->d;
                 while ( nnode ) {
-                    lnode[d-1]->t &= nnode->t;
-                    if ( NS(p) ) lnode[d-1]->nh = MAX( lnode[d-1]->nh, nnode->nc + nnode->nh );
-                    else         lnode[d-1]->nl = MIN( lnode[d-1]->nl, nnode->nc + nnode->nl );
+                    wnode[d-1]->t &= nnode->t;
+                    if ( NS(p) ) wnode[d-1]->nh = MAX( wnode[d-1]->nh, nnode->nc + nnode->nh );
+                    else         wnode[d-1]->nl = MIN( wnode[d-1]->nl, nnode->nc + nnode->nl );
                     nnode = nnode->r;
                 }
 
-                if ( lnode[d-1]->t )
-                    while ( lnode[d-1]->d )
-                        delete_tree( d, lnode[d-1]->d );
+                if ( wnode[d-1]->t )
+                    while ( wnode[d-1]->d )
+                        delete_tree( d, wnode[d-1]->d );
             }
         }
     }
@@ -154,24 +154,24 @@ void bottomup_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
 
         if ( d == d_start ) {
             result[nresult].s = s;
-            result[nresult].c = lnode[d]->c;
+            result[nresult].c = wnode[d]->c;
             result[nresult].ns = nh;
             nresult++;
         }
 
-        lnode[d] = delete_tree( d, lnode[d] );
+        wnode[d] = delete_tree( d, wnode[d] );
 
-        if ( lnode[d] && d >= d_ab ) {
+        if ( wnode[d] && d >= d_ab ) {
             target.d = d;
             target.p = p;
             target.ns = NS(p) ? nl : nh;
             target.set = YES;
         }
 
-        if ( lnode[d] == NIL ) {
-            lnode[d-1]->t = YES;
-            if ( NS(p) ) lnode[d-1]->nh = lnode[d-1]->nl;
-            else         lnode[d-1]->nl = lnode[d-1]->nh;
+        if ( wnode[d] == NIL ) {
+            wnode[d-1]->t = YES;
+            if ( NS(p) ) wnode[d-1]->nh = wnode[d-1]->nl;
+            else         wnode[d-1]->nl = wnode[d-1]->nh;
         }
     }
 }

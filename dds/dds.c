@@ -66,8 +66,8 @@ int main( int argc, char **argv )
     //  initialise the NODE tree
     ncount = 0;
     ncountmax = 0;
-    lnode[0] = &znode;
-    lnode[0]->r = NIL;
+    wnode[0] = &znode;
+    wnode[0]->r = NIL;
     nextnode = malloc( NNODE * sizeof( struct NODE ) );
 
     //  initialise the SCARD tree

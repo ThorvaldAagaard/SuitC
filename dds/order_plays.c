@@ -14,23 +14,23 @@ void order_plays( int d )
     struct NODE   *anode, *bnode, *nnode, znode;
 
     anode = &znode;
-    lnode[d] = lnode[d-1]->d;
-    anode->r = lnode[d];
+    wnode[d] = wnode[d-1]->d;
+    anode->r = wnode[d];
 
 next_node:
-    while ( lnode[d]->r ) {
+    while ( wnode[d]->r ) {
 
-        bnode = lnode[d];
+        bnode = wnode[d];
         nnode = bnode->r;
         while ( nnode ) {
 
-            if ( ( lnode[d]->rnk  < nnode->rnk ) ||
-                 ( lnode[d]->rnk == nnode->rnk && lnode[d]->s == nnode->s && lnode[d]->c  > nnode->c ) ||
-                 ( lnode[d]->rnk == nnode->rnk && lnode[d]->s == trump    && nnode->s    != trump    ) ) {
+            if ( ( wnode[d]->rnk  < nnode->rnk ) ||
+                 ( wnode[d]->rnk == nnode->rnk && wnode[d]->s == nnode->s && wnode[d]->c  > nnode->c ) ||
+                 ( wnode[d]->rnk == nnode->rnk && wnode[d]->s == trump    && nnode->s    != trump    ) ) {
                 bnode->r = nnode->r;
                 anode->r = nnode;
-                nnode->r = lnode[d];
-                lnode[d] = nnode;
+                nnode->r = wnode[d];
+                wnode[d] = nnode;
                 goto next_node;
             }
 
@@ -38,10 +38,10 @@ next_node:
             nnode = bnode->r;
         }
 
-        anode = lnode[d];
-        lnode[d] = anode->r;
+        anode = wnode[d];
+        wnode[d] = anode->r;
     }
 
-    lnode[d] = znode.r;
-    lnode[d-1]->d = znode.r;
+    wnode[d] = znode.r;
+    wnode[d-1]->d = znode.r;
 }

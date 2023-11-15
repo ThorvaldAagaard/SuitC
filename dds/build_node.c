@@ -20,7 +20,7 @@ void build_node( int d, int b, int s, int p, COLOR c )
 
     ncount++;
     ncalls[0]++;
-    lnode[d]->r = nextnode;
+    wnode[d]->r = nextnode;
     if ( ncount > ncountmax ) {
         ncountmax++;
         nextnode++;
@@ -31,34 +31,34 @@ void build_node( int d, int b, int s, int p, COLOR c )
     }
     else
         nextnode = nextnode->r;
-    lnode[d] = lnode[d]->r;
-    lnode[d]->d = NIL;
-    lnode[d]->r = NIL;
+    wnode[d] = wnode[d]->r;
+    wnode[d]->d = NIL;
+    wnode[d]->r = NIL;
 
-    if ( st[d].ld || s == lnode[d-1]->w_s && c > lnode[d-1]->w_c || s == trump && lnode[d-1]->w_s != trump ) {
-        lnode[d]->w_p = p;
-        lnode[d]->w_s = s;
-        lnode[d]->w_c = c;
+    if ( st[d].ld || s == wnode[d-1]->w_s && c > wnode[d-1]->w_c || s == trump && wnode[d-1]->w_s != trump ) {
+        wnode[d]->w_p = p;
+        wnode[d]->w_s = s;
+        wnode[d]->w_c = c;
     }
     else {
-        lnode[d]->w_p = lnode[d-1]->w_p;
-        lnode[d]->w_c = lnode[d-1]->w_c;
-        lnode[d]->w_s = lnode[d-1]->w_s;
+        wnode[d]->w_p = wnode[d-1]->w_p;
+        wnode[d]->w_c = wnode[d-1]->w_c;
+        wnode[d]->w_s = wnode[d-1]->w_s;
     }
 
-    lnode[d]->p = p;
-    lnode[d]->s = s;
-    lnode[d]->c = c;
-    lnode[d]->nc = st[d].la && NS(lnode[d]->w_p) ? 1 : 0;
-    lnode[d]->nd = lnode[d-1]->nc + lnode[d-1]->nd;
-    lnode[d]->nh = ntricks - d/4;
-    lnode[d]->nl = 0;
-    lnode[d]->t = d == 4*ntricks ? YES : NO;
+    wnode[d]->p = p;
+    wnode[d]->s = s;
+    wnode[d]->c = c;
+    wnode[d]->nc = st[d].la && NS(wnode[d]->w_p) ? 1 : 0;
+    wnode[d]->nd = wnode[d-1]->nc + wnode[d-1]->nd;
+    wnode[d]->nh = ntricks - d/4;
+    wnode[d]->nl = 0;
+    wnode[d]->t = d == 4*ntricks ? YES : NO;
 
-    w.p = lnode[d]->w_p;
-    w.s = lnode[d]->w_s;
-    w.c = lnode[d]->w_c;
-    lds = lnode[st[d].l]->s;
+    w.p = wnode[d]->w_p;
+    w.s = wnode[d]->w_s;
+    w.c = wnode[d]->w_c;
+    lds = wnode[st[d].l]->s;
 
     for ( l = d+1; l <= st[d].l+3; l++ ) {
         q = (p+l-d)%4;
@@ -74,5 +74,5 @@ void build_node( int d, int b, int s, int p, COLOR c )
         }
     }
 
-    lnode[d]->rnk = NS(lnode[d]->p) == NS(w.p) ? 60 : 0;
+    wnode[d]->rnk = NS(wnode[d]->p) == NS(w.p) ? 60 : 0;
 }

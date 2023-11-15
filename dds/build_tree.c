@@ -16,20 +16,20 @@ void build_tree( int d, int b )
     struct BACKUP zbackup;
 
     //  loop over the nodes
-    lnode[d] = lnode[d-1]->d;
-    while ( lnode[d] ) {
+    wnode[d] = wnode[d-1]->d;
+    while ( wnode[d] ) {
 
         //  play the cards and prepare for the next ply
         st[d].n++;
-        p = lnode[d]->p;
-        s = lnode[d]->s;
-        lnode[d]->nd = lnode[d-1]->nd + lnode[d-1]->nc;
-        brd[b][t][s][p] ^= low_c( brd[b][t][s][p] & lnode[d]->c );
+        p = wnode[d]->p;
+        s = wnode[d]->s;
+        wnode[d]->nd = wnode[d-1]->nd + wnode[d-1]->nc;
+        brd[b][t][s][p] ^= low_c( brd[b][t][s][p] & wnode[d]->c );
         if ( st[d].la && d < 4*ntricks ) {
 
             //  check the alpha-beta pruning
-            nh = lnode[d]->nd + lnode[d]->nc + lnode[d]->nh;
-            nl = lnode[d]->nd + lnode[d]->nc + lnode[d]->nl;
+            nh = wnode[d]->nd + wnode[d]->nc + wnode[d]->nh;
+            nl = wnode[d]->nd + wnode[d]->nc + wnode[d]->nl;
             if ( target.set && NS(target.p) && ( nh <= target.ns || target.ns <  nl ) ||
                  target.set && EW(target.p) && ( nh <  target.ns || target.ns <= nl ) )
                 backup[t] = &zbackup;
@@ -38,14 +38,14 @@ void build_tree( int d, int b )
             else if ( hashbackup( d+1, b ) ) {
 
                 //  check the alpha-beta pruning
-                nh = lnode[d]->nd + lnode[d]->nc + lnode[d]->nh;
-                nl = lnode[d]->nd + lnode[d]->nc + lnode[d]->nl;
+                nh = wnode[d]->nd + wnode[d]->nc + wnode[d]->nh;
+                nl = wnode[d]->nd + wnode[d]->nc + wnode[d]->nl;
                 if ( target.set && NS(target.p) && ( nh <= target.ns || target.ns <  nl ) ||
                      target.set && EW(target.p) && ( nh <  target.ns || target.ns <= nl ) )
                     backup[t] = &zbackup;
 
                 //  the NODE tree contains still branches
-                else if ( lnode[d]->d )
+                else if ( wnode[d]->d )
                     build_tree( d+1, b );
             }
 
@@ -55,10 +55,10 @@ void build_tree( int d, int b )
         }
 
         //  the NODE tree is fully analysed
-        else if ( st[d].la || lnode[d]->t ) ;
+        else if ( st[d].la || wnode[d]->t ) ;
 
         //  the NODE tree contains still branches
-        else if ( lnode[d]->d )
+        else if ( wnode[d]->d )
             build_tree( d+1, b );
 
         //  build the next ply of the NODE tree

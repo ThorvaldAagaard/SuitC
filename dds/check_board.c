@@ -55,15 +55,15 @@ void check_board( void )
     }
 
     //  initialise the root of the NODE tree
-    lnode[0]->c = RENONCE;
-    lnode[0]->d = NIL;
-    lnode[0]->nc = 0;
-    lnode[0]->nd = 0;
-    lnode[0]->nh = ntricks;
-    lnode[0]->nl = 0;
-    lnode[0]->p = ld;
-    lnode[0]->r = NIL;
-    lnode[0]->s = discard;
-    lnode[0]->t = ntricks ? NO : YES;
-    lnode[0]->w_p = ld;
+    wnode[0]->c = RENONCE;
+    wnode[0]->d = NIL;
+    wnode[0]->nc = 0;
+    wnode[0]->nd = 0;
+    wnode[0]->nh = ntricks;
+    wnode[0]->nl = 0;
+    wnode[0]->p = ld;
+    wnode[0]->r = NIL;
+    wnode[0]->s = discard;
+    wnode[0]->t = ntricks ? NO : YES;
+    wnode[0]->w_p = ld;
 }

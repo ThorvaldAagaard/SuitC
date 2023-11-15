@@ -113,8 +113,8 @@ struct BACKUP *nextbackup;              //  the first unused slot in the BACKUP 
 struct BLIST  blist[53];                //  the list of boards
 struct JOINC  *joinctable[JHASHL+100];  //  the JOINC hash table
 struct JOINC  *nextjoinc;               //  the first unused slot in the JOINC hash table
-struct NODE   *lnode[54];               //  the stack of NODE entries
 struct NODE   *nextnode;                //  the first unused slot in the NODE tree
+struct NODE   *wnode[54];               //  the stack of NODE entries
 struct SCARD  *nextscard;               //  the first unused slot in the SCARD tree
 struct SCARD  *scard[NBOARDS][14][4];   //  pointer to the SCARD slots with remaining cards
 struct SCARD  *scardtable[SHASHL+100];  //  the SCARD hash table

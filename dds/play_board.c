@@ -36,9 +36,9 @@ redo:
     for ( l = 0; l < blist[d].n; l++ ) {
         b = blist[d].b[l];
         nresult = 0;
-        lnode[d-1]->t = NO;
-        lnode[d-1]->nl = 0;
-        lnode[d-1]->nh = ntricks - d/4;
+        wnode[d-1]->t = NO;
+        wnode[d-1]->nl = 0;
+        wnode[d-1]->nh = ntricks - d/4;
         build_ply( d, b, p );
         build_tree( d, b );
 
@@ -62,20 +62,20 @@ redo:
     //  print the results
     print_all_boards( d );
     print_all_results( d, cards );
-    ns = lnode[st[d].l-1]->nd + lnode[st[d].l-1]->nc;
+    ns = wnode[st[d].l-1]->nd + wnode[st[d].l-1]->nc;
     printf( "\nd=%02d    ns=%x ew=%x   %s", d, ns, st[st[d].l-1].t - ns, suit[trump] );
     for ( a = st[d].l; a < d; a++ ) {
         for ( i = two; i <= ace; i++ )
-            if ( lnode[a]->c & set(i) )
+            if ( wnode[a]->c & set(i) )
                 break;
-        printf( "   %c %c %c", seats[lnode[a]->p], suits[lnode[a]->s], symbols[i] );
+        printf( "   %c %c %c", seats[wnode[a]->p], suits[wnode[a]->s], symbols[i] );
     }
     printf( "   %c ? ?\n", seats[p] );
 
     //  build the request string
     b = 0;
     start = YES;
-    lds = st[d].ld ? discard : lnode[st[d].l]->s;
+    lds = st[d].ld ? discard : wnode[st[d].l]->s;
     printf( "%s", "\nSelect the play " );
     for ( s = 0; s < 4; s++ ) {
         if ( cards[s] && ( st[d].ld || s == lds || ! cards[lds] ) ) {
@@ -156,12 +156,12 @@ redo:
     }
 
     znode.r = NIL;
-    lnode[d] = &znode;
-    bnode[d] = lnode[d-1]->d;
+    wnode[d] = &znode;
+    bnode[d] = wnode[d-1]->d;
     b = blist[d+1].b[0];
     build_node( d, b, s, p, set(i) );
-    lnode[d-1]->d = lnode[d];
-    lnode[d]->nd = lnode[d-1]->nd + lnode[d-1]->nc;
+    wnode[d-1]->d = wnode[d];
+    wnode[d]->nd = wnode[d-1]->nd + wnode[d-1]->nc;
     for ( l = 0; l < blist[d].n; l++ ) {
         b = blist[d].b[l];
         brd[b][t][s][p] ^= brd[b][t][s][p] & set(i);
@@ -169,7 +169,7 @@ redo:
 
     //  play the next card
     if ( d < 4*ntricks ) {
-        q = st[d].la ? lnode[d]->w_p : (p+1)%4;
+        q = st[d].la ? wnode[d]->w_p : (p+1)%4;
         play_board( d+1, q );
         for ( l = 0; l < blist[d].n; l++ ) {
             b = blist[d].b[l];
@@ -180,12 +180,12 @@ redo:
     //  We are finished
     else {
 
-        lnode[d-1]->d = bnode[d];
+        wnode[d-1]->d = bnode[d];
         for ( l = 0; l < blist[d].n; l++ ) {
             b = blist[d].b[l];
             brd[b][t][s][p] = scard[b][t][s]->brd[p];
         }
-        ns = lnode[d]->nd + lnode[d]->nc;
+        ns = wnode[d]->nd + wnode[d]->nc;
         printf( "\nd=%02d    ns=%x ew=%x   %s\n", d, ns, st[d].t - ns, suit[trump] );
         printf( "\n%s", "We are finished. What next? {b<n>|p|P|.}: " );
         scanf( "%s", in );
@@ -205,7 +205,7 @@ redo:
                     d_back = 10 * d_back + in[2] - '0';
             }
             if ( d_back < d ) {
-                lnode[d_back-1]->d = bnode[d_back];
+                wnode[d_back-1]->d = bnode[d_back];
                 return;
             }
             else {

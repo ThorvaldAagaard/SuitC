@@ -18,11 +18,11 @@ void build_ply( int d, int b, int p )
     struct SEQC   *sq;
 
     //  initialise
-    lnode[d] = &znode;
+    wnode[d] = &znode;
     znode.r = NIL;
 
     for ( s = 0; s < 4; s++ ) {
-        lds = st[d].ld ? s : lnode[st[d].l]->s;
+        lds = st[d].ld ? s : wnode[st[d].l]->s;
         if ( brd[b][t][s][p] && ( st[d].ld || s == lds || ! brd[b][t][lds][p] ) ) {
             sq = scard[b][t][s]->sq;
             for ( n = 0; n < scard[b][t][s]->n; n++ )
@@ -32,7 +32,7 @@ void build_ply( int d, int b, int p )
     }
 
     //  order the plays
-    lnode[d] = znode.r;
-    lnode[d-1]->d = znode.r;
+    wnode[d] = znode.r;
+    wnode[d-1]->d = znode.r;
     order_plays( d );
 }

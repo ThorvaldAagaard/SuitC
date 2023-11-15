@@ -17,11 +17,11 @@ struct NODE *delete_tree( int d_start, struct NODE *root )
 
     //  unlink root from the tree
     nnode = root->r;
-    if ( lnode[d_start-1]->d == root ) {
-        lnode[d_start-1]->d = root->r;
+    if ( wnode[d_start-1]->d == root ) {
+        wnode[d_start-1]->d = root->r;
     }
     else {
-        anode = lnode[d_start-1]->d;
+        anode = wnode[d_start-1]->d;
         while ( anode->r != root )
             anode = anode->r;
         anode->r = root->r;
