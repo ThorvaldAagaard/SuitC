@@ -18,7 +18,7 @@ void play_board( int d, int p )
     static char   suits[] = "shdc-";
     static char   *suit[] = { "spades", "hearts", "diamonds", "clubs", "notrump", "discard" };
     static char   symbols[] = "-123456789tjqka=";
-    struct NODE   *bnode[53], znode;
+    struct NODE   *bnode[NPLIES+1], znode;
     struct SCARD  *lc, zscard;
 
     if ( st[d].ld ) {

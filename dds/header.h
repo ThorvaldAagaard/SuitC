@@ -20,8 +20,10 @@
 #define NIL                             (void *) 0
 #define NNODE                           600000000L
 #define NO                              0
+#define NPLIES                          52
 #define NS( p )                         ( ( p == north ) || ( p == south ) )
 #define NSCARD                          100000L
+#define NTRICKS                         13
 #define RENONCE                         ( (COLOR) 0 )
 #define set( i )                        ( 1 << i )
 #define SHASHL                          40000L
@@ -82,7 +84,7 @@ struct SEQC {
 
 struct SCARD {
     struct SCARD  *r;                   //  pointer to the right sibling
-    struct SEQC   sq[13];               //  the card sequences
+    struct SEQC   sq[NTRICKS];          //  the card sequences
     COLOR         brd[4];               //  the cards of each player
     unsigned int  n:4,                  //  the number of used elements in sq
                   s:4;                  //  the suit of the sequence
@@ -90,7 +92,7 @@ struct SCARD {
 
 //  list of variables
 //  ----------------------------------------------------------------------------
-COLOR  brd[NBOARDS][14][5][4];          //  the unplayed cards
+COLOR  brd[NBOARDS][NTRICKS+1][5][4];   //  the unplayed cards
 double times[2];                        //  the cpu time measured at the start and the end of the program
 int    bfill;                           //  the number of occupied slots in the BACKUP hash table
 int    d_ab;                            //  the lowest ply in the alpha-beta pruning
@@ -107,30 +109,30 @@ int    scount;                          //  the number of active SCARD entries
 int    scountmax;                       //  the maximum number of active SCARD entries
 int    sfill;                           //  the number of occupied slots in the SCARD hash table
 int    trump;                           //  the trump suit
-struct BACKUP *backup[14];              //  the pointers to the BACKUP slots for each trick
+struct BACKUP *backup[NTRICKS+1];       //  the pointers to the BACKUP slots for each trick
 struct BACKUP *backuptable[BHASHL+100]; //  the BACKUP hash table
 struct BACKUP *nextbackup;              //  the first unused slot in the BACKUP hash table
-struct BLIST  blist[53];                //  the list of boards
+struct BLIST  blist[NBOARDS+1];         //  the list of boards
 struct JOINC  *joinctable[JHASHL+100];  //  the JOINC hash table
 struct JOINC  *nextjoinc;               //  the first unused slot in the JOINC hash table
 struct NODE   *nextnode;                //  the first unused slot in the NODE tree
-struct NODE   *wnode[54];               //  the stack of NODE entries
+struct NODE   *wnode[NPLIES+2];         //  the stack of NODE entries
 struct SCARD  *nextscard;               //  the first unused slot in the SCARD tree
-struct SCARD  *scard[NBOARDS][14][4];   //  pointer to the SCARD slots with remaining cards
+struct SCARD  *scard[NBOARDS][NTRICKS+1][4]; //  pointer to the SCARD slots with remaining cards
 struct SCARD  *scardtable[SHASHL+100];  //  the SCARD hash table
 
 struct RES {
     int           k,                    //  the number of results
-                  i[13],                //  the card index
-                  ns[13],               //  the number north-south tricks
-                  s[13];                //  the suit
+                  i[NTRICKS],           //  the card index
+                  ns[NTRICKS],          //  the number north-south tricks
+                  s[NTRICKS];           //  the suit
 } res[NBOARDS];
 
 struct RESULT {
     COLOR         c;                    //  the cards that are lead
     unsigned int  s,                    //  the suit that is lead
                   ns;                   //  the result
-} result[13];
+} result[NTRICKS];
 
 struct STACK {
     unsigned int  l,                    //  the lowest ply in this trick
@@ -149,7 +151,7 @@ struct TARGET {
 
 //  list of routines
 //  ----------------------------------------------------------------------------
-void           bottomup_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] );
+void           bottomup_tree( int d, COLOR brd[NTRICKS+1][5][4], struct SCARD *scard[NTRICKS+1][4] );
 void           build_node( int d, int b, int s, int p, COLOR c );
 void           build_ply( int d, int b, int p );
 void           build_scard( int d, int b, int s );

@@ -45,7 +45,7 @@ void print_all_boards( int d )
         for ( s = 0; s < 4; s++ ) {
             for ( l = ll; l < MIN(ll+5,blist[d].n); l++ ) {
                 b = blist[d].b[l];
-                nc = 13;
+                nc = NTRICKS;
                 printf( "%c: ", suits[s] );
                 for ( n = ace; n >= two; n-- ) {
                     if ( set(n) & brd[b][t][s][west] ) {
@@ -55,7 +55,7 @@ void print_all_boards( int d )
                 }
                 for ( n = 0; n < nc; n++ )
                     printf( " " );
-                nc = 13;
+                nc = NTRICKS;
                 printf( "%c: ", suits[s] );
                 for ( n = ace; n >= two; n-- ) {
                     if ( set(n) & brd[b][t][s][east] ) {

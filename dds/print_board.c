@@ -26,7 +26,7 @@ void print_board( COLOR brd[5][4] )
 
     //  print the west and east hands
     for ( s = 0; s < 4; s++ ) {
-        nc = 13;
+        nc = NTRICKS;
         printf( "%c: ", suits[s] );
         for ( n = ace; n >= two; n-- ) {
             if ( set(n) & brd[s][west] ) {

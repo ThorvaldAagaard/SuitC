@@ -115,11 +115,12 @@ void process_args( int argc, char **argv )
         printf( "\n" );
         printf( "calling sequence:\n" );
         printf( "\n" );
-        printf( "dds [{?|-h|-?}] [-{L|l}{w|n|e|s}] [-{T|t}{s|h|d|c|n}]\n" );
+        printf( "dds [{?|-h|-?}] [-{L|l}{w|n|e|s}] [-{P|p}{w|n|e|s}] [-{T|t}{s|h|d|c|n}]\n" );
         printf( "    <west> <north> <east> <south> [<west> <north> <east> <south> ...]\n" );
         printf( "\noptions:\n" );
         printf( "    ?|-h|-?             print the options of sds\n" );
         printf( "    -{L|l}{w|n|e|s}     the opening leader at trick one\n" );
+        printf( "    -{P|p}{w|n|e|s}     each board is entered with the card of player {w|n|e|s} first\n" );
         printf( "    -{T|t}{s|h|d|c|n}   the trump suit\n" );
         printf( "    <west>              the west hand\n" );
         printf( "    <north>             the north hand\n" );

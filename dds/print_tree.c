@@ -20,7 +20,7 @@ void print_tree( int d_start, struct NODE *root, char *ident )
     static char   symbols[] = "-123456789tjqka=";
     static char   seats[] = "wnes";
     static char   suits[] = "shdc--";
-    struct NODE   *nnode[53];
+    struct NODE   *nnode[NPLIES+1];
 
     if ( root == NIL || d_start < 0 ) {
         printf( "\nd=%02d   id=%s\n", d_start, ident );
