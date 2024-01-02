@@ -8,9 +8,9 @@
 //      d               in      the depth in the NODE tree
 //      results         in      the LIMIT array for the plays
 //
-//  Copyright 2020, Gerrit A. van der Velde, Leiden
+//  Copyright 2024, Gerrit A. van der Velde, Leiden
 
-//  #include "header.h"
+#include "header.h"
 
 int clean_quirkd( int d, struct LIMIT *results )
 {

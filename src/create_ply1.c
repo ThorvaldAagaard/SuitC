@@ -8,9 +8,9 @@
 //      d               in      the depth in the tree
 //      lead[4]         in      flag to indicate valid leads
 //
-//  Copyright 2020, Gerrit A. van der Velde, Leiden
+//  Copyright 2024, Gerrit A. van der Velde, Leiden
 
-//  #include "header.h"
+#include "header.h"
 
 void create_ply1( int d, int lead[4] )
 {

@@ -9,9 +9,9 @@
 //      jpiv    out     the jpiv array for the colmns
 //      p       out     the probability of this play in the optimal MP or IMP strategy
 //
-//  Copyright 2020, Gerrit A. van der Velde, Leiden
+//  Copyright 2024, Gerrit A. van der Velde, Leiden
 
-//  #include "header.h"
+#include "header.h"
 
 void printm( int nnode, int ip, int jp, int *jpiv, double *p, double *v, double z )
 {

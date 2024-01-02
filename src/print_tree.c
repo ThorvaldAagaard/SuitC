@@ -10,9 +10,9 @@
 //      printboards     in      flag to print the boards
 //      printsiblings   in      flag to print the siblings of the root
 //
-//  Copyright 2020, Gerrit A. van der Velde, Leiden
+//  Copyright 2024, Gerrit A. van der Velde, Leiden
 
-//  #include "header.h"
+#include "header.h"
 
 void print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings )
 {

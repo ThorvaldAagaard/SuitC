@@ -9,9 +9,9 @@
 //      p               in      the player who plays in this node
 //      c               in      the sequence of cards played in this node
 //
-//  Copyright 2020, Gerrit A. van der Velde, Leiden
+//  Copyright 2024, Gerrit A. van der Velde, Leiden
 
-//  #include "header.h"
+#include "header.h"
 
 struct NODE *add_node( int d, int p, COLOR c )
 {

@@ -8,9 +8,9 @@
 //      d               in      the depth in the NODE tree
 //      lnode           in      the NODE tree
 //
-//  Copyright 2020, Gerrit A. van der Velde, Leiden
+//  Copyright 2024, Gerrit A. van der Velde, Leiden
 
-//  #include "header.h"
+#include "header.h"
 
 void check_ns_plays( int d, struct NODE **lnode )
 {

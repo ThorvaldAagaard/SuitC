@@ -7,9 +7,9 @@
 //  to produce a list of options:
 //      SuitC {?|-?|-h}
 //
-//  Copyright 2020, Gerrit A. van der Velde, Leiden
+//  Copyright 2024, Gerrit A. van der Velde, Leiden
 
-//  #include "header.h"
+#include "header.h"
 
 void process_args( int argc, char **argv )
 {

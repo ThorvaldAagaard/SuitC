@@ -7,9 +7,9 @@
 //  parameters:
 //      d               in      the depth in the NODE tree
 //
-//  Copyright 2020, Gerrit A. van der Velde, Leiden
+//  Copyright 2024, Gerrit A. van der Velde, Leiden
 
-//  #include "header.h"
+#include "header.h"
 
 #define bottumup( a, b, bquirkd, bquirkdl )     if ( a && a > bquirkd[b]->il && bquirkdl[b]->h->t[a-1].i >= i ) a--; else if ( a && a == bquirkd[b]->il && b && bquirkdl[b-1]->h->t[a-1].i >= i ) { a--; b--; }
 

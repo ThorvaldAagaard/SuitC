@@ -8,9 +8,9 @@
 //      d               in      the depth in the tree
 //      p               in      the player of this ply
 //
-//  Copyright 2020, Gerrit A. van der Velde, Leiden
+//  Copyright 2024, Gerrit A. van der Velde, Leiden
 
-//  #include "header.h"
+#include "header.h"
 
 void create_ply3( int d, int p )
 {

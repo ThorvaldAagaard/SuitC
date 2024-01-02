@@ -7,9 +7,10 @@
 //  to produce a list of options type:
 //      SuitC {?|-?|-h}
 //
-//  Copyright 2020, Gerrit A. van der Velde, Leiden
+//  Copyright 2024, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
+#include "global.h"
 
 int main( int argc, char **argv )
 {
