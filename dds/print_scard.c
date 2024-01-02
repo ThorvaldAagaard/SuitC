@@ -8,7 +8,9 @@
 //      t               in      the trick that is printed
 //      s               in      the suit that is reported
 //
-//  Copyright 2023, Gerrit A. van der Velde, Leiden
+//  Copyright 2024, Gerrit A. van der Velde, Leiden
+
+#include "header.h"
 
 void print_scard( int t, int s, struct SCARD *scard[4][4] )
 {

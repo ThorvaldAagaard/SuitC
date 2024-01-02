@@ -7,7 +7,9 @@
 //  parameters:
 //      brd             in      the board that is printed
 //
-//  Copyright 2023, Gerrit A. van der Velde, Leiden
+//  Copyright 2024, Gerrit A. van der Velde, Leiden
+
+#include "header.h"
 
 void print_board( COLOR brd[5][4] )
 {

@@ -2,7 +2,7 @@
 #
 #  Makefile for program dds
 #
-#  Copyright 2023, Gerrit A. van der Velde, Leiden
+#  Copyright 2024, Gerrit A. van der Velde, Leiden
 #
 #-----------------------------------------------------------------------
 
@@ -12,30 +12,28 @@ CFLAGS	= -O3 -DTICK=1.0e-3
 
 EXEC	= ../bin/dds
 
-OBJECTS	= dds.o
-
-SOURCES	= 			\
-	  bottomup_tree.c	\
-	  build_node.c		\
-	  build_ply.c		\
-	  build_scard.c		\
-	  build_tree.c		\
-	  check_board.c		\
-	  delete_tree.c		\
-	  hashbackup.c		\
-	  order_plays.c		\
-	  join_scard.c		\
-	  play_board.c		\
-	  play_board_start.c	\
-	  print_all_boards.c	\
-	  print_all_results.c	\
-	  print_board.c		\
-	  print_node.c		\
-	  print_scard.c		\
-	  print_stat.c		\
-	  print_tree.c		\
-	  process_args.c	\
-	  dds.c
+OBJECTS	= 			\
+	  bottomup_tree.o	\
+	  build_node.o		\
+	  build_ply.o		\
+	  build_scard.o		\
+	  build_tree.o		\
+	  check_board.o		\
+	  delete_tree.o		\
+	  hashbackup.o		\
+	  order_plays.o		\
+	  join_scard.o		\
+	  play_board.o		\
+	  play_board_start.o	\
+	  print_all_boards.o	\
+	  print_all_results.o	\
+	  print_board.o		\
+	  print_node.o		\
+	  print_scard.o		\
+	  print_stat.o		\
+	  print_tree.o		\
+	  process_args.o	\
+	  dds.o
 
 ${EXEC}: ${OBJECTS}
 	${CC} ${CFLAGS} -o ${EXEC} ${OBJECTS}
@@ -44,10 +42,13 @@ ${EXEC}: ${OBJECTS}
 .SUFFIXES:
 .SUFFIXES: .o .c .h
 
+extern.h: global.h
+	sed '/^[cCdils]/s/^/extern /' global.h > extern.h
+
 .c.o:
 	${CC} ${CFLAGS} -c $*.c
 
-${OBJECTS}: Makefile header.h ${SOURCES}
+${OBJECTS}:	Makefile	extern.h	global.h	header.h
 
 clean:
 	-@rm -f ${OBJECTS} > /dev/null 2>&1

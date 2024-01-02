@@ -8,7 +8,9 @@
 //      d               in      the depth in the NODE tree
 //      cards           out     the cards in each hand
 //
-//  Copyright 2023, Gerrit A. van der Velde, Leiden
+//  Copyright 2024, Gerrit A. van der Velde, Leiden
+
+#include "header.h"
 
 void print_all_results( int d, COLOR *cards )
 {

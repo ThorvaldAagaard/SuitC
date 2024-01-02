@@ -8,7 +8,9 @@
 //      d               in      the depth in the NODE tree
 //      b               in      the board that is analysed
 //
-//  Copyright 2023, Gerrit A. van der Velde, Leiden
+//  Copyright 2024, Gerrit A. van der Velde, Leiden
+
+#include "header.h"
 
 void build_tree( int d, int b )
 {

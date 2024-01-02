@@ -9,7 +9,9 @@
 //      b               in      the board that is analysed
 //      p               in      the player of this ply
 //
-//  Copyright 2023, Gerrit A. van der Velde, Leiden
+//  Copyright 2024, Gerrit A. van der Velde, Leiden
+
+#include "header.h"
 
 void build_ply( int d, int b, int p )
 {

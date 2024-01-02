@@ -10,7 +10,9 @@
 //  parameters:
 //      none
 //
-//  Copyright 2023, Gerrit A. van der Velde, Leiden
+//  Copyright 2024, Gerrit A. van der Velde, Leiden
+
+#include "header.h"
 
 void process_args( int argc, char **argv )
 {

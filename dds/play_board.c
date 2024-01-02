@@ -7,7 +7,9 @@
 //  parameters:
 //      d               in      the depth in the NODE tree
 //
-//  Copyright 2023, Gerrit A. van der Velde, Leiden
+//  Copyright 2024, Gerrit A. van der Velde, Leiden
+
+#include "header.h"
 
 void play_board( int d, int p )
 {

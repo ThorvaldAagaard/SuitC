@@ -9,7 +9,9 @@
 //      root            in      the node to be printed
 //      ident           in      an identification string
 //
-//  Copyright 2023, Gerrit A. van der Velde, Leiden
+//  Copyright 2024, Gerrit A. van der Velde, Leiden
+
+#include "header.h"
 
 void print_node( int d, struct NODE *root, char *ident )
 {

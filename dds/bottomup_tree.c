@@ -10,7 +10,9 @@
 //      brd             in      the board that is analysed
 //      scard           out     the SCARD sequences that are build
 //
-//  Copyright 2023, Gerrit A. van der Velde, Leiden
+//  Copyright 2024, Gerrit A. van der Velde, Leiden
+
+#include "header.h"
 
 void bottomup_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
 {
