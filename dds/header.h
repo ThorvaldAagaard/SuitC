@@ -76,6 +76,19 @@ struct NODE {
                   w_s:3;                //  the winning suit of the current trick
 };
 
+struct RES {
+    int           k,                    //  the number of results
+                  i[NTRICKS],           //  the card index
+                  ns[NTRICKS],          //  the number north-south tricks
+                  s[NTRICKS];           //  the suit
+};
+
+struct RESULT {
+    COLOR         c;                    //  the cards that are lead
+    unsigned int  s,                    //  the suit that is lead
+                  ns;                   //  the result
+};
+
 struct SEQC {
     COLOR         c;                    //  the cards in the sequence
     unsigned int  n:4,                  //  the number of cards in the sequence
@@ -88,6 +101,21 @@ struct SCARD {
     COLOR         brd[4];               //  the cards of each player
     unsigned int  n:4,                  //  the number of used elements in sq
                   s:4;                  //  the suit of the sequence
+};
+
+struct STACK {
+    unsigned int  l,                    //  the lowest ply in this trick
+                  la,                   //  YES if this is the last player to this trick
+                  ld,                   //  YES if the lead is made in this ply
+                  n,                    //  the number of plays that have been investigated at each depth in the tree
+                  t;                    //  the trick number
+};
+
+struct TARGET {
+    unsigned int  d,                    //  the ply number of the target root
+                  p,                    //  the player that plays at the target root
+                  ns,                   //  the number of north-south tricks
+                  set;                  //  indicator that alpha-beta pruning is active
 };
 
 //  list of variables
@@ -117,37 +145,13 @@ struct JOINC  *joinctable[JHASHL+100];  //  the JOINC hash table
 struct JOINC  *nextjoinc;               //  the first unused slot in the JOINC hash table
 struct NODE   *nextnode;                //  the first unused slot in the NODE tree
 struct NODE   *wnode[NPLIES+2];         //  the stack of NODE entries
+struct RES    res[NBOARDS];             //  the result of the analysis
+struct RESULT result[NTRICKS];          //  the result of the analysis
 struct SCARD  *nextscard;               //  the first unused slot in the SCARD tree
 struct SCARD  *scard[NBOARDS][NTRICKS+1][4]; //  pointer to the SCARD slots with remaining cards
 struct SCARD  *scardtable[SHASHL+100];  //  the SCARD hash table
-
-struct RES {
-    int           k,                    //  the number of results
-                  i[NTRICKS],           //  the card index
-                  ns[NTRICKS],          //  the number north-south tricks
-                  s[NTRICKS];           //  the suit
-} res[NBOARDS];
-
-struct RESULT {
-    COLOR         c;                    //  the cards that are lead
-    unsigned int  s,                    //  the suit that is lead
-                  ns;                   //  the result
-} result[NTRICKS];
-
-struct STACK {
-    unsigned int  l,                    //  the lowest ply in this trick
-                  la,                   //  YES if this is the last player to this trick
-                  ld,                   //  YES if the lead is made in this ply
-                  n,                    //  the number of plays that have been investigated at each depth in the tree
-                  t;                    //  the trick number
-} st[53];                               //  the description of each ply
-
-struct TARGET {
-    unsigned int  d,                    //  the ply number of the target root
-                  p,                    //  the player that plays at the target root
-                  ns,                   //  the number of north-south tricks
-                  set;                  //  indicator that alpha-beta pruning is active
-} target;
+struct STACK  st[NPLIES+1];             //  the description of each ply
+struct TARGET target;                   //  the target for alpha-beta pruning
 
 //  list of routines
 //  ----------------------------------------------------------------------------
