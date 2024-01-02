@@ -164,9 +164,11 @@ void evaluate_mp_results( void )
             best_MP |= score[i].best_MAX != score[i].best_MP;
 
         //  clear the best_MP flag
-        if ( ! best_MP )
+        if ( ! best_MP ) {
             for ( i = 1; i <= nplays; i++ )
                 score[i].best_MP = NO;
+            matchpoint = best_MP || printallmatchpoint ? matchpoint : NO;
+        }
     }
 
     //  print the MP or IMP matrix for a mixed MP or IMP strategy
