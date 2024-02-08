@@ -12,7 +12,7 @@
 #define bump_index( lindex )            lindex = nextindex; icount++; if ( icountmax < icount ) { icountmax++; nextindex++; } else nextindex = nextindex->r
 #define bump_node( lnode )              lnode = nextnode; ncount++; if ( ncountmax < ncount ) { ncountmax++; nextnode++; } else nextnode = nextnode->r; lnode->d = NIL; lnode->l = NIL; lnode->r = NIL
 #define bump_quirkd( lquirkd )          lquirkd = nextquirkd; qdcount++; if ( qdcountmax < qdcount ) { qdcountmax++; nextquirkd++; check_quirk( qdcountmax, 2*NPLAYS) } else nextquirkd = nextquirkd->d; lquirkd->d = NIL; lquirkd->h = NIL; lquirkd->ic = boardcount
-#define bump_quirkh( lquirkh )          lquirkh = nextquirkh; qhcount++; if ( qhcountmax < qhcount ) { lquirkh->t = tricks + (long) qhcountmax * boardcount; qhcountmax++; nextquirkh++; check_quirk( qhcountmax, NPLAYS) } else nextquirkh = nextquirkh->h; lquirkh->d = NIL
+#define bump_quirkh( lquirkh )          lquirkh = nextquirkh; qhcount++; if ( qhcountmax < qhcount ) { lquirkh->t = malloc( boardcount * sizeof( struct TRICKS ) ); qhcountmax++; nextquirkh++; check_quirk( qhcountmax, NPLAYS) } else nextquirkh = nextquirkh->h; lquirkh->d = NIL
 #define check_quirk( i, j )             if ( i == j ) { printf( "No more memory for the QUIRK trees; run the analysis with the cutoff option activated or increase the value of NPLAYS\n" ); exit( 1 ); }
 #define CUTOFF                          1000000
 #define EPS                             1.0e-10

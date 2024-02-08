@@ -125,11 +125,6 @@ int main( int argc, char **argv )
         printf( "The memory assignment for the QUIRKH entries failed\n" );
         exit( 1 );
     }
-    tricks = malloc( (long) boardcount * NPLAYS * sizeof( struct TRICKS ) );
-    if ( ! tricks ) {
-        printf( "The memory assignment for the TRICKS entries failed\n" );
-        exit( 1 );
-    }
 
     //  build the quirk tree
     if ( sortplays ) {
