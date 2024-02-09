@@ -9,18 +9,9 @@
 //  ----------------------------------------------------------------------------
 #define addcard( c )                    ( ( (COLOR) 1 ) << ( c ) )
 #define BLANK                           NO
-#define bump_index( lindex )            lindex = nextindex; icount++; if ( icountmax < icount ) { icountmax++; nextindex++; } else nextindex = nextindex->r
-#define bump_node( lnode )              lnode = nextnode; ncount++; if ( ncountmax < ncount ) { ncountmax++; nextnode++; } else nextnode = nextnode->r; lnode->d = NIL; lnode->l = NIL; lnode->r = NIL
-#define bump_quirkd( lquirkd )          lquirkd = nextquirkd; qdcount++; if ( qdcountmax < qdcount ) { qdcountmax++; nextquirkd++; check_quirk( qdcountmax, 2*NPLAYS) } else nextquirkd = nextquirkd->d; lquirkd->d = NIL; lquirkd->h = NIL; lquirkd->ic = boardcount
-#define bump_quirkh( lquirkh )          lquirkh = nextquirkh; qhcount++; if ( qhcountmax < qhcount ) { lquirkh->t = malloc( boardcount * sizeof( struct TRICKS ) ); qhcountmax++; nextquirkh++; check_quirk( qhcountmax, NPLAYS) } else nextquirkh = nextquirkh->h; lquirkh->d = NIL
-#define check_quirk( i, j )             if ( i == j ) { printf( "No more memory for the QUIRK trees; run the analysis with the cutoff option activated or increase the value of NPLAYS\n" ); exit( 1 ); }
 #define CUTOFF                          1000000
 #define EPS                             1.0e-10
 #define EW( p )                         ( ( p == west ) || ( p == east ) )
-#define free_index( lindex )            icount--; lindex->r = nextindex; nextindex = lindex
-#define free_node( lnode )              ncount--; lnode->r = nextnode; nextnode = lnode
-#define free_quirkd( lquirkd )          qdcount--; lquirkd->d = nextquirkd; nextquirkd = lquirkd
-#define free_quirkh( lquirkh )          qhcount--; lquirkh->h = nextquirkh; nextquirkh = lquirkh
 #define IMP                             2
 #define low_c( c )                      ( ( c ) & -( c ) )
 #define MAX( i, j )                     ( ( i ) > ( j ) ? ( i ) : ( j ) )
@@ -29,7 +20,9 @@
 #define NBOARDS                         162
 #define NCARDS                          13
 #define NIL                             0
+#define NINDICES                        16000000L
 #define NNODE                           400
+#define NNODES                          8000000L
 #define NO                              0
 #define NPLAYS                          ( SUITCAPP ? 4000000L : 40000000L )
 #define NPLIES                          52
@@ -44,8 +37,7 @@
 //  list of typedef's and type declarations
 //  ----------------------------------------------------------------------------
 typedef unsigned short COLOR;
-typedef enum { renonce, one, two, three, four, five, six, seven,
-               eight, nine, ten, jack, queen, king, ace, ruff } CARD;
+typedef enum { renonce, one, two, three, four, five, six, seven, eight, nine, ten, jack, queen, king, ace, ruff } CARD;
 typedef enum { west, north, east, south, noplayer } SEATS;
 
 struct INDEX {
@@ -132,9 +124,10 @@ struct TRICKS {
                    ns:8;                //  the number of north-south tricks
 };
 
-//  list of variables
+//  list of include files
 //  ----------------------------------------------------------------------------
 #include "extern.h"
+#include "bump_codes.h"
 
 //  complete list of routines
 //  ----------------------------------------------------------------------------
@@ -181,6 +174,7 @@ void           print_node( struct NODE *lnode, char *ident );
 void           print_play_count( void );
 void           print_quirkd( struct QUIRKD *rootqdl, char *ident );
 void           print_results( int best_MAX, int best_MP, int *best_N, double mpscore );
+void           print_stat( int trace );
 void           print_suitc( void );
 void           print_summary_results( void );
 void           print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings );

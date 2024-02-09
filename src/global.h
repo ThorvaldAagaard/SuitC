@@ -10,6 +10,7 @@ COLOR  westfixed;                       //  the known cards in the west hand
 double a[NNODE][2*NNODE];               //  the matrix with MP or IMP scores
 double perc[NBOARDS];                   //  the percentage of the distributions for which the percentage is defined
 double prob[8192];                      //  the a priori probabilities for the boards
+double times[4];                        //  array with timings
 int    b_count[NCARDS+1];               //  the number of entries in each line
 int    boardcount;                      //  the number of EW distributions
 int    buildtree;                       //  the type of the NODE tree. 0=truncated tree, 1=full tree, 2=selected tree

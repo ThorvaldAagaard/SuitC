@@ -59,6 +59,7 @@ OBJECTS =				\
 	  print_play_count.o		\
 	  print_quirkd.o		\
 	  print_results.o		\
+	  print_stat.o			\
 	  print_suitc.o			\
 	  print_summary_results.o	\
 	  print_tree.o			\
@@ -83,7 +84,7 @@ extern.h: global.h
 .c.o:
 	${CC} -c $*.c
 
-${OBJECTS}:	Makefile	extern.h	global.h	header.h
+${OBJECTS}:	Makefile	bump_codes.h	extern.h	header.h
 
 clean:
 	-@rm -f ${OBJECTS} > /dev/null 2>&1

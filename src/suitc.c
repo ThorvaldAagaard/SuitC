@@ -15,7 +15,6 @@
 int main( int argc, char **argv )
 {
     int           i, d, p;
-    double        times[4];
 
     //  set defaults and initial values
     buildtree = 0;
@@ -73,7 +72,7 @@ int main( int argc, char **argv )
     //  initialize the INDEX list
     icount = 0;
     icountmax = 0;
-    nextindex = malloc( 16000000 * sizeof( struct INDEX ) );
+    nextindex = malloc( NINDICES * sizeof( struct INDEX ) );
     if ( ! nextindex ) {
         printf( "The memory assignment for the INDEX entries failed\n" );
         exit( 1 );
@@ -82,7 +81,7 @@ int main( int argc, char **argv )
     //  initialize the NODE tree
     ncount = 1;
     ncountmax = 1;
-    wnode[0] = malloc( 8000000 * sizeof( struct NODE ) );
+    wnode[0] = malloc( NNODES * sizeof( struct NODE ) );
     if ( ! wnode[0] ) {
         printf( "The memory assignment for the NODE entries failed\n" );
         exit( 1 );
@@ -210,27 +209,6 @@ int main( int argc, char **argv )
     //  print the results
     buildtree = 2;
     print_all_results();
-
     times[3] = TICK * clock();
-
-    if ( trace & 0x1 ) {
-        printf( "\n\n\n\tCounter        Maxvalue    Memory\n\t-------        --------    ------\n" );
-        printf( "\tindexcount%13d%10.1f\n", icountmax, icountmax * sizeof( struct INDEX ) / 1048576. );
-        printf( "\tnodecount%14d%10.1f\n", ncountmax, ncountmax * sizeof( struct NODE ) / 1048576. );
-        printf( "\tquirkdcount%12d%10.1f\n", qdcountmax, qdcountmax * sizeof( struct QUIRKD ) / 1048576. );
-        printf( "\tquirkhcount%12d%10.1f\n", qhcountmax, qhcountmax * sizeof( struct QUIRKH ) / 1048576. );
-        printf( "\ttrickscount%12d%10.1f\n", qhcountmax, (long) qhcountmax * boardcount * sizeof( struct TRICKS ) / 1048576. );
-        printf( "\n\tEvent                              Time\n" );
-        printf( "\t--------------------------         ----\n" );
-        printf( "\tThe tree is created        %12.3f\n", times[0] );
-        printf( "\tThe quirk tree is build    %12.3f\n", times[1] );
-        if ( matchpointtime == IMP )
-            printf( "\tThe IMP plays are evaluated%12.3f\n", times[2] );
-        if ( matchpointtime == MP )
-            printf( "\tThe MP plays are evaluated %12.3f\n", times[2] );
-        printf( "\tThe program is finished    %12.3f\n", times[3] );
-    }
-
-    printf( "\n\n\n\n" );
-    exit( 0 );
+    print_stat( trace );
 }
