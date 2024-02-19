@@ -17,7 +17,7 @@
 void process_args( int argc, char **argv )
 {
     char          c;
-    int           i, k, match, n, p, p_start = west, printoptions = NO, s;
+    int           i, k, match, n, p = west, p_start = west, printoptions = NO, s;
     static char   *symbols[] = { "-123456789tjqka", "-123456789tbvha", "-123456789TJQKA", "-123456789TBVHA" };
 
     for ( i = 1; i < argc; i++ ) {

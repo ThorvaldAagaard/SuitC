@@ -14,8 +14,8 @@
 void play_board( int d, int p )
 {
     int           a, b, i, k, l, lds, n, ns, q, s, start, t = st[d].t;
-    char          c, in[10], out[14];
-    COLOR         cards[4];
+    char          c, in[14], out[14];
+    COLOR         cards[4], playc;
     static char   seats[] = "wnes";
     static char   suits[] = "shdc-";
     static char   *suit[] = { "spades", "hearts", "diamonds", "clubs", "notrump", "discard" };
@@ -67,10 +67,12 @@ redo:
     ns = wnode[st[d].l-1]->nd + wnode[st[d].l-1]->nc;
     printf( "\nd=%02d    ns=%x ew=%x   %s", d, ns, st[st[d].l-1].t - ns, suit[trump] );
     for ( a = st[d].l; a < d; a++ ) {
-        for ( i = two; i <= ace; i++ )
+        l = 0;
+        for ( i = ace; i >= two; i-- )
             if ( wnode[a]->c & set(i) )
-                break;
-        printf( "   %c %c %c", seats[wnode[a]->p], suits[wnode[a]->s], symbols[i] );
+                out[l++] = symbols[i];
+        out[l] = '\0';
+        printf( "   %c %c %s", seats[wnode[a]->p], suits[wnode[a]->s], out );
     }
     printf( "   %c ? ?\n", seats[p] );
 
@@ -123,33 +125,45 @@ redo:
         }
     }
 
-    //  select the play
+    //  select the suit
     s = c == 's' || c == 'S'                         ? spades
       : c == 'h' || c == 'H'                         ? hearts
       : c == 'd' || c == 'D' || c == 'r' || c == 'R' ? diamonds
       : c == 'c' || c == 'C' || c == 'k' || c == 'K' ? clubs
       : discard;
-    c = in[1];
-    i = c == 'A' || c == 'a'                         ? 14
-      : c == 'K' || c == 'k' || c == 'H' || c == 'h' ? 13
-      : c == 'Q' || c == 'q' || c == 'V' || c == 'v' ? 12
-      : c == 'J' || c == 'j' || c == 'B' || c == 'b' ? 11
-      : c == 'T' || c == 't' || c == '1'             ? 10
-      : c - '0';
 
-    //  verify the correctness of the play
-    if ( s == discard || i < 2 || i > 14 ) {
-        printf( "The selected play is incorrect\n" );
-        goto redo;
+    //  select the cards
+    playc = RENONCE;
+    for ( k = 1; k <= 13; k++ ) {
+        if ( ! in[k] ) break;
+        c = in[k];
+        i = c == 'A' || c == 'a'                         ? 14
+          : c == 'K' || c == 'k' || c == 'H' || c == 'h' ? 13
+          : c == 'Q' || c == 'q' || c == 'V' || c == 'v' ? 12
+          : c == 'J' || c == 'j' || c == 'B' || c == 'b' ? 11
+          : c == 'T' || c == 't' || c == '1'             ? 10
+          : c - '0';
+
+        //  verify the correctness of the play
+        if ( s == discard || i < 2 || i > 14 ) {
+            printf( "The selected play is incorrect\n" );
+            goto redo;
+        }
+        playc |= set(i);
     }
-    else {
-        blist[d+1].n = 0;
-        for ( l = 0; l < blist[d].n; l++ ) {
-            b = blist[d].b[l];
-            if ( brd[b][t][s][p] && ( st[d].ld || s == lds || ! brd[b][t][lds][p] ) && brd[b][t][s][p] & set(i) ) {
-                blist[d+1].b[blist[d+1].n] = b;
-                blist[d+1].n++;
-            }
+    l = 0;
+    for ( i = ace; i >= two; i-- )
+        if ( playc & set(i) )
+            out[l++] = symbols[i];
+    out[l] = '\0';
+
+    //  select the boards
+    blist[d+1].n = 0;
+    for ( l = 0; l < blist[d].n; l++ ) {
+        b = blist[d].b[l];
+        if ( brd[b][t][s][p] && ( st[d].ld || s == lds || ! brd[b][t][lds][p] ) && brd[b][t][s][p] & playc ) {
+            blist[d+1].b[blist[d+1].n] = b;
+            blist[d+1].n++;
         }
     }
     if ( blist[d+1].n == 0 ) {
@@ -161,12 +175,12 @@ redo:
     wnode[d] = &znode;
     bnode[d] = wnode[d-1]->d;
     b = blist[d+1].b[0];
-    build_node( d, b, s, p, set(i) );
+    build_node( d, b, s, p, playc );
     wnode[d-1]->d = wnode[d];
     wnode[d]->nd = wnode[d-1]->nd + wnode[d-1]->nc;
     for ( l = 0; l < blist[d].n; l++ ) {
         b = blist[d].b[l];
-        brd[b][t][s][p] ^= brd[b][t][s][p] & set(i);
+        brd[b][t][s][p] ^= low_c( brd[b][t][s][p] & playc );
     }
 
     //  play the next card
