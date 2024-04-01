@@ -7,7 +7,7 @@
 
 //  list of cpp defines
 //  ----------------------------------------------------------------------------
-#define BHASHL                          10000000L
+#define BHASHL                          20000000L
 #define EW( p )                         ( ( p == west ) || ( p == east ) )
 #define IA                              (unsigned long) 2416
 #define IC                              (unsigned long) 374441
@@ -18,12 +18,12 @@
 #define MIN( i, j )                     ( ( i ) < ( j ) ? ( i ) : ( j ) )
 #define NBOARDS                         64
 #define NIL                             (void *) 0
-#define NNODE                           100000000L
+#define NNODE                           200000000L
 #define NO                              0
 #define NPLIES                          52
 #define NS( p )                         ( ( p == north ) || ( p == south ) )
 #define NSCARD                          100000L
-#define NSEQC                           100000L
+#define NSEQC                           200000L
 #define RENONCE                         ( (COLOR) 0 )
 #define set( i )                        ( 1 << i )
 #define SHASHL                          40000L
