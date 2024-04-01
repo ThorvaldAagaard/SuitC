@@ -32,7 +32,7 @@ int hashbackup( int d, int b )
     }
 
     //  locate an existing BACKUP slot
-    ncalls[3]++;
+    ncalls[8]++;
     inx = ( (unsigned long) wnode[d-1]->w_p * IA + IC ) % IM;
     inx = ( ( inx + (unsigned long) trump ) * IA + IC ) % IM;
     for ( s = 0; s < 4; s++ )

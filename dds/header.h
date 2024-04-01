@@ -7,22 +7,23 @@
 
 //  list of cpp defines
 //  ----------------------------------------------------------------------------
-#define BHASHL                          60000000L
+#define BHASHL                          10000000L
 #define EW( p )                         ( ( p == west ) || ( p == east ) )
 #define IA                              (unsigned long) 2416
 #define IC                              (unsigned long) 374441
 #define IM                              (unsigned long) 1771875
-#define JHASHL                          300000L
+#define JHASHL                          100000L
 #define low_c( c )                      ( ( c ) & -( c ) )
 #define MAX( i, j )                     ( ( i ) > ( j ) ? ( i ) : ( j ) )
 #define MIN( i, j )                     ( ( i ) < ( j ) ? ( i ) : ( j ) )
 #define NBOARDS                         64
 #define NIL                             (void *) 0
-#define NNODE                           600000000L
+#define NNODE                           100000000L
 #define NO                              0
 #define NPLIES                          52
 #define NS( p )                         ( ( p == north ) || ( p == south ) )
 #define NSCARD                          100000L
+#define NSEQC                           100000L
 #define NTRICKS                         13
 #define RENONCE                         ( (COLOR) 0 )
 #define set( i )                        ( 1 << i )
@@ -89,18 +90,19 @@ struct RESULT {
                   ns;                   //  the result
 };
 
+struct SCARD {
+    struct SCARD  *r;                   //  pointer to the right sibling
+    struct SEQC   *sq;                  //  the list of SCARD sequences
+    COLOR         brd[4];               //  the cards of each player
+    unsigned int  i:12,                 //  the board number (b=0 denotes the combined cards)
+                  s:4;                  //  the suit of the sequence
+};
+
 struct SEQC {
+    struct SEQC   *r;                   //  pointer to the right sibling
     COLOR         c;                    //  the cards in the sequence
     unsigned int  n:4,                  //  the number of cards in the sequence
                   p:4;                  //  the player of the sequence
-};
-
-struct SCARD {
-    struct SCARD  *r;                   //  pointer to the right sibling
-    struct SEQC   sq[NTRICKS];          //  the card sequences
-    COLOR         brd[4];               //  the cards of each player
-    unsigned int  n:4,                  //  the number of used elements in sq
-                  s:4;                  //  the suit of the sequence
 };
 
 struct STACK {
@@ -121,6 +123,7 @@ struct TARGET {
 //  list of variables
 //  ----------------------------------------------------------------------------
 #include "extern.h"
+#include "bump_codes.h"
 
 //  list of routines
 //  ----------------------------------------------------------------------------

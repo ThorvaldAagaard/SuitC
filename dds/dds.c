@@ -22,9 +22,9 @@ int main( int argc, char **argv )
     times[0] = TICK * clock();
     blist[0].n = 0;
     target.set = NO;
-    for ( d = 0; d < 5; d++ )
+    for ( d = 0; d < 16; d++ )
         ncalls[d] = 0;
-    for ( d = 0; d <= 52; d++ ) {
+    for ( d = 0; d <= NPLIES; d++ ) {
         st[d].l = 4 * ( ( d - 1 ) / 4 ) + 1;
         st[d].la = ( d & 3 ) == 0;
         st[d].ld = ( d & 3 ) == 1;
@@ -58,6 +58,15 @@ int main( int argc, char **argv )
     nextscard = malloc( NSCARD * sizeof( struct SCARD ) );
     for ( inx = 0; inx < SHASHL+100; inx++ )
         scardtable[inx] = NIL;
+
+    //  initialise the SEQC list
+    sqcount = 0;
+    sqcountmax = 0;
+    nextseqc = malloc( NSEQC * sizeof( struct SEQC ) );
+    if ( nextseqc == NIL ) {
+        printf( "The allocation of memory for the SEQC list failed\n" );
+        exit( 99 );
+    }
 
     //  process the command line
     ld = unknown;

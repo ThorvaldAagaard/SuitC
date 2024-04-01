@@ -21,7 +21,7 @@ void print_scard( int t, int s, struct SCARD *scard[4][4] )
     static char   seats[] = "wnes";
     static char   suits[] = "SHDC";
     static char   symbols[] = "-123456789tjqka=";
-    struct SEQC   *sq;
+    struct SEQC   *lseqc;
 
     //  print the north hand
     printf( "\n" );
@@ -40,17 +40,18 @@ void print_scard( int t, int s, struct SCARD *scard[4][4] )
             printf( " " );
         printf( "         " );
 
-        sq = scard[t][s]->sq;
-        for ( n = 0; n < scard[t][s]->n; n++ ) {
+        lseqc = scard[t][s]->sq;
+        while ( lseqc ) {
             k = 0;
             for ( i = ace+1; i >= 0; i-- )
-                if ( set(i) & sq[n].c )
+                if ( set(i) & lseqc->c )
                     str[k++] = symbols[i];
             str[k] = '\0';
             if ( k < 6 )
-                printf( "%c:%x:%-6s", seats[sq[n].p], sq[n].n, str );
+                printf( "%c:%x:%-6s", seats[lseqc->p], lseqc->n, str );
             else
-                printf( "%c:%x:%s ", seats[sq[n].p], sq[n].n, str );
+                printf( "%c:%x:%s ", seats[lseqc->p], lseqc->n, str );
+            lseqc = lseqc->r;
         }
         printf( "\n" );
     }

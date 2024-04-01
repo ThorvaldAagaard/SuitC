@@ -15,9 +15,9 @@
 
 void build_ply( int d, int b, int p )
 {
-    int           lds, n, s, t = st[d].t;
+    int           lds, s, t = st[d].t;
     struct NODE   znode;
-    struct SEQC   *sq;
+    struct SEQC   *lseqc;
 
     //  initialise
     wnode[d] = &znode;
@@ -26,10 +26,12 @@ void build_ply( int d, int b, int p )
     for ( s = 0; s < 4; s++ ) {
         lds = st[d].ld ? s : wnode[st[d].l]->s;
         if ( brd[b][t][s][p] && ( st[d].ld || s == lds || ! brd[b][t][lds][p] ) ) {
-            sq = scard[b][t][s]->sq;
-            for ( n = 0; n < scard[b][t][s]->n; n++ )
-                if ( sq[n].p == p )
-                    build_node( d, b, s, p, sq[n].c );
+            lseqc = scard[b][t][s]->sq;
+            while ( lseqc ) {
+                if ( lseqc->p == p )
+                    build_node( d, b, s, p, lseqc->c );
+                lseqc = lseqc->r;
+            }
         }
     }
 

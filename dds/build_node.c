@@ -20,22 +20,9 @@ void build_node( int d, int b, int s, int p, COLOR c )
     int           l, lds, q, t = st[d].t;
     struct        { int p, s; COLOR c; } w;
 
-    ncount++;
-    ncalls[0]++;
-    wnode[d]->r = nextnode;
-    if ( ncount > ncountmax ) {
-        ncountmax++;
-        nextnode++;
-        if ( ncountmax == NNODE ) {
-            printf( "No more memory for the NODE tree; increase the value of NNODE\n" );
-            exit( 99 );
-        }
-    }
-    else
-        nextnode = nextnode->r;
+    //  create the new NODE
+    bump_node( wnode[d]->r );
     wnode[d] = wnode[d]->r;
-    wnode[d]->d = NIL;
-    wnode[d]->r = NIL;
 
     if ( st[d].ld || s == wnode[d-1]->w_s && c > wnode[d-1]->w_c || s == trump && wnode[d-1]->w_s != trump ) {
         wnode[d]->w_p = p;

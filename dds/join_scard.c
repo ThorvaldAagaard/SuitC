@@ -19,7 +19,7 @@ void join_scard( int d, int b, int s )
     unsigned long inx;
     struct JOINC  *ljoinc;
     struct SCARD  *ltable;
-    struct SEQC   *sq, *tq;
+    struct SEQC   *lseqc, *tseqc;
 
     //  locate an existing JOINC slot
     inx = ( (unsigned long) s * IA + IC ) % IM;
@@ -28,7 +28,7 @@ void join_scard( int d, int b, int s )
     inx = inx % JHASHL;
 
     //  check the old JOINC slots
-    ncalls[2]++;
+    ncalls[9]++;
     ljoinc = joinctable[inx];
     while ( ljoinc ) {
         match = s == ljoinc->s;
@@ -57,12 +57,12 @@ void join_scard( int d, int b, int s )
     build_scard( d, b, s );
 
     //  locate an existing SCARD slot
-    ncalls[4]++;
-    sq = scard[b][t][s]->sq;
+    lseqc = scard[b][t][s]->sq;
     inx = ( (unsigned long) scard[b][t][s]->s * IA + IC ) % IM;
-    for ( n = 0; n < scard[b][t][s]->n; n++ ) {
-        inx = ( ( inx + (unsigned long) sq[n].n ) * IA + IC ) % IM;
-        inx = ( ( inx + (unsigned long) sq[n].p ) * IA + IC ) % IM;
+    while( lseqc ) {
+        inx = ( ( inx + (unsigned long) lseqc->n ) * IA + IC ) % IM;
+        inx = ( ( inx + (unsigned long) lseqc->p ) * IA + IC ) % IM;
+        lseqc = lseqc->r;
     }
     inx = inx % SHASHL;
 
@@ -70,18 +70,19 @@ void join_scard( int d, int b, int s )
     ltable = scardtable[inx];
     while ( ltable ) {
 
-        sq = scard[b][t][s]->sq;
-        tq = ltable->sq;
+        lseqc = scard[b][t][s]->sq;
+        tseqc = ltable->sq;
         match = YES;
-        if ( scard[b][t][s]->n == ltable->n ) {
 
-            for ( n = 0; n < scard[b][t][s]->n; n++ ) {
-                match &= sq[n].n == tq[n].n;
-                match &= sq[n].p == tq[n].p;
+            while ( match && lseqc && tseqc ) {
+                match &= lseqc->n == tseqc->n;
+                match &= lseqc->p == tseqc->p;
+                lseqc = lseqc->r;
+                tseqc = tseqc->r;
             }
 
             //  we found an old SCARD slot
-            if ( match ) {
+            if ( match && lseqc == NIL && tseqc == NIL ) {
                 scount--;
                 scard[b][t][s]->r = nextscard;
                 nextscard = scard[b][t][s];
@@ -91,7 +92,6 @@ void join_scard( int d, int b, int s )
                     brd[b][t][s][p] = ltable->brd[p];
                 return;
             }
-        }
 
         ltable = ltable->r;
     }

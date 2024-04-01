@@ -8,7 +8,7 @@ int    d_back;                          //  the ply at which the analysis is res
 int    d_start;                         //  the start ply for the analysis
 int    jfill;                           //  the number of occupied slots in the JOINC hash table
 int    ld;                              //  the opening leader
-int    ncalls[5];                       //  the number of calls of selected routines
+int    ncalls[16];                      //  the number of calls of selected routines
 int    ncount;                          //  the number of active NODE entries
 int    ncountmax;                       //  the maximum number of active NODE entries
 int    nresult;                         //  the number of results
@@ -16,6 +16,8 @@ int    ntricks;                         //  the number of tricks that will be pl
 int    scount;                          //  the number of active SCARD entries
 int    scountmax;                       //  the maximum number of active SCARD entries
 int    sfill;                           //  the number of occupied slots in the SCARD hash table
+int    sqcount;                         //  the number of active SEQC entries
+int    sqcountmax;                      //  the maximum number of active SEQC entries
 int    trump;                           //  the trump suit
 struct BACKUP *backup[NTRICKS+1];       //  the pointers to the BACKUP slots for each trick
 struct BACKUP *backuptable[BHASHL+100]; //  the BACKUP hash table
@@ -30,5 +32,6 @@ struct RESULT result[NTRICKS];          //  the result of the analysis
 struct SCARD  *nextscard;               //  the first unused slot in the SCARD tree
 struct SCARD  *scard[NBOARDS][NTRICKS+1][4]; //  pointer to the SCARD slots with remaining cards
 struct SCARD  *scardtable[SHASHL+100];  //  the SCARD hash table
+struct SEQC   *nextseqc;                //  the first unused slot in the SEQC list
 struct STACK  st[NPLIES+1];             //  the description of each ply
 struct TARGET target;                   //  the target for alpha-beta pruning
