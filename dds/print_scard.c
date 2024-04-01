@@ -27,7 +27,7 @@ void print_scard( int t, int s, struct SCARD *scard[4][4] )
     printf( "\n" );
     if ( scard[t][s] ) {
 
-        nc = NTRICKS;
+        nc = 13;
         brd = scard[t][s]->brd;
         printf( "        %c: ", suits[s] );
         for ( n = ace; n >= two; n-- ) {
@@ -59,7 +59,7 @@ void print_scard( int t, int s, struct SCARD *scard[4][4] )
     //  print the west and east hands
     if ( scard[t][s] ) {
 
-        nc = NTRICKS;
+        nc = 13;
         brd = scard[t][s]->brd;
         printf( "%c: ", suits[s] );
         for ( n = ace; n >= two; n-- ) {

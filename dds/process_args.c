@@ -78,19 +78,19 @@ void process_args( int argc, char **argv )
 
             k = 0;
             s = spades;
-            brd[blist[0].n][0][s][p] = RENONCE;
+            brd[boardcount[0]][0][s][p] = RENONCE;
             while ( argv[i][k] ) {
                 c = argv[i][k];
                 if ( c == '.' ) {
                     s++;
-                    brd[blist[0].n][0][s][p] = RENONCE;
+                    brd[boardcount[0]][0][s][p] = RENONCE;
                 }
                 else {
                     match = NO;
                     for ( n = two; n <= ace; n++ ) {
                         if ( ( c == symbols[0][n] ) || ( c == symbols[1][n] ) || ( c == symbols[2][n] ) || ( c == symbols[3][n] ) ) {
                             match = YES;
-                            brd[blist[0].n][0][s][p] |= set(n);
+                            brd[boardcount[0]][0][s][p] |= set(n);
                         }
                     }
                     if ( ! match ) {
@@ -103,12 +103,12 @@ void process_args( int argc, char **argv )
 
             p = (p+1)%4;
             if ( p == p_start ) {
-                blist[0].b[blist[0].n] = blist[0].n;
-                if ( blist[0].n == NBOARDS-2 ) {
+                blist[0][boardcount[0]] = boardcount[0];
+                if ( boardcount[0] == NBOARDS-2 ) {
                     printf( "No more memory in the brd array; increase the value of NBOARDS\n" );
                     exit( 99 );
                 }
-                blist[0].n++;
+                boardcount[0]++;
             }
         }
     }

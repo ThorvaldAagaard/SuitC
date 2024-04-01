@@ -24,7 +24,6 @@
 #define NS( p )                         ( ( p == north ) || ( p == south ) )
 #define NSCARD                          100000L
 #define NSEQC                           100000L
-#define NTRICKS                         13
 #define RENONCE                         ( (COLOR) 0 )
 #define set( i )                        ( 1 << i )
 #define SHASHL                          40000L
@@ -46,11 +45,6 @@ struct BACKUP {
                   nl:4,                 //  the backup value of the minimum number of north-south tricks
                   t:1,                  //  indicator for terminal nodes
                   trump:3;              //  the trump suit
-};
-
-struct BLIST {
-    int           n,                    //  the number of boards for each ply
-                  b[NBOARDS];           //  the board indices
 };
 
 struct JOINC {
@@ -79,9 +73,9 @@ struct NODE {
 
 struct RES {
     int           k,                    //  the number of results
-                  i[NTRICKS],           //  the card index
-                  ns[NTRICKS],          //  the number north-south tricks
-                  s[NTRICKS];           //  the suit
+                  i[14],                //  the card index
+                  ns[14],               //  the number north-south tricks
+                  s[14];                //  the suit
 };
 
 struct RESULT {
@@ -127,7 +121,7 @@ struct TARGET {
 
 //  list of routines
 //  ----------------------------------------------------------------------------
-void           bottomup_tree( int d, COLOR brd[NTRICKS+1][5][4], struct SCARD *scard[NTRICKS+1][4] );
+void           bottomup_tree( int d, COLOR brd[14][4][4], struct SCARD *scard[14][4] );
 void           build_node( int d, int b, int s, int p, COLOR c );
 void           build_ply( int d, int b, int p );
 void           build_scard( int d, int b, int s );
@@ -142,7 +136,7 @@ void           play_board( int d, int p );
 void           play_board_start( void );
 void           print_all_boards( int d );
 void           print_all_results( int d, COLOR *cards );
-void           print_board( COLOR brd[5][4] );
+void           print_board( COLOR brd[4][4] );
 void           print_node( int d, struct NODE *root, char *ident );
 void           print_scard( int t, int s, struct SCARD *scard[4][4] );
 void           print_stat( char c );

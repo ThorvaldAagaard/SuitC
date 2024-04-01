@@ -22,8 +22,8 @@ void print_all_results( int d, COLOR *cards )
     //  collect the cards
     for ( s = 0; s < 4; s++ )
         cards[s] = RENONCE;
-    for ( l = 0; l < blist[d].n; l++ ) {
-        b = blist[d].b[l];
+    for ( l = 0; l < boardcount[d]; l++ ) {
+        b = blist[d][l];
         k = res[b].k;
         for ( n = 0; n < k; n++ )
             cards[res[b].s[n]] |= set(res[b].i[n]);
@@ -53,8 +53,8 @@ void print_all_results( int d, COLOR *cards )
     printf( "\n" );
 
     //  print the results
-    for ( l = 0; l < blist[d].n; l++ ) {
-        b = blist[d].b[l];
+    for ( l = 0; l < boardcount[d]; l++ ) {
+        b = blist[d][l];
         k = res[b].k;
         printf( "b=%02d  ", b+1 );
         for ( s = 0; s < 4; s++ ) {

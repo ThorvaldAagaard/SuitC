@@ -25,8 +25,8 @@ void play_board_start( void )
     d_start = 1;
 
     //  determine the result for all combinations of leader and denomination
-    for ( l = 0; l < blist[1].n; l++ ) {
-        b = blist[1].b[l];
+    for ( l = 0; l < boardcount[1]; l++ ) {
+        b = blist[1][l];
         for ( ld = 0; ld < 4; ld++ ) {
             for ( trump = 0; trump < 5; trump++ ) {
                 if ( ( p == ld || p == unknown ) && ( s == trump || s == discard ) ) {

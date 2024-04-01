@@ -17,8 +17,8 @@ void check_board( void )
     int           b, i, l, n, p, q, s;
 
     //  has each player the same number of cards?
-    for ( l = 0; l < blist[0].n; l++ ) {
-        b = blist[0].b[l];
+    for ( l = 0; l < boardcount[0]; l++ ) {
+        b = blist[0][l];
         for ( p = 0; p < 4; p++ ) {
             n = 0;
             for ( s = 0; s < 4; s++ )
@@ -41,8 +41,8 @@ void check_board( void )
     }
 
     //  check for duplicate cards
-    for ( l = 0; l < blist[0].n; l++ ) {
-        b = blist[0].b[l];
+    for ( l = 0; l < boardcount[0]; l++ ) {
+        b = blist[0][l];
         for ( s = 0; s < 4; s++ ) {
             for ( p = 0; p < 4; p++ ) {
                 for ( q = p+1; q < 4; q++ ) {

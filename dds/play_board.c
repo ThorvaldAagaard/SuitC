@@ -24,8 +24,8 @@ void play_board( int d, int p )
     struct SCARD  *lc, zscard;
 
     if ( st[d].ld ) {
-        for ( l = 0; l < blist[d].n; l++ ) {
-            b = blist[d].b[l];
+        for ( l = 0; l < boardcount[d]; l++ ) {
+            b = blist[d][l];
             for ( s = 0; s < 4; s++ )
                 build_scard( d, b, s );
         }
@@ -35,8 +35,8 @@ redo:
     d_back = d;
     d_ab = d+1;
     d_start = d;
-    for ( l = 0; l < blist[d].n; l++ ) {
-        b = blist[d].b[l];
+    for ( l = 0; l < boardcount[d]; l++ ) {
+        b = blist[d][l];
         nresult = 0;
         wnode[d-1]->t = NO;
         wnode[d-1]->nl = 0;
@@ -158,15 +158,15 @@ redo:
     out[l] = '\0';
 
     //  select the boards
-    blist[d+1].n = 0;
-    for ( l = 0; l < blist[d].n; l++ ) {
-        b = blist[d].b[l];
+    boardcount[d+1] = 0;
+    for ( l = 0; l < boardcount[d]; l++ ) {
+        b = blist[d][l];
         if ( brd[b][t][s][p] && ( st[d].ld || s == lds || ! brd[b][t][lds][p] ) && brd[b][t][s][p] & playc ) {
-            blist[d+1].b[blist[d+1].n] = b;
-            blist[d+1].n++;
+            blist[d+1][boardcount[d+1]] = b;
+            boardcount[d+1]++;
         }
     }
-    if ( blist[d+1].n == 0 ) {
+    if ( boardcount[d+1] == 0 ) {
         printf( "The selected play is incorrect\n" );
         goto redo;
     }
@@ -174,12 +174,12 @@ redo:
     znode.r = NIL;
     wnode[d] = &znode;
     bnode[d] = wnode[d-1]->d;
-    b = blist[d+1].b[0];
+    b = blist[d+1][0];
     build_node( d, b, s, p, playc );
     wnode[d-1]->d = wnode[d];
     wnode[d]->nd = wnode[d-1]->nd + wnode[d-1]->nc;
-    for ( l = 0; l < blist[d].n; l++ ) {
-        b = blist[d].b[l];
+    for ( l = 0; l < boardcount[d]; l++ ) {
+        b = blist[d][l];
         brd[b][t][s][p] ^= low_c( brd[b][t][s][p] & playc );
     }
 
@@ -187,8 +187,8 @@ redo:
     if ( d < 4*ntricks ) {
         q = st[d].la ? wnode[d]->w_p : (p+1)%4;
         play_board( d+1, q );
-        for ( l = 0; l < blist[d].n; l++ ) {
-            b = blist[d].b[l];
+        for ( l = 0; l < boardcount[d]; l++ ) {
+            b = blist[d][l];
             brd[b][t][s][p] = scard[b][t][s]->brd[p];
         }
     }
@@ -197,8 +197,8 @@ redo:
     else {
 
         wnode[d-1]->d = bnode[d];
-        for ( l = 0; l < blist[d].n; l++ ) {
-            b = blist[d].b[l];
+        for ( l = 0; l < boardcount[d]; l++ ) {
+            b = blist[d][l];
             brd[b][t][s][p] = scard[b][t][s]->brd[p];
         }
         ns = wnode[d]->nd + wnode[d]->nc;

@@ -14,7 +14,7 @@
 
 #include "header.h"
 
-void bottomup_tree( int d, COLOR brd[14][5][4], struct SCARD *scard[14][4] )
+void bottomup_tree( int d, COLOR brd[14][4][4], struct SCARD *scard[14][4] )
 {
     int           nh, nl, p, s, t = st[d].t;
     struct NODE   *nnode;

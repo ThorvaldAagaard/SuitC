@@ -18,13 +18,13 @@ void print_all_boards( int d )
     static char   card[] = "-123456789TJQKA";
 
     //  print the boards in chunks of 5
-    for ( ll = 0; ll < blist[d].n; ll += 5 ) {
+    for ( ll = 0; ll < boardcount[d]; ll += 5 ) {
 
         //  print the north hands
         printf( "\n\n\n" );
         for ( s = 0; s < 4; s++ ) {
-            for ( l = ll; l < MIN(ll+5,blist[d].n); l++ ) {
-                b = blist[d].b[l];
+            for ( l = ll; l < MIN(ll+5,boardcount[d]); l++ ) {
+                b = blist[d][l];
                 nc = 21;
                 if ( s == 0 )
                     printf( "b=%02d    %c: ", b+1, suits[s] );
@@ -36,7 +36,7 @@ void print_all_boards( int d )
                         printf( "%c", card[n] );
                     }
                 }
-                if ( l < MIN(ll+5,blist[d].n) - 1 )
+                if ( l < MIN(ll+5,boardcount[d]) - 1 )
                     for ( n = 0; n < nc; n++ )
                         printf( " " );
             }
@@ -45,9 +45,9 @@ void print_all_boards( int d )
 
         //  print the west and east hands
         for ( s = 0; s < 4; s++ ) {
-            for ( l = ll; l < MIN(ll+5,blist[d].n); l++ ) {
-                b = blist[d].b[l];
-                nc = NTRICKS;
+            for ( l = ll; l < MIN(ll+5,boardcount[d]); l++ ) {
+                b = blist[d][l];
+                nc = 13;
                 printf( "%c: ", suits[s] );
                 for ( n = ace; n >= two; n-- ) {
                     if ( set(n) & brd[b][t][s][west] ) {
@@ -57,7 +57,7 @@ void print_all_boards( int d )
                 }
                 for ( n = 0; n < nc; n++ )
                     printf( " " );
-                nc = NTRICKS;
+                nc = 13;
                 printf( "%c: ", suits[s] );
                 for ( n = ace; n >= two; n-- ) {
                     if ( set(n) & brd[b][t][s][east] ) {
@@ -65,7 +65,7 @@ void print_all_boards( int d )
                         printf( "%c", card[n] );
                     }
                 }
-                if ( l < MIN(ll+5,blist[d].n) - 1 )
+                if ( l < MIN(ll+5,boardcount[d]) - 1 )
                     for ( n = 0; n < nc; n++ )
                         printf( " " );
             }
@@ -74,8 +74,8 @@ void print_all_boards( int d )
 
         //  print the south hands
         for ( s = 0; s < 4; s++ ) {
-            for ( l = ll; l < MIN(ll+5,blist[d].n); l++ ) {
-                b = blist[d].b[l];
+            for ( l = ll; l < MIN(ll+5,boardcount[d]); l++ ) {
+                b = blist[d][l];
                 nc = 21;
                 printf( "        %c: ", suits[s] );
                 for ( n = ace; n >= two; n-- ) {
@@ -84,7 +84,7 @@ void print_all_boards( int d )
                         printf( "%c", card[n] );
                     }
                 }
-                if ( l < MIN(ll+5,blist[d].n) - 1 )
+                if ( l < MIN(ll+5,boardcount[d]) - 1 )
                     for ( n = 0; n < nc; n++ )
                         printf( " " );
             }

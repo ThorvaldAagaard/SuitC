@@ -11,7 +11,7 @@
 
 #include "header.h"
 
-void print_board( COLOR brd[5][4] )
+void print_board( COLOR brd[4][4] )
 {
     int           n, nc, s;
     static char   suits[] = "SHDC";
@@ -28,7 +28,7 @@ void print_board( COLOR brd[5][4] )
 
     //  print the west and east hands
     for ( s = 0; s < 4; s++ ) {
-        nc = NTRICKS;
+        nc = 13;
         printf( "%c: ", suits[s] );
         for ( n = ace; n >= two; n-- ) {
             if ( set(n) & brd[s][west] ) {
