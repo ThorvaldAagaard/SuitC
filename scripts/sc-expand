@@ -1,0 +1,152 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    printf "
+NAME
+    ${PGM} - expand a ??.res file to a file that contains all distributions
+
+SYNOPSIS
+    ${PGM} infile
+
+DESCRIPTION
+    ${PGM} expands a ??.res file with all results from the SuitC program
+    into a file in wich each distribution is expanded to all equivalent
+    distributions
+
+PARAMETERS
+    infile         the ??.res input file
+
+AUTHOR
+    G.A. van der Velde
+" 1>&2
+    exit 22
+}
+
+# set defaults
+dis=
+fil=
+
+# process the parameters of the command
+while [[ -n "$1" ]]
+do
+    case $1 in
+	-*|\? )  USAGE;;
+	*)       fil="$1";;
+    esac
+    shift
+done
+
+# extract the dis flag from the file name
+nam=${fil##*/}
+dis=${nam%.res}
+ext=${nam#*.}
+
+# expand all NS distributions
+awk '
+BEGIN {
+    rank["-"]  = 0
+    rank["2"]  = 2;   card[2]  = "2"
+    rank["3"]  = 3;   card[3]  = "3"
+    rank["4"]  = 4;   card[4]  = "4"
+    rank["5"]  = 5;   card[5]  = "5"
+    rank["6"]  = 6;   card[6]  = "6"
+    rank["7"]  = 7;   card[7]  = "7"
+    rank["8"]  = 8;   card[8]  = "8"
+    rank["9"]  = 9;   card[9]  = "9"
+    rank["T"] = 10;   card[10] = "T"
+    rank["J"] = 11;   card[11] = "J"
+    rank["Q"] = 12;   card[12] = "Q"
+    rank["K"] = 13;   card[13] = "K"
+    rank["A"] = 14;   card[14] = "A"
+		      card[15] = "0"
+}
+
+function exch( level ) {
+    cnt = 0;
+    for ( m in max ) {
+	if ( lev[m] == level ) {
+	    for ( i = 2; i < 14; i++ ) {
+		if ( no[m] ~ card[i] ) {
+		    u = card[i]
+		    v = card[rank[u]+1]
+		    if ( v && so[m] ~ v ) {
+			cnt++
+			inx = index( max[m], "E")
+			x = no[m]; sub( u, v, x )
+			y = so[m]; sub( v, u, y )
+			no[x,y,level+1] = x
+			so[x,y,level+1] = y
+			lev[x,y,level+1] = level+1
+			max[x,y,level+1] = "N: " x "   S: " y "   " substr( max[m], inx )
+		    }
+		}
+	    }
+	}
+    }
+
+    if ( cnt )
+	exch( level+1 )
+}
+
+# process the input file
+{
+    no[$2,$4,0] = $2
+    so[$2,$4,0] = $4
+    lev[$2,$4,0] = 0
+    max[$2,$4,0] = $0
+    inx = index( $0, "E")
+}
+END {
+    exch( 0 )
+
+    for ( m in max )
+	printf "%s\n", max[m]
+}
+' $fil | \
+sed 's/:1/: 1/g' | \
+awk '
+{
+    nt = 0;
+    l1 = length( $2 )
+    l2 = length( $4 )
+    len = l1 > l2 ? l1 : l2
+    for ( n = 0; n <= len; n++)
+	tricks[n] = "100.0000"
+    for ( n = 9; n < NF; n += 2 ) {
+	if ( $n ~ /[LN]/ ) {
+	    split( $n, a, "(" )
+	    nt = int( substr( a[1], 2 ) )
+	    tricks[nt] = $(n+1)
+	    if ( n+2 < NF && $(n+2) !~ /[LN]/ )
+		n++
+	}
+    }
+    if ( nt == 0 )
+	nt = int( $8 )
+    for ( nt = nt+1; nt <= len; nt++ )
+	tricks[nt] = "0.0000"
+    if ( $0 ~ /R/ ) {
+	printf "N: %s   S: %s   EW: %s   R: %7s", $2, $4, $6, $8
+	for ( nt = 1; nt <= len; nt++ )
+	    printf "   N%d: %8s", nt, tricks[nt]
+    }
+    printf "\n"
+} ' | \
+sort -u | \
+sed '
+    s/T/a/
+    s/J/b/
+    s/Q/c/
+    s/K/d/
+    s/A/e/
+' | \
+sort -r -k6 -k4 | \
+sed '
+    s/a/T/
+    s/b/J/
+    s/c/Q/
+    s/d/K/
+    s/e/A/
+' > $dis.xp

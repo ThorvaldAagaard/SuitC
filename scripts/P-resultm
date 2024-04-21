@@ -1,0 +1,82 @@
+#!/usr/bin/perl
+
+#	P_resultm generates a one line report with the results of the analysis of a suit combination.
+#
+#	A typical output line is:
+#
+#	N: J98   S: AK32   EW: QT7654   MAX(1): 2.8537    N3(2): 78.2609 2.7947    N4(1): 8.3168           MP(1): 2.8490
+#
+#	Calling sequence:
+#
+#		P_result <infile>
+#
+#	<infile>	the output from program SuitC
+
+# read input
+while ( <> ) {
+    chomp $_;
+    if ( $_ =~ /No more memory available/ ) {
+	print "N: $no   S: $so   EW: $ew   ERROR: No more memory available\n";
+	exit(0);
+    }
+    if ( $_ =~ /^	North/  ) { ( $no = $_ ) =~ s/.*: // }
+    if ( $_ =~ /^	South/  ) { ( $so = $_ ) =~ s/.*: // }
+    if ( $_ =~ /^	West/   ) { ( $ew = $_ ) =~ s/.*: // }
+    if ( $_ =~ /tricks/ && $_ !~ /number/ && ! $skip ) {
+	$_ =~ s/	//;
+	( $i, $dum, $score ) = split( '  *', $_ );
+	$tricks[$i] = $score;
+    }
+    if ( $_ =~ /losers/ && $_ !~ /number/ && ! $skip ) {
+	$_ =~ s/	//;
+	( $i, $dum, $score ) = split( '  *', $_ );
+	$losers[$i] = $score;
+    }
+    if ( $_ =~ /The optimum play/ ) { $id = $_; $skip = 1; }
+    if ( $_ =~ /Result/ ) {
+	$_ =~ s/.* //;
+	if ( $id =~ /MAX/ ) { $max[$ma++] = $_; }
+	if ( $id =~ /MIN/ ) { $min[$mi++] = $_; }
+	if ( $id =~ /MP/  ) { $mpr[$mp++] = $_; $imp = "MP" }
+	if ( $id =~ /IMP/ ) { $imp = "IMP"; }
+	for ( $i = 1; $i < 14; $i++ ) {
+	    if ( $id =~ /N$i / ) { $N[$i] = $_; $cnt[$i]++; }
+	    if ( $id =~ /N$i$/ ) { $N[$i] = $_; $cnt[$i]++; }
+	    if ( $id =~ /L$i / ) { $L[$i] = $_; $cnt[$i]++; }
+	    if ( $id =~ /L$i$/ ) { $L[$i] = $_; $cnt[$i]++; }
+	}
+    }
+}
+
+# sort MP plays
+for ( $i = 0; $i < $mp; $i++ ) {
+    for ( $j = $i+1; $j < $mp; $j++ ) {
+	if ( $mpr[$i] < $mpr[$j] ) {
+	    $v = $mpr[$i];
+	    $mpr[$i] = $mpr[$j];
+	    $mpr[$j] = $v;
+	}
+    }
+}
+
+# combine MP plays
+$j = 0;
+$mpcnt[$j] = 1 if $mp;
+for ( $i = 1; $i < $mp; $i++ ) {
+    if ( $mpr[$i] == $mpr[$j] ) { $mpcnt[$j]++; }
+    else { $j++; $mpcnt[$j] = 1; $mpr[$j] = $mpr[$i]; }
+}
+$mp = $j+1 if $mpcnt[$j];
+
+# print the results
+print "N: $no   S: $so   EW: $ew";
+print "$out   MAX($ma): $max[0]" if $ma;
+print "$out   MIN($mi): $min[0]" if $mi;
+for ( $i = 1; $i < 14;  $i++ ) {
+    print "    N$i($cnt[$i]): $tricks[$i] $N[$i]" if $N[$i] && $N[$i] != $max[0];
+    print "    N$i($cnt[$i]): $tricks[$i]       " if $N[$i] && $N[$i] == $max[0];
+    print "    L$i($cnt[$i]): $losers[$i] $L[$i]" if $L[$i] && $L[$i] != $min[0];
+    print "    L$i($cnt[$i]): $losers[$i]       " if $L[$i] && $L[$i] == $min[0];
+}
+for ( $i = 0; $i < $mp; $i++ ) { print "    $imp($mpcnt[$i]): $mpr[$i]"; }
+print "\n";

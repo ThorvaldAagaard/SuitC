@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#  this script checks if a distribution has already been analysed. if
+#  this has been done already it copies the result file, otherwise it
+#  executes the command to analyse the distribution.
+
+fil=$( echo $@ | awk ' { printf "%s\n", $NF } ' )
+if [[ -f $fil ]]
+then
+    cp $fil out
+else
+    echo $@ > .0_
+    . .0_
+    rm -f .0_
+fi

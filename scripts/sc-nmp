@@ -1,0 +1,38 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    print "\
+NAME
+    ${PGM} - delete all information regarding matchpoint plays
+
+SYNOPSIS
+    ${PGM} [infile]
+
+DESCRIPTION
+    ${PGM} deletes all information regarding matchpoint plays
+
+PARAMETERS
+    infile     the input file
+
+AUTHOR
+    G.A. van der Velde, Leiden
+" 1>&2
+    exit 22
+}
+
+# process the parameters of the command
+while [[ -n "$1" ]]
+do
+    case $1 in
+	-*|\? )  USAGE;;
+	*)       USAGE;;
+    esac
+    shift
+done
+
+sed '
+    s/ *IMP.*//
+    s/ *MP.*//
+' $fil

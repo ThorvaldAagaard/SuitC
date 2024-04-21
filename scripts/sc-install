@@ -1,0 +1,163 @@
+#!/bin/bash -x
+
+PGM=${0##*/}
+
+USAGE() {
+    print "
+NAME
+    ${PGM} - install SuitC commands for all distributions
+
+SYNOPSIS
+    ${PGM}
+
+DESCRIPTION
+    ${PGM} installs SuitC commands for all distributions. The command
+    for each distribution are installed in its own subdirectory.
+
+PARAMETERS
+    none
+
+AUTHOR
+    G.A. van der Velde, Leiden
+" 1>&2
+    exit 22
+}
+
+# process the parameters of the command
+while [[ -n "$1" ]]
+do
+    case $1 in
+	-*|\? )  USAGE;;
+	*)       USAGE;;
+    esac
+    shift
+done
+
+# generate a file with all distributions
+playc > 1
+
+echo "" | \
+awk ' BEGIN {
+    for ( i = 0; i <= 13; i++ ) {
+        for ( j = 0; j <= 13-i; j++ ) {
+	    printf "mkdir %x%x; grep =^", i, j
+	    if ( i == 0 )
+	        printf "\\."
+	    else if ( i == 1 )
+	        printf "[^\\.]"
+	    else
+	        for ( k = 0; k < i; k++ )
+		    printf "."
+	    printf " "
+	    if ( j == 0 )
+	        printf "\\."
+	    else if ( j == 1 )
+	        printf "[^\\.]"
+	    else
+	        for ( k = 0; k < j; k++ )
+		    printf "."
+	    printf " = 1 > %x%x/%x%x\n", i, j, i, j
+	}
+    }
+    exit
+} ' | \
+sed "s/=/'/g" > 2
+
+# create the skeleton command files
+. ./2
+
+# create the command files
+for m in 00 01 10 02 11 20 03 12 21 30 04 13 22 31 40 05 14 23 32 41 50 06 15 24 33 42 51 60 07 16 25 34 43 52 61 70 08 17 26 35 44 53 62 71 80 09 18 27 36 45 54 63 72 81 90 0a 19 28 37 46 55 64 73 82 91 a0 0b 1a 29 38 47 56 65 74 83 92 a1 b0 0c 1b 2a 39 48 57 66 75 84 93 a2 b1 c0 0d 1c 2b 3a 49 58 67 76 85 94 a3 b2 c1 d0
+do
+    [[ -f $m/plays ]] || mkdir $m/plays
+    awk ' { printf "%s> out; cp -f out plays/%s.%s\n", $0, $1, $2 } ' $m/$m | \
+    sed '
+        s+a+T+
+        s+b+J+
+        s+c+Q+
+        s+d+K+
+        s+e+A+
+ 	s+/\.\.+/0.+
+ 	s+\.\.+.0+
+	s+^+SuitC -T1 -M +
+    ' > z
+    mv z $m/$m
+done
+
+# add a -c parameter to selected SuitC commands to restrict the number of QUIRKH branches
+
+sed '
+    /. KJ9753 AQT8642/s/-T1/-T1 -c200000000/
+' 06/06 > x_
+mv x_ 06/06
+
+sed '
+    /5 KJ973 AQT8642/s/-T1/-T1 -c800000000/
+    /7 KJ953 AQT8642/s/-T1/-T1 -c1000000000/
+    /9 KJ753 AQT8642/s/-T1/-T1 -c700000000/
+' 15/15 > x_
+mv x_ 15/15
+
+sed '
+    /75 KJ93 AQT8642/s/-T1/-T1 -c100000000/
+    /95 KJ73 AQT8642/s/-T1/-T1 -c200000000/
+    /97 KJ53 AQT8642/s/-T1/-T1 -c500000000/
+' 24/24 > x_
+mv x_ 24/24
+
+sed '
+    /KJ53 97 AQT8642/s/-T1/-T1 -c500000000/
+    /KJ73 95 AQT8642/s/-T1/-T1 -c200000000/
+    /KJ93 75 AQT8642/s/-T1/-T1 -c100000000/
+' 42/42 > x_
+mv x_ 42/42
+
+sed '
+    /KJ753 9 AQT8642/s/-T1/-T1 -c700000000/
+    /KJ953 7 AQT8642/s/-T1/-T1 -c1000000000/
+    /KJ973 5 AQT8642/s/-T1/-T1 -c800000000/
+' 51/51 > x_
+mv x_ 51/51
+
+sed '
+    /KJ9753 . AQT8642/s/-T1/-T1 -c200000000/
+' 60/60 > x_
+mv x_ 60/60
+
+# add a -r parameter to selected SuitC commands to print only the results
+# remove the -M<n> parameter
+
+sed '
+    /. KJ975 AQT86432/s/-T1/-T1 -r/
+    /. KJ975 AQT86432/s/-M[0-9]* //
+' 05/05 > x_
+mv x_ 05/05
+
+sed '
+    /KJ975 . AQT86432/s/-T1/-T1 -r/
+    /KJ975 . AQT86432/s/-M[0-9]* //
+' 50/50 > x_
+mv x_ 50/50
+
+# add a -Ln or -Ls  parameter to selected SuitC commands to implement directed leads
+
+sed '
+    /2 KJ975 AQT8643/s/-T1/-T1 -Ln/
+    /5 KJ973 AQT8642/s/-T1/-T1 -Ln/
+    /7 KJ953 AQT8642/s/-T1/-T1 -Ln/
+    /9 KJ753 AQT8642/s/-T1/-T1 -Ln/
+    /J K9753 AQT8642/s/-T1/-T1 -Ln/
+' 15/15 > x_
+mv x_ 15/15
+
+sed '
+    /K9753 J AQT8642/s/-T1/-T1 -Ls/
+    /KJ753 9 AQT8642/s/-T1/-T1 -Ls/
+    /KJ953 7 AQT8642/s/-T1/-T1 -Ls/
+    /KJ973 5 AQT8642/s/-T1/-T1 -Ls/
+    /KJ975 2 AQT8643/s/-T1/-T1 -Ls/
+' 51/51 > x_
+mv x_ 51/51
+
+# cleanup
+rm -f 1 2

@@ -1,0 +1,53 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    printf "\
+NAME
+    ${PGM} - normalise the output of the P-result or P-resultm command
+
+SYNOPSIS
+    ${PGM} [infile]
+
+DESCRIPTION
+    ${PGM} normalises the output of the P-result or P-resultm command
+
+PARAMETERS
+    infile     the input file
+
+AUTHOR
+    G.A. van der Velde, Leiden
+" 1>&2
+    exit 22
+}
+
+# set defaults
+fil=
+
+# process the parameters of the command
+while [ -n "$1" ]
+do
+    case $1 in
+	-*|\?)  USAGE;;
+	*)   fil="$fil $1";;
+    esac
+    shift
+done
+
+sed '
+    s/^N: \./N: -/
+    s/S: \./S: -/
+    s/EW: \./EW: -/
+    s/ *100.0000/100.0000/g
+    s/MAX/ R/
+    s/MIN/ R/
+    s/\(R[^:]*:\) \([0-9]\)\./\1  \2./
+    s/\(N[^:]*:\) \([0-9]\)\./\1  \2./g
+    s/\(L[^:]*:\) \([0-9]\)\./\1  \2./g
+    s/\([^I]MP[^:]*:\) \([0-9]\)\./\1  \2./g
+    s/\([^I]MP[^:]*:........\)/\1       /g
+    s/\(IMP[^:]*:\) \([0-9][0-9]\)\./\1\2./g
+    s/\(IMP[^:]*:.......\)/\1       /g
+    s/ *$//
+' $fil
