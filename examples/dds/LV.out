@@ -1,0 +1,29 @@
+
+
+
+b=01    S: AKT7                 b=02    S: AKT7                 b=03    S: AKT7                 b=04    S: AKT7
+        H: KJT5                         H: KJT5                         H: KJT5                         H: KJT5
+        D: QJ62                         D: QJ62                         D: QJ62                         D: QJ62
+        C: 6                            C: 6                            C: 6                            C: 6
+S: 8            S: 6542         S: 8            S: 6542         S: 82           S: 654          S: 82           S: 654
+H: AQ94         H: 862          H: A984         H: Q62          H: AQ94         H: 862          H: A984         H: Q62
+D: AKT7         D: 9853         D: AKT7         D: 9853         D: AKT          D: 98753        D: AKT          D: 98753
+C: KQT5         C: 97           C: KQT5         C: 97           C: KQT5         C: 97           C: KQT5         C: 97
+        S: QJ93                         S: QJ93                         S: QJ93                         S: QJ93
+        H: 73                           H: 73                           H: 73                           H: 73
+        D: 4                            D: 4                            D: 4                            D: 4
+        C: AJ8432                       C: AJ8432                       C: AJ8432                       C: AJ8432
+
+
+
+d=01    s  s  h  h  h  h  h  d  d  d  d  c  c  c  c
+        8  2  a  q  9  8  4  a  k  t  7  k  q  t  5
+        -------------------------------------------
+b=01    a  -  a  a  a  -  a  a  a  c  c  a  a  b  b
+b=02    a  -  a  -  a  a  a  a  a  a  a  a  a  a  a
+b=03    a  a  a  b  a  -  a  a  a  c  -  a  a  b  b
+b=04    9  9  a  -  a  a  a  9  9  b  -  a  a  b  b
+
+d=01    ns=0 ew=0   spades   w ? ?
+
+Select the play {s:82|h:aq984|d:akt7|c:kqt5|b<n>|p|P|.}: 

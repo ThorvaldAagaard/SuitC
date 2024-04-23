@@ -1,0 +1,79 @@
+gerrit HvdW 815 $ dds -Lw -Ts -ps VB93.73.4.AB8432 8.av94.aht7.hvt5 aht7.hbt5.vb62.6 6542.862.9853.97
+
+
+
+b=01    S: AKT7
+        H: KJT5
+        D: QJ62
+        C: 6
+S: 8            S: 6542
+H: AQ94         H: 862
+D: AKT7         D: 9853
+C: KQT5         C: 97
+        S: QJ93
+        H: 73
+        D: 4
+        C: AJ8432
+
+
+
+d=01    s  h  h  h  h  d  d  d  d  c  c  c  c
+        8  a  q  9  4  a  k  t  7  k  q  t  5
+        -------------------------------------
+b=01    a  a  a  a  a  a  a  c  c  a  a  b  b
+
+d=01    ns=0 ew=0   spades   w ? ?
+
+Select the play {s:8|h:aq94|d:akt7|c:kqt5|b<n>|p|P|.}: s8
+
+
+
+b=01    S: AKT7
+        H: KJT5
+        D: QJ62
+        C: 6
+S:              S: 6542
+H: AQ94         H: 862
+D: AKT7         D: 9853
+C: KQT5         C: 97
+        S: QJ93
+        H: 73
+        D: 4
+        C: AJ8432
+
+
+
+d=02    s  s  s  s
+        a  k  t  7
+        ----------
+b=01    a  a  a  a
+
+d=02    ns=0 ew=0   spades   w s 8   n ? ?
+
+Select the play {s:akt7|b<n>|p|P|.}: s7
+
+
+
+b=01    S: AKT
+        H: KJT5
+        D: QJ62
+        C: 6
+S:              S: 6542
+H: AQ94         H: 862
+D: AKT7         D: 9853
+C: KQT5         C: 97
+        S: QJ93
+        H: 73
+        D: 4
+        C: AJ8432
+
+
+
+d=03    s  s  s  s
+        6  5  4  2
+        ----------
+b=01    a  a  a  a
+
+d=03    ns=0 ew=0   spades   w s 8   n s 7   e ? ?
+
+Select the play {s:6542|b<n>|p|P|.}: .
