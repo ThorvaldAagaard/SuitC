@@ -1,0 +1,207 @@
+dds -Lw -Ts -ps \
+	VB93.73.4.AB8432	8.av94.aht7.hvt5	aht7.hbt5.vb62.6	6542.862.9853.97	\
+	VB93.73.4.AB8432	8.a984.aht7.hvt5	aht7.hbt5.vb62.6	6542.v62.9853.97	\
+	VB93.73.4.AB8432	82.av94.aht.hvt5	aht7.hbt5.vb62.6	654.862.98753.97	\
+	VB93.73.4.AB8432	82.a984.aht.hvt5	aht7.hbt5.vb62.6	654.v62.98753.97	\
+<< EOF
+ck
+c6
+c7
+ca
+sq
+s8
+s7
+s4
+d4
+dk
+d2
+d3
+h9
+.
+EOF
+
+exit
+
+
+
+
+d=01    s  s  h  h  h  h  h  d  d  d  d  c  c  c  c
+        8  2  a  q  9  8  4  a  k  t  7  k  q  t  5
+        -------------------------------------------
+b=01    a  -  a  a  a  -  a  a  a  c  c  a  a  b  b
+b=02    a  -  a  -  a  a  a  a  a  a  a  a  a  a  a
+b=03    a  a  a  b  a  -  a  a  a  c  -  a  a  b  b
+b=04    9  9  a  -  a  a  a  9  9  b  -  a  a  b  b
+
+d=01    ns=0 ew=0   spades   w ? ?
+
+Select the play {s:82|h:aq984|d:akt7|c:kqt5|b<n>|p|P|.}: ck
+
+
+d=02    c
+        6
+        -
+b=01    a
+b=02    a
+b=03    a
+b=04    a
+
+d=02    ns=0 ew=0   spades   w c k   n ? ?
+
+Select the play {c:6|b<n>|p|P|.}: c6
+
+
+d=03    c  c
+        9  7
+        ----
+b=01    a  a
+b=02    a  a
+b=03    a  a
+b=04    a  a
+
+d=03    ns=0 ew=0   spades   w c k   n c 6   e ? ?
+
+Select the play {c:97|b<n>|p|P|.}: c7
+
+
+d=04    c  c  c  c  c  c
+        a  j  8  4  3  2
+        ----------------
+b=01    a  9  a  a  a  a
+b=02    a  9  9  9  9  9
+b=03    a  a  a  a  a  a
+b=04    a  9  9  9  9  9
+
+d=04    ns=0 ew=0   spades   w c k   n c 6   e c 7   s ? ?
+
+Select the play {c:aj8432|b<n>|p|P|.}: ca
+
+
+d=05    s  s  s  s  h  h  d  c  c  c  c  c
+        q  j  9  3  7  3  4  j  8  4  3  2
+        ----------------------------------
+b=01    a  a  a  a  a  a  a  a  a  a  a  a
+b=02    a  a  a  9  9  9  a  9  9  9  9  9
+b=03    a  a  a  a  a  a  a  a  a  a  a  a
+b=04    9  9  9  9  9  9  9  a  a  a  a  a
+
+d=05    ns=1 ew=0   spades   s ? ?
+
+Select the play {s:qj93|h:73|d:4|c:j8432|b<n>|p|P|.}: sq
+
+
+d=06    s  s
+        8  2
+        ----
+b=01    a  -
+b=02    a  -
+b=03    a  a
+b=04    9  9
+
+d=06    ns=1 ew=0   spades   s s q   w ? ?
+
+Select the play {s:82|b<n>|p|P|.}: s8
+
+
+d=07    s  s  s  s
+        a  k  t  7
+        ----------
+b=01    9  9  a  a
+b=02    9  9  a  a
+b=03    a  a  a  a
+b=04    9  9  9  9
+
+d=07    ns=1 ew=0   spades   s s q   w s 8   n ? ?
+
+Select the play {s:akt7|b<n>|p|P|.}: s7
+
+
+d=08    s  s  s  s
+        6  5  4  2
+        ----------
+b=01    a  a  a  a
+b=02    a  a  a  a
+b=03    a  a  a  -
+b=04    9  9  9  -
+
+d=08    ns=1 ew=0   spades   s s q   w s 8   n s 7   e ? ?
+
+Select the play {s:6542|b<n>|p|P|.}: s4
+
+
+d=09    s  s  s  h  h  d  c  c  c  c  c
+        j  9  3  7  3  4  j  8  4  3  2
+        -------------------------------
+b=01    9  9  9  a  a  a  9  9  9  9  9
+b=02    9  8  8  9  9  a  9  9  9  9  9
+b=03    a  a  a  a  a  a  9  9  9  9  9
+b=04    9  9  9  9  9  9  9  9  9  9  9
+
+d=09    ns=2 ew=0   spades   s ? ?
+
+Select the play {s:j93|h:73|d:4|c:j8432|b<n>|p|P|.}: d4
+
+
+d=10    d  d  d  d
+        a  k  t  7
+        ----------
+b=01    a  a  b  b
+b=02    a  a  a  a
+b=03    a  a  b  -
+b=04    9  9  a  -
+
+d=10    ns=2 ew=0   spades   s d 4   w ? ?
+
+Select the play {d:akt7|b<n>|p|P|.}: sk
+
+
+d=11    d  d  d  d
+        q  j  6  2
+        ----------
+b=01    9  9  a  a
+b=02    9  9  a  a
+b=03    a  a  a  a
+b=04    9  9  9  9
+
+d=11    ns=2 ew=0   spades   s d 4   w d k   n ? ?
+
+Select the play {d:qj62|b<n>|p|P|.}: d2
+
+
+d=12    d  d  d  d  d
+        9  8  7  5  3
+        -------------
+b=01    a  a  -  a  a
+b=02    a  a  -  a  a
+b=03    a  a  a  a  a
+b=04    9  9  9  9  9
+
+d=12    ns=2 ew=0   spades   s d 4   w d k   n d 2   e ? ?
+
+Select the play {d:98753|b<n>|p|P|.}: s3
+
+
+d=13    s  h  h  h  h  h  d  d  d  c  c  c
+        2  a  q  9  8  4  a  t  7  q  t  5
+        ----------------------------------
+b=01    -  a  a  a  -  a  b  b  b  a  a  a
+b=02    -  a  -  a  a  a  b  a  a  a  a  a
+b=03    a  a  b  a  -  a  b  b  -  a  b  b
+b=04    9  a  -  9  9  9  b  b  -  a  a  a
+
+d=13    ns=2 ew=1   spades   w ? ?
+
+Select the play {s:2|h:aq984|d:at7|c:qt5|b<n>|p|P|.}: h9
+
+
+d=14    h  h  h  h
+        k  j  t  5
+        ----------
+b=01    a  a  a  9
+b=02    a  9  9  9
+b=03    9  a  a  9
+b=04    9  9  9  9
+
+d=14    ns=2 ew=1   spades   w h 9   n ? ?
+
+Select the play {h:kjt5|b<n>|p|P|.}: 
