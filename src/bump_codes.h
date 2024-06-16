@@ -76,7 +76,7 @@
         qhcountmax++; \
         nextquirkh++; \
         if ( qhcountmax == NPLAYS ) { \
-            printf( "No more memory for the QUIRKH entries; increase the value of NQUIRKH\n" ); \
+            printf( "No more memory for the QUIRKH entries; increase the value of NPLAYS\n" ); \
             print_stat( 'P' ); \
         } \
     } \

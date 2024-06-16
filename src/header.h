@@ -24,7 +24,7 @@
 #define NNODE                           400
 #define NNODES                          8000000L
 #define NO                              0
-#define NPLAYS                          ( SUITCAPP ? 4000000L : 40000000L )
+#define NPLAYS                          ( SUITCAPP ? 4000000L : 160000000L )
 #define NPLIES                          52
 #define NS( p )                         ( ( p == north ) || ( p == south ) )
 #define RENONCE                         ( (COLOR) 0 )

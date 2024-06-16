@@ -306,7 +306,7 @@ void process_args( int argc, char **argv )
     printf( "\n" );
     printf( "calling sequence:\n" );
     printf( "\n" );
-    printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-nC] [-C<n>] [-c<cutoff>] [-D] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f] [-H{e|w}]\n" );
+    printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-nC] [-c<cutoff>] [-D] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f] [-H{e|w}]\n" );
     printf( "      [-nK[{e|n|s|w}]] [-k[{e|n|s|w}]] [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-o] [-P<n>] [-p[{H|I|M|S}]] [-R{n|e|s|w}<n>] \n" );
     printf( "      [-r] [-S<card2>:<card3>] [-s] [-T<n>] [-t<tricks>] [-W<cards>] [-wm<n>] [-wv<n>] [-z<n>] <ncards> <scards> <ewcards>\n" );
     printf( "\n" );
@@ -315,7 +315,6 @@ void process_args( int argc, char **argv )
     printf( "    -A              print a full report of all results\n" );
     printf( "    -a              print a summary of the results\n" );
     printf( "    -b              print a list of the boards\n" );
-    printf( "    -C<n>           1=print dual header, 2=print header with equal cards, 4=print north-south cards in sequence\n" );
     printf( "    -c<cutoff>      the limit in millions on the product of the number of quirks while merging quirk trees\n" );
     printf( "    -D              the defenders lead to each trick\n" );
     printf( "    -d              print the truncated NODE tree\n" );

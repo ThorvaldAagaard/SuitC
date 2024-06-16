@@ -152,7 +152,7 @@ int main( int argc, char **argv )
         limit_matchpoint_nodes();
 
     if ( ! SUITCAPP )
-        printf( "\n\tCopyright 2023, Gerrit A. van der Velde, Leiden\n" );
+        printf( "\n\tCopyright 2024, Gerrit A. van der Velde, Leiden\n" );
 
     if ( sortplays )
         print_play_count();

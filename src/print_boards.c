@@ -41,9 +41,9 @@ void print_boards( void )
                 }
             }
             k = out[0] == '-' ? k+1 : k;
-            pad[ncards[p]-k+4] = '\0';
+            pad[ncards[p]-p-k+3] = '\0';
             printf( "%s%s", out, pad );
-            pad[ncards[p]-k+4] = ' ';
+            pad[ncards[p]-p-k+3] = ' ';
         }
         printf( "%4d -%2d\n", nslimits[0][i], nslimits[1][i] );
 

@@ -34,10 +34,18 @@ void print_all_results( void )
 
         //  compute the results
         for ( k = lquirkd[l]->il; k <= lquirkd[l]->ih; k++ ) {
-            result[k].result = result[k-1].result + prob[k] * dupl[k] * lquirkdl[l]->h->t[k].ns;
-            for ( i = minns; i <= maxns; i++ )
-                result[k].tricks[i] = k ? result[k-1].tricks[i] : 0.0;
-            result[k].tricks[lquirkdl[l]->h->t[k].ns] += prob[k] * dupl[k];
+            if ( k ) {
+                result[k].result = result[k-1].result + prob[k] * dupl[k] * lquirkdl[l]->h->t[k].ns;
+                for ( i = minns; i <= maxns; i++ )
+                    result[k].tricks[i] = result[k-1].tricks[i];
+                result[k].tricks[lquirkdl[l]->h->t[k].ns] += prob[k] * dupl[k];
+            }
+            else {
+                result[k].result = prob[k] * dupl[k] * lquirkdl[l]->h->t[k].ns;
+                for ( i = minns; i <= maxns; i++ )
+                    result[k].tricks[i] = 0.0;
+                result[k].tricks[lquirkdl[l]->h->t[k].ns] = prob[k] * dupl[k];
+            }
         }
 
         //  get the oldest son
@@ -112,7 +120,7 @@ void print_all_results( void )
                     build_selected_tree();
 
                     //  create the tree
-                    if ( ! compacttree && maxply )
+                    if ( maxply && compacttree == NO )
                         select_ew_plays( 1 );
 
                     //  merge identical plays and select the preferred ones
