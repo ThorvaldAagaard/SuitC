@@ -44,12 +44,12 @@ int main( int argc, char **argv )
     printfulltree = NO;
     printhighcard = NO;
     printoption = 2;
-    printscard = NO;
+    printscard = SUITCAPP ? YES : NO;
     printsummary = NO;
     printtrunctree = NO;
     mergeselect = 0x1 | 0x4;
     nrules = 0;
-    reorder = YES;
+    reorder = SUITCAPP ? NO : YES;
     resultsonly = NO;
     sortplays = NO;
     for ( d = 0; d <= NPLIES; d++ ) {

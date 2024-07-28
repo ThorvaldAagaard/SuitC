@@ -105,12 +105,14 @@ void print_all_results( void )
                     mpscore = 0.0;
                     lscore = score[0].r;
                     while ( lscore->r ) {
-                        mpscore -= 100. * lscore->perc * lscore->mp[score[ix].ix];
+                        mpscore -= lscore->perc * lscore->mp[score[ix].ix];
                         lscore = lscore->r;
                     }
                 }
                 else
                     mpscore = 0.0;
+                if ( matchpoint == MP )
+                    mpscore = 100. * mpscore;
                 print_results( best_MAX, best_MP, best_N, mpscore );
 
                 //  create and print a node tree for this play

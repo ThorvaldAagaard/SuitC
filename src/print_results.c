@@ -79,6 +79,6 @@ void print_results( int best_MAX, int best_MP, int *best_N, double mpscore )
     }
 
     //  print the IMP or MP score
-    if ( matchpoint && best_MAX && ! best_MP || printallmatchpoint )
+    if ( matchpoint && ( best_MAX && best_MP == NO || printallmatchpoint ) )
         printf( "\t%sscore: %8.4f\n", matchpoint == IMP ? "IMP" : "MP-", mpscore + EPS );
 }

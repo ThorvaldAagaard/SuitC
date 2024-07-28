@@ -195,9 +195,9 @@ void process_args( int argc, char **argv )
                 }
             }
             else if ( c == 'o' )
-                reorder = NO;
+                reorder = SUITCAPP ? YES : NO;
             else if ( c == 'P' )
-                 printoption= argv[i][2] - '0';
+                 printoption = argv[i][2] - '0';
             else if ( c == 'p' ) {
                 c = argv[i][2];
                 if ( c == 'H' )
@@ -205,7 +205,7 @@ void process_args( int argc, char **argv )
                 else if ( c == 'I' || c == 'M' )
                     printallmatchpoint = YES;
                 else if ( c == 'S' )
-                    printscard = YES;
+                    printscard = SUITCAPP ? NO : YES;
                 else {
                     printf( "Incorrect print option; the program stops\n", argv[i] );
                     exit( 1 );
@@ -337,11 +337,14 @@ void process_args( int argc, char **argv )
     printf( "                    card <card> is lead if a card is specified\n" );
     printf( "    -l{n|e|s|w}<n>  limit the number of free directed leads from {n|e|s|w} to <n>\n" );
     printf( "    -M[nodes]       generate the optimal MP play with maximal <nodes> nodes\n" );
-    printf( "    -o              sort the boards in decreasing number of cards in the South hand\n" );
+    printf( "    -o              switch the order of the boards\n" );
+    printf( "                    if SUITCAPP==NO:  print the east-west hands in decreasing number of cards in the West hand\n" );
+    printf( "                    if SUITCAPP==YES: print the east-west hands in Warmerdams order\n" );
     printf( "    -P<n>           select printoption (0=English lower, 1=Dutch lower, 2=English upper, 3=Dutch upper\n" );
-    printf( "    -p[{H|I|M|S}]   H=print the the highest card of a north-south card sequence in the game tree\n" );
-    printf( "                    {I|M}=print MP or IMP information for all plays\n" );
-    printf( "                    S=print different card symbols for each card in a card sequence\n" );
+    printf( "    -p[{H|I|M|S}]   H: print the the highest card of a north-south card sequence in the game tree\n" );
+    printf( "                    {I|M}: print MP or IMP information for all plays\n" );
+    printf( "                    S: if SUITCAPP==NO:  print different card symbols for each card in a card sequence\n" );
+    printf( "                       if SUITCAPP==YES: print the same card symbols for each card in a card sequence\n" );
     printf( "    -R{n|e|s|w}<n>  the number of ruffs available in {n|e|s|w}\n" );
     printf( "    -S<card2>:<card3> play in 3rd hand a card from card3 if 2nd hand plays a card from card2\n" );
     printf( "    -s              sort the plays in decreasing number of leaves\n" );
