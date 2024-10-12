@@ -1,0 +1,307 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    printf "
+NAME
+    ${PGM} - calculate the expected playing strength
+
+SYNOPSIS
+    ${PGM} [-D] [-h honors] [-m ismatch] [-n nomatch] [-p points] [-s South] [-o out] infile
+
+DESCRIPTION
+    ${PGM} calculate the expected playing strength
+    The playing strength depends on the number of HCP points in north in
+    the analysed suit (the -p option) and the high cards in south in the
+    non-analysed suits(the -s option). Ĩf the south hand contains more
+    honors the strength of the north hand shifts from the non-analysed
+    suits to the analysed suit.
+
+PARAMETERS
+    -D          print debug information
+    honneurs    the honors in south in the other suits, e.g KKQ
+    ismatch     the south hand should match regular expression ismatch
+    nomatch     the south hand should not match regular expression ismatch
+    South       print only holdings that match the regular expression South
+    out         the output files
+    infile      the input file
+
+AUTHOR
+    G.A. van der Velde
+" 1>&2
+    exit 22
+}
+
+# set defaults
+honors="KQQ"
+points=8
+ismatch="[AKQJT98765432-]"
+nomatch="[x]"
+in=""
+out=$(pwd)
+out=${out##*/}
+debug=0
+
+# process the parameters of the command
+while [[ -n "$1" ]]
+do
+    case $1 in
+	-D)        debug=1;;
+	-h)        honors=$2; shift;;
+	-m)        ismatch=$2; shift;;
+	-n)        nomatch=$2; shift;;
+	-p)        points=$2; shift;;
+	-s)        South=$2; shift;;
+	-o)        out="$2"; shift;;
+	-h*)       honors=${1#-h};;
+	-m*)       ismatch=${1#-m};;
+	-n*)       nomatch=${1#-n};;
+	-p*)       points=${1#-p};;
+	-s*)       South=${1#-s};;
+	-o*)       out="${1#-o}";;
+	-*|\?)     USAGE;;
+	*)         in="$1";;
+    esac
+    shift
+done
+
+# adjust the header
+sed '
+    s/N10/Na/
+    s/N11/Nb/
+    s/N12/Nc/
+    s/N13/Nd/
+' $in |\
+
+nawk '
+BEGIN {
+    fac[0] = 1; for ( i = 1; i <= 39; i++ ) fac[i] = i * fac[i-1]
+    c[0] = "x"; c[1] = "J"; c[2] = "Q"; c[3] = "K"; c[4] = "A"
+    North[01] = "[AKQJ]{4}";    hcp[01] =10
+    North[02] = "[AKQ]{3}";     hcp[02] = 9
+    North[03] = "[AKJ]{3}";     hcp[03] = 8
+    North[04] = "[AK]{2}";      hcp[04] = 7
+    North[05] = "[AQJ]{3}";     hcp[05] = 7
+    North[06] = "[AQ]{2}";      hcp[06] = 6
+    North[07] = "[AJ]{2}";      hcp[07] = 5
+    North[08] = "[A]{1}";       hcp[08] = 4
+    North[09] = "[KQJ]{3}";     hcp[09] = 6
+    North[10] = "[KQ]{2}";      hcp[10] = 5
+    North[11] = "[KJ]{2}";      hcp[11] = 4
+    North[12] = "[K]{1}";       hcp[12] = 3
+    North[13] = "[QJ]{2}";      hcp[13] = 3
+    North[14] = "[Q]{1}";       hcp[14] = 2
+    North[15] = "[J]{1}";       hcp[15] = 1
+    North[16] = "[T98765432-]"; hcp[16] = 0
+    len = 16
+}
+{
+    # create the headers
+    if ( NR == 1 ) {
+	printf "\n%d-%d distribution, North has %d HCP, honors in South: %s\n\n", length($2), length($4), points, honors > ".nh"
+	printf "\n%d-%d distribution, North has %d HCP, honors in South: %s\n\n", length($2), length($4), points, honors > ".sh"
+	padn = length($2) < 8 ? "" : "\t"
+	pads = length($4) < 8 ? "" : "\t"
+	head1 = " #tricks"
+	head2 = " ======="
+	for ( i = 9; i < NF; i += 2 ) {
+	    head1 = head1 "   " substr($i,2,1)
+	    if ( substr($i,3,1) !~ /:/ ) head1 = head1 substr($i,3,1)
+	    head1 = head1 " tricks"
+	    head2 = head2 "   ========"
+	}
+	printf "North\t%s%s\n", padn, head1 > ".nh"
+	printf "=====\t%s%s\n", padn, head2 > ".nh"
+	printf "South\t%s%s\n", pads, head1 > ".sh"
+	printf "=====\t%s%s\n", pads, head2 > ".sh"
+    }
+
+    # create a list of possible spade holdings in North and calculate the weight factors
+    if ( NR == 1 ) {
+
+	# print the parameters
+	if ( debug ) {
+	    printf "HCP north     :    %d\n", points
+	    printf "honnours south:    %s\n", honors
+	}
+
+	# calculate the number of honneurs in hearts, diamonds and clubs in north, east and west combined
+	ncards[0] = 14 + length($4)
+	for ( i = 1; i <= 4; i++ )
+	    ncards[i] = 3
+	for ( j = 1; j <= length(honors); j++ ) {
+	    for ( i = 1; i <= 4; i++ ) {
+		if ( c[i] ~ substr(honors,j,1) ) {
+		    ncards[i]--
+		    ncards[0]++
+		}
+	    }
+	}
+	if ( debug ) {
+	    printf "#honnours NEW :  "
+	    for ( i = 4; i >= 0; i-- )
+		printf "  %s=%d", c[i], ncards[i];
+	    printf "\n"
+	}
+
+	# calculate the weight factors
+	for ( l = 1; l <= len; l++ ) {
+
+	    # initialise
+	    weight[l] = 0
+	    if ( debug ) printf "%-12s       hcp=%02d\n", North[l], hcp[l]
+
+	    # calculate the weighr factor
+	    for ( k[4] = ncards[4]; k[4] >= 0; k[4]-- ) {
+		if ( 4*k[4] > points-hcp[l] ) continue;
+		for ( k[3] = ncards[3]; k[3] >= 0; k[3]-- ) {
+		    if ( 4*k[4] + 3*k[3] > points-hcp[l] ) continue;
+		    for ( k[2] = ncards[2]; k[2] >= 0; k[2]-- ) {
+			if ( 4*k[4] + 3*k[3] + 2*k[2] > points-hcp[l] ) continue;
+			for ( k[1] = ncards[1]; k[1] >= 0; k[1]-- ) {
+			    if ( 4*k[4] + 3*k[3] + 2*k[2] + k[1] != points-hcp[l] ) continue;
+			    k[0] = ncards[0] - k[1] - k[2] - k[3] - k[4]
+			    w = 1
+			    for ( i = 0; i <= 4; i++ )
+				w *= fac[ncards[i]] / ( fac[k[i]] * fac[ncards[i]-k[i]] )
+			    weight[l] += w
+			    if ( debug ) {
+				for ( j = 4; j >= 1; j-- )
+				    printf "%s=%x ", c[j], k[j];
+				printf "   hcp=%02d    w=%6d    weight[l]=%7d\n", 4*k[4] + 3*k[3] + 2*k[2] + k[1], w, weight[l]
+			    }
+			}
+		    }
+		}
+	    }
+	}
+    }
+
+    # store the playing strengths
+    if ( $4 ~ ismatch && $4 !~ nomatch ) {
+	for ( l = 1; l <= len; l++ ) {
+	    if ( $2 ~ North[l] ) {
+		if ( weight[l] ) {
+		    # if ( debug ) printf "l=%02d    %-16s    weight=%7d    %s\n", l, North[l], weight[l], $0
+		    north[$2] = $2
+		    south[$4] = $4
+		    no[$2,0] += weight[l]
+		    so[$4,0] += weight[l]
+		    no[$2,2] = $2
+		    so[$4,4] = $4
+		    for ( i = 8; i <= NF; i += 2 )
+		    {
+			no[$2,i] += weight[l] * $i
+			so[$4,i] += weight[l] * $i
+		    }
+		}
+		break;
+	    }
+	}
+    }
+}
+END {
+    for ( m in north ) {
+	if ( no[m,0] ) {
+	    printf "%s	%8.4f", no[m,2], no[m,8] / no[m,0] > ".no"
+	    for ( i = 10; i <= NF; i += 2 )
+		printf "   %8.4f", no[m,i] / no[m,0] > ".no"
+	    printf "\n" > ".no"
+	}
+    }
+
+    for ( m in south ) {
+	if ( so[m,0] ) {
+	    printf "%s	%8.4f", so[m,4], so[m,8] / so[m,0] > ".so"
+	    for ( i = 10; i <= NF; i += 2 )
+		printf "   %8.4f", so[m,i] / so[m,0] > ".so"
+	    printf "\n" > ".so"
+	}
+    }
+} ' debug=$debug honors=$honors ismatch=$ismatch nomatch=$nomatch points=$points out=$out
+
+# order the output
+for m in no so
+do
+    [[ -f .$m ]] &&
+    {
+	sed '
+	    s/T/a/
+	    s/J/b/
+	    s/Q/c/
+	    s/K/d/
+	    s/A/e/
+	' .$m | \
+	sort | \
+	sed '
+	    s/a/T/
+	    s/b/J/
+	    s/c/Q/
+	    s/d/K/
+	    s/e/A/
+	' > .${m}_
+    }
+done
+
+# copy the adjusted headers
+for m in n s
+do
+    sed '
+	s/1 tricks/ 1 trick/
+	s/ a tricks/10 tricks/
+	s/ b tricks/11 tricks/
+	s/ c tricks/12 tricks/
+	s/ d tricks/13 tricks/
+    ' .${m}h > $out.${m}o
+done
+
+# print all distributions
+sed 's/1 tricks/ 1 trick/' .nh > $out.no
+sed 's/1 tricks/ 1 trick/' .sh > $out.so
+[[ $rprt ]] &&
+{
+    cat .no_ >> $out.no
+    cat .so_ >> $out.so
+    rm .[ns][ho]*
+    exit
+}
+
+# print only distributions that score better than all weaker ones
+for m in no so
+do
+    [[ -f .$m ]] &&
+    nawk '
+    BEGIN {
+	prevc["2"] = "1"
+	prevc["3"] = "2"
+	prevc["4"] = "3"
+	prevc["5"] = "4"
+	prevc["6"] = "5"
+	prevc["7"] = "6"
+	prevc["8"] = "7"
+	prevc["9"] = "8"
+	prevc["T"] = "9"
+	prevc["J"] = "T"
+	prevc["Q"] = "J"
+	prevc["K"] = "Q"
+	prevc["A"] = "K"
+    }
+
+    {
+	printit = 1
+	for ( l = 2; l <= NF; l++ )
+	    res[$1,l] = $l
+	for ( k = 1; k <= length($1); k++ ) {
+	    hit = 1
+	    str = substr($1,1,k-1) prevc[substr($1,k,1)] substr($1,k+1)
+	    for ( l = 2; l <= NF; l++ )
+		hit = hit && $l == res[str,l]
+	    if ( hit ) printit = 0
+	}
+	if ( printit || NR == 1 ) printf "%s\n", $0
+    } ' rprt=$rprt .${m}_ >> $out.${m}
+done
+
+rm .[ns][ho]*
+cat $out.so
