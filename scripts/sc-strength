@@ -29,32 +29,32 @@ AUTHOR
 }
 
 # set defaults
-mn="[AKQJT98765432-]"
-ms="[AKQJT98765432-]"
-nn="[+]"
-ns="[+]"
+mn=[AKQJT98765432-]{1}
+ms=[AKQJT98765432-]{1}
+nn=[x]
+ns=[x]
 rprt=
-in=""
-out=$(pwd)
+in=
+t=$(pwd)
 out=${out##*/}
 
 # process the parameters of the command
 while [[ -n "$1" ]]
 do
     case $1 in
-	-mn)     mn=$2; shift;;
-	-ms)     ms=$2; shift;;
-	-nn)     nn=$2; shift;;
-	-ns)     ns=$2; shift;;
-	-r)      rprt=1;;
-	-o)      out="$2"; shift;;
-	-mn*)    mn=${1#-mn};;
-	-ms*)    ms=${1#-ms};;
-	-nn*)    nn=${1#-nn};;
-	-ns*)    ns=${1#-ns};;
-	-o*)     out="${1#-o}";;
-	-*|\? )  USAGE;;
-	*)       in="$1";;
+        -mn)     mn=$2; shift;;
+        -ms)     ms=$2; shift;;
+        -nn)     nn=$2; shift;;
+        -ns)     ns=$2; shift;;
+        -r)      rprt=1;;
+        -o)      out="$2"; shift;;
+        -mn*)    mn=${1#-mn};;
+        -ms*)    ms=${1#-ms};;
+        -nn*)    nn=${1#-nn};;
+        -ns*)    ns=${1#-ns};;
+        -o*)     out="${1#-o}";;
+        -*|\? )  USAGE;;
+        *)       in="$1";;
     esac
     shift
 done
@@ -72,23 +72,43 @@ sed '
 
 # create the headers
 nawk '
+
+    # create the report headers
     NR == 1 {
-	padn = length($2) < 8 ? "" : "\t"
-	pads = length($4) < 8 ? "" : "\t"
-	head1 = " #tricks"
-	head2 = " ======="
-	for ( i = 9; i < NF; i += 2 ) {
-	    head1 = head1 "   " substr($i,2,1)
-	    if ( substr($i,3,1) !~ /:/ ) head1 = head1 substr($i,3,1)
-	    head1 = head1 " tricks"
-	    head2 = head2 "   ========"
-	}
-	printf "North\t%s%s\n", padn, head1 > ".nh"
-	printf "=====\t%s%s\n", padn, head2 > ".nh"
-	printf "South\t%s%s\n", pads, head1 > ".sh"
-	printf "=====\t%s%s\n", pads, head2 > ".sh"
+        printf "\nNumber of cards in North   : %d\n",   length($2) > ".hh"
+        printf   "Number of cards in South   : %d\n",   length($4) > ".hh"
+        printf   "Cards in the North hand    : %s\n",   mn > ".hh"
+        printf   "Cards in the South hand    : %s\n",   ms > ".hh"
+        printf   "Cards not in the North hand: %s\n",   nn > ".hh"
+        printf   "Cards not in the South hand: %s\n\n", ns > ".hh"
+
+        padn = length($2) < 8 ? "" : "\t"
+        pads = length($4) < 8 ? "" : "\t"
+        head1 = " #tricks"
+        head2 = " ======="
+        for ( i = 9; i < NF; i += 2 ) {
+            head1 = head1 "   " substr($i,2,1)
+            if ( substr($i,3,1) !~ /:/ ) head1 = head1 substr($i,3,1)
+            head1 = head1 " tricks"
+            head2 = head2 "   ========"
+        }
+
+        printf "North\t%s%s\n", padn, head1 > ".nh"
+        printf "=====\t%s%s\n", padn, head2 > ".nh"
+        printf "South\t%s%s\n", pads, head1 > ".sh"
+        printf "=====\t%s%s\n", pads, head2 > ".sh"
     }
+
+    # translate the parameters into regular expressions
+    NR == 1 {
+        mn = index(mn,"[") || index(mn,"{") ? mn : "[" mn "]{" sprintf("%d",length(mn)) "}"
+        ms = index(ms,"[") || index(ms,"{") ? ms : "[" ms "]{" sprintf("%d",length(ms)) "}"
+        nn = index(nn,"[") || index(nn,"{") ? nn : "[" nn "]"
+        ns = index(ns,"[") || index(ns,"{") ? ns : "[" ns "]"
+    }
+
     $2 ~ mn && $2 !~ nn && $4 ~ ms && $4 !~ ns { printf "%s\n", $0 }
+
 ' mn=$mn ms=$ms nn=$nn ns=$ns |\
 
 # calculate the playing strength
@@ -102,23 +122,23 @@ nawk '
     so[$4,4] = $4
     for ( i = 8; i <= NF; i += 2 )
     {
-	no[$2,i] += $i
-	so[$4,i] += $i
+        no[$2,i] += $i
+        so[$4,i] += $i
     }
 }
 END {
     for ( m in north ) {
-	printf "%s	%8.4f", no[m,2], no[m,8] / no[m,0] > ".no"
-	for ( i = 10; i <= NF; i += 2 )
-	    printf "   %8.4f", no[m,i] / no[m,0] > ".no"
-	printf "\n" > ".no"
+        printf "%s\t%8.4f", no[m,2], no[m,8] / no[m,0] > ".no"
+        for ( i = 10; i <= NF; i += 2 )
+            printf "   %8.4f", no[m,i] / no[m,0] > ".no"
+        printf "\n" > ".no"
     }
 
     for ( m in south ) {
-	printf "%s	%8.4f", so[m,4], so[m,8] / so[m,0] > ".so"
-	for ( i = 10; i <= NF; i += 2 )
-	    printf "   %8.4f", so[m,i] / so[m,0] > ".so"
-	printf "\n" > ".so"
+        printf "%s\t%8.4f", so[m,4], so[m,8] / so[m,0] > ".so"
+        for ( i = 10; i <= NF; i += 2 )
+            printf "   %8.4f", so[m,i] / so[m,0] > ".so"
+        printf "\n" > ".so"
     }
 } '
 
@@ -127,21 +147,21 @@ for m in no so
 do
     [[ -f .$m ]] &&
     {
-	sed '
-	    s/T/a/
-	    s/J/b/
-	    s/Q/c/
-	    s/K/d/
-	    s/A/e/
-	' .$m | \
-	sort | \
-	sed '
-	    s/a/T/
-	    s/b/J/
-	    s/c/Q/
-	    s/d/K/
-	    s/e/A/
-	' > .${m}_
+        sed '
+            s/T/a/
+            s/J/b/
+            s/Q/c/
+            s/K/d/
+            s/A/e/
+        ' .$m | \
+        sort | \
+        sed '
+            s/a/T/
+            s/b/J/
+            s/c/Q/
+            s/d/K/
+            s/e/A/
+        ' > .${m}_
     }
 done
 
@@ -149,22 +169,22 @@ done
 for m in n s
 do
     sed '
-	s/1 tricks/ 1 trick/
-	s/ a tricks/10 tricks/
-	s/ b tricks/11 tricks/
-	s/ c tricks/12 tricks/
-	s/ d tricks/13 tricks/
+        s/1 tricks/ 1 trick/
+        s/ a tricks/10 tricks/
+        s/ b tricks/11 tricks/
+        s/ c tricks/12 tricks/
+        s/ d tricks/13 tricks/
     ' .${m}h > $out.${m}o
 done
 
 # print all distributions
-sed 's/1 tricks/ 1 trick/' .nh > $out.no
-sed 's/1 tricks/ 1 trick/' .sh > $out.so
+sed 's/1 tricks/ 1 trick/' .hh .nh > $out.no
+sed 's/1 tricks/ 1 trick/' .hh .sh > $out.so
 [[ $rprt ]] &&
 {
     cat .no_ >> $out.no
     cat .so_ >> $out.so
-    rm .[ns][ho]*
+    rm .[hns][ho]*
     exit
 }
 
@@ -174,34 +194,34 @@ do
     [[ -f .$m ]] &&
     nawk '
     BEGIN {
-	prevc["2"] = "1"
-	prevc["3"] = "2"
-	prevc["4"] = "3"
-	prevc["5"] = "4"
-	prevc["6"] = "5"
-	prevc["7"] = "6"
-	prevc["8"] = "7"
-	prevc["9"] = "8"
-	prevc["T"] = "9"
-	prevc["J"] = "T"
-	prevc["Q"] = "J"
-	prevc["K"] = "Q"
-	prevc["A"] = "K"
+        prevc["2"] = "1"
+        prevc["3"] = "2"
+        prevc["4"] = "3"
+        prevc["5"] = "4"
+        prevc["6"] = "5"
+        prevc["7"] = "6"
+        prevc["8"] = "7"
+        prevc["9"] = "8"
+        prevc["T"] = "9"
+        prevc["J"] = "T"
+        prevc["Q"] = "J"
+        prevc["K"] = "Q"
+        prevc["A"] = "K"
     }
 
     {
-	printit = 1
-	for ( l = 2; l <= NF; l++ )
-	    res[$1,l] = $l
-	for ( k = 1; k <= length($1); k++ ) {
-	    hit = 1
-	    str = substr($1,1,k-1) prevc[substr($1,k,1)] substr($1,k+1)
-	    for ( l = 2; l <= NF; l++ )
-		hit = hit && $l == res[str,l]
-	    if ( hit ) printit = 0
-	}
-	if ( printit || NR == 1 ) printf "%s\n", $0
+        printit = 1
+        for ( l = 2; l <= NF; l++ )
+            res[$1,l] = $l
+        for ( k = 1; k <= length($1); k++ ) {
+            hit = 1
+            str = substr($1,1,k-1) prevc[substr($1,k,1)] substr($1,k+1)
+            for ( l = 2; l <= NF; l++ )
+                hit = hit && $l == res[str,l]
+            if ( hit ) printit = 0
+        }
+        if ( printit || NR == 1 ) printf "%s\n", $0
     } ' rprt=$rprt .${m}_ >> $out.${m}
 done
 
-rm .[ns][ho]*
+rm .[hns][ho]*
