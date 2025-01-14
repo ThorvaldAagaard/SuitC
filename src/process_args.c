@@ -33,13 +33,21 @@ void process_args( int argc, char **argv )
                 k = 2;
                 cutoff = 0;
                 while ( argv[i][k] ) {
-                    cutoff = 10 * cutoff + argv[i][k] - '0';
+                    if      ( argv[i][k] == 'k' || argv[i][k] == 'K' ) cutoff = cutoff * 1000;
+                    else if ( argv[i][k] == 'm' || argv[i][k] == 'M' ) cutoff = cutoff * 1000000;
+                    else if ( argv[i][k] == 'g' || argv[i][k] == 'G' ) cutoff = cutoff * 1000000000;
+                    else                                               cutoff = cutoff * 10 + argv[i][k] - '0';
                     k++;
                 }
                 cutoff = cutoff ? MAX(cutoff,10000L) : CUTOFF;
             }
-            else if ( c == 'D' )
+            else if ( c == 'D' ) {
                 defence = YES;
+                if ( argv[i][2] == 'W' || argv[i][2] == 'w' ) {
+                    ewwinners = YES;
+                    cutoff = CUTOFF;
+                }
+            }
             else if ( c == 'd' )
                 printtrunctree = YES;
             else if ( c == 'E' || c == 'W' ) {
@@ -157,38 +165,6 @@ void process_args( int argc, char **argv )
                 c = argv[i][2];
                 if ( c == 'C' )
                     compacttree = NO;
-                else if ( c == 'K' ) {
-                    if ( argv[i][3] ) {
-                        if ( argv[i][3] == 'e' || argv[i][3] == 'w' )
-                            keepewweak = NO;
-                        else if ( argv[i][3] == 'n' || argv[i][3] == 's' )
-                            keepnsweak = NO;
-                        else {
-                            printf( "Incorrect option: %s; the program stops\n", argv[i] );
-                            exit( 1 );
-                        }
-                    }
-                    else {
-                        keepewweak = NO;
-                        keepnsweak = NO;
-                    }
-                }
-                else if ( c == 'k' ) {
-                    if ( argv[i][3] ) {
-                        if ( argv[i][3] == 'e' || argv[i][3] == 'w' )
-                            keepewequal = NO;
-                        else if ( argv[i][3] == 'n' || argv[i][3] == 's' )
-                            keepnsequal = NO;
-                        else {
-                            printf( "Incorrect option: %s; the program stops\n", argv[i] );
-                            exit( 1 );
-                        }
-                    }
-                    else {
-                        keepewequal = NO;
-                        keepnsequal = NO;
-                    }
-                }
                 else {
                     printf( "Incorrect option: %s; the program stops\n", argv[i] );
                     exit( 1 );
@@ -290,15 +266,6 @@ void process_args( int argc, char **argv )
         }
     }
 
-    //  clear some options if only the results are required
-    if ( resultsonly ) {
-        keepewequal = NO;
-        keepewweak = NO;
-        keepnsequal = NO;
-        keepnsweak = NO;
-        printallresults = NO;
-    }
-
     //  print the options
     if ( ! printoptions )
         return;
@@ -306,8 +273,8 @@ void process_args( int argc, char **argv )
     printf( "\n" );
     printf( "calling sequence:\n" );
     printf( "\n" );
-    printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-nC] [-c<cutoff>] [-D] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f] [-H{e|w}]\n" );
-    printf( "      [-nK[{e|n|s|w}]] [-k[{e|n|s|w}]] [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-o] [-P<n>] [-p[{H|I|M|S}]] [-R{n|e|s|w}<n>] \n" );
+    printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-nC] [-c<cutoff>[kKmMgG]] [-D[{W|w}]] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f] [-H{e|w}]\n" );
+    printf( "      [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-o] [-P<n>] [-p[{H|I|M|S}]] [-R{n|e|s|w}<n>] \n" );
     printf( "      [-r] [-S<card2>:<card3>] [-s] [-T<n>] [-t<tricks>] [-W<cards>] [-wm<n>] [-wv<n>] [-z<n>] <ncards> <scards> <ewcards>\n" );
     printf( "\n" );
     printf( "options:\n" );
@@ -315,8 +282,12 @@ void process_args( int argc, char **argv )
     printf( "    -A              print a full report of all results\n" );
     printf( "    -a              print a summary of the results\n" );
     printf( "    -b              print a list of the boards\n" );
-    printf( "    -c<cutoff>      the limit in millions on the product of the number of quirks while merging quirk trees\n" );
-    printf( "    -D              the defenders lead to each trick\n" );
+    printf( "    -c<cutoff>[kKmMgG]\n" );
+    printf( "                    the limit of the product of the number of quirks while merging quirk trees\n" );
+    printf( "                    [kK] stands for 1000, [mM] stands for 1000000, [gG] stands for 1000000000\n" );
+    printf( "    -D[{W|w}]       the defenders lead to each trick\n" );
+    printf( "                    {W|w}: print east-west winners instead of north-south winners\n" );
+    printf( "                    the -D option should be used only if east-west have at least twice the number of cards as north and south\n" );
     printf( "    -d              print the truncated NODE tree\n" );
     printf( "    -E<cards>       all east hands contain <cards>\n" );
     printf( "    -em<n>          the minimum number of cards in the east hand is <n>\n" );
@@ -326,12 +297,6 @@ void process_args( int argc, char **argv )
     printf( "    -H{e|w}         the designated player leads to the current trick if he won the last trick\n" );
     printf( "    -I<n>:<score>   the score for <n> tricks is <score> points\n" );
     printf( "    -nC             north-south win tricks as soon as possible\n" );
-    printf( "    -nK             don't keep weakly dominated nodes\n" );
-    printf( "    -nK{e|w}        don't keep weakly dominated EW nodes\n" );
-    printf( "    -nK{n|s}        don't keep weakly dominated NS nodes\n" );
-    printf( "    -nk             don't keep tied nodes\n" );
-    printf( "    -nk{e|w}        don't keep tied EW nodes\n" );
-    printf( "    -nk{n|s}        don't keep tied NS nodes\n" );
     printf( "    -L{n|e|s|w}[<card>]\n" );
     printf( "                    the lead is in {n|e|s|w} at trick one\n" );
     printf( "                    card <card> is lead if a card is specified\n" );

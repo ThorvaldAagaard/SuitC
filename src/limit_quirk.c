@@ -1,20 +1,20 @@
 //  name:
-//      limit_quirkd
+//      limit_quirk
 //
 //  purpose:
-//      limit_quirkd limits the number of branches in the QUIRKD trees
-//      that are kept during the merging process. QUIRKD branches are deleted
-//      untill the product of the number of QUIRKD branches in quirkd[d] and
+//      limit_quirk limits the number of branches in the QUIRK trees
+//      that are kept during the merging process. QUIRK branches are deleted
+//      untill the product of the number of QUIRK branches in quirkd[d] and
 //      quirkd[d+1] is about the value of cutoff.
 //
 //  parameters:
-//      d               in      the depth in the QUIRKD tree
+//      d               in      the depth in the QUIRK tree
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
-void limit_quirkd( int d )
+void limit_quirk( int d )
 {
     int           b, count[2], i, ih, ix, k, l, nplays[2];
     double        best_result[2], highresult, lowresult, testresult;
@@ -31,11 +31,11 @@ void limit_quirkd( int d )
         l = 0;
         ix = 0;
         best_result[i] = 0.0;
-        lquirkdl[l] =  &quirkd[d+i];
+        lquirkdl[l] =  &quirkdl[d+i];
         lquirkd[l] = lquirkdl[l]->h ? lquirkdl[l]->h->d : NIL;
 
         //  reserve memory for the results entries
-        results[i] = (struct LIMIT *) malloc( ( NPLAYS + 2 ) * sizeof( struct LIMIT ) );
+        results[i] = (struct LIMIT *) malloc( ( NQUIRKS + 2 ) * sizeof( struct LIMIT ) );
 
         //  loop over all nodes in the tree
         while( lquirkd[l] ) {
@@ -103,7 +103,7 @@ void limit_quirkd( int d )
     for ( i = 0; i < 2; i++ ) {
         for ( ix = 1; ix <= nplays[i]; ix++ )
             results[i][ix].keep = best_result[i] - results[i][ix].result < testresult;
-        clean_quirkd( d+i, results[i] );
+        clean_quirk( d+i, results[i] );
     }
 
     if ( ! SUITCAPP ) printf( "\tcutoff:%8d%6d ->%8d%6d\n", nplays[0], nplays[1], count[0], count[1] );

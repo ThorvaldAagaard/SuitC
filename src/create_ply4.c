@@ -35,7 +35,7 @@ void create_ply4( int d, int p )
         //  determine the winner of the trick
         w[t] = st[d].w;
         wnode[d]->winc = st[d].winc;
-        ns[t] = ns[t-1] + ( defence ? NS(w[t]) ? 0 : -1 : NS(w[t]) ? 1 : 0 );
+        ns[t] = ns[t-1] + ( ewwinners ? NS(w[t]) ? 0 : -1 : NS(w[t]) ? 1 : 0 );
 
         //  store the number of north-south winners
         lindex = wnode[d]->i;

@@ -53,8 +53,8 @@
     if ( qdcountmax < qdcount ) { \
         qdcountmax++; \
         nextquirkd++; \
-        if ( qdcountmax == 2*NPLAYS ) { \
-            printf( "No more memory for the QUIRKH entries; increase the value of NPLAYS\n" ); \
+        if ( qdcountmax == 2 * NQUIRKS ) { \
+            printf( "No more memory for the QUIRKH entries; increase the value of NQUIRKS\n" ); \
             print_stat( 'P' ); \
         } \
     } \
@@ -75,8 +75,8 @@
         } \
         qhcountmax++; \
         nextquirkh++; \
-        if ( qhcountmax == NPLAYS ) { \
-            printf( "No more memory for the QUIRKH entries; increase the value of NPLAYS\n" ); \
+        if ( qhcountmax == NQUIRKS ) { \
+            printf( "No more memory for the QUIRKH entries; increase the value of NQUIRKS\n" ); \
             print_stat( 'P' ); \
         } \
     } \

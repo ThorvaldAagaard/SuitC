@@ -43,14 +43,14 @@ void print_node( struct NODE *lnode, char *ident )
             out[1] = '\0';
             for ( j = NCARDS+1; j >= 0; j-- ) {
                 if ( addcard(j) & lindex->c[p] ) {
-                    out[k] = symbols[2][j];
+                    out[k] = symbols[0][j];
                     out[++k] = '\0';
                 }
             }
             printf( "%-14s", out );
         }
-        printf( "   min=%d", ( defence ? tricklimit - lindex->max : lindex->min ) );
-        printf( "   max=%d\n", ( defence ? tricklimit - lindex->min : lindex->max ) );
+        printf( "   min=%d", ( ewwinners ? tricklimit - lindex->max : lindex->min ) );
+        printf( "   max=%d\n", ( ewwinners ? tricklimit - lindex->min : lindex->max ) );
         lindex = lindex->r;
     }
 }

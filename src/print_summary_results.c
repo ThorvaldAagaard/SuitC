@@ -2,7 +2,7 @@
 //      print_summary_results
 //
 //  purpose:
-//      print_summary_results prints a summary of the results using the QUIRKD tree
+//      print_summary_results prints a summary of the results using the QUIRK tree
 //
 //  parameters:
 //      none
@@ -30,7 +30,7 @@ void print_summary_results( void )
     }
     for ( i = 0; i < b_count[0]; i++ )
         printf( "--" );
-    if ( defence )
+    if ( ewwinners )
         for ( i = maxns; i >= minns; i-- )
             printf( "  -- %x --", tricklimit - i );
     else
@@ -39,7 +39,7 @@ void print_summary_results( void )
     printf( "  + R ++\n" );
 
     //  loop over all quirks in the tree
-    lquirkdl[0] = quirkd;
+    lquirkdl[0] = quirkdl;
     lquirkd[0] = lquirkdl[0]->h ? lquirkdl[0]->h->d : NIL;
     while( lquirkd[l] ) {
 
@@ -64,7 +64,7 @@ void print_summary_results( void )
                 out[o++] = '-';
             }
             out[o++] = ' ';
-            out[o++] = defence ? hexdigit[tricklimit-lquirkdl[l]->h->t[k].ns] : hexdigit[lquirkdl[l]->h->t[k].ns];
+            out[o++] = ewwinners ? hexdigit[tricklimit-lquirkdl[l]->h->t[k].ns] : hexdigit[lquirkdl[l]->h->t[k].ns];
         }
 
         //  get the oldest son
@@ -82,7 +82,7 @@ void print_summary_results( void )
             if ( BLANK )
                 for ( n = 0; n < o; n++ )
                     out[n] = ' ';
-            if ( defence ) {
+            if ( ewwinners ) {
                 for ( i = maxns; i >= minns; i-- )
                     printf( "%9.4f", 100.0 * result[lquirkd[l]->ih].tricks[i] );
                 printf( "%8.4f\n", tricklimit - result[lquirkd[l]->ih].result );

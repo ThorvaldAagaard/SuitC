@@ -12,9 +12,19 @@
 
 #include "header.h"
 
+int count( COLOR cards )
+{
+    int           i = 0;
+    while ( cards ) {
+        i++;
+        cards ^= low_c( cards );
+    }
+    return ( i );
+}
+
 void create_boards( void )
 {
-    int          ec, i, k, l, p, q, wc;
+    int          i, k, l, p, q;
     COLOR        cards, fixed;
     struct INDEX *lindex;
     struct SCARD *sc;
@@ -27,39 +37,21 @@ void create_boards( void )
     }
 
     //  determine the number of cards in each hand
-    for ( p = 0; p < 4; p++ ) {
-        ncards[p] = 0;
-        cards = brd[0][p];
-        while ( cards ) {
-            ncards[p]++;
-            cards ^= low_c( cards );
-        }
-    }
+    for ( p = 0; p < 4; p++ )
+        ncards[p] = count( brd[0][p] );
+    ncardsmin[east] = MAX( ncardsmin[east], MAX( count( eastfixed ), ncards[west] - westvac ) );
+    ncardsmin[west] = MAX( ncardsmin[west], MAX( count( westfixed ), ncards[east] - eastvac ) );
+    ncards[east] = ncards[east] - ncardsmin[west];
+    ncards[west] = ncards[west] - ncardsmin[east];
 
     //  determine the number of tricks to be played and the maximum ply number to be printed
-    ntricks = defence ? ncards[west] - MIN( ncardsmin[west], ncardsmin[east] ) : MAX( ncards[north], ncards[south] );
+    ntricks = ewwinners ? MAX( ncards[east], ncards[west] )
+            : defence   ? MIN( MAX( ncards[north], ncards[south] ), MAX( ncards[east], ncards[west] ) )
+            :             MAX( ncards[north], ncards[south] );
     tricklimit = MIN( tricklimit, ntricks );
-    maxply = MAX( 0, 4 * MIN( ntricks - 1, ncards[west] / 2 ) );
-
-    //  determine the minimum number of cards in each hand
-    ec = 0;
-    cards = eastfixed;
-    while ( cards ) {
-        ec++;
-        cards ^= low_c(cards);
-    }
-    wc = 0;
-    cards = westfixed;
-    while ( cards ) {
-        wc++;
-        cards ^= low_c(cards);
-    }
-    ncardsmin[east] = MAX( ncardsmin[east], ec );
-    ncardsmin[west] = MAX( ncardsmin[west], wc );
-    ncardsmin[north] = ncards[north];
-    ncardsmin[south] = ncards[south];
-    ncards[east] = ncards[west] - ncardsmin[west];
-    ncards[west] = ncards[west] - ncardsmin[east];
+    maxprint = MAX( ncards[north], ncards[south] ) - 1;
+    maxprint = MIN( maxprint, count( brd[0][west] ) / 2 );
+    maxprint = tricklimit ? MAX( maxprint, 1 ) : 0;
 
     //  determine the SCARD sequences for all players
     for ( p = 0; p < 4; p++ ) {

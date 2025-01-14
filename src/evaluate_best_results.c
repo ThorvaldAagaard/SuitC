@@ -2,7 +2,7 @@
 //      evaluate_best_results
 //
 //  purpose:
-//      evaluate_best_results evaluates best_results using the QUIRKD tree
+//      evaluate_best_results evaluates best_results using the QUIRK tree
 //
 //  parameters:
 //      none
@@ -23,7 +23,7 @@ int evaluate_best_results( void )
     //  initialise
     maxns = 0;
     minns = tricklimit;
-    lquirkdl[0] = quirkd;
+    lquirkdl[0] = quirkdl;
     lquirkd[0] = lquirkdl[0]->h ? lquirkdl[0]->h->d : NIL;
     for ( k = 0; k < boardcount; k++ ) {
         nslimits[0][k] = ntricks;
@@ -34,7 +34,7 @@ int evaluate_best_results( void )
     nbest_plays = 0;
     best_result.result = 0.0;
     for ( i = 0; i <= ntricks; i++ ) {
-        best_result.tricks[i] = defence ? 1.0 : 0.0;
+        best_result.tricks[i] = ewwinners ? 1.0 : 0.0;
         best_result.res[i] = 0.0;
     }
 
@@ -75,7 +75,7 @@ int evaluate_best_results( void )
                 optcode |= 0x8000;
 
             tricksum = 0.0;
-            if ( defence ) {
+            if ( ewwinners ) {
                 for ( i = 0; i <= ntricks; i++ ) {
                     tricksum += result[ih].tricks[i];
                     if ( best_result.tricks[i] > tricksum + EPS || best_result.tricks[i] > tricksum - EPS && best_result.res[i] < result[ih].result + EPS ) {

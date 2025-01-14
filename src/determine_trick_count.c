@@ -20,6 +20,7 @@
 
 void determine_trick_count( int d, struct NODE **lnode )
 {
+    int          t = st[d].t;
     struct INDEX *bindex, *lindex;
 
     //  return if there are no sons
@@ -70,7 +71,7 @@ void determine_trick_count( int d, struct NODE **lnode )
         lindex = lindex->r;
     }
 
-    if ( d > 1 && lnode[d-1]->term && ( d-1 == maxply || resultsonly || buildtree == 0 ) ) {
+    if ( lnode[d-1]->term && ( t > maxprint || resultsonly || buildtree == 0 ) ) {
         lnode[d] = lnode[d-1]->d;
         while ( lnode[d] )
             lnode[d] = delete_tree( d, lnode );

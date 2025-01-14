@@ -74,7 +74,7 @@ next_lnode:
                     else if ( bstrong )
                         goto delete_lboard;
 
-                    else if ( bweak && lweak && keepewequal && buildtree ) {
+                    else if ( bweak && lweak && buildtree ) {
                         lindex = lindex->r;
                         continue;
                     }
@@ -82,7 +82,7 @@ next_lnode:
                     else if ( bweak && lweak )
                         goto delete_lboard;
 
-                    else if ( ( lweak || bweak ) && keepewweak && buildtree ) {
+                    else if ( ( lweak || bweak ) && buildtree ) {
                         lindex = lindex->r;
                         continue;
                     }

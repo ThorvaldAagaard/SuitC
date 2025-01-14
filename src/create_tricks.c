@@ -13,6 +13,7 @@
 //  Copyright 2024, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
+int count( COLOR cards );
 
 void create_tricks( int d )
 {
@@ -36,6 +37,32 @@ void create_tricks( int d )
                 brd[t][p] |= sc->c[i];
     }
 
+    //  handle defensive plays with no cards left in north and south
+    if ( ewwinners && ( brd[t][north] || brd[t][south] ) == RENONCE &&
+                   MIN( nfree[t][west], nfree[t][east] ) > tricklimit-t && ( t > 1 || buildtree == 0 ) ) {
+        lindex = wnode[d-1]->i;
+        while ( lindex ) {
+            lindex->max -= MAX( count( lindex->c[west] ), count( lindex->c[east] ) );
+            lindex->min = lindex->max;
+            lindex = lindex->r;
+        }
+        wnode[d-1]->term = YES;;
+        return;
+    }
+
+    //  handle plays with no cards left in west and east
+    if ( defence == NO && ( brd[t][west] | brd[t][east] ) == RENONCE &&
+                       MIN( nfree[t][north], nfree[t][south] ) > tricklimit-t && ( t > 1 || buildtree == 0 ) ) {
+        lindex = wnode[d-1]->i;
+        while ( lindex ) {
+            lindex->max += MIN( MAX( ncards[north], ncards[south] ), tricklimit ) - t + 1;
+            lindex->min = lindex->max;
+            lindex = lindex->r;
+        }
+        wnode[d-1]->term = YES;;
+        return;
+    }
+
     //  determine who can lead to this trick
     if ( t == 1 && leader != noplayer )
         lead[leader] = YES;
@@ -51,7 +78,7 @@ void create_tricks( int d )
     }
 
     //  no more tricks are to be played
-    if ( t == ntricks || ! ( lead[west] || lead[north] || lead[east] || lead[south] ) ) {
+    if ( t == ntricks && t > maxprint || ! ( lead[west] || lead[north] || lead[east] || lead[south] ) ) {
 
         wnode[d-1]->term = YES;
 
@@ -68,7 +95,7 @@ void create_tricks( int d )
                 for ( q = 0; q < 4; q++ )
                     if ( nruff[t-1][q] && ! lindex->c[q] )
                         wi = q;
-                ns[t] += defence ? NS(wi) ? 0 : -1 : NS(wi) ? 1 : 0;
+                ns[t] += ewwinners ? NS(wi) ? 0 : -1 : NS(wi) ? 1 : 0;
                 lindex->min = ns[t];
                 lindex->max = lindex->min;
                 lindex = lindex->r;

@@ -17,8 +17,8 @@ void build_selected_tree( void )
     struct INDEX  *lindex;
     struct NODE   *lnode[NPLIES+1];
 
-    lnode[d] = wnode[0];
-    tnode[d] = NIL;
+    lnode[0] = wnode[0];
+    tnode[0] = NIL;
 
     while ( lnode[d] ) {
 

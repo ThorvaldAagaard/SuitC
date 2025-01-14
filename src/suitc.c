@@ -23,10 +23,7 @@ int main( int argc, char **argv )
     defence = NO;
     eastfixed = RENONCE;
     eastvac = NCARDS;
-    keepewequal = YES;
-    keepewweak = YES;
-    keepnsequal = YES;
-    keepnsweak = YES;
+    ewwinners = NO;
     leader = noplayer;
     matchpoint = NO;
     matchpointtime = NO;
@@ -59,8 +56,8 @@ int main( int argc, char **argv )
     throwin = noplayer;
     trace = 0x0;
     tricklimit = NCARDS;
-    for ( d = 0; d < NPLIES+2; d++ )
-        quirkd[d].ic = boardcount;
+    for ( d = 0; d < NPLIES+1; d++ )
+        quirkdl[d].ic = boardcount;
     w[0] = noplayer;
     westfixed = RENONCE;
     westvac = NCARDS;
@@ -93,7 +90,7 @@ int main( int argc, char **argv )
     create_boards();
 
     //  build the tree
-    ns[0] = defence ? tricklimit : 0;
+    ns[0] = ewwinners ? tricklimit : 0;
     create_tricks( 1 );
 
     //  print the tree
@@ -110,7 +107,7 @@ int main( int argc, char **argv )
     //  initialise the QUIRKD list
     qdcount = 0;
     qdcountmax = 0;
-    nextquirkd = malloc( 2 * NPLAYS * sizeof( struct QUIRKD ) );
+    nextquirkd = malloc( 2 * NQUIRKS * sizeof( struct QUIRKD ) );
     if ( ! nextquirkd ) {
         printf( "The memory assignment for the QUIRKD entries failed\n" );
         exit( 1 );
@@ -119,7 +116,7 @@ int main( int argc, char **argv )
     //  initialise the QUIRKH and TRICKS lists
     qhcount = 0;
     qhcountmax = 0;
-    nextquirkh = malloc( NPLAYS * sizeof( struct QUIRKH ) );
+    nextquirkh = malloc( NQUIRKS * sizeof( struct QUIRKH ) );
     if ( ! nextquirkh ) {
         printf( "The memory assignment for the QUIRKH entries failed\n" );
         exit( 1 );
@@ -136,7 +133,7 @@ int main( int argc, char **argv )
     nplays = evaluate_best_results();
 
     if ( ! SUITCAPP ) {
-        if ( defence ) {
+        if ( ewwinners ) {
             printf( "\tmin number of losers: %d\n", tricklimit - maxns );
             printf( "\tmax number of losers: %d\n", tricklimit - minns );
         }
@@ -152,20 +149,20 @@ int main( int argc, char **argv )
         limit_matchpoint_nodes();
 
     if ( ! SUITCAPP )
-        printf( "\n\tCopyright 2024, Gerrit A. van der Velde, Leiden\n" );
+        printf( "\n\tCopyright 2025, Gerrit A. van der Velde, Leiden\n" );
 
     if ( sortplays )
         print_play_count();
 
     printf( "\n\n\nThe optimal results\n" );
     printf(   "===================\n\n" );
-    if ( defence ) {
-        for ( i = maxns - 1; i >= minns; i-- )
+    if ( ewwinners ) {
+        for ( i = maxns; i >= minns; i-- )
             printf( "\t%d losers: %8.4f\n", tricklimit - i, 100.0 * best_result.tricks[i] );
         printf( "\tResult  : %8.4f\n", tricklimit - best_result.result + EPS );
     }
     else {
-        for ( i = maxns; i > minns; i-- )
+        for ( i = maxns; i >= minns; i-- )
             printf( "\t%d tricks: %8.4f\n", i, 100.0 * best_result.tricks[i] );
         printf( "\tResult  : %8.4f\n", best_result.result );
     }

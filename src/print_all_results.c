@@ -21,8 +21,8 @@ void print_all_results( void )
     struct RESULT result[NBOARDS];
     struct SCORE  *lscore;
 
-    //  initialise
-    lquirkdl[0] = quirkd;
+    //  initialize
+    lquirkdl[0] = quirkdl;
     lquirkd[0] = lquirkdl[0]->h ? lquirkdl[0]->h->d : NIL;
 
     //  loop over all nodes in the tree
@@ -65,7 +65,7 @@ void print_all_results( void )
             best_MAX = result[ih].result > best_result.result - EPS;
             best_MP = matchpoint ? score[ix].best_MP : NO;
             accept = best_MAX | best_MP;
-            if ( defence ) {
+            if ( ewwinners ) {
                 for ( i = minns; i <= maxns; i++ ) {
                     tricksum += result[ih].tricks[i];
                     best_N[i] = tricksum < best_result.tricks[i] + EPS && result[ih].result > best_result.res[i] - EPS;
@@ -122,15 +122,15 @@ void print_all_results( void )
                     build_selected_tree();
 
                     //  create the tree
-                    if ( maxply && compacttree == NO )
+                    if ( maxprint && compacttree == NO )
                         select_ew_plays( 1 );
 
                     //  merge identical plays and select the preferred ones
-                    if ( maxply && mergeselect & 0x1 )
-                        merge_tree( 1, west );
-                    if ( maxply && mergeselect & 0x2 )
-                        merge_tree( 1, north );
-                    if ( maxply && mergeselect & 0x4 )
+                    if ( maxprint && mergeselect & 0x1 )
+                        fold_tree( 1, west );
+                    if ( maxprint && mergeselect & 0x2 )
+                        fold_tree( 1, north );
+                    if ( maxprint && mergeselect & 0x4 )
                         select_ns_plays( 1 );
 
                     //  print the tree

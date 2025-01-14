@@ -2,9 +2,9 @@
 #
 #  Makefile for program SuitC
 #
-#  This is a restart from ExpertPlay Rev6.102
+#  This is a restart from SuitC Rev1.050
 #
-#  Copyright 2024, Gerrit A. van der Velde, Leiden
+#  Copyright 2025, Gerrit A. van der Velde, Leiden
 #
 #-----------------------------------------------------------------------
 
@@ -17,18 +17,18 @@ EXEC2	= ../bin/ExpertPlay
 
 OBJECTS =				\
 	  add_node.o			\
-	  add_quirkd.o			\
+	  add_quirk.o			\
 	  build_selected_tree.o		\
 	  check_ew_plays.o		\
 	  check_ns_plays.o		\
-	  check_quirkd.o		\
+	  check_quirk.o			\
 	  check_zermelo.o		\
-	  clean_quirkd.o		\
+	  clean_quirk.o			\
 	  convert_tree_to_quirk.o	\
 	  copy_node.o			\
 	  copy_tree.o			\
 	  count_plays.o			\
-	  count_quirkd.o		\
+	  count_quirk.o			\
 	  create_all_boards.o		\
 	  create_board_header.o		\
 	  create_boards.o		\
@@ -38,7 +38,7 @@ OBJECTS =				\
 	  create_ply4.o			\
 	  create_tricks.o		\
 	  delete_board.o		\
-	  delete_quirkd.o		\
+	  delete_quirk.o		\
 	  delete_tree.o			\
 	  determine_trick_count.o	\
 	  evaluate_best_results.o	\
@@ -46,18 +46,18 @@ OBJECTS =				\
 	  evaluate_mp_scores.o		\
 	  fold_ew_tree.o		\
 	  fold_ns_tree.o		\
-	  fold_quirkd.o			\
+	  fold_quirk.o			\
+	  fold_tree.o			\
 	  limit_matchpoint_nodes.o	\
-	  limit_quirkd.o		\
+	  limit_quirk.o			\
 	  merge_nodes.o			\
-	  merge_quirkd.o		\
-	  merge_tree.o			\
+	  merge_quirk.o			\
 	  minimax.o			\
 	  print_all_results.o		\
 	  print_boards.o		\
 	  print_node.o			\
 	  print_play_count.o		\
-	  print_quirkd.o		\
+	  print_quirk.o			\
 	  print_results.o		\
 	  print_stat.o			\
 	  print_suitc.o			\

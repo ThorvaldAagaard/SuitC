@@ -1,24 +1,24 @@
 //  name:
-//      clean_quirkd
+//      clean_quirk.c
 //
 //  purpose:
-//      clean_quirkd removes QUIRKD branches that cannot result in the best play
+//      clean_quirk.c removes QUIRK tree branches that cannot result in the best play
 //
 //  parameters:
 //      d               in      the depth in the NODE tree
 //      results         in      the LIMIT array for the plays
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
-int clean_quirkd( int d, struct LIMIT *results )
+int clean_quirk( int d, struct LIMIT *results )
 {
     int           ix = 0, k, l = 0, nplays = 0;
     struct QUIRKD *lquirkd[NBOARDS], *lquirkdl[NBOARDS];
 
     //  initialise
-    lquirkdl[0] = &quirkd[d];
+    lquirkdl[0] = &quirkdl[d];
     lquirkd[0] = lquirkdl[0]->h ? lquirkdl[0]->h->d : NIL;
 
     while ( lquirkd[l] ) {

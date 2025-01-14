@@ -6,13 +6,13 @@
 //
 //  parameters:
 //      d               in      the depth in the tree
-//      lead[4]         in      flag to indicate valid leads
+//      lead            in      flag to indicate valid leads
 //
 //  Copyright 2024, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
-void create_ply1( int d, int lead[4] )
+void create_ply1( int d, int *lead )
 {
     int          i, p, t = st[d].t;
     struct NODE  znode;

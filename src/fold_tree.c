@@ -1,8 +1,8 @@
 //  name:
-//      merge_tree
+//      fold_tree
 //
 //  purpose:
-//      merge_tree merges subtrees if they contain a common structure of plays
+//      fold_tree folds subtrees if they contain a common structure of plays
 //
 //  parameters:
 //      p               in      the NODE subtrees are merged for player p
@@ -12,7 +12,7 @@
 
 #include "header.h"
 
-void merge_tree( int d, int p )
+void fold_tree( int d, int p )
 {
     struct NODE  *bnode[NPLIES+1], *lnode[NPLIES+1];
 
@@ -60,11 +60,10 @@ void merge_tree( int d, int p )
 
     //  investigate the sons
     tnode[d] = tnode[d-1]->d;
-    if ( tnode[d]->d ) {
-        while ( tnode[d] ) {
-            merge_tree( d+1, p );
-            tnode[d] = tnode[d]->r;
-        }
+    while ( tnode[d] ) {
+        if ( tnode[d]->d )
+            fold_tree( d+1, p );
+        tnode[d] = tnode[d]->r;
     }
 
     //  determine the winning cards

@@ -13,9 +13,8 @@
 
 double fac( int n, int r )
 {
-    double       f = 1.0;
-    int          i;
-
+    double        f = 1.0;
+    int           i;
     if ( n < 0 || r < 0 || n < r )
         return( 0.0 );
     for( i = 0; i < r; i++ )

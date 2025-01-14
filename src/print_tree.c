@@ -27,7 +27,7 @@ void print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings 
     struct SCARD *sc;
 
     //  return if the root of the tree is the NIL entry
-    if ( rootn == NIL || maxply == 0 )
+    if ( rootn == NIL || rootn->d == NIL || maxprint == 0 )
         return;
 
     //  initialise
@@ -36,7 +36,7 @@ void print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings 
         rootn = rootn->d;
     }
 
-    for ( d = d_; d <= maxply; d++ )
+    for ( d = d_; d <= 4*maxprint; d++ )
         w[d] = 1;
 
     //  determine the length of the output strings
@@ -61,8 +61,8 @@ void print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings 
         }
     }
 
-    wlen = 2 * (maxply-d_+1) + 2 * ( (maxply-d_+1)/4) + 2 * ( (maxply-d_)/4) + 4;
-    for ( d = d_; d <= maxply; d++ )
+    wlen = 2 * (4*maxprint-d_+1) + 2 * ( (4*maxprint-d_+1)/4) + 2 * ( (4*maxprint-d_)/4) + 4;
+    for ( d = d_; d <= 4*maxprint; d++ )
         wlen += w[d];
 
     //  print the board header
@@ -120,7 +120,7 @@ void print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings 
         else {
 
             //  fill in of unmade plies
-            for ( b = d+1; b <= maxply; b++ ) {
+            for ( b = d+1; b <= 4*maxprint; b++ ) {
                 if ( ( b & 0x3 ) == 0x1 ) { out[l++] = ' '; out[l++] = ' '; }
                 out[l++] = '.';
                 for ( i = 0; i < w[b]+1; i++ ) out[l++] = ' ';
@@ -128,15 +128,15 @@ void print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings 
             }
 
             //  print the result on the board
-            out[l++] = ( defence ? 'e' : 'n' );
-            out[l++] = ( defence ? 'w' : 's' );
+            out[l++] = ( ewwinners ? 'e' : 'n' );
+            out[l++] = ( ewwinners ? 'w' : 's' );
             out[l++] = '=';
             k = l;
             for ( i = 0; i < boardcount; i++ ) { out[l++] = '-'; out[l++] = ' '; }
             out[l] = '\0';
             lindex = lnode[d]->i;
             while( lindex ) {
-                out[k+2*lindex->i] = ( defence ? hexdigit[tricklimit-lindex->min] : hexdigit[lindex->max] );
+                out[k+2*lindex->i] = ( ewwinners ? hexdigit[tricklimit-lindex->min] : hexdigit[lindex->max] );
                 lindex = lindex->r;
             }
             printf( "%s\n", out );

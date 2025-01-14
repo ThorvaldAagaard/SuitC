@@ -20,7 +20,7 @@ void limit_matchpoint_nodes( void )
     struct RESULT result[NBOARDS];
 
     //  initialise
-    lquirkdl[0] = quirkd;
+    lquirkdl[0] = quirkdl;
     lquirkd[0] = lquirkdl[0]->h ? lquirkdl[0]->h->d : NIL;
     results = (struct LIMIT *) malloc( ( nplays + 2 ) * sizeof( struct LIMIT ) );
 
@@ -50,7 +50,7 @@ void limit_matchpoint_nodes( void )
             ih = lquirkd[l]->ih;
             results[ix].keep = NO;
             results[ix].result = result[ih].result;
-            if ( defence ) {
+            if ( ewwinners ) {
                 for ( i = minns; i <= maxns; i++ ) {
                     tsum += result[ih].tricks[i];
                     results[ix].keep |= tsum < best_result.tricks[i] + EPS && result[ih].result > best_result.res[i] - EPS;
@@ -95,7 +95,7 @@ void limit_matchpoint_nodes( void )
     //  delete all unaccepted plays from the list and clean up
     for ( ix = 1; ix <= nplays; ix++ )
         results[ix].keep |= testlow < results[ix].result;
-    nplays = clean_quirkd( 0, results );
+    nplays = clean_quirk( 0, results );
 
     if ( matchpoint == MP ) {
         printf( "\t#nodes for MP plays : %d\n", nplays );

@@ -9,7 +9,7 @@
 //  ----------------------------------------------------------------------------
 #define addcard( c )                    ( ( (COLOR) 1 ) << ( c ) )
 #define BLANK                           NO
-#define CUTOFF                          1000000
+#define CUTOFF                          1000000L
 #define EPS                             1.0e-10
 #define EW( p )                         ( ( p == west ) || ( p == east ) )
 #define IMP                             2
@@ -20,11 +20,11 @@
 #define NBOARDS                         162
 #define NCARDS                          13
 #define NIL                             0
-#define NINDICES                        16000000L
+#define NINDICES                        16000000L    //  -Dw: 135892684L
 #define NNODE                           400
-#define NNODES                          8000000L
+#define NNODES                          10000000L    //  -Dw:  97253581L
 #define NO                              0
-#define NPLAYS                          ( SUITCAPP ? 4000000L : 160000000L )
+#define NQUIRKS                         ( SUITCAPP ? 4000000L : 80000000L )
 #define NPLIES                          52
 #define NS( p )                         ( ( p == north ) || ( p == south ) )
 #define RENONCE                         ( (COLOR) 0 )
@@ -68,7 +68,7 @@ struct NODE {
 struct QUIRKD {
     struct QUIRKD *d;                   //  pointer to the son QUIRKD entry
     struct QUIRKH *h;                   //  pointer to the sibling QUIRKH entry
-    unsigned int  ic:8,                 //  the lowest board number for which the QUIRKD tree is checked
+    unsigned int  ic:8,                 //  the lowest board number for which the QUIRK tree is checked
                   ih:8,                 //  the highest board index in this sequence
                   il:8;                 //  the lowest board index in this sequence
 };
@@ -131,28 +131,29 @@ struct TRICKS {
 //  complete list of routines
 //  ----------------------------------------------------------------------------
 struct NODE   *add_node( int d, int p, COLOR cards );
-int            add_quirkd( int i, int ns, int s, int t, int ih, struct QUIRKD **tquirkd, struct QUIRKD **tquirkdl );
+int            add_quirk( int i, int ns, int s, int t, int ih, struct QUIRKD **tquirkd, struct QUIRKD **tquirkdl );
 void           build_selected_tree( void );
 void           check_ew_plays( int d, struct NODE **lnode );
 void           check_ns_plays( int d, struct NODE **lnode );
+void           check_quirk( int d, int t, struct QUIRKD **tquirkd, struct QUIRKD **tquirkdl );
 void           check_quirkd( int d, int t, struct QUIRKD **tquirkd, struct QUIRKD **tquirkdl );
 int            check_zermelo( struct SCORE *lscore );
-int            clean_quirkd( int d, struct LIMIT *results );
+int            clean_quirk( int d, struct LIMIT *results );
 void           convert_tree_to_quirk( void );
 struct NODE   *copy_node( struct NODE *lnode );
 struct NODE   *copy_tree( int d_, struct NODE *rootn );
 void           count_plays( void );
-int            count_quirkd( int d );
+int            count_quirk( int d );
 void           create_all_boards( void );
 void           create_board_header( void );
 void           create_boards( void );
-void           create_ply1( int d, int lead[4] );
+void           create_ply1( int d, int *lead );
 void           create_ply2( int d, int p );
 void           create_ply3( int d, int p );
 void           create_ply4( int d, int p );
 void           create_tricks( int d );
 void           delete_board( int d, struct NODE **lnode, int b );
-void           delete_quirkd( int d );
+void           delete_quirk( int d );
 struct NODE   *delete_tree( int d_, struct NODE **lnode );
 void           determine_trick_count( int d, struct NODE **lnode );
 int            evaluate_best_results( void );
@@ -160,18 +161,18 @@ void           evaluate_mp_results( void );
 void           evaluate_mp_scores( void );
 int            fold_ew_tree( int d, struct NODE **lnode, struct NODE **bnode );
 int            fold_ns_tree( int d, COLOR c, struct NODE **lnode, struct NODE **bnode );
-void           fold_quirkd( int d );
+void           fold_quirk( int d );
+void           fold_tree( int d, int p );
 void           limit_matchpoint_nodes( void );
-void           limit_quirkd( int d );
+void           limit_quirk( int d );
 void           merge_nodes( struct NODE *lnode, struct NODE *bnode );
-void           merge_quirkd( int d );
-void           merge_tree( int d, int p );
+void           merge_quirk( int d );
 void           minimax( int nnode, int *jpiv, double *p );
 void           print_all_results( void );
 void           print_boards( void );
 void           print_node( struct NODE *lnode, char *ident );
 void           print_play_count( void );
-void           print_quirkd( struct QUIRKD *rootqdl, char *ident );
+void           print_quirk( struct QUIRKD *rootqdl, char *ident );
 void           print_results( int best_MAX, int best_MP, int *best_N, double mpscore );
 void           print_stat( int trace );
 void           print_suitc( void );

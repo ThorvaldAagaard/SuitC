@@ -1,25 +1,25 @@
 //  name:
-//      fold_quirkd
+//      fold_quirk
 //
 //  purpose:
-//      fold_quirkd folds two QUIRKD trees
+//      fold_quirk folds two QUIRK trees
 //
 //  parameters:
 //      d               in      the depth in the NODE tree
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
-void fold_quirkd( int d )
+void fold_quirk( int d )
 {
     int           ih, l = 0, s = 0, t = 0;
     struct QUIRKD *lquirkd[NBOARDS], *lquirkdl[NBOARDS], *tquirkd[NBOARDS], *tquirkdl[NBOARDS];
 
     //  initialise
-    lquirkdl[l] = &quirkd[d+1];
+    lquirkdl[l] = &quirkdl[d];
     lquirkd[l] = lquirkdl[l]->h ? lquirkdl[l]->h->d : NIL;
-    tquirkdl[t] = &quirkd[d];
+    tquirkdl[t] = &quirkdl[d-1];
     tquirkd[t] = tquirkdl[t]->h ? tquirkdl[t]->h->d : NIL;
 
     //  determine the highest index in the TRICKS array
@@ -29,12 +29,12 @@ void fold_quirkd( int d )
     }
     ih = lquirkd[l]->ih;
 
-    //  loop over all nodes of the source QUIRKD tree
+    //  loop over all nodes of the source QUIRK tree
     l = 0;
     while ( lquirkd[l] ) {
 
-        //  add a new node to the target QUIRKD tree
-        t = add_quirkd( lquirkdl[l]->h->t[s].i, lquirkdl[l]->h->t[s].ns, s, t, ih, tquirkd, tquirkdl );
+        //  add a new node to the target QUIRK tree
+        t = add_quirk( lquirkdl[l]->h->t[s].i, lquirkdl[l]->h->t[s].ns, s, t, ih, tquirkd, tquirkdl );
 
         //  get the oldest son
         if ( s < lquirkd[l]->ih || lquirkd[l]->d ) {
@@ -46,27 +46,28 @@ void fold_quirkd( int d )
             }
         }
 
-        //  we reached a leave
+        //  we reached a leaf
         else {
 
-            //  backtrack untill a branch in the source QUIRKD tree
+            //  backtrack untill a branch in the source QUIRK tree
             while ( l && ! lquirkd[l]->h )
                 l--;
             s = lquirkd[l]->il;
 
-            //  backtrack the target QUIRKD tree and check each branch
+            //  backtrack the target QUIRK tree and check each branch
             while ( tquirkd[t]->il > s ) {
-                check_quirkd( d, t, tquirkd, tquirkdl );
+                check_quirk( d-1, t, tquirkd, tquirkdl );
                 t--;
             }
 
-            //  get the younger sibling in the source QUIRKD tree
+            //  get the younger sibling in the source QUIRK tree
             lquirkdl[l] = lquirkd[l];
             lquirkd[l] = lquirkdl[l]->h ? lquirkdl[l]->h->d : NIL;
         }
     }
 
-    //  check the root of the target QUIRKD tree
-    delete_quirkd( d+1 );
-    check_quirkd( d, t, tquirkd, tquirkdl );
+    //  check the root of the target QUIRK tree
+    delete_quirk( d );
+    if ( quirkdl[d-1].h->d->h )
+        check_quirk( d-1, t, tquirkd, tquirkdl );
 }

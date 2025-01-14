@@ -19,18 +19,15 @@ int    defence;                         //  lead from east of west in each trick
 int    dupl[8192];                      //  the multiplicity of the boards
 int    eastvac;                         //  the number of vacant places in the east hand
 int    ew_c_count;                      //  the number of rows in the board header
+int    ewwinners;                       //  print east-west winners instead of north-south winners
 int    icount;                          //  counter for the number of active index entries
 int    icountmax;                       //  the maximum number of active index entries
-int    keepewequal;                     //  flag to indicate that all equivalent EW plays are kept
-int    keepewweak;                      //  flag to indicate that weakly dominated EW plays are kept
-int    keepnsequal;                     //  flag to indicate that all equivalent NS plays are kept
-int    keepnsweak;                      //  flag to indicate that weakly dominated NS plays are kept
 int    leader;                          //  the openings leader at trick one
 int    matchpoint;                      //  generate the matchpoint plays
 int    matchpointtime;                  //  print the matchpoint analysis time
 int    maxnodes;                        //  the maximum number of nodes used for the MP or IMP evaluation
 int    maxns;                           //  the maximum number of ns_tricks
-int    maxply;                          //  the maximum depth in the tree
+int    maxprint;                        //  the maximum number of tricks to be printed
 int    mergeselect;                     //  1=merge the EW plays, 2=merge the NS plays, 4=select the NS plays
 int    minns;                           //  the minimum number of ns_tricks
 int    nbest_plays;                     //  the number of elements in array best_play
@@ -42,9 +39,9 @@ int    nfree[NCARDS+1][4];              //  the number of remaining directional 
 int    nplays;                          //  number of possible plays
 int    nruff[NCARDS+1][4];              //  the number of remaining ruffs
 int    nrules;                          //  the number of rules for the 3d hand strategy
-int    ns[NCARDS+1];                    //  the number of tricks won by north-south
-int    nslimits[2][NBOARDS];            //  the lower and upper bound for the number of north-south tricks
-int    nstricks[NBOARDS];               //  the number of tricks for north-south on each board
+int    ns[NCARDS+1];                    //  the number of tricks for north-south (ewwinners==NO) or east-west (ewwinners==YES)
+int    nslimits[2][NBOARDS];            //  the lower and upper bound for the number tricks for north-south (ewwinners==NO) or east-west (ewwinners==YES) on each board
+int    nstricks[NBOARDS];               //  the number of tricks for north-south (ewwinners==NO) or east-west (ewwinners==YES) on each board
 int    ntricks;                         //  the number of tricks to be played
 int    opening_lead;                    //  the card that is lead at trick one
 int    pointscore[NCARDS+1];            //  the pointscore for each number of tricks
@@ -77,7 +74,7 @@ struct NODE   *nextnode;                //  the first unused slot in the NODE li
 struct NODE   *tnode[NPLIES+1];         //  the stack of target NODE entries
 struct NODE   *wnode[NPLIES+1];         //  the stack of NODE entries
 struct QUIRKD *nextquirkd;              //  the first unused slot in the QUIRKD list
-struct QUIRKD quirkd[NPLIES+2];         //  the QUIRKD anchors
+struct QUIRKD quirkdl[NPLIES+1];        //  pointers to the root of QUIRK trees
 struct QUIRKH *nextquirkh;              //  the first unused slot in the QUIRKH list
 struct RESULT best_play[32];            //  the plays that give the best results for MAX and N<n>
 struct RESULT best_result;              //  the best result of all plays

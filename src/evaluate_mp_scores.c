@@ -36,10 +36,10 @@ void evaluate_mp_scores( void )
     score[nplays+1].r = NIL;
 
     //  initialise
-    lquirkdl[0] = quirkd;
+    lquirkdl[0] = quirkdl;
     lquirkd[0] = lquirkdl[0]->h ? lquirkdl[0]->h->d : NIL;
 
-    //  loop over the QUIRKD tree
+    //  loop over the QUIRK tree
     while( lquirkd[l] ) {
 
         //  compute the results
@@ -72,7 +72,7 @@ void evaluate_mp_scores( void )
             score[ix].best_N = NO;
             score[ix].best_MP = YES;
             score[ix].best_MAX = score[ix].result > best_result.result - EPS;
-            if ( defence ) {
+            if ( ewwinners ) {
                 for ( i = minns; i <= maxns; i++ ) {
                     tsum += result[ih].tricks[i];
                     score[ix].best_N |= tsum < best_result.tricks[i] + EPS && result[ih].result > best_result.res[i] - EPS;
@@ -95,7 +95,7 @@ void evaluate_mp_scores( void )
 
     //  initialise
     ix = 0;
-    lquirkdl[0] = quirkd;
+    lquirkdl[0] = quirkdl;
     lquirkd[0] = lquirkdl[0]->h ? lquirkdl[0]->h->d : NIL;
 
     //  loop over the quirk tree
@@ -120,10 +120,10 @@ void evaluate_mp_scores( void )
             for ( i = 0; i < nplays; i++ )
                 lscore->mp[i] = 0.0;
 
-            //  perform the second loop over the QUIRKD tree
+            //  perform the second loop over the QUIRK tree
             b = 0;
             bx = 0;
-            bquirkdl[0] = quirkd;
+            bquirkdl[0] = quirkdl;
             bquirkd[0] = bquirkdl[0]->h ? bquirkdl[0]->h->d : NIL;
             while ( bquirkd[b] ) {
 

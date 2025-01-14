@@ -68,7 +68,7 @@ next_lnode:
                 goto next_lnode;
             }
 
-            else if ( bweak && lweak && keepnsequal && buildtree )
+            else if ( bweak && lweak && buildtree )
                 bnode[d] = bnode[d]->r;
 
             else if ( bweak && lweak ) {
@@ -76,7 +76,7 @@ next_lnode:
                 goto next_lnode;
             }
 
-            else if ( ( lweak || bweak ) && keepnsweak && buildtree )
+            else if ( ( lweak || bweak ) && buildtree )
                 bnode[d] = bnode[d]->r;
 
             else if ( lweak )

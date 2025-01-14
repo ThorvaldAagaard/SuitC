@@ -1,23 +1,23 @@
 //  name:
-//      count_quirkd
+//      count_quirk
 //
 //  purpose:
-//      count_quirkd counts the number of plays
+//      count_quirk counts the number of leaves in the QUIRK tree
 //
 //  parameters:
 //      d               in      the depth in the NODE tree
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
-int count_quirkd( int d )
+int count_quirk( int d )
 {
     int           ix = 0, l = 0;
     struct QUIRKD *lquirkd[NBOARDS], *lquirkdl[NBOARDS];
 
-    //  initialise
-    lquirkdl[0] = &quirkd[d];
+    //  initialize
+    lquirkdl[0] = &quirkdl[d];
     lquirkd[0] = lquirkdl[0]->h ? lquirkdl[0]->h->d : NIL;
 
     while ( lquirkd[l] ) {

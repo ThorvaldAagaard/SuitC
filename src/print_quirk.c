@@ -1,18 +1,18 @@
 //  name:
-//      print_quirkd
+//      print_quirk
 //
 //  purpose:
-//      print_quirkd prints a QUIRKD tree
+//      print_quirk prints a QUIRK tree
 //
 //  parameters:
-//      rootqdl         in      the left sibling of the root of the QUIRKD tree
+//      rootqdl         in      the left sibling of the root of the QUIRK tree
 //      ident           in      identification string
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
-void print_quirkd( struct QUIRKD *rootqdl, char *ident )
+void print_quirk( struct QUIRKD *rootqdl, char *ident )
 {
     int           i, l = 0, o = 0;
     char          out[2*NBOARDS+1];

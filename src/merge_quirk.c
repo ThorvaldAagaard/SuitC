@@ -1,29 +1,29 @@
 //  name:
-//      merge_quirkd
+//      merge_quirk
 //
 //  purpose:
-//      merge_quirkd merges two QUIRKD trees
+//      merge_quirk merges two QUIRK trees
 //
 //  parameters:
 //      d               in      the depth in the NODE tree
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
 #define bottumup( a, b, bquirkd, bquirkdl )     if ( a && a > bquirkd[b]->il && bquirkdl[b]->h->t[a-1].i >= i ) a--; else if ( a && a == bquirkd[b]->il && b && bquirkdl[b-1]->h->t[a-1].i >= i ) { a--; b--; }
 
-void merge_quirkd( int d )
+void merge_quirk( int d )
 {
     int           a = 0, b = 0, i, ih, k = 0, l = 0, ns, s = 0, t = 0;
-    struct QUIRKD *bquirkd[NBOARDS], *bquirkdl[NBOARDS], *lquirkd[NBOARDS], *lquirkdl[NBOARDS], *tquirkd[NBOARDS], *tquirkdl[NBOARDS];
+    struct QUIRKD *bquirkd[NBOARDS], *bquirkdl[NBOARDS], *lquirkd[NBOARDS], *lquirkdl[NBOARDS], *tquirkd[NBOARDS], *tquirkdl[NBOARDS], zquirkd;
 
     //  initialise
-    bquirkdl[b] = &quirkd[d];
+    bquirkdl[b] = &quirkdl[d-1];
     bquirkd[b] = bquirkdl[b]->h ? bquirkdl[b]->h->d : NIL;
-    lquirkdl[l] = &quirkd[d+1];
+    lquirkdl[l] = &quirkdl[d];
     lquirkd[l] = lquirkdl[l]->h ? lquirkdl[l]->h->d : NIL;
-    tquirkdl[t] = &quirkd[d+2];
+    tquirkdl[t] = &zquirkd;
     bump_quirkh( tquirkdl[t]->h );
     bump_quirkd( tquirkdl[t]->h->d );
     tquirkd[t] = tquirkdl[t]->h->d;
@@ -31,7 +31,7 @@ void merge_quirkd( int d )
     tquirkd[t]->il = 0;
     tquirkd[t]->ih = 0;
 
-    //  initialise the target QUIRKD tree
+    //  initialize the target QUIRK tree
     i = a <= bquirkd[b]->ih && k <= lquirkd[l]->ih
         ? MIN( bquirkdl[b]->h->t[a].i, lquirkdl[l]->h->t[k].i )
         : a <= bquirkd[b]->ih ? bquirkdl[b]->h->t[a].i : lquirkdl[l]->h->t[k].i;
@@ -41,7 +41,7 @@ void merge_quirkd( int d )
     tquirkdl[t]->h->t[s].i = i;
     tquirkdl[t]->h->t[s].ns = ns;
 
-    //  the main loop of the routine; all source QUIRKD nodes are combined
+    //  the main loop of the routine; all source QUIRK nodes are combined
 loop_down:
     while ( YES ) {
 
@@ -52,7 +52,7 @@ loop_down:
             ? MIN( lquirkdl[l]->h->t[k].ns, bquirkdl[b]->h->t[a].ns )
             : a <= bquirkd[b]->ih && bquirkdl[b]->h->t[a].i == i ? bquirkdl[b]->h->t[a].ns : lquirkdl[l]->h->t[k].ns;
 
-        t = add_quirkd( i, ns, s, t, ih, tquirkd, tquirkdl );
+        t = add_quirk( i, ns, s, t, ih, tquirkd, tquirkdl );
 
         if ( a <= bquirkd[b]->ih && bquirkdl[b]->h->t[a].i == i ) {
             a++;
@@ -92,7 +92,7 @@ loop_down:
                 lquirkd[l] = lquirkdl[l]->h->d;
                 goto loop_down;
             }
-            lquirkdl[l] = l ? lquirkdl[l-1] : &quirkd[d+1];
+            lquirkdl[l] = l ? lquirkdl[l-1] : &quirkdl[d];
             lquirkd[l] = l ? lquirkd[l-1]->d : lquirkdl[l]->h->d;
         }
 
@@ -101,12 +101,12 @@ loop_down:
                 bquirkdl[b] = bquirkd[b];
                 bquirkd[b] = bquirkdl[b]->h->d;
                 if ( s == tquirkd[t]->il && tquirkdl[t]->h->t[s].i == i ) {
-                        tquirkdl[t] = t ? tquirkdl[t-1] : &quirkd[d+2];
+                        tquirkdl[t] = t ? tquirkdl[t-1] : &zquirkd;
                         tquirkd[t] = t ? tquirkd[t-1]->d : tquirkdl[t]->h->d;
                 }
                 goto loop_down;
             }
-            bquirkdl[b] = b ? bquirkdl[b-1] : &quirkd[d];
+            bquirkdl[b] = b ? bquirkdl[b-1] : &quirkdl[d-1];
             bquirkd[b] = b ? bquirkd[b-1]->d : bquirkdl[b]->h->d;
         }
 
@@ -116,15 +116,16 @@ loop_down:
         //  backtrack one board
         s--;
         if ( s < tquirkd[t]->il ) {
-            check_quirkd( d+2, t, tquirkd, tquirkdl );
+            check_quirk( d+1, t, tquirkd, tquirkdl );
             t--;
         }
         i = tquirkdl[t]->h->t[s].i;
     }
 
     //  cleanup
-    delete_quirkd( d );
-    delete_quirkd( d+1 );
-    quirkd[d].h = quirkd[d+2].h;
-    check_quirkd( d, t, tquirkd, tquirkdl );
+    delete_quirk( d-1 );
+    delete_quirk( d );
+    quirkdl[d-1].h = zquirkd.h;
+    if ( quirkdl[d-1].h->d->h )
+        check_quirk( d-1, t, tquirkd, tquirkdl );
 }

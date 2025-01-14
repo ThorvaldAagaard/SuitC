@@ -1,23 +1,23 @@
 //  name:
-//      delete_quirkd
+//      delete_quirk
 //
 //  purpose:
-//      delete_quirkd deletes a QUIRKD tree
+//      delete_quirk deletes a QUIRK tree
 //
 //  parameters:
 //      d               in      the depth in the tree
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
-void delete_quirkd( int d )
+void delete_quirk( int d )
 {
     int           l = 0;
     struct QUIRKD *lquirkd[NBOARDS];
 
-    lquirkd[l] = quirkd[d].h->d;
-    while ( quirkd[d].h ) {
+    lquirkd[l] = quirkdl[d].h->d;
+    while ( quirkdl[d].h ) {
 
         //  get the oldest son
         if ( lquirkd[l]->d ) {
@@ -25,13 +25,13 @@ void delete_quirkd( int d )
             lquirkd[l] = lquirkd[l-1]->d;
         }
 
-        //  get the next sibling at the root of the QUIRKD tree son
+        //  get the next sibling at the root of the QUIRK tree son
         else if ( l == 0 ) {
-            free_quirkh( quirkd[d].h );
-            quirkd[d].h = lquirkd[l]->h;
+            free_quirkh( quirkdl[d].h );
+            quirkdl[d].h = lquirkd[l]->h;
             free_quirkd( lquirkd[l] );
-            if ( quirkd[d].h )
-                lquirkd[l] = quirkd[d].h->d;
+            if ( quirkdl[d].h )
+                lquirkd[l] = quirkdl[d].h->d;
         }
 
         //  get the next sibling

@@ -1,23 +1,23 @@
 //  name:
-//      add_quirkd
+//      add_quirk
 //
 //  purpose:
-//      add_quirkd adds a new entry to the QUIRKD tree
+//      add_quirk adds a new entry to the QUIRK tree
 //
 //  parameters:
 //      i               in      the board index
 //      ns              in      the number of tricks won by north-south
 //      s               in      the index in the TRICKS array
-//      t               in      the depth in the QUIRKD tree
+//      t               in      the depth in the QUIRK tree
 //      ih              in      the last entry in the TRICKS array
-//      tquirkd         in/out  the target QUIRKD tree
-//      tquirkdl        in/out  the left sibling of the current QUIRKD branch
+//      tquirkd         in/out  the target QUIRK tree
+//      tquirkdl        in/out  the left sibling of the current QUIRK branch
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
-int add_quirkd( int i, int ns, int s, int t, int ih, struct QUIRKD **tquirkd, struct QUIRKD **tquirkdl )
+int add_quirk( int i, int ns, int s, int t, int ih, struct QUIRKD **tquirkd, struct QUIRKD **tquirkdl )
 {
     int           h;
     struct QUIRKD *tquirkdn;
@@ -25,7 +25,7 @@ int add_quirkd( int i, int ns, int s, int t, int ih, struct QUIRKD **tquirkd, st
 
 next_branch:
 
-    //  we are building a new branch of the QUIRKD tree; add this board
+    //  we are building a new branch of the QUIRK tree; add this board
     if ( s == tquirkd[t]->ih + 1 && ! tquirkd[t]->d ) {
         tquirkd[t]->ih = s;
         tquirkdl[t]->h->t[s].i = i;
@@ -116,7 +116,7 @@ next_branch:
                 goto next_branch;
             }
 
-            //  the board is the youngets sibling
+            //  the board is the youngest sibling
             else if ( tquirkd[t]->h == NIL ) {
                 bump_quirkh( tquirkhn );
                 bump_quirkd( tquirkhn->d );
