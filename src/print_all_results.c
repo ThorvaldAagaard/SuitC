@@ -125,12 +125,12 @@ void print_all_results( void )
                     if ( maxprint && compacttree == NO )
                         select_ew_plays( 1 );
 
-                    //  merge identical plays and select the preferred ones
-                    if ( maxprint && mergeselect & 0x1 )
+                    //  fold identical plays and select the preferred ones
+                    if ( maxprint && foldselect & 0x1 )
                         fold_tree( 1, west );
-                    if ( maxprint && mergeselect & 0x2 )
+                    if ( maxprint && foldselect & 0x2 )
                         fold_tree( 1, north );
-                    if ( maxprint && mergeselect & 0x4 )
+                    if ( maxprint && foldselect & 0x4 )
                         select_ns_plays( 1 );
 
                     //  print the tree

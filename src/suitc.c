@@ -44,7 +44,7 @@ int main( int argc, char **argv )
     printscard = SUITCAPP ? YES : NO;
     printsummary = NO;
     printtrunctree = NO;
-    mergeselect = 0x1 | 0x4;
+    foldselect = 0x1 | 0x4;
     nrules = 0;
     reorder = SUITCAPP ? NO : YES;
     resultsonly = NO;

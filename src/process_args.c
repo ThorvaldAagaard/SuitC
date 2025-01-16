@@ -88,7 +88,7 @@ void process_args( int argc, char **argv )
                     val = 10 * val + argv[i][k] - '0';
                     k++;
                 }
-                mergeselect = val;
+                foldselect = val;
             }
             else if ( c == 'f' )
                 printfulltree = YES;
@@ -292,7 +292,7 @@ void process_args( int argc, char **argv )
     printf( "    -E<cards>       all east hands contain <cards>\n" );
     printf( "    -em<n>          the minimum number of cards in the east hand is <n>\n" );
     printf( "    -ev<n>          the number of vacant places in the east hand is <n>\n" );
-    printf( "    -F<n>           1=merge the EW plays, 2=merge the NS plays, 4=select the NS plays\n" );
+    printf( "    -F<n>           1=fold the EW plays, 2=fold the NS plays, 4=select the NS plays\n" );
     printf( "    -f              print the full NODE tree\n" );
     printf( "    -H{e|w}         the designated player leads to the current trick if he won the last trick\n" );
     printf( "    -I<n>:<score>   the score for <n> tricks is <score> points\n" );

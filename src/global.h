@@ -28,7 +28,7 @@ int    matchpointtime;                  //  print the matchpoint analysis time
 int    maxnodes;                        //  the maximum number of nodes used for the MP or IMP evaluation
 int    maxns;                           //  the maximum number of ns_tricks
 int    maxprint;                        //  the maximum number of tricks to be printed
-int    mergeselect;                     //  1=merge the EW plays, 2=merge the NS plays, 4=select the NS plays
+int    foldselect;                      //  1=fold the EW plays, 2=fold the NS plays, 4=select the NS plays
 int    minns;                           //  the minimum number of ns_tricks
 int    nbest_plays;                     //  the number of elements in array best_play
 int    ncards[4];                       //  the maximum number of cards in each hand

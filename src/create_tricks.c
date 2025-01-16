@@ -39,7 +39,7 @@ void create_tricks( int d )
 
     //  handle defensive plays with no cards left in north and south
     if ( ewwinners && ( brd[t][north] || brd[t][south] ) == RENONCE &&
-                   MIN( nfree[t][west], nfree[t][east] ) > tricklimit-t && ( t > 1 || buildtree == 0 ) ) {
+         MIN( nfree[t][west], nfree[t][east] ) > tricklimit-t && ( t > 1 || buildtree == 0 ) ) {
         lindex = wnode[d-1]->i;
         while ( lindex ) {
             lindex->max -= MAX( count( lindex->c[west] ), count( lindex->c[east] ) );
@@ -52,7 +52,7 @@ void create_tricks( int d )
 
     //  handle plays with no cards left in west and east
     if ( defence == NO && ( brd[t][west] | brd[t][east] ) == RENONCE &&
-                       MIN( nfree[t][north], nfree[t][south] ) > tricklimit-t && ( t > 1 || buildtree == 0 ) ) {
+         MIN( nfree[t][north], nfree[t][south] ) > tricklimit-t && ( t > 1 || buildtree == 0 ) ) {
         lindex = wnode[d-1]->i;
         while ( lindex ) {
             lindex->max += MIN( MAX( ncards[north], ncards[south] ), tricklimit ) - t + 1;
