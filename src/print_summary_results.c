@@ -28,7 +28,7 @@ void print_summary_results( void )
             printf( " %c", b_print[i][j] );
         printf( "\n" );
     }
-    for ( i = 0; i < b_count[0]; i++ )
+    for ( i = 0; i < boardcount; i++ )
         printf( "--" );
     if ( ewwinners )
         for ( i = maxns; i >= minns; i-- )

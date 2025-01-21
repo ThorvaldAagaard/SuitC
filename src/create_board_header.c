@@ -21,9 +21,6 @@ void create_board_header( void )
     struct INDEX *lindex;
     struct SCARD *sc;
 
-    for ( i = 0; i < NCARDS; i++ )
-        b_count[i] = boardcount;
-
     i = 0;
     lindex = wnode[0]->i;
     while ( lindex ) {

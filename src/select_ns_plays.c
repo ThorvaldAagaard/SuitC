@@ -37,7 +37,7 @@ void select_ns_plays( int d )
             bnode[d] = lnode[d]->r;
             while ( bnode[d] ) {
 
-                //  select the card that minimises the number of winning east-west cards
+                //  select the card that minimizes the number of winning east-west cards
                 if ( w_ew(lnode) > w_ew(bnode) ) {
                     lnode[d] = delete_tree( d, lnode );
                     goto next_lnode;

@@ -11,7 +11,6 @@ double a[NNODE][2*NNODE];               //  the matrix with MP or IMP scores
 double perc[NBOARDS];                   //  the percentage of the distributions for which the percentage is defined
 double prob[8192];                      //  the a priori probabilities for the boards
 double times[4];                        //  array with timings
-int    b_count[NCARDS+1];               //  the number of entries in each line
 int    boardcount;                      //  the number of EW distributions
 int    buildtree;                       //  the type of the NODE tree. 0=truncated tree, 1=full tree, 2=selected tree
 int    compacttree;                     //  north-south win tricks as soon as possible
@@ -61,7 +60,6 @@ int    qhcountmax;                      //  the maximum number of active QUIRKH 
 int    reorder;                         //  flag to indicate that Jeroen Warmerdam's order of the boards is used
 int    resultsonly;                     //  report only the results, no plays
 int    sortplays;                       //  sort the plays in decreasing number of leaves
-int    throwin;                         //  the designated player leads to the current trick if he won the last trick
 int    trace;                           //  trace options: 1=timing, 2=minimax progress
 int    tricklimit;                      //  limit on the number of tricks that are played
 int    w[NCARDS+1];                     //  the winner of each trick

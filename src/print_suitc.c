@@ -66,8 +66,6 @@ void print_suitc( void )
             printf( "\n" );
         }
     }
-    if ( throwin != noplayer )
-        printf( "\tthrowin is enabled  : %s\n", seat[throwin] );
     for ( p = 0; p < 4; p++ )
         if ( nfree[0][p] < ncards[p] )
             printf( "\t#free entries %-5s : %d\n", seat[p], nfree[0][p] );

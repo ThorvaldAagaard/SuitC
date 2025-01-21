@@ -145,7 +145,7 @@ void create_boards( void )
     wnode[0]->c = RENONCE;
     wnode[0]->p = defence ? north : west;
     wnode[0]->winc = RENONCE;
-    wnode[0]->term = 0;
+    wnode[0]->term = NO;
 
     //  create the index list for the root
     for ( i = 0; i < boardcount; i++ ) {

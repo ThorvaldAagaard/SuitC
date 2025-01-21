@@ -58,8 +58,8 @@ struct NODE {
                   *r;                   //  pointer to the right sibling node
     struct INDEX  *i;                   //  pointer to the index list of boards
     COLOR         c,                    //  the cards played in this ply
-                  winc;                 //  winning cards at the last ply of the current trick
-    unsigned int  match:1,              //  indicator that a match exists for this node
+                  winc;                 //  the winning cards at the last ply of the current trick
+    unsigned int  match:1,              //  indicator that a match exists for this node in fold_ns_tree
                   nplays:28,            //  the number of leaves in the NODE subtree
                   p:2,                  //  the player of this node
                   term:1;               //  indicator that no more choices exist

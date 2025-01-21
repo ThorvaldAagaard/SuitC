@@ -38,8 +38,11 @@ void create_tricks( int d )
     }
 
     //  handle defensive plays with no cards left in north and south
-    if ( ewwinners && ( brd[t][north] || brd[t][south] ) == RENONCE &&
-         MIN( nfree[t][west], nfree[t][east] ) > tricklimit-t && ( t > 1 || buildtree == 0 ) ) {
+    if ( ewwinners &&
+         ( brd[t][north] || brd[t][south] ) == RENONCE &&
+         ! ( nruff[north] || nruff[south] ) &&
+         MIN( nfree[t][west], nfree[t][east] ) > tricklimit-t &&
+         ( t > 1 || buildtree == 0 ) ) {
         lindex = wnode[d-1]->i;
         while ( lindex ) {
             lindex->max -= MAX( count( lindex->c[west] ), count( lindex->c[east] ) );
@@ -51,8 +54,11 @@ void create_tricks( int d )
     }
 
     //  handle plays with no cards left in west and east
-    if ( defence == NO && ( brd[t][west] | brd[t][east] ) == RENONCE &&
-         MIN( nfree[t][north], nfree[t][south] ) > tricklimit-t && ( t > 1 || buildtree == 0 ) ) {
+    if ( defence == NO &&
+         ( brd[t][west] | brd[t][east] ) == RENONCE &&
+         ! ( nruff[west] || nruff[east] ) &&
+         MIN( nfree[t][north], nfree[t][south] ) > tricklimit-t &&
+         ( t > 1 || buildtree == 0 ) ) {
         lindex = wnode[d-1]->i;
         while ( lindex ) {
             lindex->max += MIN( MAX( ncards[north], ncards[south] ), tricklimit ) - t + 1;
@@ -66,8 +72,6 @@ void create_tricks( int d )
     //  determine who can lead to this trick
     if ( t == 1 && leader != noplayer )
         lead[leader] = YES;
-    else if ( throwin != noplayer && throwin == w[t-1] && brd[t][throwin] >> 2 )
-        lead[throwin] = YES;
     else if ( defence ) {
         lead[west] = brd[t][west] && ( w[t-1] == west || t == 1 || nfree[t-1][west] );
         lead[east] = brd[t][east] && ( w[t-1] == east || t == 1 || nfree[t-1][east] );
@@ -77,42 +81,33 @@ void create_tricks( int d )
         lead[south] = brd[t][south] && ( w[t-1] == south || t == 1 || nfree[t-1][south] );
     }
 
-    //  no more tricks are to be played
-    if ( t == ntricks && t > maxprint || ! ( lead[west] || lead[north] || lead[east] || lead[south] ) ) {
+    //  no more tricks can be played
+    if ( ! ( lead[west] || lead[north] || lead[east] || lead[south] ) ) {
+        wnode[d-1]->term = YES;
+        return;
+    }
+
+    //  handle the last trick to shortcut the program
+    if ( t == ntricks && t > maxprint && ! ( nruff[t-1][west] || nruff[t-1][north] || nruff[t-1][east] || nruff[t-1][south] ) ) {
+
+        p = brd[t][north] > brd[t][east] ? north : east;
+        p = brd[t][south] > brd[t][p]    ? south : p;
+        p = brd[t][west]  > brd[t][p]    ? west  : p;
+
+        lindex = wnode[d-1]->i;
+        while( lindex ) {
+            wi = p;
+            ns[t] = ns[t-1];
+            for ( q = 0; q < 4; q++ )
+                if ( nruff[t-1][q] && ! lindex->c[q] )
+                    wi = q;
+            ns[t] += ewwinners ? NS(wi) ? 0 : -1 : NS(wi) ? 1 : 0;
+            lindex->min = ns[t];
+            lindex->max = lindex->min;
+            lindex = lindex->r;
+        }
 
         wnode[d-1]->term = YES;
-
-        if ( ( lead[west] || lead[north] || lead[east] || lead[south] ) && t == ntricks ) {
-
-            p = brd[t][north] > brd[t][east] ? north : east;
-            p = brd[t][south] > brd[t][p]    ? south : p;
-            p = brd[t][west]  > brd[t][p]    ? west  : p;
-
-            lindex = wnode[d-1]->i;
-            while( lindex ) {
-                wi = p;
-                ns[t] = ns[t-1];
-                for ( q = 0; q < 4; q++ )
-                    if ( nruff[t-1][q] && ! lindex->c[q] )
-                        wi = q;
-                ns[t] += ewwinners ? NS(wi) ? 0 : -1 : NS(wi) ? 1 : 0;
-                lindex->min = ns[t];
-                lindex->max = lindex->min;
-                lindex = lindex->r;
-            }
-        }
-
-        else if ( throwin != noplayer ) {
-
-            ns[t] = ns[t-1] + tricklimit - t + 1;
-            lindex = wnode[d-1]->i;
-            while( lindex ) {
-                lindex->min = ns[t];
-                lindex->max = lindex->min;
-                lindex = lindex->r;
-            }
-        }
-
         return;
     }
 
