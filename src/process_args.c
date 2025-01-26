@@ -208,8 +208,6 @@ void process_args( int argc, char **argv )
                 nrules++;
                 buildtree = 1;
             }
-            else if ( c == 's' )
-                sortplays = YES;
             else if ( c == 'T' ) {
                 k = 2;
                 val = 0;
@@ -267,7 +265,7 @@ void process_args( int argc, char **argv )
     printf( "\n" );
     printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-nC] [-c<cutoff>[kKmMgG]] [-D[{W|w}]] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f]\n" );
     printf( "      [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-o] [-P<n>] [-p[{H|I|M|S}]] [-R{n|e|s|w}<n>] \n" );
-    printf( "      [-r] [-S<card2>:<card3>] [-s] [-T<n>] [-t<tricks>] [-W<cards>] [-wm<n>] [-wv<n>] [-z<n>] <ncards> <scards> <ewcards>\n" );
+    printf( "      [-r] [-S<card2>:<card3>] [-T<n>] [-t<tricks>] [-W<cards>] [-wm<n>] [-wv<n>] [-z<n>] <ncards> <scards> <ewcards>\n" );
     printf( "\n" );
     printf( "options:\n" );
     printf( "    {-?|-h}         print the options of SuitC\n" );
@@ -304,7 +302,6 @@ void process_args( int argc, char **argv )
     printf( "                       if SUITCAPP==YES: print the same card symbols for each card in a card sequence\n" );
     printf( "    -R{n|e|s|w}<n>  the number of ruffs available in {n|e|s|w}\n" );
     printf( "    -S<card2>:<card3> play in 3rd hand a card from card3 if 2nd hand plays a card from card2\n" );
-    printf( "    -s              sort the plays in decreasing number of leaves\n" );
     printf( "    -r              print only the results\n" );
     printf( "    -T<n>           trace options: 1=timing, 2=minimax progress\n" );
     printf( "    -t<tricks>      limit the number of tricks that are played\n" );

@@ -60,7 +60,6 @@ struct NODE {
     COLOR         c,                    //  the cards played in this ply
                   winc;                 //  the winning cards at the last ply of the current trick
     unsigned int  match:1,              //  indicator that a match exists for this node in fold_ns_tree
-                  nplays:28,            //  the number of leaves in the NODE subtree
                   p:2,                  //  the player of this node
                   term:1;               //  indicator that no more choices exist
 };
@@ -142,7 +141,6 @@ int            clean_quirk( int d, struct LIMIT *results );
 void           convert_tree_to_quirk( void );
 struct NODE   *copy_node( struct NODE *lnode );
 struct NODE   *copy_tree( int d_, struct NODE *rootn );
-void           count_plays( void );
 int            count_quirk( int d );
 void           create_all_boards( void );
 void           create_board_header( void );
@@ -171,7 +169,6 @@ void           minimax( int nnode, int *jpiv, double *p );
 void           print_all_results( void );
 void           print_boards( void );
 void           print_node( struct NODE *lnode, char *ident );
-void           print_play_count( void );
 void           print_quirk( struct QUIRKD *rootqdl, char *ident );
 void           print_results( int best_MAX, int best_MP, int *best_N, double mpscore );
 void           print_stat( int trace );
@@ -181,5 +178,4 @@ void           print_tree( int d_, struct NODE *rootn, int printboards, int prin
 void           process_args( int argc, char **argv );
 void           select_ew_plays( int d );
 void           select_ns_plays( int d );
-void           sort_plays( void );
 int            suitc( int argc, char **argv );

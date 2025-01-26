@@ -48,7 +48,6 @@ int main( int argc, char **argv )
     nrules = 0;
     reorder = SUITCAPP ? NO : YES;
     resultsonly = NO;
-    sortplays = NO;
     for ( d = 0; d <= NPLIES; d++ ) {
         st[d].ld = ( d & 3 ) == 1;
         st[d].t = ( d + 3 ) / 4;
@@ -122,10 +121,6 @@ int main( int argc, char **argv )
     }
 
     //  build the quirk tree
-    if ( sortplays ) {
-        count_plays();
-        sort_plays();
-    }
     convert_tree_to_quirk();
 
     //  determine best_result, the minimum and maximum number of tricks and the number of plays
@@ -149,9 +144,6 @@ int main( int argc, char **argv )
 
     if ( ! SUITCAPP )
         printf( "\n\tCopyright 2025, Gerrit A. van der Velde, Leiden\n" );
-
-    if ( sortplays )
-        print_play_count();
 
     printf( "\n\n\nThe optimal results\n" );
     printf(   "===================\n\n" );

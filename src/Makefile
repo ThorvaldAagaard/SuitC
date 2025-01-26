@@ -27,7 +27,6 @@ OBJECTS =				\
 	  convert_tree_to_quirk.o	\
 	  copy_node.o			\
 	  copy_tree.o			\
-	  count_plays.o			\
 	  count_quirk.o			\
 	  create_all_boards.o		\
 	  create_board_header.o		\
@@ -56,7 +55,6 @@ OBJECTS =				\
 	  print_all_results.o		\
 	  print_boards.o		\
 	  print_node.o			\
-	  print_play_count.o		\
 	  print_quirk.o			\
 	  print_results.o		\
 	  print_stat.o			\
@@ -66,7 +64,6 @@ OBJECTS =				\
 	  process_args.o		\
 	  select_ew_plays.o		\
 	  select_ns_plays.o		\
-	  sort_plays.o			\
 	  suitc.o
 
 ${EXEC}: ${OBJECTS}

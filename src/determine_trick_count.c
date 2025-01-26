@@ -5,7 +5,7 @@
 //      determine_trick_count determines the minimum and maximum number of
 //      tricks for each board in a node from the number of tricks in the
 //      descending nodes. if the node has no descending nodes, the number
-//      of tricks has already be set in add_node and nothing needs to be
+//      of tricks has already been set in add_node and nothing needs to be
 //      done. otherwise check_nodes is called to remove all inferior
 //      plays from its sons. The search of the sons is terminated when
 //      a match is found for the played cards.

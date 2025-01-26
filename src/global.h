@@ -59,7 +59,6 @@ int    qhcount;                         //  the number of active QUIRKH entries
 int    qhcountmax;                      //  the maximum number of active QUIRKH entries
 int    reorder;                         //  flag to indicate that Jeroen Warmerdam's order of the boards is used
 int    resultsonly;                     //  report only the results, no plays
-int    sortplays;                       //  sort the plays in decreasing number of leaves
 int    trace;                           //  trace options: 1=timing, 2=minimax progress
 int    tricklimit;                      //  limit on the number of tricks that are played
 int    w[NCARDS+1];                     //  the winner of each trick
