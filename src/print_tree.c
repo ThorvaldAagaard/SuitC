@@ -94,13 +94,13 @@ void print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings 
 
         //  select the NS card to be played; lead highest from equals, follow lowest from equals
         if ( NS(lnode[d]->p) && ! printhighcard && cards != 0x1 && cards != addcard(ruff) ) {
-            cards &= brd[st[d].t-1][lnode[d]->p];
-            if ( st[d].ld && YES )
+            cards &= brd[(d-1)/4][lnode[d]->p];
+            if ( ( d & 0x3 ) == 1 )
                 while ( cards ^ low_c(cards) )
                     cards ^= low_c(cards);
             else
                 cards = low_c(cards);
-            brd[st[d].t][lnode[d]->p] = brd[st[d].t-1][lnode[d]->p] ^ cards;
+            brd[(d+3)/4][lnode[d]->p] = brd[(d-1)/4][lnode[d]->p] ^ cards;
         }
 
         //  translate the hand into card symbols

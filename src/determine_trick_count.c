@@ -20,7 +20,7 @@
 
 void determine_trick_count( int d, struct NODE **lnode )
 {
-    int          t = st[d].t;
+    int          t = (d+3)/4;
     struct INDEX *bindex, *lindex;
 
     //  return if there are no sons
@@ -28,13 +28,13 @@ void determine_trick_count( int d, struct NODE **lnode )
         return;
 
     //  clear the winning cards
-    lnode[d-1]->winc = (d-1)%4 ? RENONCE : lnode[d-1]->winc;
+    lnode[d-1]->w_c = (d-1)%4 ? RENONCE : lnode[d-1]->w_c;
 
     //  initialise the number of NS tricks
     lnode[d] = lnode[d-1]->d;
     while ( lnode[d] ) {
         if ( (d-1)%4 )
-            lnode[d-1]->winc |= lnode[d]->winc;
+            lnode[d-1]->w_c |= lnode[d]->w_c;
         lindex = lnode[d-1]->i;
         bindex = lnode[d]->i;
         while( bindex ) {

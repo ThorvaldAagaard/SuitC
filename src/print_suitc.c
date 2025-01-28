@@ -39,8 +39,8 @@ void print_suitc( void )
         printf( "\tcutoff              : %ld\n", cutoff );
     if ( tricklimit < ntricks )
         printf( "\tterminate play after: %d tricks\n", tricklimit );
-    if ( w[0] != noplayer ) {
-        printf( "\tthe lead is in      : %s\n", seat[w[0]] );
+    if ( leader != noplayer ) {
+        printf( "\tthe lead is in      : %s\n", seat[leader] );
         if ( opening_lead != 0x7fff )
             for ( i = 0; i <= NCARDS+1; i++ )
                 if ( opening_lead & addcard(i) )

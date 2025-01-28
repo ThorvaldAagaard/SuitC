@@ -17,7 +17,7 @@ int count( COLOR cards );
 
 void create_tricks( int d )
 {
-    int          i, lead[4], p, q, t = st[d].t, wi;
+    int          i, lead[4], p, q, t = (d+3)/4, wi;
     COLOR        c;
     struct INDEX *lindex;
     struct SCARD *sc, *tc;
@@ -73,12 +73,12 @@ void create_tricks( int d )
     if ( t == 1 && leader != noplayer )
         lead[leader] = YES;
     else if ( defence ) {
-        lead[west] = brd[t][west] && ( w[t-1] == west || t == 1 || nfree[t-1][west] );
-        lead[east] = brd[t][east] && ( w[t-1] == east || t == 1 || nfree[t-1][east] );
+        lead[west] = brd[t][west] && ( wnode[d-1]->w_p == west || t == 1 || nfree[t-1][west] );
+        lead[east] = brd[t][east] && ( wnode[d-1]->w_p == east || t == 1 || nfree[t-1][east] );
     }
     else {
-        lead[north] = brd[t][north] && ( w[t-1] == north || t == 1 || nfree[t-1][north] );
-        lead[south] = brd[t][south] && ( w[t-1] == south || t == 1 || nfree[t-1][south] );
+        lead[north] = brd[t][north] && ( wnode[d-1]->w_p == north || t == 1 || nfree[t-1][north] );
+        lead[south] = brd[t][south] && ( wnode[d-1]->w_p == south || t == 1 || nfree[t-1][south] );
     }
 
     //  no more tricks can be played
@@ -97,12 +97,10 @@ void create_tricks( int d )
         lindex = wnode[d-1]->i;
         while( lindex ) {
             wi = p;
-            ns[t] = ns[t-1];
             for ( q = 0; q < 4; q++ )
                 if ( nruff[t-1][q] && ! lindex->c[q] )
                     wi = q;
-            ns[t] += ewwinners ? NS(wi) ? 0 : -1 : NS(wi) ? 1 : 0;
-            lindex->min = ns[t];
+            lindex->min = wnode[d-1]->ns + ( ewwinners ? NS(wi) ? 0 : -1 : NS(wi) ? 1 : 0 );
             lindex->max = lindex->min;
             lindex = lindex->r;
         }

@@ -102,10 +102,10 @@ int fold_ew_tree( int d, struct NODE **lnode, struct NODE **bnode )
 
     //  determine the winning cards
     lnode[d] = lnode[d-1]->d;
-    lnode[d-1]->winc = (d-1)%4 ? RENONCE : lnode[d-1]->winc;
+    lnode[d-1]->w_c = (d-1)%4 ? RENONCE : lnode[d-1]->w_c;
     while ( lnode[d] ) {
         if ( (d-1)%4 )
-            lnode[d-1]->winc |= lnode[d]->winc;
+            lnode[d-1]->w_c |= lnode[d]->w_c;
         lnode[d] = lnode[d]->r;
     }
 

@@ -29,8 +29,8 @@
 #define NS( p )                         ( ( p == north ) || ( p == south ) )
 #define RENONCE                         ( (COLOR) 0 )
 #define TICK                            1.0e-3
-#define w_ew( lnode )                   ( lnode[d]->winc & ( brd[0][west] | brd[0][east] ) )
-#define w_ns( lnode )                   ( lnode[d]->c & lnode[d]->winc )
+#define w_ew( lnode )                   ( lnode[d]->w_c & ( brd[0][west] | brd[0][east] ) )
+#define w_ns( lnode )                   ( lnode[d]->c & lnode[d]->w_c )
 #define YES                             1
 
 //  list of typedef's and type declarations
@@ -58,10 +58,12 @@ struct NODE {
                   *r;                   //  pointer to the right sibling node
     struct INDEX  *i;                   //  pointer to the index list of boards
     COLOR         c,                    //  the cards played in this ply
-                  winc;                 //  the winning cards at the last ply of the current trick
+                  w_c;                  //  the winning card of the current trick
     unsigned int  match:1,              //  indicator that a match exists for this node in fold_ns_tree
+                  ns:4,                 //  the number of tricks for north-south (ewwinners==NO) or east-west (ewwinners==YES)
                   p:2,                  //  the player of this node
-                  term:1;               //  indicator that no more choices exist
+                  term:1,               //  indicator that no more choices exist
+                  w_p:2;                //  the winning player of the current trick
 };
 
 struct QUIRKD {
@@ -107,14 +109,6 @@ struct SCORE {
                   mpscore,              //  the matchpoint score (used only for MAX plays)
                   perc,                 //  the contribution to the MP or IMP play
                   result;               //  the result in tricks of the play
-};
-
-struct STACK {
-    COLOR        c;                     //  the cards that are played
-    COLOR        winc;                  //  the provisional winning cards of this trick
-    unsigned int ld,                    //  YES if the lead is made in this ply
-                 t,                     //  the trick number
-                 w;                     //  the provisional winner of this trick
 };
 
 struct TRICKS {

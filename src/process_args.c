@@ -123,7 +123,6 @@ void process_args( int argc, char **argv )
                     printf( "Incorrect player in %s; the program stops\n", argv[i] );
                     exit( 1 );
                 }
-                w[0] = leader;
                 if ( argv[i][3] ) {
                     c = argv[i][3];
                     opening_lead = 0x0;
@@ -301,8 +300,8 @@ void process_args( int argc, char **argv )
     printf( "                    S: if SUITCAPP==NO:  print different card symbols for each card in a card sequence\n" );
     printf( "                       if SUITCAPP==YES: print the same card symbols for each card in a card sequence\n" );
     printf( "    -R{n|e|s|w}<n>  the number of ruffs available in {n|e|s|w}\n" );
-    printf( "    -S<card2>:<card3> play in 3rd hand a card from card3 if 2nd hand plays a card from card2\n" );
     printf( "    -r              print only the results\n" );
+    printf( "    -S<card2>:<card3> play in 3rd hand a card from card3 if 2nd hand plays a card from card2\n" );
     printf( "    -T<n>           trace options: 1=timing, 2=minimax progress\n" );
     printf( "    -t<tricks>      limit the number of tricks that are played\n" );
     printf( "    -W<cards>       all west hands contain <cards>\n" );

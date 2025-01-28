@@ -68,10 +68,10 @@ void fold_tree( int d, int p )
 
     //  determine the winning cards
     tnode[d] = tnode[d-1]->d;
-    tnode[d-1]->winc = (d-1)%4 ? RENONCE : tnode[d-1]->winc;
+    tnode[d-1]->w_c = (d-1)%4 ? RENONCE : tnode[d-1]->w_c;
     while ( tnode[d] ) {
         if ( (d-1)%4 )
-            tnode[d-1]->winc |= tnode[d]->winc;
+            tnode[d-1]->w_c |= tnode[d]->w_c;
         tnode[d] = tnode[d]->r;
     }
 }

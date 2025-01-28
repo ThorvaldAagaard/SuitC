@@ -20,7 +20,7 @@ void merge_nodes( struct NODE *lnode, struct NODE *bnode )
 
     //  add the played cards
     lnode->c |= bnode->c;
-    lnode->winc |= bnode->winc;
+    lnode->w_c |= bnode->w_c;
 
     //  merge the boards
     aindex = NIL;

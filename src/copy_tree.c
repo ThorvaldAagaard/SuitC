@@ -40,7 +40,7 @@ struct NODE *copy_tree( int d_, struct NODE *rootn )
         tnode[d]->d = NIL;
         tnode[d]->r = NIL;
         tnode[d]->c = lnode[d]->c;
-        tnode[d]->winc = lnode[d]->winc;
+        tnode[d]->w_c = lnode[d]->w_c;
         tnode[d]->p = lnode[d]->p;
         tnode[d]->term = lnode[d]->term;
 

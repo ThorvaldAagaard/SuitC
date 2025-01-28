@@ -48,15 +48,10 @@ int main( int argc, char **argv )
     nrules = 0;
     reorder = SUITCAPP ? NO : YES;
     resultsonly = NO;
-    for ( d = 0; d <= NPLIES; d++ ) {
-        st[d].ld = ( d & 3 ) == 1;
-        st[d].t = ( d + 3 ) / 4;
-    }
     trace = 0x0;
     tricklimit = NCARDS;
     for ( d = 0; d < NPLIES+1; d++ )
         quirkdl[d].ic = boardcount;
-    w[0] = noplayer;
     westfixed = RENONCE;
     westvac = NCARDS;
     zermelo = 1;
@@ -88,7 +83,6 @@ int main( int argc, char **argv )
     create_boards();
 
     //  build the tree
-    ns[0] = ewwinners ? tricklimit : 0;
     create_tricks( 1 );
 
     //  print the tree

@@ -31,7 +31,7 @@ void print_node( struct NODE *lnode, char *ident )
     printf( " ident=%s\n", ident );
     printf( "p=%d", lnode->p );
     printf( " cards=%04x", lnode->c >> 2 );
-    printf( " winc=%04x", lnode->winc >> 2 );
+    printf( " w_c=%04x", lnode->w_c >> 2 );
     printf( " match=%d", lnode->match );
     printf( " term=%d\n", lnode->term );
 

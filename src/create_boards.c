@@ -143,8 +143,10 @@ void create_boards( void )
     wnode[0]->r = NIL;
     wnode[0]->i = nextindex;
     wnode[0]->c = RENONCE;
+    wnode[0]->ns = ewwinners ? tricklimit : 0;
     wnode[0]->p = defence ? north : west;
-    wnode[0]->winc = RENONCE;
+    wnode[0]->w_c = RENONCE;
+    wnode[0]->w_p = wnode[0]->p;
     wnode[0]->term = NO;
 
     //  create the index list for the root

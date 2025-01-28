@@ -14,33 +14,25 @@
 
 void create_ply4( int d, int p )
 {
-    int          i, t = st[d].t;
+    int          i, t = (d+3)/4;
     struct INDEX *lindex;
     struct NODE  znode;
-    struct SCARD *tc;
 
     wnode[d] = &znode;
     znode.r = NIL;
-    tc = &scards[t][p];
-    for ( i = 0; i <= tc->m; i++ ) {
-
-        st[d].c = tc->c[i];
-        st[d].w = st[d-1].winc > tc->c[i] ? st[d-1].w : p;
-        st[d].winc = st[d-1].winc > tc->c[i] ? st[d-1].winc : tc->c[i];
+    for ( i = 0; i <= scards[t][p].m; i++ ) {
 
         //  create a new node
-        if ( ! add_node( d, p, tc->c[i] ) )
+        if ( ! add_node( d, p, scards[t][p].c[i] ) )
             continue;
 
         //  determine the winner of the trick
-        w[t] = st[d].w;
-        wnode[d]->winc = st[d].winc;
-        ns[t] = ns[t-1] + ( ewwinners ? NS(w[t]) ? 0 : -1 : NS(w[t]) ? 1 : 0 );
+        wnode[d]->ns += ewwinners ? NS(wnode[d]->w_p) ? 0 : -1 : NS(wnode[d]->w_p) ? 1 : 0;
 
         //  store the number of north-south winners
         lindex = wnode[d]->i;
         while ( lindex ) {
-            lindex->max = ns[t];
+            lindex->max = wnode[d]->ns;
             lindex->min = lindex->max;
             lindex = lindex->r;
         }

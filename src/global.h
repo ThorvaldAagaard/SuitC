@@ -38,7 +38,6 @@ int    nfree[NCARDS+1][4];              //  the number of remaining directional 
 int    nplays;                          //  number of possible plays
 int    nruff[NCARDS+1][4];              //  the number of remaining ruffs
 int    nrules;                          //  the number of rules for the 3d hand strategy
-int    ns[NCARDS+1];                    //  the number of tricks for north-south (ewwinners==NO) or east-west (ewwinners==YES)
 int    nslimits[2][NBOARDS];            //  the lower and upper bound for the number tricks for north-south (ewwinners==NO) or east-west (ewwinners==YES) on each board
 int    nstricks[NBOARDS];               //  the number of tricks for north-south (ewwinners==NO) or east-west (ewwinners==YES) on each board
 int    ntricks;                         //  the number of tricks to be played
@@ -61,7 +60,6 @@ int    reorder;                         //  flag to indicate that Jeroen Warmerd
 int    resultsonly;                     //  report only the results, no plays
 int    trace;                           //  trace options: 1=timing, 2=minimax progress
 int    tricklimit;                      //  limit on the number of tricks that are played
-int    w[NCARDS+1];                     //  the winner of each trick
 int    westvac;                         //  the number of vacant places in the west hand
 int    z_count;                         //  the maximum number cards in the west hand
 int    zermelo;                         //  1: delete weakly dominated plays in evaluate_mp_results, 2: delete weakly dominated plays in check_zermelo
@@ -77,4 +75,3 @@ struct RESULT best_play[32];            //  the plays that give the best results
 struct RESULT best_result;              //  the best result of all plays
 struct SCARD  scards[NCARDS+1][4];      //  the SCARD sequences for each trick
 struct SCORE  *score;                   //  the score of each play
-struct STACK  st[NPLIES+1];             //  the description of each ply

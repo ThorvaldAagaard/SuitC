@@ -15,7 +15,7 @@
 
 struct NODE *add_node( int d, int p, COLOR c )
 {
-    int          i, q, t = st[d].t;
+    int          i, q, t = (d+3)/4;
     struct NODE  *tnode;
     struct INDEX *lindex, *tindex, zindex;
 
@@ -76,20 +76,25 @@ struct NODE *add_node( int d, int p, COLOR c )
     //  return if this card cannot be played
     if ( ! zindex.r )
         return( NIL );
-
-    //  initialise
-    tnode = nextnode;
-    tnode->i = nextindex;
+    tindex->r = NIL;
 
     //  create a new node
     bump_node( tnode );
     tnode->r = wnode[d-1]->d;
     tnode->d = NIL;
-    tnode->c = c ? c : addcard(renonce);
-    tnode->p = p;
     tnode->i = zindex.r;
-    tnode->winc = RENONCE;
-    tindex->r = NIL;
+    tnode->c = c ? c : addcard(renonce);
+    tnode->ns = wnode[d-1]->ns;
+    tnode->p = p;
+    tnode->w_c = RENONCE;
+    if ( ( d & 0x3 ) == 1 ) {
+        tnode->w_c = c;
+        tnode->w_p = p;
+    }
+    else {
+        tnode->w_c = wnode[d-1]->w_c > tnode->c ? wnode[d-1]->w_c : c;
+        tnode->w_p = wnode[d-1]->w_c > tnode->c ? wnode[d-1]->w_p : p;
+    }
 
     //  insert the node in the tree
     if ( wnode[d-1]->d ) {
