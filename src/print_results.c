@@ -39,17 +39,17 @@ void print_results( int best_MAX, int best_MP, int *best_N, double mpscore )
     if ( matchpoint && best_MP )
         printf( " %s", matchpoint == IMP ? "IMP" : "MP" );
     if ( ewwinners ) {
-        for ( i = maxns; i >= minns; i-- )
+        for ( i = maxns-1; i >= minns; i-- )
             if ( best_N[i] )
                 printf( " L%d", tricklimit - i );
     }
     else if ( defence ) {
-        for ( i = MAX(minns,1); i <= maxns; i++ )
+        for ( i = minns+1; i <= maxns; i++ )
             if ( best_N[i] )
                 printf( " S%d", i);
     }
     else {
-        for ( i = MAX(minns,1); i <= maxns; i++ )
+        for ( i = minns+1; i <= maxns; i++ )
             if ( best_N[i] )
                 printf( " N%d", i);
     }
@@ -59,7 +59,7 @@ void print_results( int best_MAX, int best_MP, int *best_N, double mpscore )
     if ( matchpoint && best_MP )
         printf( "%s", matchpoint == IMP ? "====" : "===" );
     if ( ewwinners ) {
-        for ( i = maxns; i >= minns; i-- ) {
+        for ( i = maxns-1; i >= minns; i-- ) {
             if ( best_N[i] ) {
                 printf( "===" );
                 if (  tricklimit - i >= 10 )
@@ -68,7 +68,7 @@ void print_results( int best_MAX, int best_MP, int *best_N, double mpscore )
         }
     }
     else {
-        for ( i = MAX(minns,1); i <= maxns; i++ ) {
+        for ( i = minns+1; i <= maxns; i++ ) {
             if ( best_N[i] ) {
                 printf( "===" );
                 if ( i >= 10 )
@@ -80,12 +80,14 @@ void print_results( int best_MAX, int best_MP, int *best_N, double mpscore )
 
     if ( ewwinners ) {
         for ( i = maxns; i >= minns; i-- )
-            printf( "\t%d losers: %8.4f\n", tricklimit - i, 100.0 * perc[i] );
+            if ( perc[i] < 1.0 -  EPS )
+                printf( "\t%d losers: %8.4f\n", tricklimit - i, 100.0 * perc[i] );
         printf( "\tResult  : %8.4f\n", tricklimit - result + EPS );
     }
     else {
         for ( i = maxns; i >= minns; i-- )
-            printf( "\t%d tricks: %8.4f\n", i, 100.0 * perc[i] );
+            if ( perc[i] > EPS )
+                printf( "\t%d tricks: %8.4f\n", i, 100.0 * perc[i] );
         printf( "\tResult  : %8.4f\n", result );
     }
 

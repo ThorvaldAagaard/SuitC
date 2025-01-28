@@ -142,12 +142,12 @@ int main( int argc, char **argv )
     printf( "\n\n\nThe optimal results\n" );
     printf(   "===================\n\n" );
     if ( ewwinners ) {
-        for ( i = maxns; i >= minns; i-- )
+        for ( i = maxns-1; i >= minns; i-- )
             printf( "\t%d losers: %8.4f\n", tricklimit - i, 100.0 * best_result.tricks[i] );
         printf( "\tResult  : %8.4f\n", tricklimit - best_result.result + EPS );
     }
     else {
-        for ( i = maxns; i >= minns; i-- )
+        for ( i = maxns; i > minns; i-- )
             printf( "\t%d tricks: %8.4f\n", i, 100.0 * best_result.tricks[i] );
         printf( "\tResult  : %8.4f\n", best_result.result );
     }
