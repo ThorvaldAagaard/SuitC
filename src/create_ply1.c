@@ -28,7 +28,7 @@ void create_ply1( int d, int *lead )
             nfree[t][east] = nfree[t-1][east];
             nfree[t][north] = nfree[t-1][north];
             nfree[t][south] = nfree[t-1][south];
-            if ( ( t > 1 ) && ( wnode[d-1]->w_p != p ) )
+            if ( t > 1 && wnode[d-1]->w_p != p )
                 nfree[t][p] -= 1;
 
             //  investigate all SCARD sequences

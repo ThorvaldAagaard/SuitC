@@ -121,10 +121,6 @@ void print_all_results( void )
                     //  create the tree
                     build_selected_tree();
 
-                    //  create the tree
-                    if ( maxprint && compacttree == NO )
-                        select_ew_plays( 1 );
-
                     //  fold identical plays and select the preferred ones
                     if ( maxprint && foldselect & 0x1 )
                         fold_tree( 1, west );

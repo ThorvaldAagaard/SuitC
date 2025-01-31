@@ -18,7 +18,6 @@ int main( int argc, char **argv )
 
     //  set defaults and initial values
     buildtree = 0;
-    compacttree = YES;
     cutoff = SUITCAPP ? CUTOFF : 0;
     defence = NO;
     eastfixed = RENONCE;

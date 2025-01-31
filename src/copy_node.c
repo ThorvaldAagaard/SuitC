@@ -23,7 +23,9 @@ struct NODE *copy_node( struct NODE *lnode )
     tnode->l = NIL;
     tnode->r = NIL;
     tnode->c = lnode->c;
+    tnode->ns = lnode->ns;
     tnode->w_c = lnode->w_c;
+    tnode->w_p = lnode->w_p;
     tnode->p = lnode->p;
     tnode->term = lnode->term;
 

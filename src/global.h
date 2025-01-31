@@ -13,7 +13,6 @@ double prob[8192];                      //  the a priori probabilities for the b
 double times[4];                        //  array with timings
 int    boardcount;                      //  the number of EW distributions
 int    buildtree;                       //  the type of the NODE tree. 0=truncated tree, 1=full tree, 2=selected tree
-int    compacttree;                     //  north-south win tricks as soon as possible
 int    defence;                         //  lead from east of west in each trick
 int    dupl[8192];                      //  the multiplicity of the boards
 int    eastvac;                         //  the number of vacant places in the east hand

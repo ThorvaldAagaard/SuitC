@@ -170,6 +170,5 @@ void           print_suitc( void );
 void           print_summary_results( void );
 void           print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings );
 void           process_args( int argc, char **argv );
-void           select_ew_plays( int d );
 void           select_ns_plays( int d );
 int            suitc( int argc, char **argv );

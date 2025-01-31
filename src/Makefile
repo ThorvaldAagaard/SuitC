@@ -62,7 +62,6 @@ OBJECTS =				\
 	  print_summary_results.o	\
 	  print_tree.o			\
 	  process_args.o		\
-	  select_ew_plays.o		\
 	  select_ns_plays.o		\
 	  suitc.o
 

@@ -152,15 +152,6 @@ void process_args( int argc, char **argv )
                 if ( val )
                     maxnodes = val;
             }
-            else if ( c == 'n' ) {
-                c = argv[i][2];
-                if ( c == 'C' )
-                    compacttree = NO;
-                else {
-                    printf( "Incorrect option: %s; the program stops\n", argv[i] );
-                    exit( 1 );
-                }
-            }
             else if ( c == 'o' )
                 reorder = SUITCAPP ? YES : NO;
             else if ( c == 'P' )
@@ -262,7 +253,7 @@ void process_args( int argc, char **argv )
     printf( "\n" );
     printf( "calling sequence:\n" );
     printf( "\n" );
-    printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-nC] [-c<cutoff>[kKmMgG]] [-D[{W|w}]] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f]\n" );
+    printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-c<cutoff>[kKmMgG]] [-D[{W|w}]] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f]\n" );
     printf( "      [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-o] [-P<n>] [-p[{H|I|M|S}]] [-R{n|e|s|w}<n>] \n" );
     printf( "      [-r] [-S<card2>:<card3>] [-T<n>] [-t<tricks>] [-W<cards>] [-wm<n>] [-wv<n>] [-z<n>] <ncards> <scards> <ewcards>\n" );
     printf( "\n" );
@@ -271,7 +262,6 @@ void process_args( int argc, char **argv )
     printf( "    -A              print a full report of all results\n" );
     printf( "    -a              print a summary of the results\n" );
     printf( "    -b              print a list of the boards\n" );
-    printf( "    -nC             win a trick as soon as possible\n" );
     printf( "    -c<cutoff>[kKmMgG]\n" );
     printf( "                    the limit of the product of the number of quirks while merging quirk trees\n" );
     printf( "                    [kK] stands for 1000, [mM] stands for 1000000, [gG] stands for 1000000000\n" );
@@ -285,7 +275,6 @@ void process_args( int argc, char **argv )
     printf( "    -F<n>           1=fold the EW plays, 2=fold the NS plays, 4=select the NS plays\n" );
     printf( "    -f              print the full NODE tree\n" );
     printf( "    -I<n>:<score>   the score for <n> tricks is <score> points\n" );
-    printf( "    -nC             north-south win tricks as soon as possible\n" );
     printf( "    -L{n|e|s|w}[<card>]\n" );
     printf( "                    the lead is in {n|e|s|w} at trick one\n" );
     printf( "                    card <card> is lead if a card is specified\n" );
