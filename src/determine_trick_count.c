@@ -71,7 +71,8 @@ void determine_trick_count( int d, struct NODE **lnode )
         lindex = lindex->r;
     }
 
-    if ( lnode[d-1]->term && ( t > maxprint || resultsonly || buildtree == 0 ) ) {
+    //  determine all sons if the result is known
+    if ( lnode[d-1]->term && ( d > maxprint || resultsonly || buildtree == 0 ) ) {
         lnode[d] = lnode[d-1]->d;
         while ( lnode[d] )
             lnode[d] = delete_tree( d, lnode );

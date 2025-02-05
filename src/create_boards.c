@@ -52,6 +52,7 @@ void create_boards( void )
     maxprint = MAX( ncards[north], ncards[south] ) - 1;
     maxprint = MIN( maxprint, count( brd[0][west] ) / 2 );
     maxprint = tricklimit ? MAX( maxprint, 1 ) : 0;
+    maxprint *= 4;
 
     //  determine the SCARD sequences for all players
     for ( p = 0; p < 4; p++ ) {

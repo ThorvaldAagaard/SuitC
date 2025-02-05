@@ -2,11 +2,12 @@
 //      print_tree
 //
 //  purpose:
-//      print_tree prints a tree
+//      print_tree prints a NODE tree
 //
 //  parameters:
-//      d_              in      the depth in the NODE tree
-//      rootn           in      the root of the tree
+//      d_root          in      the ply of the root of the tree
+//      d_high          in      the highest ply to be printed
+//      root            in      the root of the tree
 //      printboards     in      flag to print the boards
 //      printsiblings   in      flag to print the siblings of the root
 //
@@ -14,34 +15,28 @@
 
 #include "header.h"
 
-void print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings )
+void print_tree( int d_root, int d_high, struct NODE *root, int printboards, int printsiblings )
 {
-    int          b, d, i, k, l, w[NPLIES+1], wlen;
+    int          b, d, i, k, l, maxply, w[NPLIES+1], wlen;
     char         out[800];
     COLOR        cards;
     static char  hexdigit[] = "0123456789abcdef";
     static char  *symbols[] = { "-123456789tjqka=", "-123456789tbvha=", "-123456789TJQKA=", "-123456789TBVHA=" };
     static char  seats[] = "WNES";
-    struct INDEX *lindex;
     struct NODE  *lnode[NPLIES+1];
+    struct INDEX *lindex;
     struct SCARD *sc;
 
     //  return if the root of the tree is the NIL entry
-    if ( rootn == NIL || rootn->d == NIL || maxprint == 0 )
+    if ( root->d == NIL )
         return;
 
-    //  initialise
-    if ( d_ == 0 ) {
-        d_++;
-        rootn = rootn->d;
-    }
-
-    for ( d = d_; d <= 4*maxprint; d++ )
-        w[d] = 1;
-
     //  determine the length of the output strings
-    d = d_;
-    lnode[d] = rootn;
+    maxply = 0;
+    for ( d = d_root; d <= NPLIES; d++ )
+        w[d] = 1;
+    d = d_root;
+    lnode[d_root] = root;
     while ( lnode[d] ) {
 
         k = 0;
@@ -52,17 +47,19 @@ void print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings 
 
         if ( lnode[d]->d ) {
             d++;
+            maxply = MAX( maxply, d );
             lnode[d] = lnode[d-1]->d;
         }
         else {
-            while ( d > d_ && ! lnode[d]->r )
+            while ( d > d_root && ! lnode[d]->r )
                 d--;
             lnode[d] = lnode[d]->r;
         }
     }
 
-    wlen = 2 * (4*maxprint-d_+1) + 2 * ( (4*maxprint-d_+1)/4) + 2 * ( (4*maxprint-d_)/4) + 4;
-    for ( d = d_; d <= 4*maxprint; d++ )
+    maxply = MIN( maxply, d_high );
+    wlen = 2 * (maxply-d_root+1) + 2 * ( (maxply-d_root+1)/4) + 2 * ( (maxply-d_root)/4) + 4;
+    for ( d = d_root; d <= maxply; d++ )
         wlen += w[d];
 
     //  print the board header
@@ -78,8 +75,8 @@ void print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings 
 
     //  loop over the nodes
     l = 0;
-    d = d_;
-    lnode[d] = rootn;
+    d = d_root;
+    lnode[d] = root;
     while ( lnode[d] ) {
 
         //  handle the leader to the trick
@@ -112,7 +109,7 @@ void print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings 
         if ( ( d & 0x3 ) == 0x0 ) { out[l++] = ' '; out[l++] = ' '; }
 
         //  handle the sons
-        if ( lnode[d]->d ) {
+        if ( lnode[d]->d && d < maxply ) {
             d++;
             lnode[d] = lnode[d-1]->d;
         }
@@ -120,7 +117,7 @@ void print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings 
         else {
 
             //  fill in of unmade plies
-            for ( b = d+1; b <= 4*maxprint; b++ ) {
+            for ( b = d+1; b <= maxply; b++ ) {
                 if ( ( b & 0x3 ) == 0x1 ) { out[l++] = ' '; out[l++] = ' '; }
                 out[l++] = '.';
                 for ( i = 0; i < w[b]+1; i++ ) out[l++] = ' ';
@@ -142,15 +139,15 @@ void print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings 
             printf( "%s\n", out );
 
             //  get the next sibling
-            while ( d > d_ && ! lnode[d]->r )
+            while ( d > d_root && ! lnode[d]->r )
                 d--;
-            if ( d == d_ && ! ( printsiblings && lnode[d]->r ) )
+            if ( d == d_root && ! ( printsiblings && lnode[d]->r ) )
                 break;
             lnode[d] = lnode[d]->r;
 
             //  fill in the leading unreported plies
             l = 0;
-            for ( b = d_; b < d; b++ ) {
+            for ( b = d_root; b < d; b++ ) {
                 if ( ( b & 0x3 ) == 0x1 ) { out[l++] = ' '; out[l++] = ' '; }
                 if ( ( b & 0x3 ) == 0x0 ) { out[l++] = ' '; out[l++] = ' '; }
                 for ( k = 0; k < w[b]+2; k++ ) out[l++] = ' ';

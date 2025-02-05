@@ -168,7 +168,7 @@ void           print_results( int best_MAX, int best_MP, int *best_N, double mps
 void           print_stat( int trace );
 void           print_suitc( void );
 void           print_summary_results( void );
-void           print_tree( int d_, struct NODE *rootn, int printboards, int printsiblings );
+void           print_tree( int d_root, int d_high, struct NODE *root, int printboards, int printsiblings );
 void           process_args( int argc, char **argv );
 void           select_ns_plays( int d );
 int            suitc( int argc, char **argv );

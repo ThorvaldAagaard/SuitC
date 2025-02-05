@@ -131,10 +131,7 @@ void print_all_results( void )
 
                     //  print the tree
                     printf( "\n" );
-                    if ( tnode[0]->d )
-                        print_tree( 1, tnode[0]->d, YES, YES );
-                    else
-                        print_tree( 0, tnode[0], YES, YES );
+                    print_tree( 1, maxprint, tnode[0]->d, YES, YES );
 
                     //  delete the tree again
                     delete_tree( 0, tnode );
