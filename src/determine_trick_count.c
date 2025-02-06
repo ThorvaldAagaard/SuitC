@@ -21,6 +21,7 @@
 void determine_trick_count( int d, struct NODE **lnode )
 {
     int          t = (d+3)/4;
+    struct NODE  *bnode[NPLIES+1];
     struct INDEX *bindex, *lindex;
 
     //  return if there are no sons
@@ -36,13 +37,10 @@ void determine_trick_count( int d, struct NODE **lnode )
         if ( (d-1)%4 )
             lnode[d-1]->w_c |= lnode[d]->w_c;
         lindex = lnode[d-1]->i;
-        bindex = lnode[d]->i;
-        while( bindex ) {
-            while( lindex->i < bindex->i )
-                lindex = lindex->r;
-            lindex->min = NCARDS;
+        while( lindex ) {
             lindex->max = 0;
-            bindex = bindex->r;
+            lindex->min = NCARDS;
+            lindex = lindex->r;
         }
         lnode[d] = lnode[d]->r;
     }
@@ -71,10 +69,40 @@ void determine_trick_count( int d, struct NODE **lnode )
         lindex = lindex->r;
     }
 
+    //  keep track of the entries
+    lnode[d] = lnode[d-1]->d;
+    lnode[d-1]->e_up = NS(lnode[d]->p) ? 0 : 0xff;
+    while ( lnode[d] ) {
+        lnode[d-1]->e_up = NS(lnode[d]->p) ? MAX( lnode[d-1]->e_up, lnode[d]->e_up ) : MIN( lnode[d-1]->e_up, lnode[d]->e_up );
+        lnode[d] = lnode[d]->r;
+    }
+
     //  determine all sons if the result is known
+    lnode[d] = lnode[d-1]->d;
     if ( lnode[d-1]->term && ( d > maxprint || resultsonly || buildtree == 0 ) ) {
-        lnode[d] = lnode[d-1]->d;
         while ( lnode[d] )
             lnode[d] = delete_tree( d, lnode );
+    }
+
+    //  compare all siblings in the final game trees
+    else if ( thorvald && NS(lnode[d]->p ) && buildtree == 2 ) {
+        if ( d <= maxprint && NS(lnode[d]->p) && lnode[d-1]->term ) {
+            bnode[d-1] = lnode[d-1];
+        next_lnode:
+            while ( lnode[d] ) {
+                bnode[d] = lnode[d]->r;
+                while ( bnode[d] ) {
+                    if ( lnode[d]->e_up > bnode[d]->e_up )
+                        bnode[d] = delete_tree( d, bnode );
+                    else if ( bnode[d]->e_up > lnode[d]->e_up ) {
+                        lnode[d] = delete_tree( d, lnode );
+                        goto next_lnode;
+                    }
+                    else
+                        bnode[d] = bnode[d]->r;
+                }
+                lnode[d] = lnode[d]->r;
+            }
+        }
     }
 }

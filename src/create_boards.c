@@ -144,6 +144,8 @@ void create_boards( void )
     wnode[0]->r = NIL;
     wnode[0]->i = nextindex;
     wnode[0]->c = RENONCE;
+    wnode[0]->e_down = 0;
+    wnode[0]->e_up = 0;
     wnode[0]->ns = ewwinners ? tricklimit : 0;
     wnode[0]->p = defence ? north : west;
     wnode[0]->w_c = RENONCE;

@@ -42,6 +42,9 @@ void create_ply1( int d, int *lead )
                 if ( ! add_node( d, p, scards[t][p].c[i] ) )
                     continue;
 
+                //  mark an entry in the suit itself
+                wnode[d]->e_down |= t > 1 && wnode[d-1]->w_p == p ? 1 << (ntricks-t) : 0;
+
                 //  handle the 2nd hand play
                 create_ply2( d+1, (p+1)%4 );
             }

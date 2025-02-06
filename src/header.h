@@ -59,7 +59,9 @@ struct NODE {
     struct INDEX  *i;                   //  pointer to the index list of boards
     COLOR         c,                    //  the cards played in this ply
                   w_c;                  //  the winning card of the current trick
-    unsigned int  match:1,              //  indicator that a match exists for this node in fold_ns_tree
+    unsigned int  e_down:8,             //  the topdown indicator for entries in the suit itself
+                  e_up:8,               //  the bottomup indicator for entries in the suit itself
+                  match:1,              //  indicator that a match exists for this node in fold_ns_tree
                   ns:4,                 //  the number of tricks for north-south (ewwinners==NO) or east-west (ewwinners==YES)
                   p:2,                  //  the player of this node
                   term:1,               //  indicator that no more choices exist

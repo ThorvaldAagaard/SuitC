@@ -37,6 +37,7 @@ void create_tricks( int d )
                 brd[t][p] |= sc->c[i];
     }
 
+    //  we need additional checks to handle the nfree condition correctly
     //  handle defensive plays with no cards left in north and south
     if ( ewwinners &&
          ( brd[t][north] || brd[t][south] ) == RENONCE &&
@@ -53,6 +54,7 @@ void create_tricks( int d )
         return;
     }
 
+    //  we need additional checks to handle the nfree condition correctly
     //  handle plays with no cards left in west and east
     if ( defence == NO &&
          ( brd[t][west] | brd[t][east] ) == RENONCE &&
@@ -87,8 +89,9 @@ void create_tricks( int d )
         return;
     }
 
+    //  we need additional checks to handle the nfree and nruff conditions correctly
     //  handle the last trick to shortcut the program
-    if ( t == ntricks && t > maxprint && ! ( nruff[t-1][west] || nruff[t-1][north] || nruff[t-1][east] || nruff[t-1][south] ) ) {
+    if ( t == ntricks && t > 1 && ! ( nruff[t-1][west] || nruff[t-1][north] || nruff[t-1][east] || nruff[t-1][south] ) ) {
 
         p = brd[t][north] > brd[t][east] ? north : east;
         p = brd[t][south] > brd[t][p]    ? south : p;
@@ -105,6 +108,12 @@ void create_tricks( int d )
             lindex = lindex->r;
         }
 
+        wnode[d-1]->e_up = wnode[d-1]->e_down;
+        if ( defence == NO ) {
+            for ( q = 1; q <=3; q += 2 )
+                if ( q == wnode[d-1]->w_p && brd[t][q] )
+                    wnode[d-1]->e_up |= 1;
+        }
         wnode[d-1]->term = YES;
         return;
     }

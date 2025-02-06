@@ -84,6 +84,8 @@ struct NODE *add_node( int d, int p, COLOR c )
     tnode->d = NIL;
     tnode->i = zindex.r;
     tnode->c = c ? c : addcard(renonce);
+    tnode->e_down = wnode[d-1]->e_down;
+    tnode->e_up = 0;
     tnode->ns = wnode[d-1]->ns;
     tnode->p = p;
     tnode->w_c = RENONCE;
