@@ -15,7 +15,7 @@
 struct NODE *copy_tree( int d_, struct NODE *rootn )
 {
     int          d = d_, p, ply = d_;
-    struct INDEX *lindex, *tindex;
+    struct INDEX *lindex, *tindex = NIL;
     struct NODE  *lnode[NPLIES+1], *tnode[NPLIES+1];
 
     //  loop over the nodes
@@ -61,8 +61,6 @@ struct NODE *copy_tree( int d_, struct NODE *rootn )
             tindex->r = nextindex;
             lindex = lindex->r;
         }
-
-        //  clear the right sibling of the last board
         tindex->r = NIL;
 
         //  handle the sons

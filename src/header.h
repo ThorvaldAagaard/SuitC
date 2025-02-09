@@ -174,3 +174,4 @@ void           print_tree( int d_root, int d_high, struct NODE *root, int printb
 void           process_args( int argc, char **argv );
 void           select_ns_plays( int d );
 int            suitc( int argc, char **argv );
+void           use_suit_entries( void );

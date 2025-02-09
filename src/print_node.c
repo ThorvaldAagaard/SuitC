@@ -25,15 +25,17 @@ void print_node( struct NODE *lnode, char *ident )
         printf( "\nnode=%lx ident=%s\n", (unsigned long) lnode, ident );
         return;
     }
-    printf( " l=%lx", (unsigned long) lnode->l );
-    printf( " r=%lx", (unsigned long) lnode->r );
-    printf( " d=%lx", (unsigned long) lnode->d );
+    printf( " l=%012lx", (unsigned long) lnode->l );
+    printf( " r=%012lx", (unsigned long) lnode->r );
+    printf( " d=%012lx", (unsigned long) lnode->d );
     printf( " ident=%s\n", ident );
     printf( "p=%d", lnode->p );
     printf( " cards=%04x", lnode->c >> 2 );
     printf( " w_c=%04x", lnode->w_c >> 2 );
     printf( " match=%d", lnode->match );
-    printf( " term=%d\n", lnode->term );
+    printf( " term=%d", lnode->term );
+    printf( " e_down=%02x", lnode->e_down );
+    printf( " e_up=%02x\n", lnode->e_up );
 
     lindex = lnode->i;
     while ( lindex ) {

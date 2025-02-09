@@ -96,10 +96,6 @@ int fold_ew_tree( int d, struct NODE **lnode, struct NODE **bnode )
         }
     }
 
-    //  one of the branches is a throwin play
-    else
-        return( NO );
-
     //  determine the winning cards
     lnode[d] = lnode[d-1]->d;
     lnode[d-1]->w_c = (d-1)%4 ? RENONCE : lnode[d-1]->w_c;

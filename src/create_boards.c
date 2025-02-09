@@ -26,7 +26,7 @@ void create_boards( void )
 {
     int          i, k, l, p, q;
     COLOR        cards, fixed;
-    struct INDEX *lindex;
+    struct INDEX *lindex = NIL;
     struct SCARD *sc;
 
     //  check for duplicate cards

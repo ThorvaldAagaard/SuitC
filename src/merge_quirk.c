@@ -15,7 +15,7 @@
 
 void merge_quirk( int d )
 {
-    int           a = 0, b = 0, i, ih, k = 0, l = 0, ns, s = 0, t = 0;
+    int           a = 0, b = 0, i, ih = 0, k = 0, l = 0, ns, s = 0, t = 0;
     struct QUIRKD *bquirkd[NBOARDS], *bquirkdl[NBOARDS], *lquirkd[NBOARDS], *lquirkdl[NBOARDS], *tquirkd[NBOARDS], *tquirkdl[NBOARDS], zquirkd;
 
     //  initialise

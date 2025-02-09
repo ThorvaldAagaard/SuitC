@@ -216,8 +216,8 @@ void process_args( int argc, char **argv )
                 }
                 tricklimit = val;
             }
-            else if ( c == 'v' )
-                thorvald = YES;
+            else if ( c == 'u' )
+                usesuitentries = YES;
             else if ( c == 'z' ) {
                 k = 2;
                 val = 0;
@@ -257,7 +257,7 @@ void process_args( int argc, char **argv )
     printf( "\n" );
     printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-c<cutoff>[kKmMgG]] [-D[{W|w}]] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f]\n" );
     printf( "      [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-o] [-P<n>] [-p[{H|I|M|S}]] [-R{n|e|s|w}<n>] \n" );
-    printf( "      [-r] [-S<card2>:<card3>] [-T<n>] [-t<tricks>] [-v] [-W<cards>] [-wm<n>] [-wv<n>] [-z<n>] <ncards> <scards> <ewcards>\n" );
+    printf( "      [-r] [-S<card2>:<card3>] [-T<n>] [-t<tricks>] [-u] [-W<cards>] [-wm<n>] [-wv<n>] [-z<n>] <ncards> <scards> <ewcards>\n" );
     printf( "\n" );
     printf( "options:\n" );
     printf( "    {-?|-h}         print the options of SuitC\n" );
@@ -295,7 +295,7 @@ void process_args( int argc, char **argv )
     printf( "    -S<card2>:<card3> play in 3rd hand a card from card3 if 2nd hand plays a card from card2\n" );
     printf( "    -T<n>           trace options: 1=timing, 2=minimax progress\n" );
     printf( "    -t<tricks>      limit the number of tricks that are played\n" );
-    printf( "    -v              optimize the use of entries in the suit itself\n" );
+    printf( "    -u              select the plays that maximize the use of entries in the suit itself\n" );
     printf( "    -W<cards>       all west hands contain <cards>\n" );
     printf( "    -wm<n>          the minimum number of cards in the west hand is <n>\n" );
     printf( "    -wv<n>          the number of vacant places in the west hand is <n>\n" );

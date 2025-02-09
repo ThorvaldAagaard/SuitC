@@ -83,26 +83,4 @@ void determine_trick_count( int d, struct NODE **lnode )
         while ( lnode[d] )
             lnode[d] = delete_tree( d, lnode );
     }
-
-    //  compare all siblings in the final game trees
-    else if ( thorvald && NS(lnode[d]->p ) && buildtree == 2 ) {
-        if ( d <= maxprint && NS(lnode[d]->p) && lnode[d-1]->term ) {
-            bnode[d-1] = lnode[d-1];
-        next_lnode:
-            while ( lnode[d] ) {
-                bnode[d] = lnode[d]->r;
-                while ( bnode[d] ) {
-                    if ( lnode[d]->e_up > bnode[d]->e_up )
-                        bnode[d] = delete_tree( d, bnode );
-                    else if ( bnode[d]->e_up > lnode[d]->e_up ) {
-                        lnode[d] = delete_tree( d, lnode );
-                        goto next_lnode;
-                    }
-                    else
-                        bnode[d] = bnode[d]->r;
-                }
-                lnode[d] = lnode[d]->r;
-            }
-        }
-    }
 }

@@ -14,7 +14,7 @@
 struct NODE *copy_node( struct NODE *lnode )
 {
     int          p;
-    struct INDEX *lindex, *tindex;
+    struct INDEX *lindex, *tindex = NIL;
     struct NODE  *tnode;
 
     //  create the new node
@@ -44,8 +44,6 @@ struct NODE *copy_node( struct NODE *lnode )
         tindex->r = nextindex;
         lindex = lindex->r;
     }
-
-    //  clear the right sibling of the last board
     tindex->r = NIL;
 
     return( tnode );

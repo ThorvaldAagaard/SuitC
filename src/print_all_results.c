@@ -120,6 +120,8 @@ void print_all_results( void )
 
                     //  create the tree
                     build_selected_tree();
+                    if ( usesuitentries )
+                        use_suit_entries();
 
                     //  fold identical plays and select the preferred ones
                     if ( maxprint && foldselect & 0x1 )

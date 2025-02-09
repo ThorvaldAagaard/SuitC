@@ -47,11 +47,11 @@ int main( int argc, char **argv )
     nrules = 0;
     reorder = SUITCAPP ? NO : YES;
     resultsonly = NO;
-    thorvald = NO;
-    trace = 0x0;
-    tricklimit = NCARDS;
     for ( d = 0; d < NPLIES+1; d++ )
         quirkdl[d].ic = boardcount;
+    trace = 0x0;
+    tricklimit = NCARDS;
+    usesuitentries = NO;
     westfixed = RENONCE;
     westvac = NCARDS;
     zermelo = 1;

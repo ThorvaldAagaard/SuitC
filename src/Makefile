@@ -63,6 +63,7 @@ OBJECTS =				\
 	  print_tree.o			\
 	  process_args.o		\
 	  select_ns_plays.o		\
+	  use_suit_entries.o		\
 	  suitc.o
 
 ${EXEC}: ${OBJECTS}
