@@ -154,8 +154,13 @@ void process_args( int argc, char **argv )
             }
             else if ( c == 'o' )
                 reorder = SUITCAPP ? YES : NO;
-            else if ( c == 'P' )
+            else if ( c == 'P' ) {
                  printoption = argv[i][2] - '0';
+                 if ( printoption < 0 || printoption > 3 ) {
+                    printf( "Incorrect print option %s; the program stops\n", argv[i] );
+                    exit( 1 );
+                }
+            }
             else if ( c == 'p' ) {
                 c = argv[i][2];
                 if ( c == 'H' )
@@ -165,7 +170,7 @@ void process_args( int argc, char **argv )
                 else if ( c == 'S' )
                     printscard = SUITCAPP ? NO : YES;
                 else {
-                    printf( "Incorrect print option; the program stops\n", argv[i] );
+                    printf( "Incorrect print option %s; the program stops\n", argv[i] );
                     exit( 1 );
                 }
             }

@@ -87,7 +87,7 @@ void print_suitc( void )
                 out[++k] = '\0';
             }
         }
-        printf( "\tfixed east cards    : %s\n", out );
+        printf( "\tfixed East cards    : %s\n", out );
     }
     if ( westfixed ) {
         k = 0;
@@ -99,16 +99,16 @@ void print_suitc( void )
                 out[++k] = '\0';
             }
         }
-        printf( "\tfixed west cards    : %s\n", out );
+        printf( "\tfixed West cards    : %s\n", out );
     }
     if ( ncardsmin[west] != 0 )
-        printf( "\tminimum length west : %d\n", ncardsmin[west] );
+        printf( "\tminimum length West : %d\n", ncardsmin[west] );
     if ( westvac != NCARDS )
-        printf( "\t#vacant places west : %d\n", westvac );
+        printf( "\t#vacant places West : %d\n", westvac );
     if ( ncardsmin[east] != 0 )
-        printf( "\tminimum length east : %d\n", ncardsmin[east] );
+        printf( "\tminimum length East : %d\n", ncardsmin[east] );
     if ( eastvac != NCARDS )
-        printf( "\t#vacant places east : %d\n", eastvac );
+        printf( "\t#vacant places East : %d\n", eastvac );
 
     fflush( stdout );
 }

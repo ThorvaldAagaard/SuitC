@@ -15,8 +15,6 @@ void print_all_results( void )
 {
     int           accept, best_MAX, best_MP, best_N[NCARDS], i, ih, ix = 0, k, l = 0;
     double        mpscore, tricksum;
-    struct INDEX  *tindex;
-    struct NODE   *lnode[NPLIES+1];
     struct QUIRKD *lquirkd[NBOARDS], *lquirkdl[NBOARDS];
     struct RESULT result[NBOARDS];
     struct SCORE  *lscore;

@@ -90,7 +90,7 @@ void print_tree( int d_root, int d_high, struct NODE *root, int printboards, int
                 cards |= sc->c[i];
 
         //  select the NS card to be played; lead highest from equals, follow lowest from equals
-        if ( NS(lnode[d]->p) && ! printhighcard && cards != 0x1 && cards != addcard(ruff) ) {
+        if ( ( SUITCAPP || printscard ) && NS(lnode[d]->p) && ! printhighcard && cards != 0x1 && cards != addcard(ruff) ) {
             cards &= brd[(d-1)/4][lnode[d]->p];
             if ( ( d & 0x3 ) == 1 )
                 while ( cards ^ low_c(cards) )

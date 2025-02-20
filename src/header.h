@@ -131,7 +131,6 @@ void           build_selected_tree( void );
 void           check_ew_plays( int d, struct NODE **lnode );
 void           check_ns_plays( int d, struct NODE **lnode );
 void           check_quirk( int d, int t, struct QUIRKD **tquirkd, struct QUIRKD **tquirkdl );
-void           check_quirkd( int d, int t, struct QUIRKD **tquirkd, struct QUIRKD **tquirkdl );
 int            check_zermelo( struct SCORE *lscore );
 int            clean_quirk( int d, struct LIMIT *results );
 void           convert_tree_to_quirk( void );
