@@ -7,7 +7,7 @@
 //  parameters:
 //      c               in      the print option
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -16,7 +16,7 @@ void print_stat( char c )
     int           d;
 
     times[1] = TICK * clock();
-    printf( "\n\n%routine          #calls\n===========    ========\n" );
+    printf( "\n\nroutine          #calls\n===========    ========\n" );
     printf( "%-11s %11.3f\n", "cpu time", times[1] - times[0] );
     printf( "%-11s %11d\n", "ncount", ncountmax );
     printf( "%-11s %11d\n", "scount", scountmax );

@@ -8,7 +8,7 @@
 //  parameters:
 //      none
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #define bump_node( tnode ) \
     ncount++; \

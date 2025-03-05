@@ -10,14 +10,14 @@
 //  parameters:
 //      none
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
 void process_args( int argc, char **argv )
 {
     char          c;
-    int           i, k, match, n, p = west, p_start = west, printoptions = NO, s;
+    int           b = 0, i, k, match, n, p = west, p_start = west, printoptions = NO, s;
     static char   *symbols[] = { "-123456789tjqka", "-123456789tbvha", "-123456789TJQKA", "-123456789TBVHA" };
 
     for ( i = 1; i < argc; i++ ) {
@@ -78,19 +78,19 @@ void process_args( int argc, char **argv )
 
             k = 0;
             s = spades;
-            brd[boardcount[0]][0][s][p] = RENONCE;
+            brd[0][b][s][p] = RENONCE;
             while ( argv[i][k] ) {
                 c = argv[i][k];
                 if ( c == '.' ) {
                     s++;
-                    brd[boardcount[0]][0][s][p] = RENONCE;
+                    brd[0][b][s][p] = RENONCE;
                 }
                 else {
                     match = NO;
                     for ( n = two; n <= ace; n++ ) {
                         if ( ( c == symbols[0][n] ) || ( c == symbols[1][n] ) || ( c == symbols[2][n] ) || ( c == symbols[3][n] ) ) {
                             match = YES;
-                            brd[boardcount[0]][0][s][p] |= set(n);
+                            brd[0][b][s][p] |= set(n);
                         }
                     }
                     if ( ! match ) {
@@ -103,15 +103,16 @@ void process_args( int argc, char **argv )
 
             p = (p+1)%4;
             if ( p == p_start ) {
-                blist[0][boardcount[0]] = boardcount[0];
-                if ( boardcount[0] == NBOARDS-2 ) {
+                blist[0][b] = b;
+                if ( b == NBOARDS-2 ) {
                     printf( "No more memory in the brd array; increase the value of NBOARDS\n" );
                     exit( 99 );
                 }
-                boardcount[0]++;
+                b++;
             }
         }
     }
+    boardcount[0] = b;
 
     if ( printoptions ) {
         printf( "\n" );

@@ -8,7 +8,7 @@
 //      d               in      the depth in the NODE tree
 //      b               in      the board that is analysed
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -21,12 +21,14 @@ void build_tree( int d, int b )
     wnode[d] = wnode[d-1]->d;
     while ( wnode[d] ) {
 
-        //  play the cards and prepare for the next ply
+        //  play the cards
         st[d].n++;
         p = wnode[d]->p;
         s = wnode[d]->s;
         wnode[d]->nd = wnode[d-1]->nd + wnode[d-1]->nc;
-        brd[b][t][s][p] ^= low_c( brd[b][t][s][p] & wnode[d]->c );
+        brd[t][b][s][p] ^= low_c( brd[t][b][s][p] & wnode[d]->c );
+
+        //  prepare for the next trick
         if ( st[d].la && d < 4*ntricks ) {
 
             //  check the alpha-beta pruning
@@ -52,8 +54,10 @@ void build_tree( int d, int b )
             }
 
             //  no backup NODE tree exists
-            else
+            else {
+                build_ply( d+1, b, wnode[d]->w_p );
                 build_tree( d+1, b );
+            }
         }
 
         //  the NODE tree is fully analysed
@@ -70,6 +74,6 @@ void build_tree( int d, int b )
         }
 
         //  backup the NODE tree
-        bottomup_tree( d, brd[b], scard[b] );
+        bottomup_tree( d, b );
     }
 }

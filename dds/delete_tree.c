@@ -8,7 +8,7 @@
 //      d_start         in      the depth in the NODE tree
 //      root            in      the root of the NODE tree to be deleted
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 

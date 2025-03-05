@@ -7,14 +7,13 @@
 //
 //  parameters:
 //      d               in      the depth in the NODE tree
-//      brd             in      the board that is analysed
-//      scard           out     the SCARD sequences that are build
+//      b               in      the board that is analysed
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
-void bottomup_tree( int d, COLOR brd[14][4][4], struct SCARD *scard[14][4] )
+void bottomup_tree( int d, int b )
 {
     int           nh, nl, p, s, t = st[d].t;
     struct NODE   *nnode;
@@ -29,7 +28,7 @@ void bottomup_tree( int d, COLOR brd[14][4][4], struct SCARD *scard[14][4] )
     else         wnode[d-1]->nh = MIN( wnode[d-1]->nh, wnode[d]->nc + wnode[d]->nh );
 
     //  save the BACKUP status
-    brd[t][s][p] = scard[t][s]->brd[p];
+    brd[t][b][s][p] = scard[t][b][s]->brd[p];
     if ( st[d].la && d < 4*ntricks ) {
         backup[t]->node = wnode[d]->d;
         backup[t]->nh = wnode[d]->nh;

@@ -7,7 +7,7 @@
 //  parameters:
 //      brd             in      the board that is printed
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 

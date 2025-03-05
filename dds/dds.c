@@ -7,7 +7,7 @@
 //  to produce a list of options type:
 //      dds -h
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 #include "global.h"
@@ -20,7 +20,6 @@ int main( int argc, char **argv )
 
     //  initialise variables
     times[0] = TICK * clock();
-    boardcount[0] = 0;
     target.set = NO;
     for ( d = 0; d < 16; d++ )
         ncalls[d] = 0;
@@ -32,17 +31,21 @@ int main( int argc, char **argv )
         st[d].t = ( d + 3 ) / 4;
     }
 
-    //  initialise the BACKUP tree
+    //  initialise the BACKUP hash table
     bfill = 0;
     nextbackup = malloc( BHASHL * sizeof( struct BACKUP ) );
-    for ( inx = 0; inx < BHASHL+100; inx++ )
-        backuptable[inx] = NIL;
+    if ( nextbackup == NIL ) {
+        printf( "The allocation of memory for the BACKUP hash table failed\n" );
+        print_stat( 'p' );
+    }
 
-    //  initialise the JOINC tree
+    //  initialise the JOINC hash table
     jfill = 0;
     nextjoinc = malloc( JHASHL * sizeof( struct JOINC ) );
-    for ( inx = 0; inx < JHASHL+100; inx++ )
-        joinctable[inx] = NIL;
+    if ( nextjoinc == NIL ) {
+        printf( "The allocation of memory for the JOINC hash table failed\n" );
+        print_stat( 'p' );
+    }
 
     //  initialise the NODE tree
     ncount = 0;
@@ -50,14 +53,20 @@ int main( int argc, char **argv )
     wnode[0] = &znode;
     wnode[0]->r = NIL;
     nextnode = malloc( NNODE * sizeof( struct NODE ) );
+    if ( nextnode == NIL ) {
+        printf( "The allocation of memory for the NODE tree failed\n" );
+        print_stat( 'p' );
+    }
 
-    //  initialise the SCARD tree
+    //  initialise the SCARD list
     sfill = 0;
     scount = 0;
     scountmax = 0;
     nextscard = malloc( NSCARD * sizeof( struct SCARD ) );
-    for ( inx = 0; inx < SHASHL+100; inx++ )
-        scardtable[inx] = NIL;
+    if ( nextscard == NIL ) {
+        printf( "The allocation of memory for the SCARD list failed\n" );
+        print_stat( 'p' );
+    }
 
     //  initialise the SEQC list
     sqcount = 0;
@@ -65,7 +74,7 @@ int main( int argc, char **argv )
     nextseqc = malloc( NSEQC * sizeof( struct SEQC ) );
     if ( nextseqc == NIL ) {
         printf( "The allocation of memory for the SEQC list failed\n" );
-        exit( 99 );
+        print_stat( 'p' );
     }
 
     //  process the command line

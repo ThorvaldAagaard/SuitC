@@ -9,7 +9,7 @@
 //      b               in      the board that is analysed
 //      s               in      the suit that is analysed
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -19,11 +19,11 @@ void build_scard( int d, int b, int s )
     struct SEQC   *tseqc, zseqc;
 
     //  create a new SCARD entry
-    bump_scard( scard[b][t][s] );
-    scard[b][t][s]->s = s;
+    bump_scard( scard[t][b][s] );
+    scard[t][b][s]->s = s;
     for ( p = 0; p < 4; p++ ) {
-        scard[b][t][s]->brd[p] = brd[b][t-1][s][p];
-        brd[b][t][s][p] = scard[b][t][s]->brd[p];
+        scard[t][b][s]->brd[p] = brd[t-1][b][s][p];
+        brd[t][b][s][p] = scard[t][b][s]->brd[p];
     }
 
     //  build the card sequences
@@ -31,7 +31,7 @@ void build_scard( int d, int b, int s )
     tseqc->r = NIL;
     for ( i = ace; i >= two; i-- ) {
         for ( p = 0; p < 4; p++ ) {
-            if ( scard[b][t][s]->brd[p] & set(i) ) {
+            if ( scard[t][b][s]->brd[p] & set(i) ) {
                 if ( p != q ) {
                     q = p;
                     bump_seqc( tseqc->r );
@@ -47,5 +47,5 @@ void build_scard( int d, int b, int s )
             }
         }
     }
-    scard[b][t][s]->sq = zseqc.r;
+    scard[t][b][s]->sq = zseqc.r;
 }

@@ -7,7 +7,7 @@
 //  parameters:
 //      none
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -36,6 +36,7 @@ void play_board_start( void )
                     wnode[0]->nl = 0;
                     wnode[0]->nh = ntricks;
                     hashbackup( 1, b );
+                    build_ply( 1, b, ld );
                     build_tree( d_start, b );
                     ns[ld][trump] = wnode[0]->nh;
                 }
@@ -46,7 +47,7 @@ void play_board_start( void )
         wnode[0]->w_p = ld;
 
         //  print the results
-        printf( "\n" );
+        printf( "\nb=%03d\n-----\n", b+1 );
         print_board( brd[b][0] );
 
         if ( ld == unknown && trump == discard ) {

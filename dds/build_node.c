@@ -11,7 +11,7 @@
 //      p               in      the player of this node
 //      c               in      the cards of this node
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -51,15 +51,15 @@ void build_node( int d, int b, int s, int p, COLOR c )
 
     for ( l = d+1; l <= st[d].l+3; l++ ) {
         q = (p+l-d)%4;
-        if ( w.s == lds && brd[b][t][lds][q] > w.c ) {
+        if ( w.s == lds && brd[t][b][lds][q] > w.c ) {
             w.p = q;
             w.s = lds;
-            w.c = brd[b][t][lds][q];
+            w.c = brd[t][b][lds][q];
         }
-        if ( ! brd[b][t][lds][q] && ( w.s == trump && brd[b][t][trump][q] > w.c || w.s != trump && brd[b][t][trump][q] ) ) {
+        if ( ! brd[t][b][lds][q] && ( w.s == trump && brd[t][b][trump][q] > w.c || trump != notrump && w.s != trump && brd[t][b][trump][q] ) ) {
             w.p = q;
             w.s = trump;
-            w.c = brd[b][t][trump][q];
+            w.c = brd[t][b][trump][q];
         }
     }
 

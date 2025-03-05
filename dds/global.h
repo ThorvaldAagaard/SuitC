@@ -1,6 +1,6 @@
-//      Copyright 2024, Gerrit A. van der Velde, Leiden
+//      Copyright 2025, Gerrit A. van der Velde, Leiden
 
-COLOR  brd[NBOARDS][14][4][4];          //  the unplayed cards
+COLOR  brd[14][NBOARDS][4][4];          //  the unplayed cards
 double times[2];                        //  the cpu time measured at the start and the end of the program
 int    bfill;                           //  the number of occupied slots in the BACKUP hash table
 int    blist[NPLIES+1][NBOARDS+1];      //  the list of boards
@@ -31,7 +31,7 @@ struct NODE   *wnode[NPLIES+2];         //  the stack of NODE entries
 struct RES    res[NBOARDS];             //  the result of the analysis
 struct RESULT result[14];               //  the result of the analysis
 struct SCARD  *nextscard;               //  the first unused slot in the SCARD tree
-struct SCARD  *scard[NBOARDS][14][4];   //  pointer to the SCARD slots with remaining cards
+struct SCARD  *scard[14][NBOARDS][4];   //  pointer to the SCARD slots with remaining cards
 struct SCARD  *scardtable[SHASHL+100];  //  the SCARD hash table
 struct SEQC   *nextseqc;                //  the first unused slot in the SEQC list
 struct STACK  st[NPLIES+1];             //  the description of each ply

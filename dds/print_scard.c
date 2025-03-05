@@ -6,86 +6,63 @@
 //
 //  parameters:
 //      t               in      the trick that is printed
+//      b               in      the board that is analysed
 //      s               in      the suit that is reported
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
-void print_scard( int t, int s, struct SCARD *scard[4][4] )
+void print_scard( int t, int b, int s )
 {
-    int           i, k, n, nc;
+    int           i, k;
     char          str[14];
     COLOR         *brd;
-    static char   card[] = "-123456789TJQKA";
-    static char   seats[] = "wnes";
+    static char   seats[] = "WNES";
     static char   suits[] = "SHDC";
-    static char   symbols[] = "-123456789tjqka=";
+    static char   symbols[] = "-123456789TJQKA";
     struct SEQC   *lseqc;
 
-    //  print the north hand
-    printf( "\n" );
-    if ( scard[t][s] ) {
+    if ( scard[t][b][s] ) {
 
-        nc = 13;
-        brd = scard[t][s]->brd;
-        printf( "        %c: ", suits[s] );
-        for ( n = ace; n >= two; n-- ) {
-            if ( set(n) & brd[north] ) {
-                printf( "%c", card[n] );
-                nc--;
-            }
-        }
-        for ( n = 0; n < nc; n++ )
-            printf( " " );
-        printf( "         " );
+        //  print the north hand
+        k = 0;
+        brd = scard[t][b][s]->brd;
+        for ( i = ace+1; i >= 0; i-- )
+            if ( set(i) & brd[north] )
+                str[k++] = symbols[i];
+        str[k] = '\0';
+        printf( "\n\t%c: %s%s", suits[s], str, k < 5 ? "\t\t" : "\t" );
 
-        lseqc = scard[t][s]->sq;
+        //  print the SCARD sequences
+        lseqc = scard[t][b][s]->sq;
         while ( lseqc ) {
-            k = 0;
+            printf( "    %c:%x:", seats[lseqc->p], lseqc->n );
             for ( i = ace+1; i >= 0; i-- )
                 if ( set(i) & lseqc->c )
-                    str[k++] = symbols[i];
-            str[k] = '\0';
-            if ( k < 6 )
-                printf( "%c:%x:%-6s", seats[lseqc->p], lseqc->n, str );
-            else
-                printf( "%c:%x:%s ", seats[lseqc->p], lseqc->n, str );
+                    printf( "%c", symbols[i] );
             lseqc = lseqc->r;
         }
-        printf( "\n" );
-    }
 
-    //  print the west and east hands
-    if ( scard[t][s] ) {
+        //  print the west hand
+        k = 0;
+        for ( i = ace+1; i >= 0; i-- )
+            if ( set(i) & brd[west] )
+                str[k++] = symbols[i];
+        str[k] = '\0';
+        printf( "\n%c: %s%s", suits[s], str, k < 5 ? "\t\t" : "\t" );
 
-        nc = 13;
-        brd = scard[t][s]->brd;
+        //  print the east hand
         printf( "%c: ", suits[s] );
-        for ( n = ace; n >= two; n-- ) {
-            if ( set(n) & brd[west] ) {
-                nc--;
-                printf( "%c", card[n] );
-            }
-        }
+        for ( i = ace; i >= two; i-- )
+            if ( set(i) & brd[east] )
+                printf( "%c", symbols[i] );
 
-        for ( n = 0; n < nc; n++ )
-            printf( " " );
-        printf( "%c: ", suits[s] );
-        for ( n = ace; n >= two; n-- )
-            if ( set(n) & brd[east] )
-                printf( "%c", card[n] );
-        printf( "\n" );
-    }
-
-    //  print the south hand
-    if ( scard[t][s] ) {
-
-        brd = scard[t][s]->brd;
-        printf( "        %c: ", suits[s] );
-        for ( n = ace; n >= two; n-- )
-            if ( set(n) & brd[south] )
-                printf( "%c", card[n] );
+        //  print the south hand
+        printf( "\n\t%c: ", suits[s] );
+        for ( i = ace; i >= two; i-- )
+            if ( set(i) & brd[south] )
+                printf( "%c", symbols[i] );
         printf( "\n" );
     }
 }

@@ -8,7 +8,7 @@
 //  parameters:
 //      none
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -47,7 +47,7 @@ void check_board( void )
             for ( p = 0; p < 4; p++ ) {
                 for ( q = p+1; q < 4; q++ ) {
                     if ( brd[b][0][s][p] & brd[b][0][s][q] ) {
-                        printf( "The board contains duplicate cards: brd[%02d][0][%d][%d]=%04x and brd[%02d][0][%d][%d]=%04x\n",
+                        printf( "The board contains duplicate cards: brd[0][%02d][%d][%d]=%04x and brd[0][%02d][%d][%d]=%04x\n",
                                 b, s, p, brd[b][0][s][p] >> 2, b, s, q, brd[b][0][s][q] >> 2 );
                         exit( 99 );
                     }
@@ -65,7 +65,7 @@ void check_board( void )
     wnode[0]->nl = 0;
     wnode[0]->p = ld;
     wnode[0]->r = NIL;
-    wnode[0]->s = discard;
+    wnode[0]->s = spades;
     wnode[0]->t = ntricks ? NO : YES;
-    wnode[0]->w_p = ld;
+    wnode[0]->w_p = west;
 }

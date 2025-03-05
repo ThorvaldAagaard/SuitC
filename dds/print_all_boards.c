@@ -1,94 +1,125 @@
 //  name:
-//      print_board
+//      print_all_boards
 //
 //  purpose:
-//      print_board prints all boards
+//      print_all_boards prints all boards
 //
 //  parameters:
 //      d               in      the depth in the NODE tree
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
 void print_all_boards( int d )
 {
-    int           b, l, ll, n, nc, s, t = st[d].t;
+    int           b, i, l, n, p, s, t = st[d].t;
+    COLOR         allc[4];
     static char   suits[] = "SHDC";
-    static char   card[] = "-123456789TJQKA";
+    static char   symbol[] = "-123456789TJQKA";
 
-    //  print the boards in chunks of 5
-    for ( ll = 0; ll < boardcount[d]; ll += 5 ) {
+    //  print the header
+    printf( "\n\n\nbrd\n" );
+    for ( s = 0; s < 4; s++ )
+        allc[s] = RENONCE;
+    for ( l = 0; l < boardcount[d]; l++ ) {
+        b = blist[d][l];
+        for ( s = 0; s < 4; s++ )
+            for ( p = 0; p < 4; p++ )
+                allc[s] |= brd[t][b][s][p];
+    }
 
-        //  print the north hands
-        printf( "\n\n\n" );
-        for ( s = 0; s < 4; s++ ) {
-            for ( l = ll; l < MIN(ll+5,boardcount[d]); l++ ) {
-                b = blist[d][l];
-                nc = 21;
-                if ( s == 0 )
-                    printf( "b=%02d    %c: ", b+1, suits[s] );
-                else
-                    printf( "        %c: ", suits[s] );
-                for ( n = ace; n >= two; n-- ) {
-                    if ( set(n) & brd[b][t][s][north] ) {
-                        nc--;
-                        printf( "%c", card[n] );
+    //  print the north hands
+    b = blist[d][0];
+    printf( "---\t" );
+    for ( s = 0; s < 4; s++ ) {
+        if ( allc[s] ) {
+            n = 0;
+            printf( "%c:  ", suits[s] );
+            if ( brd[t][b][s][north] ) {
+                for ( i = ace; i >= two; i-- ) {
+                    if ( set(i) & brd[t][b][s][north] ) {
+                        n++;
+                        printf( "%c", symbol[i] );
                     }
                 }
-                if ( l < MIN(ll+5,boardcount[d]) - 1 )
-                    for ( n = 0; n < nc; n++ )
-                        printf( " " );
             }
-            printf( "\n" );
-        }
-
-        //  print the west and east hands
-        for ( s = 0; s < 4; s++ ) {
-            for ( l = ll; l < MIN(ll+5,boardcount[d]); l++ ) {
-                b = blist[d][l];
-                nc = 13;
-                printf( "%c: ", suits[s] );
-                for ( n = ace; n >= two; n-- ) {
-                    if ( set(n) & brd[b][t][s][west] ) {
-                        nc--;
-                        printf( "%c", card[n] );
-                    }
-                }
-                for ( n = 0; n < nc; n++ )
-                    printf( " " );
-                nc = 13;
-                printf( "%c: ", suits[s] );
-                for ( n = ace; n >= two; n-- ) {
-                    if ( set(n) & brd[b][t][s][east] ) {
-                        nc--;
-                        printf( "%c", card[n] );
-                    }
-                }
-                if ( l < MIN(ll+5,boardcount[d]) - 1 )
-                    for ( n = 0; n < nc; n++ )
-                        printf( " " );
-            }
-            printf( "\n" );
-        }
-
-        //  print the south hands
-        for ( s = 0; s < 4; s++ ) {
-            for ( l = ll; l < MIN(ll+5,boardcount[d]); l++ ) {
-                b = blist[d][l];
-                nc = 21;
-                printf( "        %c: ", suits[s] );
-                for ( n = ace; n >= two; n-- ) {
-                    if ( set(n) & brd[b][t][s][south] ) {
-                        nc--;
-                        printf( "%c", card[n] );
-                    }
-                }
-                if ( l < MIN(ll+5,boardcount[d]) - 1 )
-                    for ( n = 0; n < nc; n++ )
-                        printf( " " );
-            }
-            printf( "\n" );
+            else
+                printf( "-" );
+            if ( n < 4 )
+                printf( "\t" );
+            printf( "\t\t" );
         }
     }
+    printf( "\n" );
+
+    //  print the east and west hands
+    for ( l = 0; l < boardcount[d]; l++ ) {
+
+        b = blist[d][l];
+        printf( "%03d\t", b+1 );
+        for ( s = 0; s < 4; s++ ) {
+
+            //  print the west hands
+            if ( allc[s] ) {
+                n = 0;
+                if ( brd[t][b][s][west] ) {
+                    for ( i = ace; i >= two; i-- ) {
+                        if ( set(i) & brd[t][b][s][west] ) {
+                            n++;
+                            printf( "%c", symbol[i] );
+                        }
+                    }
+                }
+                else
+                    printf( "-" );
+                if ( n < 8 )
+                    printf( "\t" );
+            }
+
+            //  print the east hands
+            if ( allc[s] ) {
+                n = 0;
+                if ( brd[t][b][s][east] ) {
+                    for ( i = ace; i >= two; i-- ) {
+                        if ( set(i) & brd[t][b][s][east] ) {
+                            n++;
+                            printf( "%c", symbol[i] );
+                        }
+                    }
+                }
+                else
+                    printf( "-" );
+                if ( n < 8 )
+                    printf( "\t" );
+                printf( "\t" );
+            }
+        }
+
+        printf( "\n" );
+    }
+
+    //  print the south hands
+    b = blist[d][0];
+    printf( "\t" );
+    for ( s = 0; s < 4; s++ ) {
+        if ( allc[s] ) {
+            n = 0;
+            printf( "    " );
+            if ( brd[t][b][s][south] ) {
+                for ( i = ace; i >= two; i-- ) {
+                    if ( set(i) & brd[t][b][s][south] ) {
+                        n++;
+                        printf( "%c", symbol[i] );
+                    }
+                }
+            }
+            else
+                printf( "-" );
+            if ( n < 4 )
+                printf( "\t" );
+            printf( "\t\t" );
+        }
+    }
+    printf( "\n" );
 }

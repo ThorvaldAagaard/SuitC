@@ -9,13 +9,13 @@
 //      b               in      the board that is analysed
 //      s               in      the suit that is analysed
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
 void join_scard( int d, int b, int s )
 {
-    int           match, n, p, t = st[d].t;
+    int           match, p, t = st[d].t;
     unsigned long inx;
     struct JOINC  *ljoinc;
     struct SCARD  *ltable;
@@ -24,7 +24,7 @@ void join_scard( int d, int b, int s )
     //  locate an existing JOINC slot
     inx = ( (unsigned long) s * IA + IC ) % IM;
     for ( p = 0; p < 4; p++ )
-        inx = ( ( inx + (unsigned long) brd[b][t-1][s][p] ) * IA + IC ) % IM;
+        inx = ( ( inx + (unsigned long) brd[t-1][b][s][p] ) * IA + IC ) % IM;
     inx = inx % JHASHL;
 
     //  check the old JOINC slots
@@ -33,11 +33,11 @@ void join_scard( int d, int b, int s )
     while ( ljoinc ) {
         match = s == ljoinc->s;
         for ( p = 0; p < 4; p++ )
-            match &= brd[b][t-1][s][p] == ljoinc->brd[p];
+            match &= brd[t-1][b][s][p] == ljoinc->brd[p];
         if ( match ) {
-            scard[b][t][s] = ljoinc->sc;
+            scard[t][b][s] = ljoinc->sc;
             for ( p = 0; p < 4; p++ )
-                brd[b][t][s][p] = scard[b][t][s]->brd[p];
+                brd[t][b][s][p] = scard[t][b][s]->brd[p];
             return;
         }
         ljoinc = ljoinc->r;
@@ -51,14 +51,14 @@ void join_scard( int d, int b, int s )
     joinctable[inx] = ljoinc;
     ljoinc->s = s;
     for ( p = 0; p < 4; p++ )
-        ljoinc->brd[p] = brd[b][t-1][s][p];
+        ljoinc->brd[p] = brd[t-1][b][s][p];
 
     //  convert the cards into a SCARD list
     build_scard( d, b, s );
 
     //  locate an existing SCARD slot
-    lseqc = scard[b][t][s]->sq;
-    inx = ( (unsigned long) scard[b][t][s]->s * IA + IC ) % IM;
+    lseqc = scard[t][b][s]->sq;
+    inx = ( (unsigned long) scard[t][b][s]->s * IA + IC ) % IM;
     while( lseqc ) {
         inx = ( ( inx + (unsigned long) lseqc->n ) * IA + IC ) % IM;
         inx = ( ( inx + (unsigned long) lseqc->p ) * IA + IC ) % IM;
@@ -70,7 +70,7 @@ void join_scard( int d, int b, int s )
     ltable = scardtable[inx];
     while ( ltable ) {
 
-        lseqc = scard[b][t][s]->sq;
+        lseqc = scard[t][b][s]->sq;
         tseqc = ltable->sq;
         match = YES;
 
@@ -84,12 +84,14 @@ void join_scard( int d, int b, int s )
             //  we found an old SCARD slot
             if ( match && lseqc == NIL && tseqc == NIL ) {
                 scount--;
-                scard[b][t][s]->r = nextscard;
-                nextscard = scard[b][t][s];
-                scard[b][t][s] = ltable;
+                scard[t][b][s]->r = nextscard;
+                nextscard = scard[t][b][s];
+                scard[t][b][s] = ltable;
+                lseqc = nextscard->sq;
+                while ( lseqc ) { sqcount--; tseqc = lseqc->r; lseqc->r = nextseqc; nextseqc = lseqc; lseqc = tseqc; }
                 ljoinc->sc = ltable;
                 for ( p = 0; p < 4; p++ )
-                    brd[b][t][s][p] = ltable->brd[p];
+                    brd[t][b][s][p] = ltable->brd[p];
                 return;
             }
 
@@ -98,19 +100,19 @@ void join_scard( int d, int b, int s )
 
     //  insert the SCARD entry in the hash tables
     sfill++;
-    scard[b][t][s]->r = scardtable[inx];
-    scardtable[inx] = scard[b][t][s];
-    ljoinc->sc = scard[b][t][s];
+    scard[t][b][s]->r = scardtable[inx];
+    scardtable[inx] = scard[t][b][s];
+    ljoinc->sc = scard[t][b][s];
 
     //  check the fill factor of the hash table
     if ( 2 * sfill >= SHASHL ) {
-        printf( "ERROR: No more memory available: shashl=%d sfill=%d\n", SHASHL, sfill );
-        exit( 99 );
+        printf( "ERROR: No more memory available: shashl=%ld sfill=%d\n", SHASHL, sfill );
+        print_stat( 'P' ); \
     }
 
     //  check the fill factor of the hash table
     if ( 2 * jfill >= JHASHL ) {
-        printf( "ERROR: No more memory available: jhashl=%d jfill=%d\n", JHASHL, jfill );
-        exit( 99 );
+        printf( "ERROR: No more memory available: jhashl=%ld jfill=%d\n", JHASHL, jfill );
+        print_stat( 'P' ); \
     }
 }

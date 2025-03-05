@@ -2,7 +2,9 @@
 #
 #  Makefile for program dds
 #
-#  Copyright 2024, Gerrit A. van der Velde, Leiden
+#  This is a restart of Rev1.036
+#
+#  Copyright 2025, Gerrit A. van der Velde, Leiden
 #
 #-----------------------------------------------------------------------
 
@@ -21,8 +23,8 @@ OBJECTS	= 			\
 	  check_board.o		\
 	  delete_tree.o		\
 	  hashbackup.o		\
-	  order_plays.o		\
 	  join_scard.o		\
+	  order_plays.o		\
 	  play_board.o		\
 	  play_board_start.o	\
 	  print_all_boards.o	\
@@ -37,7 +39,7 @@ OBJECTS	= 			\
 
 ${EXEC}: ${OBJECTS}
 	${CC} ${CFLAGS} -o ${EXEC} ${OBJECTS}
-	[[ -f ${EXEC}.exe ]] && mv ${EXEC}.exe ${EXEC} || true
+	[[ -f ${EXEC}.exe ]] && mv ${EXEC}.exe ${EXEC}
 
 .SUFFIXES:
 .SUFFIXES: .o .c .h

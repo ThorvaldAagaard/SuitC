@@ -9,7 +9,7 @@
 //      root            in      the root of the NODE tree
 //      ident           in      an identification string
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 

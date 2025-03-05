@@ -8,7 +8,7 @@
 //      d               in      the depth in the NODE tree
 //      cards           out     the cards in each hand
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -56,7 +56,7 @@ void print_all_results( int d, COLOR *cards )
     for ( l = 0; l < boardcount[d]; l++ ) {
         b = blist[d][l];
         k = res[b].k;
-        printf( "b=%02d  ", b+1 );
+        printf( "b=%03d ", b+1 );
         for ( s = 0; s < 4; s++ ) {
             for ( i = ace; i >= two; i-- ) {
                 if ( cards[s] & set(i) ) {

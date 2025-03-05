@@ -9,7 +9,7 @@
 //      root            in      the node to be printed
 //      ident           in      an identification string
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -22,9 +22,9 @@ void print_node( int d, struct NODE *root, char *ident )
     static char   *suit[] = { "spades", "hearts", "diamonds", "clubs", "notrump", "discard" };
 
     if ( root )
-        printf( "\nd=%02d   node=%lx", d, root );
+        printf( "\nd=%02d   node=%lx", d, (long unsigned int) root );
     else {
-        printf( "\nd=%02d   node=%lx ident=%s\n", d, root, ident );
+        printf( "\nd=%02d   node=%lx ident=%s\n", d, (long unsigned int) root, ident );
         return;
     }
 
@@ -36,8 +36,8 @@ void print_node( int d, struct NODE *root, char *ident )
         out[l++] = '-';
     out[l] = '\0';
 
-    printf( " d=%lx", root->d );
-    printf( " r=%lx", root->r );
+    printf( " d=%lx", (long unsigned int) root->d );
+    printf( " r=%lx", (long unsigned int) root->r );
     printf( " t=%d", root->t );
     printf( "   s=%-8s", suit[root->s] );
     printf( " c=%-7s", out );

@@ -6,8 +6,9 @@
 //
 //  parameters:
 //      d               in      the depth in the NODE tree
+//      p               in      the player of this ply
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -82,19 +83,23 @@ redo:
     lds = st[d].ld ? discard : wnode[st[d].l]->s;
     printf( "%s", "\nSelect the play " );
     for ( s = 0; s < 4; s++ ) {
-        if ( cards[s] && ( st[d].ld || s == lds || ! cards[lds] ) ) {
-            l = 0;
-            for ( i = ace; i >= two; i-- )
-                if ( cards[s] & set(i) )
-                    out[l++] = symbols[i];
-            out[l] = '\0';
-            if ( start && l ) {
-                printf( "{%c:%s", suits[s], out );
-                start = NO;
+        k = 0;
+        for ( i = ace; i >= two; i-- ) {
+            for ( l = 0; l < boardcount[d]; l++ ) {
+                b = blist[d][l];
+                if ( ( st[d].ld || s == lds || brd[t][b][lds][p] == RENONCE ) && brd[t][b][s][p] & set(i) ) {
+                    out[k++] = symbols[i];
+                    break;
+                }
             }
-            else if ( l )
-                printf( "|%c:%s", suits[s], out );
         }
+        out[k] = '\0';
+        if ( start && k ) {
+            printf( "{%c:%s", suits[s], out );
+            start = NO;
+        }
+        else if ( k )
+            printf( "|%c:%s", suits[s], out );
     }
     printf( "%s", "|b<n>|p|P|.}: " );
 
@@ -161,7 +166,7 @@ redo:
     boardcount[d+1] = 0;
     for ( l = 0; l < boardcount[d]; l++ ) {
         b = blist[d][l];
-        if ( brd[b][t][s][p] && ( st[d].ld || s == lds || ! brd[b][t][lds][p] ) && brd[b][t][s][p] & playc ) {
+        if ( brd[t][b][s][p] && ( st[d].ld || s == lds || ! brd[t][b][lds][p] ) && brd[t][b][s][p] & playc ) {
             blist[d+1][boardcount[d+1]] = b;
             boardcount[d+1]++;
         }
@@ -180,7 +185,7 @@ redo:
     wnode[d]->nd = wnode[d-1]->nd + wnode[d-1]->nc;
     for ( l = 0; l < boardcount[d]; l++ ) {
         b = blist[d][l];
-        brd[b][t][s][p] ^= low_c( brd[b][t][s][p] & playc );
+        brd[t][b][s][p] ^= low_c( brd[t][b][s][p] & playc );
     }
 
     //  play the next card
@@ -189,7 +194,7 @@ redo:
         play_board( d+1, q );
         for ( l = 0; l < boardcount[d]; l++ ) {
             b = blist[d][l];
-            brd[b][t][s][p] = scard[b][t][s]->brd[p];
+            brd[t][b][s][p] = scard[t][b][s]->brd[p];
         }
     }
 
@@ -199,7 +204,7 @@ redo:
         wnode[d-1]->d = bnode[d];
         for ( l = 0; l < boardcount[d]; l++ ) {
             b = blist[d][l];
-            brd[b][t][s][p] = scard[b][t][s]->brd[p];
+            brd[t][b][s][p] = scard[t][b][s]->brd[p];
         }
         ns = wnode[d]->nd + wnode[d]->nc;
         printf( "\nd=%02d    ns=%x ew=%x   %s\n", d, ns, st[d].t - ns, suit[trump] );

@@ -10,7 +10,7 @@
 //      d               in      the depth in the NODE tree
 //      b               in      the board that is analysed
 //
-//  Copyright 2024, Gerrit A. van der Velde, Leiden
+//  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -22,12 +22,12 @@ int hashbackup( int d, int b )
 
     //  create the JOINC slots
     for ( s = 0; s < 4; s++ ) {
-        if ( brd[b][t-1][s][0] | brd[b][t-1][s][1] | brd[b][t-1][s][2] | brd[b][t-1][s][3] )
+        if ( brd[t-1][b][s][west] | brd[t-1][b][s][north] | brd[t-1][b][s][east] | brd[t-1][b][s][south] )
             join_scard( d, b, s );
         else {
-            scard[b][t][s] = NIL;
+            scard[t][b][s] = NIL;
             for ( p = 0; p < 4; p++ )
-                brd[b][t][s][p] = RENONCE;
+                brd[t][b][s][p] = RENONCE;
         }
     }
 
@@ -36,7 +36,7 @@ int hashbackup( int d, int b )
     inx = ( (unsigned long) wnode[d-1]->w_p * IA + IC ) % IM;
     inx = ( ( inx + (unsigned long) trump ) * IA + IC ) % IM;
     for ( s = 0; s < 4; s++ )
-        inx = ( ( inx + (unsigned long) scard[b][t][s] ) * IA + IC ) % IM;
+        inx = ( ( inx + (unsigned long) scard[t][b][s] ) * IA + IC ) % IM;
     inx = inx % BHASHL;
 
     //  check the old BACKUP slots
@@ -44,7 +44,7 @@ int hashbackup( int d, int b )
     while ( lbackup ) {
         match = wnode[d-1]->w_p == lbackup->ld && trump == lbackup->trump;
         for ( s = 0; s < 4; s++ )
-            match &= scard[b][t][s] == lbackup->sc[s];
+            match &= scard[t][b][s] == lbackup->sc[s];
         if ( match ) {
             backup[t-1] = lbackup;
             wnode[d-1]->nh = lbackup->nh;
@@ -56,9 +56,6 @@ int hashbackup( int d, int b )
         lbackup = lbackup->r;
     }
 
-    //  build the NODE tree for the next trick
-    build_ply( d, b, wnode[d-1]->w_p );
-
     //  create a new BACKUP slot
     bfill++;
     lbackup = nextbackup;
@@ -69,12 +66,12 @@ int hashbackup( int d, int b )
     lbackup->ld = wnode[d-1]->w_p;
     lbackup->trump = trump;
     for ( s = 0; s < 4; s++ )
-        lbackup->sc[s] = scard[b][t][s];
+        lbackup->sc[s] = scard[t][b][s];
 
     //  check the fill factor of the hash table
     if ( ( 2 * bfill >= BHASHL ) ) {
-        printf( "ERROR: No more memory available: bhashl=%d bfill=%d\n", BHASHL, bfill );
-        exit( 99 );
+        printf( "ERROR: No more memory available: bhashl=%ld bfill=%d\n", BHASHL, bfill );
+        print_stat( 'P' ); \
     }
 
     return( NO );
