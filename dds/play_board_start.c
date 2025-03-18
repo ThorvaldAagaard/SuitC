@@ -13,7 +13,7 @@
 
 void play_board_start( void )
 {
-    int           b, l, ns[4][5], p = ld, s = trump;
+    int           b, l, ns[NBOARDS][4][5], p = ld, s = trump;
     char          c, in[10];
     static char   hdr[] = "S H D C N";
     static char   *seat[] = { "west", "north", "east", "south" };
@@ -38,40 +38,64 @@ void play_board_start( void )
                     hashbackup( 1, b );
                     build_ply( 1, b, ld );
                     build_tree( d_start, b );
-                    ns[ld][trump] = wnode[0]->nh;
+                    ns[b][ld][trump] = wnode[0]->nh;
                 }
             }
         }
         ld = p;
         trump = s;
         wnode[0]->w_p = ld;
+    }
 
-        //  print the results
-        printf( "\nb=%03d\n-----\n", b+1 );
-        print_board( brd[b][0] );
+    //  print the boards
+    print_all_boards( 0 );
 
-        if ( ld == unknown && trump == discard ) {
-            printf( "\n%12s%s\n", "", hdr );
-            printf( "%11s%2x%2x%2x%2x%2x\n", "", ns[1][0], ns[1][1], ns[1][2], ns[1][3], ns[1][4] );
-            printf( " %s%13s%s\n", hdr, "", hdr );
-            printf( "%2x%2x%2x%2x%2x%12s%2x%2x%2x%2x%2x\n", ns[0][0], ns[0][1], ns[0][2], ns[0][3], ns[0][4],
-                                                        "", ns[2][0], ns[2][1], ns[2][2], ns[2][3], ns[2][4] );
-            printf( "%12s%s\n", "", hdr );
-            printf( "%11s%2x%2x%2x%2x%2x\n", "", ns[3][0], ns[3][1], ns[3][2], ns[3][3], ns[3][4] );
+    //  both the leader and the trump suit are unknown
+    if ( ld == unknown && trump == discard ) {
+        printf( "\n%20s%s\n", "", hdr );
+        for ( l = 0; l < boardcount[1]; l++ ) {
+            b = blist[1][l];
+            printf( "b=%03d%14s%2x%2x%2x%2x%2x\n", b+1, "", ns[b][1][0], ns[b][1][1], ns[b][1][2], ns[b][1][3], ns[b][1][4] );
         }
-
-        else if ( ld == unknown ) {
-            printf( "\n%4s%s\n", "", denom[trump] );
-            printf( "%4s%2x\n", "", ns[1][trump] );
-            printf( "%s%6s%s\n", denom[trump], "", denom[trump] );
-            printf( "%2x%6s%2x\n", ns[0][trump], "", ns[2][trump] );
-            printf( "\n%4s%s\n", "", denom[trump] );
-            printf( "%4s%2x\n", "", ns[3][trump] );
+        printf( "%9s%s%13s%s\n", "", hdr, "", hdr );
+        for ( l = 0; l < boardcount[1]; l++ ) {
+            b = blist[1][l];
+            printf( "b=%03d%3s%2x%2x%2x%2x%2x%12s%2x%2x%2x%2x%2x\n",
+                     b+1, "", ns[b][0][0], ns[b][0][1], ns[b][0][2], ns[b][0][3], ns[b][0][4],
+                          "", ns[b][2][0], ns[b][2][1], ns[b][2][2], ns[b][2][3], ns[b][2][4] );
         }
+        printf( "%20s%s\n", "", hdr );
+        for ( l = 0; l < boardcount[1]; l++ ) {
+            b = blist[1][l];
+            printf( "b=%03d%14s%2x%2x%2x%2x%2x\n", b+1, "", ns[b][3][0], ns[b][3][1], ns[b][3][2], ns[b][3][3], ns[b][3][4] );
+        }
+    }
 
-        else if ( trump == discard ) {
-            printf( "\n%-9s%s\n", seat[ld], hdr );
-            printf( "%8s%2x%2x%2x%2x%2x\n", "", ns[ld][0], ns[ld][1], ns[ld][2], ns[ld][ld], ns[ld][4] );
+    //  the leader is unknown
+    else if ( ld == unknown ) {
+        printf( "\n%13s%s\n", "", denom[trump] );
+        for ( l = 0; l < boardcount[1]; l++ ) {
+            b = blist[1][l];
+            printf( "b=%03d%7s%2x\n", b+1, "", ns[b][1][trump] );
+        }
+        printf( "%9s%s%7s%s\n", "", denom[trump], "", denom[trump] );
+        for ( l = 0; l < boardcount[1]; l++ ) {
+            b = blist[1][l];
+            printf( "b=%03d%3s%2x%6s%2x\n", b+1, "", ns[b][0][trump], "", ns[b][2][trump] );
+        }
+        printf( "%13s%s\n", "", denom[trump] );
+        for ( l = 0; l < boardcount[1]; l++ ) {
+            b = blist[1][l];
+            printf( "b=%03d%7s%2x\n", b+1, "", ns[b][3][trump] );
+        }
+    }
+
+    //  the trump suit is unknown
+    else if ( trump == discard ) {
+        printf( "\n%-9s%s\n", seat[ld], hdr );
+        for ( l = 0; l < boardcount[1]; l++ ) {
+            b = blist[1][l];
+            printf( "b=%03d%3s%2x%2x%2x%2x%2x\n", b+1, "", ns[b][ld][0], ns[b][ld][1], ns[b][ld][2], ns[b][ld][3], ns[b][ld][4] );
         }
     }
 
@@ -98,7 +122,7 @@ redo:
         printf( "\nEnter the denomination {s|h|d|c|n|p|P|.}: " );
         scanf( "%s", in );
         c = in[0];
-        if ( c == 'P' || c == 'P' )
+        if ( c == 'p' || c == 'P' )
             print_stat( c );
         if ( c == '.' )
             exit( 0 );

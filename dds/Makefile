@@ -50,7 +50,7 @@ extern.h: global.h
 .c.o:
 	${CC} ${CFLAGS} -c $*.c
 
-${OBJECTS}:	Makefile	bump_codes.h	extern.h	header.h
+${OBJECTS}:	Makefile	extern.h	header.h
 
 clean:
 	-@rm -f ${OBJECTS} > /dev/null 2>&1

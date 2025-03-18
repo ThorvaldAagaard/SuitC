@@ -28,7 +28,7 @@ void play_board( int d, int p )
         for ( l = 0; l < boardcount[d]; l++ ) {
             b = blist[d][l];
             for ( s = 0; s < 4; s++ )
-                build_scard( d, b, s );
+                build_scard( d, b, s, NO );
         }
     }
 

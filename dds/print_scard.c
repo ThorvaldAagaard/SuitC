@@ -5,15 +5,13 @@
 //      print_scard prints a SCARD node
 //
 //  parameters:
-//      t               in      the trick that is printed
-//      b               in      the board that is analysed
-//      s               in      the suit that is reported
+//      lscard          in      the SCARD variable to be printed
 //
 //  Copyright 2025, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
-void print_scard( int t, int b, int s )
+void print_scard( struct SCARD *lscard )
 {
     int           i, k;
     char          str[14];
@@ -23,19 +21,19 @@ void print_scard( int t, int b, int s )
     static char   symbols[] = "-123456789TJQKA";
     struct SEQC   *lseqc;
 
-    if ( scard[t][b][s] ) {
+    if ( lscard ) {
 
         //  print the north hand
         k = 0;
-        brd = scard[t][b][s]->brd;
+        brd = lscard->brd;
         for ( i = ace+1; i >= 0; i-- )
             if ( set(i) & brd[north] )
                 str[k++] = symbols[i];
         str[k] = '\0';
-        printf( "\n\t%c: %s%s", suits[s], str, k < 5 ? "\t\t" : "\t" );
+        printf( "\n\t%c: %s%s", suits[lscard->s], str, k < 5 ? "\t\t" : "\t" );
 
         //  print the SCARD sequences
-        lseqc = scard[t][b][s]->sq;
+        lseqc = lscard->seqc;
         while ( lseqc ) {
             printf( "    %c:%x:", seats[lseqc->p], lseqc->n );
             for ( i = ace+1; i >= 0; i-- )
@@ -50,16 +48,16 @@ void print_scard( int t, int b, int s )
             if ( set(i) & brd[west] )
                 str[k++] = symbols[i];
         str[k] = '\0';
-        printf( "\n%c: %s%s", suits[s], str, k < 5 ? "\t\t" : "\t" );
+        printf( "\n%c: %s%s", suits[lscard->s], str, k < 5 ? "\t\t" : "\t" );
 
         //  print the east hand
-        printf( "%c: ", suits[s] );
+        printf( "%c: ", suits[lscard->s] );
         for ( i = ace; i >= two; i-- )
             if ( set(i) & brd[east] )
                 printf( "%c", symbols[i] );
 
         //  print the south hand
-        printf( "\n\t%c: ", suits[s] );
+        printf( "\n\t%c: ", suits[lscard->s] );
         for ( i = ace; i >= two; i-- )
             if ( set(i) & brd[south] )
                 printf( "%c", symbols[i] );

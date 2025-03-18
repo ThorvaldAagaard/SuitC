@@ -7,17 +7,17 @@
 
 //  list of cpp defines
 //  ----------------------------------------------------------------------------
-#define BHASHL                          120000000L
 #define EW( p )                         ( ( p == west ) || ( p == east ) )
 #define IA                              (unsigned long) 2416
 #define IC                              (unsigned long) 374441
 #define IM                              (unsigned long) 1771875
-#define JHASHL                          100000L
 #define low_c( c )                      ( ( c ) & -( c ) )
 #define MAX( i, j )                     ( ( i ) > ( j ) ? ( i ) : ( j ) )
 #define MIN( i, j )                     ( ( i ) < ( j ) ? ( i ) : ( j ) )
+#define NBACKUP                         60000000L
 #define NBOARDS                         128
 #define NIL                             (void *) 0
+#define NJOINC                          1000000L
 #define NNODE                           1600000000L
 #define NO                              0
 #define NPLIES                          52
@@ -26,14 +26,13 @@
 #define NSEQC                           1000000L
 #define RENONCE                         ( (COLOR) 0 )
 #define set( i )                        ( 1 << i )
-#define SHASHL                          40000L
 #define YES                             1
 
 //  list of typedef declarations
 //  ----------------------------------------------------------------------------
 typedef unsigned short COLOR;
-typedef enum { west, north, east, south, unknown } SEAT;
-typedef enum { spades, hearts, diamonds, clubs, notrump, discard } SUITS;
+typedef enum { west, north, east, south, unknown } SEATS;
+typedef enum { spades, hearts, diamonds, clubs, notrump, discard, ruff } SUITS;
 typedef enum { renonce, one, two, three, four, five, six, seven, eight, nine, ten, jack, queen, king, ace } CARD;
 
 //  list of type declarations
@@ -42,7 +41,7 @@ typedef enum { renonce, one, two, three, four, five, six, seven, eight, nine, te
 struct BACKUP {
     struct BACKUP *r;                   //  pointer to the right sibling node
     struct NODE   *node;                //  the root of the backup NODE tree
-    struct SCARD  *sc[4];               //  pointer to the SCARD trees
+    struct SCARD  *scard[4];            //  pointer to the SCARD trees
     unsigned int  ld:2,                 //  the leader to the trick
                   nh:4,                 //  the backup value of the maximum number of north-south tricks
                   nl:4,                 //  the backup value of the minimum number of north-south tricks
@@ -54,7 +53,7 @@ struct JOINC {
     struct JOINC  *r;                   //  pointer to the right sibling node
     struct SCARD  *sc;                  //  pointer to the output SCARD tree
     COLOR         brd[4];               //  the cards of each player
-    unsigned int  s:2;                  //  the suit
+    unsigned int  s;                    //  the suit
 };
 
 struct NODE {
@@ -83,22 +82,22 @@ struct RES {
 
 struct RESULT {
     COLOR         c;                    //  the cards that are lead
-    unsigned int  s:2,                  //  the suit that is lead
-                  ns:4;                 //  the result
+    unsigned int  s,                    //  the suit that is lead
+                  ns;                   //  the result
 };
 
 struct SCARD {
     struct SCARD  *r;                   //  pointer to the right sibling
-    struct SEQC   *sq;                  //  the list of SEQC sequences
+    struct SEQC   *seqc;                //  the list of SEQC sequences
     COLOR         brd[4];               //  the cards of each player
-    unsigned int  s:2;                  //  the suit of the sequence
+    unsigned int  s;                    //  the suit of the sequence
 };
 
 struct SEQC {
     struct SEQC   *r;                   //  pointer to the right sibling
     COLOR         c;                    //  the cards in the sequence
-    unsigned int  n:4,                  //  the number of cards in the sequence
-                  p:2;                  //  the player of the sequence
+    unsigned int  n,                    //  the number of cards in the sequence
+                  p;                    //  the player of the sequence
 };
 
 struct STACK {
@@ -111,22 +110,21 @@ struct STACK {
 
 struct TARGET {
     unsigned int  d,                    //  the ply number of the target root
-                  p:2,                  //  the player that plays at the target root
-                  ns:4,                 //  the number of north-south tricks
-                  set:1;                //  indicator that alpha-beta pruning is active
+                  p,                    //  the player that plays at the target root
+                  ns,                   //  the number of north-south tricks
+                  set;                  //  indicator that alpha-beta pruning is active
 };
 
 //  list of include files
 //  ----------------------------------------------------------------------------
 #include "extern.h"
-#include "bump_codes.h"
 
 //  list of routines
 //  ----------------------------------------------------------------------------
 void           bottomup_tree( int d, int b );
 void           build_node( int d, int b, int s, int p, COLOR c );
 void           build_ply( int d, int b, int p );
-void           build_scard( int d, int b, int s );
+void           build_scard( int d, int b, int s, int lookup );
 void           build_tree( int d, int b );
 void           check_board( void );
 int            dds( int argc, char **argv );
@@ -140,7 +138,7 @@ void           print_all_boards( int d );
 void           print_all_results( int d, COLOR *cards );
 void           print_board( COLOR brd[4][4] );
 void           print_node( int d, struct NODE *root, char *ident );
-void           print_scard( int t, int b, int s );
+void           print_scard( struct SCARD *lscard );
 void           print_stat( char c );
 void           print_tree( int d_start, struct NODE *root, char *ident );
 void           process_args( int argc, char **argv );

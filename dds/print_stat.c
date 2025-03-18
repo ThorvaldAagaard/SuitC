@@ -18,17 +18,14 @@ void print_stat( char c )
     times[1] = TICK * clock();
     printf( "\n\nroutine          #calls\n===========    ========\n" );
     printf( "%-11s %11.3f\n", "cpu time", times[1] - times[0] );
+    printf( "%-11s %11d\n", "bcount", bcount );
     printf( "%-11s %11d\n", "ncount", ncountmax );
-    printf( "%-11s %11d\n", "scount", scountmax );
-    printf( "%-11s %11d\n", "sqcount", sqcountmax );
-    printf( "%-11s %11d\n", "bfill", bfill );
-    printf( "%-11s %11d\n", "jfill", jfill );
-    printf( "%-11s %11d\n", "sfill", sfill );
+    printf( "%-11s %11d\n", "jcount", jcount );
+    printf( "%-11s %11d\n", "qcount", qcount );
+    printf( "%-11s %11d\n", "scount", scount );
     printf( "%-11s %11d\n", "bump_node", ncalls[0] );
-    printf( "%-11s %11d\n", "bump_scard", ncalls[1] );
-    printf( "%-11s %11d\n", "bump_seqc", ncalls[2] );
-    printf( "%-11s %11d\n", "hashbackup", ncalls[8] );
-    printf( "%-11s %11d\n", "join_scard", ncalls[9] );
+    printf( "%-11s %11d\n", "hashbackup", ncalls[1] );
+    printf( "%-11s %11d\n", "join_scard", ncalls[2] );
     if ( c == 'P' ) {
         printf( "\n d     count\n==    ======\n" );
             for ( d = 1; d <= 4*ntricks; d++ )

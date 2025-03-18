@@ -18,9 +18,9 @@ int hashbackup( int d, int b )
 {
     int           match, p, s, t = st[d].t;
     unsigned long inx;
-    struct BACKUP *lbackup;
 
     //  create the JOINC slots
+    ncalls[1]++;
     for ( s = 0; s < 4; s++ ) {
         if ( brd[t-1][b][s][west] | brd[t-1][b][s][north] | brd[t-1][b][s][east] | brd[t-1][b][s][south] )
             join_scard( d, b, s );
@@ -32,45 +32,42 @@ int hashbackup( int d, int b )
     }
 
     //  locate an existing BACKUP slot
-    ncalls[8]++;
     inx = ( (unsigned long) wnode[d-1]->w_p * IA + IC ) % IM;
     inx = ( ( inx + (unsigned long) trump ) * IA + IC ) % IM;
     for ( s = 0; s < 4; s++ )
         inx = ( ( inx + (unsigned long) scard[t][b][s] ) * IA + IC ) % IM;
-    inx = inx % BHASHL;
+    inx = inx % (2*NBACKUP);
 
     //  check the old BACKUP slots
-    lbackup = backuptable[inx];
-    while ( lbackup ) {
-        match = wnode[d-1]->w_p == lbackup->ld && trump == lbackup->trump;
+    backup[t-1] = backuptable[inx];
+    while ( backup[t-1] ) {
+        match = wnode[d-1]->w_p == backup[t-1]->ld && trump == backup[t-1]->trump;
         for ( s = 0; s < 4; s++ )
-            match &= scard[t][b][s] == lbackup->sc[s];
+            match &= scard[t][b][s] == backup[t-1]->scard[s];
         if ( match ) {
-            backup[t-1] = lbackup;
-            wnode[d-1]->nh = lbackup->nh;
-            wnode[d-1]->nl = lbackup->nl;
-            wnode[d-1]->d = lbackup->node;
-            wnode[d-1]->t = lbackup->t;
+            wnode[d-1]->nh = backup[t-1]->nh;
+            wnode[d-1]->nl = backup[t-1]->nl;
+            wnode[d-1]->d = backup[t-1]->node;
+            wnode[d-1]->t = backup[t-1]->t;
             return( YES );
         }
-        lbackup = lbackup->r;
+        backup[t-1] = backup[t-1]->r;
     }
 
     //  create a new BACKUP slot
-    bfill++;
-    lbackup = nextbackup;
+    bcount++;
+    backup[t-1] = nextbackup;
     nextbackup++;
-    lbackup->r = backuptable[inx];
-    backuptable[inx] = lbackup;
-    backup[t-1] = lbackup;
-    lbackup->ld = wnode[d-1]->w_p;
-    lbackup->trump = trump;
+    backup[t-1]->r = backuptable[inx];
+    backuptable[inx] = backup[t-1];
+    backup[t-1]->ld = wnode[d-1]->w_p;
+    backup[t-1]->trump = trump;
     for ( s = 0; s < 4; s++ )
-        lbackup->sc[s] = scard[t][b][s];
+        backup[t-1]->scard[s] = scard[t][b][s];
 
     //  check the fill factor of the hash table
-    if ( ( 2 * bfill >= BHASHL ) ) {
-        printf( "ERROR: No more memory available: bhashl=%ld bfill=%d\n", BHASHL, bfill );
+    if ( bcount == NBACKUP ) {
+        printf( "ERROR: No more memory available in the BACKUP hash table; increase NBACKUP\n" );
         print_stat( 'P' ); \
     }
 

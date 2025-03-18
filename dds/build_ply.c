@@ -26,7 +26,7 @@ void build_ply( int d, int b, int p )
     for ( s = 0; s < 4; s++ ) {
         lds = st[d].ld ? s : wnode[st[d].l]->s;
         if ( brd[t][b][s][p] && ( st[d].ld || s == lds || ! brd[t][b][lds][p] ) ) {
-            lseqc = scard[t][b][s]->sq;
+            lseqc = scard[t][b][s]->seqc;
             while ( lseqc ) {
                 if ( lseqc->p == p )
                     build_node( d, b, s, p, lseqc->c );

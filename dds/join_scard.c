@@ -22,13 +22,13 @@ void join_scard( int d, int b, int s )
     struct SEQC   *lseqc, *tseqc;
 
     //  locate an existing JOINC slot
+    ncalls[2]++;
     inx = ( (unsigned long) s * IA + IC ) % IM;
     for ( p = 0; p < 4; p++ )
         inx = ( ( inx + (unsigned long) brd[t-1][b][s][p] ) * IA + IC ) % IM;
-    inx = inx % JHASHL;
+    inx = inx % (2*NJOINC);
 
     //  check the old JOINC slots
-    ncalls[9]++;
     ljoinc = joinctable[inx];
     while ( ljoinc ) {
         match = s == ljoinc->s;
@@ -44,7 +44,7 @@ void join_scard( int d, int b, int s )
     }
 
     //  create a new JOINC slot
-    jfill++;
+    jcount++;
     ljoinc = nextjoinc;
     nextjoinc++;
     ljoinc->r = joinctable[inx];
@@ -52,67 +52,12 @@ void join_scard( int d, int b, int s )
     ljoinc->s = s;
     for ( p = 0; p < 4; p++ )
         ljoinc->brd[p] = brd[t-1][b][s][p];
-
-    //  convert the cards into a SCARD list
-    build_scard( d, b, s );
-
-    //  locate an existing SCARD slot
-    lseqc = scard[t][b][s]->sq;
-    inx = ( (unsigned long) scard[t][b][s]->s * IA + IC ) % IM;
-    while( lseqc ) {
-        inx = ( ( inx + (unsigned long) lseqc->n ) * IA + IC ) % IM;
-        inx = ( ( inx + (unsigned long) lseqc->p ) * IA + IC ) % IM;
-        lseqc = lseqc->r;
-    }
-    inx = inx % SHASHL;
-
-    //  check the old SCARD slots
-    ltable = scardtable[inx];
-    while ( ltable ) {
-
-        lseqc = scard[t][b][s]->sq;
-        tseqc = ltable->sq;
-        match = YES;
-
-            while ( match && lseqc && tseqc ) {
-                match &= lseqc->n == tseqc->n;
-                match &= lseqc->p == tseqc->p;
-                lseqc = lseqc->r;
-                tseqc = tseqc->r;
-            }
-
-            //  we found an old SCARD slot
-            if ( match && lseqc == NIL && tseqc == NIL ) {
-                scount--;
-                scard[t][b][s]->r = nextscard;
-                nextscard = scard[t][b][s];
-                scard[t][b][s] = ltable;
-                lseqc = nextscard->sq;
-                while ( lseqc ) { sqcount--; tseqc = lseqc->r; lseqc->r = nextseqc; nextseqc = lseqc; lseqc = tseqc; }
-                ljoinc->sc = ltable;
-                for ( p = 0; p < 4; p++ )
-                    brd[t][b][s][p] = ltable->brd[p];
-                return;
-            }
-
-        ltable = ltable->r;
-    }
-
-    //  insert the SCARD entry in the hash tables
-    sfill++;
-    scard[t][b][s]->r = scardtable[inx];
-    scardtable[inx] = scard[t][b][s];
+    build_scard( d, b, s, YES );
     ljoinc->sc = scard[t][b][s];
 
     //  check the fill factor of the hash table
-    if ( 2 * sfill >= SHASHL ) {
-        printf( "ERROR: No more memory available: shashl=%ld sfill=%d\n", SHASHL, sfill );
-        print_stat( 'P' ); \
-    }
-
-    //  check the fill factor of the hash table
-    if ( 2 * jfill >= JHASHL ) {
-        printf( "ERROR: No more memory available: jhashl=%ld jfill=%d\n", JHASHL, jfill );
+    if ( jcount == NJOINC ) {
+        printf( "ERROR: No more memory available in the JOINC hash table; increase NJOINC\n" );
         print_stat( 'P' ); \
     }
 }

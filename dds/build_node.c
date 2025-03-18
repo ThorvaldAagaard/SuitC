@@ -21,8 +21,22 @@ void build_node( int d, int b, int s, int p, COLOR c )
     struct        { int p, s; COLOR c; } w;
 
     //  create the new NODE
-    bump_node( wnode[d]->r );
+    ncount++;
+    ncalls[0]++;
+    wnode[d]->r = nextnode;
     wnode[d] = wnode[d]->r;
+    if ( ncountmax < ncount ) {
+        ncountmax++;
+        nextnode++;
+        if ( ncountmax == NNODE ) {
+            printf( "No more memory for the NODE entries; increase the value of NNODE\n" );
+            print_stat( 'P' );
+        }
+    }
+    else
+        nextnode = nextnode->r;
+    wnode[d]->r = NIL;
+    wnode[d]->d = NIL;
 
     if ( st[d].ld || s == wnode[d-1]->w_s && c > wnode[d-1]->w_c || s == trump && wnode[d-1]->w_s != trump ) {
         wnode[d]->w_p = p;

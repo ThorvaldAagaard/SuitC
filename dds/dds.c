@@ -31,49 +31,47 @@ int main( int argc, char **argv )
         st[d].t = ( d + 3 ) / 4;
     }
 
-    //  initialise the BACKUP hash table
-    bfill = 0;
-    nextbackup = malloc( BHASHL * sizeof( struct BACKUP ) );
+    //  allocate memory for the BACKUP entries
+    bcount = 0;
+    nextbackup = malloc( (NBACKUP+2) * sizeof( struct BACKUP ) );
     if ( nextbackup == NIL ) {
-        printf( "The allocation of memory for the BACKUP hash table failed\n" );
+        printf( "The allocation of memory for the BACKUP entries failed\n" );
         print_stat( 'p' );
     }
 
-    //  initialise the JOINC hash table
-    jfill = 0;
-    nextjoinc = malloc( JHASHL * sizeof( struct JOINC ) );
+    //  allocate memory for the JOINC entries
+    jcount = 0;
+    nextjoinc = malloc( (NJOINC+2) * sizeof( struct JOINC ) );
     if ( nextjoinc == NIL ) {
-        printf( "The allocation of memory for the JOINC hash table failed\n" );
+        printf( "The allocation of memory for the JOINC entries failed\n" );
         print_stat( 'p' );
     }
 
+    //  allocate memory for the NODE tree
     //  initialise the NODE tree
     ncount = 0;
     ncountmax = 0;
     wnode[0] = &znode;
     wnode[0]->r = NIL;
-    nextnode = malloc( NNODE * sizeof( struct NODE ) );
+    nextnode = malloc( (NNODE+2) * sizeof( struct NODE ) );
     if ( nextnode == NIL ) {
         printf( "The allocation of memory for the NODE tree failed\n" );
         print_stat( 'p' );
     }
 
-    //  initialise the SCARD list
-    sfill = 0;
+    //  allocate memory for the SCARD entries
     scount = 0;
-    scountmax = 0;
-    nextscard = malloc( NSCARD * sizeof( struct SCARD ) );
+    nextscard = malloc( (NSCARD+2) * sizeof( struct SCARD ) );
     if ( nextscard == NIL ) {
-        printf( "The allocation of memory for the SCARD list failed\n" );
+        printf( "The allocation of memory for the SCARD entries failed\n" );
         print_stat( 'p' );
     }
 
-    //  initialise the SEQC list
-    sqcount = 0;
-    sqcountmax = 0;
-    nextseqc = malloc( NSEQC * sizeof( struct SEQC ) );
+    //  allocate memory for the SEQC entries
+    qcount = 0;
+    nextseqc = malloc( (NSEQC+2) * sizeof( struct SEQC ) );
     if ( nextseqc == NIL ) {
-        printf( "The allocation of memory for the SEQC list failed\n" );
+        printf( "The allocation of memory for the SEQC entries failed\n" );
         print_stat( 'p' );
     }
 
