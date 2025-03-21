@@ -201,7 +201,6 @@ redo:
     //  We are finished
     else {
 
-        wnode[d-1]->d = bnode[d];
         for ( l = 0; l < boardcount[d]; l++ ) {
             b = blist[d][l];
             brd[t][b][s][p] = scard[t][b][s]->brd[p];

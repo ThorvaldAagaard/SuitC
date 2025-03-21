@@ -3,7 +3,7 @@
 COLOR  brd[14][NBOARDS][4][4];          //  the unplayed cards
 double times[2];                        //  the cpu time measured at the start and the end of the program
 int    bcount;                          //  the number of occupied slots in the BACKUP hash table
-int    blist[NPLIES+1][NBOARDS+1];      //  the list of boards
+int    blist[NPLIES+2][NBOARDS+1];      //  the list of boards
 int    boardcount[NPLIES+1];            //  the number of EW distributions
 int    d_ab;                            //  the lowest ply in the alpha-beta pruning
 int    d_back;                          //  the ply at which the analysis is restarted

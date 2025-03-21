@@ -23,7 +23,7 @@ void check_board( void )
             n = 0;
             for ( s = 0; s < 4; s++ )
                 for ( i = two; i <= ace; i++ )
-                    if ( set(i) & brd[b][0][s][p] )
+                    if ( set(i) & brd[0][b][s][p] )
                         n++;
             if ( b == 0 && p == 0 )
                 ntricks = n;
@@ -46,9 +46,9 @@ void check_board( void )
         for ( s = 0; s < 4; s++ ) {
             for ( p = 0; p < 4; p++ ) {
                 for ( q = p+1; q < 4; q++ ) {
-                    if ( brd[b][0][s][p] & brd[b][0][s][q] ) {
+                    if ( brd[0][b][s][p] & brd[0][b][s][q] ) {
                         printf( "The board contains duplicate cards: brd[0][%02d][%d][%d]=%04x and brd[0][%02d][%d][%d]=%04x\n",
-                                b, s, p, brd[b][0][s][p] >> 2, b, s, q, brd[b][0][s][q] >> 2 );
+                                b, s, p, brd[0][b][s][p] >> 2, b, s, q, brd[0][b][s][q] >> 2 );
                         exit( 99 );
                     }
                 }
