@@ -18,7 +18,7 @@ OBJECTS	= 			\
 	  bottomup_tree.o	\
 	  build_node.o		\
 	  build_ply.o		\
-	  build_scard.o		\
+	  build_seqc.o		\
 	  build_tree.o		\
 	  check_board.o		\
 	  delete_tree.o		\

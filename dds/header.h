@@ -51,7 +51,7 @@ struct BACKUP {
 
 struct JOINC {
     struct JOINC  *r;                   //  pointer to the right sibling node
-    struct SCARD  *sc;                  //  pointer to the output SCARD tree
+    struct SCARD  *scard;               //  pointer to the output SCARD tree
     COLOR         brd[4];               //  the cards of each player
     unsigned int  s;                    //  the suit
 };
@@ -67,7 +67,7 @@ struct NODE {
                   nl:4,                 //  the minimum number of north-south tricks
                   p:2,                  //  the player of the cards
                   rnk:6,                //  the ranking of the play
-                  s:2,                  //  the suit that is played
+                  s:3,                  //  the suit that is played
                   t:1,                  //  the indicator for terminal nodes
                   w_p:2,                //  the winning player of the current trick
                   w_s:2;                //  the winning suit of the current trick
@@ -124,7 +124,7 @@ struct TARGET {
 void           bottomup_tree( int d, int b );
 void           build_node( int d, int b, int s, int p, COLOR c );
 void           build_ply( int d, int b, int p );
-void           build_scard( int d, int b, int s, int lookup );
+struct SEQC   *build_seqc( int d, int b, int s );
 void           build_tree( int d, int b );
 void           check_board( void );
 int            dds( int argc, char **argv );

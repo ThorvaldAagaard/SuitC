@@ -22,13 +22,22 @@ void play_board( int d, int p )
     static char   *suit[] = { "spades", "hearts", "diamonds", "clubs", "notrump", "discard" };
     static char   symbols[] = "-123456789tjqka=";
     struct NODE   *bnode[NPLIES+1], znode;
-    struct SCARD  *lc, zscard;
+    struct SEQC   *lseqc, zseqc;
 
     if ( st[d].ld ) {
         for ( l = 0; l < boardcount[d]; l++ ) {
             b = blist[d][l];
-            for ( s = 0; s < 4; s++ )
-                build_scard( d, b, s, NO );
+            for ( s = 0; s < 4; s++ ) {
+                zseqc.r = build_seqc( d, b, s );
+                scard[t][b][s] = nextscard;
+                nextscard++;
+                scard[t][b][s]->s = s;
+                scard[t][b][s]->seqc = zseqc.r;
+                for ( q = 0; q < 4; q++ ) {
+                    scard[t][b][s]->brd[q] = brd[t-1][b][s][q];
+                    brd[t][b][s][q] = scard[t][b][s]->brd[q];
+                }
+            }
         }
     }
 
@@ -185,7 +194,7 @@ redo:
     wnode[d]->nd = wnode[d-1]->nd + wnode[d-1]->nc;
     for ( l = 0; l < boardcount[d]; l++ ) {
         b = blist[d][l];
-        brd[t][b][s][p] ^= low_c( brd[t][b][s][p] & playc );
+        brd[t][b][s][p] ^= low_c( scard[t][b][s]->brd[p] & playc );
     }
 
     //  play the next card

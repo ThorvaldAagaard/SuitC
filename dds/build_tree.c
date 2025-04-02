@@ -26,7 +26,7 @@ void build_tree( int d, int b )
         p = wnode[d]->p;
         s = wnode[d]->s;
         wnode[d]->nd = wnode[d-1]->nd + wnode[d-1]->nc;
-        brd[t][b][s][p] ^= low_c( brd[t][b][s][p] & wnode[d]->c );
+        brd[t][b][s][p] ^= low_c( scard[t][b][s]->brd[p] & wnode[d]->c );
 
         //  prepare for the next trick
         if ( st[d].la && d < 4*ntricks ) {
