@@ -18,6 +18,7 @@ int    dupl[8192];                      //  the multiplicity of the boards
 int    eastvac;                         //  the number of vacant places in the east hand
 int    ew_c_count;                      //  the number of rows in the board header
 int    ewwinners;                       //  print east-west winners instead of north-south winners
+int    foldselect;                      //  1=fold the EW plays, 2=fold the NS plays, 4=select the NS plays
 int    icount;                          //  counter for the number of active index entries
 int    icountmax;                       //  the maximum number of active index entries
 int    leader;                          //  the openings leader at trick one
@@ -26,7 +27,6 @@ int    matchpointtime;                  //  print the matchpoint analysis time
 int    maxnodes;                        //  the maximum number of nodes used for the MP or IMP evaluation
 int    maxns;                           //  the maximum number of ns_tricks
 int    maxprint;                        //  the maximum number of tricks to be printed
-int    foldselect;                      //  1=fold the EW plays, 2=fold the NS plays, 4=select the NS plays
 int    minns;                           //  the minimum number of ns_tricks
 int    nbest_plays;                     //  the number of elements in array best_play
 int    ncards[4];                       //  the maximum number of cards in each hand

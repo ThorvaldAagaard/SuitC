@@ -201,7 +201,6 @@ void process_args( int argc, char **argv )
                 }
                 h3rule[nrules] = cards;
                 nrules++;
-                buildtree = 1;
             }
             else if ( c == 'T' ) {
                 k = 2;

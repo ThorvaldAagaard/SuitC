@@ -28,7 +28,7 @@ void print_tree( int d_root, int d_high, struct NODE *root, int printboards, int
     struct SCARD *sc;
 
     //  return if the root of the tree is the NIL entry
-    if ( root->d == NIL )
+    if ( root == NIL )
         return;
 
     //  determine the length of the output strings
