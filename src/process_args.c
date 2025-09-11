@@ -13,7 +13,7 @@
 
 void process_args( int argc, char **argv )
 {
-    int          i, k, match, n, p = north, pl, printoptions = NO, sign, val;
+    int          i, k, n, p = north, pl, printoptions = NO, sign, val;
     char         c;
     COLOR        cards;
     static char  symbol1[] = "-123456789TJQKA", symbol2[] = "-123456789tjqka", symbol3[] = "-123456789TBVHA", symbol4[] = "-123456789tbvha";
@@ -243,17 +243,9 @@ void process_args( int argc, char **argv )
             brd[0][p] = RENONCE;
             while ( argv[i][k] ) {
                 c = argv[i][k];
-                match = NO;
-                for ( n = two; n <= ace; n++ ) {
-                    if ( ( c == symbol1[n] ) || ( c == symbol2[n] ) || ( c == symbol3[n] ) || ( c == symbol4[n] ) ) {
-                        match = YES;
+                for ( n = two; n <= ace; n++ )
+                    if ( ( c == symbol1[n] ) || ( c == symbol2[n] ) || ( c == symbol3[n] ) || ( c == symbol4[n] ) )
                         brd[0][p] |= addcard(n);
-                    }
-                }
-                if ( ! match ) {
-                    printf( "Incorrect card: %c; the program stops\n", c );
-                    exit( 1 );
-                }
                 k++;
             }
             p = ( p == north ? south : west );
