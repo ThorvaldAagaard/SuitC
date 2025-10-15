@@ -11,19 +11,23 @@
 //  Copyright 2024, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
+#define UPSTRIDE
 
 void fold_tree( int d, int p )
 {
+    int          i, k = 0;
     struct NODE  *bnode[NPLIES+1], *lnode[NPLIES+1];
 
     //  initialise
     bnode[d-1] = tnode[d-1];
     lnode[d-1] = tnode[d-1];
     bnode[d] = tnode[d-1]->d;
-    while ( bnode[d]->r )
-        bnode[d] = bnode[d]->r;
 
     if ( EW(p) && EW(bnode[d]->p) || NS(p) && NS(bnode[d]->p) ) {
+
+        #ifdef UP
+        while ( bnode[d]->r )
+            bnode[d] = bnode[d]->r;
 
     next_bnode:
         while ( bnode[d]->l ) {
@@ -34,16 +38,17 @@ void fold_tree( int d, int p )
                 if ( tnode[d]->p == bnode[d]->p && ( EW(p) || NS(p) && w_ew(tnode) == w_ew(bnode) ) ) {
 
                     lnode[d] = copy_tree( d, tnode[d] );
-                    lnode[d]->r = tnode[d]->r;
-                    lnode[d]->r->l = lnode[d];
-                    tnode[d]->r = lnode[d];
                     lnode[d]->l = tnode[d];
+                    lnode[d]->r = tnode[d]->r;
+                    lnode[d]->l->r = lnode[d];
+                    lnode[d]->r->l = lnode[d];
 
                     if ( ! bnode[d]->d || ( NS(p) ? fold_ns_tree( d+1, lnode[d]->c | bnode[d]->c, lnode, bnode ) : fold_ew_tree( d+1, lnode, bnode ) ) ) {
                         merge_nodes( lnode[d], bnode[d] );
+                        delete_tree( d, tnode );
+                        tnode[d] = lnode[d];
                         lnode[d] = bnode[d]->l;
                         delete_tree( d, bnode );
-                        delete_tree( d, tnode );
                         bnode[d] = lnode[d];
                         goto next_bnode;
                     }
@@ -56,6 +61,142 @@ void fold_tree( int d, int p )
 
             bnode[d] = bnode[d]->l;
         }
+        #endif
+
+        #ifdef UPSTRIDE
+        while ( ++k ) {
+
+            i = 0;
+            bnode[d] = bnode[d-1]->d;
+            while ( bnode[d]->r )
+                bnode[d] = bnode[d]->r;
+            tnode[d] = bnode[d];
+            while ( i < k && tnode[d] ) {
+                i++;
+                tnode[d] = tnode[d]->l;
+            }
+            if ( ! tnode[d] )
+                break;
+
+            while ( tnode[d] ) {
+
+                if ( tnode[d]->p == bnode[d]->p && ( EW(p) || NS(p) && w_ew(tnode) == w_ew(bnode) ) ) {
+
+                    lnode[d] = copy_tree( d, tnode[d] );
+                    lnode[d]->l = tnode[d];
+                    lnode[d]->r = tnode[d]->r;
+                    lnode[d]->l->r = lnode[d];
+                    lnode[d]->r->l = lnode[d];
+
+                    if ( ! bnode[d]->d || ( NS(p) ? fold_ns_tree( d+1, lnode[d]->c | bnode[d]->c, lnode, bnode ) : fold_ew_tree( d+1, lnode, bnode ) ) ) {
+                        merge_nodes( lnode[d], bnode[d] );
+                        delete_tree( d, tnode );
+                        tnode[d] = lnode[d]->l;
+                        lnode[d] = bnode[d]->l;
+                        delete_tree( d, bnode );
+                        bnode[d] = lnode[d];
+                    }
+
+                    else {
+                        delete_tree( d, lnode );
+                        bnode[d] = bnode[d]->l;
+                        tnode[d] = tnode[d]->l;
+                    }
+                }
+
+                else {
+                    delete_tree( d, lnode );
+                    bnode[d] = bnode[d]->l;
+                    tnode[d] = tnode[d]->l;
+                }
+            }
+        }
+        #endif
+
+        #ifdef DOWN
+        tnode[d] = tnode[d-1]->d;
+        while ( tnode[d] && tnode[d]->r ) {
+
+            bnode[d] = tnode[d]->r;
+            while ( bnode[d] ) {
+
+                if ( tnode[d]->p == bnode[d]->p && ( EW(p) || NS(p) && w_ew(tnode) == w_ew(bnode) ) ) {
+
+                    lnode[d] = copy_tree( d, tnode[d] );
+                    lnode[d]->l = tnode[d];
+                    lnode[d]->r = tnode[d]->r;
+                    lnode[d]->l->r = lnode[d];
+                    lnode[d]->r->l = lnode[d];
+
+                    if ( ! bnode[d]->d || ( NS(p) ? fold_ns_tree( d+1, lnode[d]->c | bnode[d]->c, lnode, bnode ) : fold_ew_tree( d+1, lnode, bnode ) ) ) {
+                        merge_nodes( lnode[d], bnode[d] );
+                        delete_tree( d, tnode );
+                        tnode[d] = lnode[d];
+                        lnode[d] = bnode[d]->r;
+                        delete_tree( d, bnode );
+                        bnode[d] = lnode[d];
+                    }
+
+                    else {
+                        delete_tree( d, lnode );
+                        bnode[d] = bnode[d]->r;
+                    }
+                }
+
+                else
+                    bnode[d] = bnode[d]->r;
+            }
+
+            tnode[d] = tnode[d]->r;
+        }
+        #endif
+
+        #ifdef DOWNSTRIDE
+        while ( ++k ) {
+
+            i = 0;
+            tnode[d] = bnode[d-1]->d;
+            bnode[d] = tnode[d];
+            while ( i < k && bnode[d] ) {
+                i++;
+                bnode[d] = bnode[d]->r;
+            }
+            if ( ! bnode[d] )
+                break;
+
+            while ( bnode[d] ) {
+
+                if ( tnode[d]->p == bnode[d]->p && ( EW(p) || NS(p) && w_ew(tnode) == w_ew(bnode) ) ) {
+
+                    lnode[d] = copy_tree( d, tnode[d] );
+                    lnode[d]->l = tnode[d];
+                    lnode[d]->r = tnode[d]->r;
+                    lnode[d]->l->r = lnode[d];
+                    lnode[d]->r->l = lnode[d];
+
+                    if ( ! bnode[d]->d || ( NS(p) ? fold_ns_tree( d+1, lnode[d]->c | bnode[d]->c, lnode, bnode ) : fold_ew_tree( d+1, lnode, bnode ) ) ) {
+                        merge_nodes( lnode[d], bnode[d] );
+                        delete_tree( d, tnode );
+                        tnode[d] = lnode[d];
+                        lnode[d] = bnode[d]->r;
+                        delete_tree( d, bnode );
+                        bnode[d] = lnode[d];
+                    }
+
+                    else {
+                        delete_tree( d, lnode );
+                        tnode[d] = tnode[d]->r;
+                        bnode[d] = bnode[d]->r;
+                    }
+                }
+
+                else {
+                    tnode[d] = tnode[d]->r;
+                    bnode[d] = bnode[d]->r;
+                }
+            }
+        }
+        #endif
     }
 
     //  investigate the sons
