@@ -8,7 +8,6 @@
 //  list of cpp defines
 //  ----------------------------------------------------------------------------
 #define addcard( c )                    ( ( (COLOR) 1 ) << ( c ) )
-#define BLANK                           NO
 #define CUTOFF                          1000000L
 #define EPS                             1.0e-10
 #define EW( p )                         ( ( p == west ) || ( p == east ) )

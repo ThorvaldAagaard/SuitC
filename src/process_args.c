@@ -152,6 +152,20 @@ void process_args( int argc, char **argv )
                 if ( val )
                     maxnodes = val;
             }
+            else if ( c == 'm' ) {
+                if ( ( argv[i][2] == 'U' || argv[i][2] == 'u' ) && ( argv[i][3] == 'S' || argv[i][3] == 's' ) )
+                    foldmode = 2;
+                else if ( argv[i][2] == 'U' || argv[i][2] == 'u' )
+                    foldmode = 1;
+                else if ( ( argv[i][2] == 'D' || argv[i][2] == 'u' ) && ( argv[i][3] == 'S' || argv[i][3] == 's' ) )
+                    foldmode = 4;
+                else if ( argv[i][2] == 'D' || argv[i][2] == 'd' )
+                    foldmode = 3;
+                else {
+                    printf( "Incorrect foldmode: %s; the program stops\n", argv[i] );
+                    exit( 1 );
+                }
+            }
             else if ( c == 'o' )
                 reorder = SUITCAPP ? YES : NO;
             else if ( c == 'P' ) {
@@ -168,7 +182,7 @@ void process_args( int argc, char **argv )
                 else if ( c == 'I' || c == 'M' )
                     printallmatchpoint = YES;
                 else if ( c == 'S' )
-                    printscard = SUITCAPP ? NO : YES;
+                    printscard = SUITCAPP ? YES : YES;
                 else {
                     printf( "Incorrect print option %s; the program stops\n", argv[i] );
                     exit( 1 );
@@ -260,7 +274,7 @@ void process_args( int argc, char **argv )
     printf( "calling sequence:\n" );
     printf( "\n" );
     printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-c<cutoff>[kKmMgG]] [-D[{W|w}]] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f]\n" );
-    printf( "      [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-o] [-P<n>] [-p[{H|I|M|S}]] [-R{n|e|s|w}<n>] \n" );
+    printf( "      [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-m{U|US|D|DS}] [-o] [-P<n>] [-p[{H|I|M|S}]] [-R{n|e|s|w}<n>] \n" );
     printf( "      [-r] [-S<card2>:<card3>] [-T<n>] [-t<tricks>] [-u] [-W<cards>] [-wm<n>] [-wv<n>] [-z<n>] <ncards> <scards> <ewcards>\n" );
     printf( "\n" );
     printf( "options:\n" );
@@ -278,13 +292,14 @@ void process_args( int argc, char **argv )
     printf( "    -E<cards>       all east hands contain <cards>\n" );
     printf( "    -em<n>          the minimum number of cards in the east hand is <n>\n" );
     printf( "    -ev<n>          the number of vacant places in the east hand is <n>\n" );
-    printf( "    -F<n>           1=fold the EW plays, 2=fold the NS plays, 4=select the NS plays\n" );
+    printf( "    -F<n>           1=fold the EW plays, 2=fold the NS plays, 4=select the NS plays, 8=select the NS plays followed by fold the EW plays\n" );
     printf( "    -f              print the full NODE tree\n" );
     printf( "    -I<n>:<score>   the score for <n> tricks is <score> points\n" );
     printf( "    -L{n|e|s|w}[<card>]\n" );
     printf( "                    the lead is in {n|e|s|w} at trick one\n" );
     printf( "                    card <card> is lead if a card is specified\n" );
     printf( "    -l{n|e|s|w}<n>  limit the number of free directed leads from {n|e|s|w} to <n>\n" );
+    printf( "    -m{U|US|D|DS}   select the fold mode for the final game tree (U=UP, US=UPSTRIDE, D=DOWN, DS=DOWNSTRIDE)\n" );
     printf( "    -M[nodes]       generate the optimal MP play with maximal <nodes> nodes\n" );
     printf( "    -o              switch the order of the boards\n" );
     printf( "                    if SUITCAPP==NO:  print the east-west hands in decreasing number of cards in the West hand\n" );

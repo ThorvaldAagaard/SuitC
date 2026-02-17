@@ -122,6 +122,10 @@ void print_all_results( void )
                         use_suit_entries();
 
                     //  fold identical plays and select the preferred ones
+                    if ( maxprint && foldselect & 0x8 ) {
+                        select_ns_plays( 1 );
+                        fold_tree( 1, west );
+                    }
                     if ( maxprint && foldselect & 0x1 )
                         fold_tree( 1, west );
                     if ( maxprint && foldselect & 0x2 )

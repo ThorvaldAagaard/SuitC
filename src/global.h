@@ -18,6 +18,7 @@ int    dupl[8192];                      //  the multiplicity of the boards
 int    eastvac;                         //  the number of vacant places in the east hand
 int    ew_c_count;                      //  the number of rows in the board header
 int    ewwinners;                       //  print east-west winners instead of north-south winners
+int    foldmode;                        //  1=UP, 2=UPSTRIDE, 3=DOWN, 4=DOWNSTRIDE
 int    foldselect;                      //  1=fold the EW plays, 2=fold the NS plays, 4=select the NS plays
 int    icount;                          //  counter for the number of active index entries
 int    icountmax;                       //  the maximum number of active index entries

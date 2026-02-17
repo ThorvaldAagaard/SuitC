@@ -9,7 +9,7 @@
 #-----------------------------------------------------------------------
 
 SHELL	= /bin/bash
-CC	= gcc -O3 -DSUITCAPP=NO
+CC	= gcc -O3 -DBLANK=NO -DSUITCAPP=NO
 
 EXEC	= ../bin/SuitC
 EXEC1	= ../bin/sc
