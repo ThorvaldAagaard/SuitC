@@ -39,7 +39,7 @@ void process_args( int argc, char **argv )
                     else                                               cutoff = cutoff * 10 + argv[i][k] - '0';
                     k++;
                 }
-                cutoff = cutoff ? MAX(cutoff,10000L) : CUTOFF;
+                cutoff = cutoff ? MAX(cutoff,20000L) : CUTOFF;
             }
             else if ( c == 'D' ) {
                 defence = YES;
@@ -80,6 +80,15 @@ void process_args( int argc, char **argv )
                     westvac = val;
                 else if ( c == 'w' && argv[i][2] == 'm' )
                     ncardsmin[west] = val;
+            }
+            else if ( c == 'F' && argv[i][2] == 's' ) {
+                k = 3;
+                val = 0;
+                while ( argv[i][k] ) {
+                    val = 10 * val + argv[i][k] - '0';
+                    k++;
+                }
+                foldskip = val;
             }
             else if ( c == 'F' ) {
                 k = 2;
@@ -273,7 +282,7 @@ void process_args( int argc, char **argv )
     printf( "\n" );
     printf( "calling sequence:\n" );
     printf( "\n" );
-    printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-c<cutoff>[kKmMgG]] [-D[{W|w}]] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<options>] [-f]\n" );
+    printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-c<cutoff>[kKmMgG]] [-D[{W|w}]] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<n>] [-Fs<n>] [-f]\n" );
     printf( "      [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-m{U|US|D|DS}] [-o] [-P<n>] [-p[{H|I|M|S}]] [-R{n|e|s|w}<n>] \n" );
     printf( "      [-r] [-S<card2>:<card3>] [-T<n>] [-t<tricks>] [-u] [-W<cards>] [-wm<n>] [-wv<n>] [-z<n>] <ncards> <scards> <ewcards>\n" );
     printf( "\n" );
@@ -293,6 +302,7 @@ void process_args( int argc, char **argv )
     printf( "    -em<n>          the minimum number of cards in the east hand is <n>\n" );
     printf( "    -ev<n>          the number of vacant places in the east hand is <n>\n" );
     printf( "    -F<n>           1=fold the EW plays, 2=fold the NS plays, 4=select the NS plays, 8=select the NS plays followed by fold the EW plays\n" );
+    printf( "    -Fs<n>          don't fold the first <n> plies of the tree\n" );
     printf( "    -f              print the full NODE tree\n" );
     printf( "    -I<n>:<score>   the score for <n> tricks is <score> points\n" );
     printf( "    -L{n|e|s|w}[<card>]\n" );

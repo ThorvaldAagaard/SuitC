@@ -23,7 +23,7 @@ void print_stat( int trace )
         printf( "\n\tEvent                              Time\n" );
         printf( "\t--------------------------         ----\n" );
         printf( "\tThe tree is created        %12.3f\n", times[0] );
-        printf( "\tThe quirk tree is build    %12.3f\n", times[1] );
+        printf( "\tThe quirk tree is built    %12.3f\n", times[1] );
         if ( matchpointtime == IMP )
             printf( "\tThe IMP plays are evaluated%12.3f\n", times[2] );
         if ( matchpointtime == MP )

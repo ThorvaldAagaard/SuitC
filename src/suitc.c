@@ -23,7 +23,9 @@ int main( int argc, char **argv )
     eastfixed = RENONCE;
     eastvac = NCARDS;
     ewwinners = NO;
-    foldmode = 3;    //  1=UP, 2=UPSTRIDE, 3=DOWN, 4=DOWNSTRIDE
+    foldmode = 1;    //  1=UP, 2=UPSTRIDE, 3=DOWN, 4=DOWNSTRIDE
+    foldselect = 0x1 | 0x4;
+    foldskip = 0;
     leader = noplayer;
     matchpoint = NO;
     matchpointtime = NO;
@@ -44,7 +46,6 @@ int main( int argc, char **argv )
     printscard = SUITCAPP ? YES : NO;
     printsummary = NO;
     printtrunctree = NO;
-    foldselect = 0x1 | 0x2 | 0x4;
     nrules = 0;
     reorder = SUITCAPP ? NO : YES;
     resultsonly = NO;

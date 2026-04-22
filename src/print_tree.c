@@ -71,11 +71,6 @@ void print_tree( int d_root, int d_high, struct NODE *root, int printboards, int
             for ( k = 0; k < boardcount; k++ ) { out[l++] = ' '; out[l++] = b_print[i][k]; }
             out[l++] = '\0'; printf( "%s\n", out );
         }
-        #ifdef Q
-        l = wlen+1;
-        for ( k = 0; k < boardcount; k++ ) { out[l++] = '='; out[l++] = '='; }
-        out[l-1] = '\0'; printf( "%s\n", out );
-        #endif
     }
 
     //  loop over the nodes
