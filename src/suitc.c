@@ -51,6 +51,7 @@ int main( int argc, char **argv )
     resultsonly = NO;
     for ( d = 0; d < NPLIES+1; d++ )
         quirkdl[d].ic = boardcount;
+    throwin = NO;
     trace = 0x0;
     tricklimit = NCARDS;
     usesuitentries = NO;

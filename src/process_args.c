@@ -101,6 +101,18 @@ void process_args( int argc, char **argv )
             }
             else if ( c == 'f' )
                 printfulltree = YES;
+            else if ( c == 'H' ) {
+                c = argv[i][2];
+                throwin |= c == 'W' || c == 'w' ? 1 << west
+                         : c == 'N' || c == 'n' ? 1 << north
+                         : c == 'E' || c == 'e' ? 1 << east
+                         : c == 'S' || c == 's' ? 1 << south
+                         : throwin;
+                if ( ! throwin ) {
+                    printf( "Incorrect player can be thrown in: %s; the program stops\n", argv[i] );
+                    exit( 1 );
+                }
+            }
             else if ( c == 'h' )
                 printoptions = YES;
             else if ( c == 'I' ) {
@@ -282,7 +294,7 @@ void process_args( int argc, char **argv )
     printf( "\n" );
     printf( "calling sequence:\n" );
     printf( "\n" );
-    printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-c<cutoff>[kKmMgG]] [-D[{W|w}]] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<n>] [-Fs<n>] [-f]\n" );
+    printf( "SuitC [{-?|-h}] [-A] [-a] [-b] [-c<cutoff>[kKmMgG]] [-D[{W|w}]] [-d] [-E<cards>] [-em<n>] [-ev<n>] [-F<n>] [-Fs<n>] [-f] [-H{W|w|N|n|E|e|S|s}]\n" );
     printf( "      [-L{n|e|s|w}[<card>]] [-l{n|e|s|w}<n>] [-M[nodes]] [-m{U|US|D|DS}] [-o] [-P<n>] [-p[{H|I|M|S}]] [-R{n|e|s|w}<n>] \n" );
     printf( "      [-r] [-S<card2>:<card3>] [-T<n>] [-t<tricks>] [-u] [-W<cards>] [-wm<n>] [-wv<n>] [-z<n>] <ncards> <scards> <ewcards>\n" );
     printf( "\n" );
@@ -304,6 +316,8 @@ void process_args( int argc, char **argv )
     printf( "    -F<n>           1=fold the EW plays, 2=fold the NS plays, 4=select the NS plays, 8=select the NS plays followed by fold the EW plays\n" );
     printf( "    -Fs<n>          don't fold the first <n> plies of the tree\n" );
     printf( "    -f              print the full NODE tree\n" );
+    printf( "    -H{W|w|N|n|E|e|S|s}\n" );
+    printf( "                    the designated player leads to the current trick if he won the last trick\n" );
     printf( "    -I<n>:<score>   the score for <n> tricks is <score> points\n" );
     printf( "    -L{n|e|s|w}[<card>]\n" );
     printf( "                    the lead is in {n|e|s|w} at trick one\n" );
