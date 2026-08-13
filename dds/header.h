@@ -41,7 +41,7 @@ typedef enum { renonce, one, two, three, four, five, six, seven, eight, nine, te
 struct BACKUP {
     struct BACKUP *r;                   //  pointer to the right sibling node
     struct NODE   *node;                //  the root of the backup NODE tree
-    struct SCARD  *scard[4];            //  pointer to the SCARD trees
+    struct SCARD  *scard[4];            //  pointer to the SCARD card sequences
     unsigned int  ld:2,                 //  the leader to the trick
                   nh:4,                 //  the backup value of the maximum number of north-south tricks
                   nl:4,                 //  the backup value of the minimum number of north-south tricks

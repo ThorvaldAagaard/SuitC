@@ -30,12 +30,11 @@ void print_tree( int d_start, struct NODE *root, char *ident )
     }
 
     if ( d_start == 0 ) {
-        print_tree( d_start+1, wnode[d_start]->d, ident );
+        print_tree( d_start+1, root->d, ident );
         return;
     }
 
     //  initialise
-    nnode[d-1] = wnode[d-1];
     nnode[d] = root;
     printf( "\nd=%02d   id=%-20s   t   w rnk  nd  nc  nl  nh\n", d_start, ident );
 

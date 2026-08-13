@@ -28,6 +28,7 @@ void play_board( int d, int p )
         for ( l = 0; l < boardcount[d]; l++ ) {
             b = blist[d][l];
             for ( s = 0; s < 4; s++ ) {
+                scount++;
                 zseqc.r = build_seqc( d, b, s );
                 scard[t][b][s] = nextscard;
                 nextscard++;
