@@ -17,7 +17,7 @@ void print_tree( int d_start, struct NODE *root, char *ident )
 {
     int           bo = 8, d = d_start, dc, i, k, l = 0, n = 6;
     COLOR         cards;
-    char          out[446];
+    char          out[480];
     static char   *blank[] = { "", "       ", "              ", "                     " };
     static char   symbols[] = "-123456789tjqka=";
     static char   seats[] = "wnes";
