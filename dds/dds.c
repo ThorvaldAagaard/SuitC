@@ -7,7 +7,7 @@
 //  to produce a list of options type:
 //      dds -h
 //
-//  Copyright 2025, Gerrit A. van der Velde, Leiden
+//  Copyright 2026, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 #include "global.h"
@@ -21,8 +21,6 @@ int main( int argc, char **argv )
     //  initialise variables
     times[0] = TICK * clock();
     target.set = NO;
-    for ( d = 0; d < 16; d++ )
-        ncalls[d] = 0;
     for ( d = 0; d <= NPLIES; d++ ) {
         st[d].l = 4 * ( ( d - 1 ) / 4 ) + 1;
         st[d].la = ( d & 3 ) == 0;

@@ -8,7 +8,7 @@
 //      d               in      the depth in the NODE tree
 //      cards           out     the cards in each hand
 //
-//  Copyright 2025, Gerrit A. van der Velde, Leiden
+//  Copyright 2026, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -16,8 +16,8 @@ void print_all_results( int d, COLOR *cards )
 {
     int           b, i, k, l, match, n, s;
     static char   hexdigit[] = "0123456789abcdef";
-    static char   suits[] = "shdc-";
-    static char   symbols[] = "-123456789tjqka=";
+    static char   suits[] = "SHDC-";
+    static char   symbols[] = "-123456789TJQKA=";
 
     //  collect the cards
     for ( s = 0; s < 4; s++ )

@@ -19,9 +19,9 @@ void print_tree( int d_start, struct NODE *root, char *ident )
     COLOR         cards;
     char          out[480];
     static char   *blank[] = { "", "       ", "              ", "                     " };
-    static char   symbols[] = "-123456789tjqka=";
-    static char   seats[] = "wnes";
-    static char   suits[] = "shdc--";
+    static char   symbols[] = "-123456789TJQKA=";
+    static char   seats[] = "WNES";
+    static char   suits[] = "SHDC--";
     struct NODE   *nnode[NPLIES+1];
 
     if ( root == NIL || d_start < 0 ) {

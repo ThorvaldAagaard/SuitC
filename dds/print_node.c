@@ -17,7 +17,7 @@ void print_node( int d, struct NODE *root, char *ident )
 {
     int           i, l;
     char          out[14];
-    static char   symbols[] = "-123456789tjqka=";
+    static char   symbols[] = "-123456789TJQKA=";
     static char   *seat[] = { "west", "north", "east", "south", "unknown" };
     static char   *suit[] = { "spades", "hearts", "diamonds", "clubs", "notrump", "discard" };
 

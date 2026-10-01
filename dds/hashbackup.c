@@ -10,7 +10,7 @@
 //      d               in      the depth in the NODE tree
 //      b               in      the board that is analysed
 //
-//  Copyright 2025, Gerrit A. van der Velde, Leiden
+//  Copyright 2026, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -20,15 +20,10 @@ int hashbackup( int d, int b )
     unsigned long inx;
 
     //  create the JOINC slots
-    ncalls[1]++;
     for ( s = 0; s < 4; s++ ) {
-        if ( brd[t-1][b][s][west] | brd[t-1][b][s][north] | brd[t-1][b][s][east] | brd[t-1][b][s][south] )
-            join_scard( d, b, s );
-        else {
-            scard[t][b][s] = NIL;
-            for ( p = 0; p < 4; p++ )
-                brd[t][b][s][p] = RENONCE;
-        }
+        scard[t][b][s] = join_scard( brd[t-1][b][s] );
+        for ( p = 0; p < 4; p++ )
+            brd[t][b][s][p] = scard[t][b][s]->brd[p];
     }
 
     //  locate an existing BACKUP slot

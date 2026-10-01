@@ -1,4 +1,4 @@
-//      Copyright 2025, Gerrit A. van der Velde, Leiden
+//      Copyright 2026, Gerrit A. van der Velde, Leiden
 
 COLOR  brd[14][NBOARDS][4][4];          //  the unplayed cards
 double times[2];                        //  the cpu time measured at the start and the end of the program
@@ -10,7 +10,6 @@ int    d_back;                          //  the ply at which the analysis is res
 int    d_start;                         //  the start ply for the analysis
 int    jcount;                          //  the number of occupied slots in the JOINC hash table
 int    ld;                              //  the opening leader
-int    ncalls[16];                      //  the number of calls of selected routines
 int    ncount;                          //  the number of active NODE entries
 int    ncountmax;                       //  the maximum number of active NODE entries
 int    nresult;                         //  the number of results

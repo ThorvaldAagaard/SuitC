@@ -2,28 +2,26 @@
 //      build_seqc
 //
 //  purpose:
-//      build_seqc builds the list of card sequences
+//      build_seqc builds the list of SEQC card sequences
 //
 //  parameters:
-//      d               in      the depth in the NODE tree
-//      b               in      the board that is analysed
-//      s               in      the suit that is analysed
+//      brd             in      the SEQC card sequences of the 4 players
 //
-//  Copyright 2025, Gerrit A. van der Velde, Leiden
+//  Copyright 2026, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
-struct SEQC *build_seqc( int d, int b, int s )
+struct SEQC *build_seqc( COLOR *brd )
 {
-    int           i, p, q = unknown, t = st[d].t;
-    struct SEQC   *tseqc, zseqc;
+    int         i, p, q = unknown;
+    struct SEQC *tseqc, zseqc;
 
-    //  build the card sequences
+    //  build the SEQC card sequences
     tseqc = &zseqc;
-    tseqc->r = NIL;
+    tseqc->d = NIL;
     for ( i = ace; i >= two; i-- ) {
         for ( p = 0; p < 4; p++ ) {
-            if ( brd[t-1][b][s][p] & set(i) ) {
+            if ( brd[p] & set(i) ) {
                 if ( p != q ) {
                     q = p;
                     qcount++;
@@ -31,10 +29,10 @@ struct SEQC *build_seqc( int d, int b, int s )
                         printf( "No more memory for the SEQC entries; increase the value of NSEQC\n" );
                         print_stat( 'P' );
                     }
-                    tseqc->r = nextseqc;
+                    tseqc->d = nextseqc;
+                    tseqc = tseqc->d;
                     nextseqc++;
-                    tseqc = tseqc->r;
-                    tseqc->r = NIL;
+                    tseqc->d = NIL;
                     tseqc->n = 1;
                     tseqc->p = p;
                     tseqc->c = set(i);
@@ -47,5 +45,5 @@ struct SEQC *build_seqc( int d, int b, int s )
         }
     }
 
-    return( zseqc.r );
+    return( zseqc.d );
 }

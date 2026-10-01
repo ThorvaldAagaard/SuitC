@@ -30,7 +30,7 @@ void build_ply( int d, int b, int p )
             while ( lseqc ) {
                 if ( lseqc->p == p )
                     build_node( d, b, s, p, lseqc->c );
-                lseqc = lseqc->r;
+                lseqc = lseqc->d;
             }
         }
     }

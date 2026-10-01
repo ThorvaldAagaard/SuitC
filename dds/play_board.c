@@ -8,7 +8,7 @@
 //      d               in      the depth in the NODE tree
 //      p               in      the player of this ply
 //
-//  Copyright 2025, Gerrit A. van der Velde, Leiden
+//  Copyright 2026, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -17,10 +17,10 @@ void play_board( int d, int p )
     int           a, b, i, k, l, lds, n, ns, q, s, start, t = st[d].t;
     char          c, in[14], out[14];
     COLOR         cards[4], playc;
-    static char   seats[] = "wnes";
-    static char   suits[] = "shdc-";
+    static char   seats[] = "WNES";
+    static char   suits[] = "SHDC-";
     static char   *suit[] = { "spades", "hearts", "diamonds", "clubs", "notrump", "discard" };
-    static char   symbols[] = "-123456789tjqka=";
+    static char   symbols[] = "-123456789TJQKA=";
     struct NODE   *bnode[NPLIES+1], znode;
     struct SEQC   *lseqc, zseqc;
 
@@ -29,11 +29,10 @@ void play_board( int d, int p )
             b = blist[d][l];
             for ( s = 0; s < 4; s++ ) {
                 scount++;
-                zseqc.r = build_seqc( d, b, s );
+                zseqc.d = build_seqc( brd[t-1][b][s] );
                 scard[t][b][s] = nextscard;
                 nextscard++;
-                scard[t][b][s]->s = s;
-                scard[t][b][s]->seqc = zseqc.r;
+                scard[t][b][s]->seqc = zseqc.d;
                 for ( q = 0; q < 4; q++ ) {
                     scard[t][b][s]->brd[q] = brd[t-1][b][s][q];
                     brd[t][b][s][q] = scard[t][b][s]->brd[q];

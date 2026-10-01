@@ -30,7 +30,7 @@ void print_scard( struct SCARD *lscard )
             if ( set(i) & brd[north] )
                 str[k++] = symbols[i];
         str[k] = '\0';
-        printf( "\n\t%c: %s%s", suits[lscard->s], str, k < 5 ? "\t\t" : "\t" );
+        printf( "\n\t%c: %s%s", '-', str, k < 5 ? "\t\t" : "\t" );
 
         //  print the SCARD sequences
         lseqc = lscard->seqc;
@@ -39,7 +39,7 @@ void print_scard( struct SCARD *lscard )
             for ( i = ace+1; i >= 0; i-- )
                 if ( set(i) & lseqc->c )
                     printf( "%c", symbols[i] );
-            lseqc = lseqc->r;
+            lseqc = lseqc->d;
         }
 
         //  print the west hand
@@ -48,16 +48,16 @@ void print_scard( struct SCARD *lscard )
             if ( set(i) & brd[west] )
                 str[k++] = symbols[i];
         str[k] = '\0';
-        printf( "\n%c: %s%s", suits[lscard->s], str, k < 5 ? "\t\t" : "\t" );
+        printf( "\n%c: %s%s", '-', str, k < 5 ? "\t\t" : "\t" );
 
         //  print the east hand
-        printf( "%c: ", suits[lscard->s] );
+        printf( "%c: ", '-' );
         for ( i = ace; i >= two; i-- )
             if ( set(i) & brd[east] )
                 printf( "%c", symbols[i] );
 
         //  print the south hand
-        printf( "\n\t%c: ", suits[lscard->s] );
+        printf( "\n\t%c: ", '-' );
         for ( i = ace; i >= two; i-- )
             if ( set(i) & brd[south] )
                 printf( "%c", symbols[i] );

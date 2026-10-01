@@ -3,7 +3,7 @@
 #include <string.h>
 #include <time.h>
 
-//  Copyright 2025, Gerrit A. van der Velde, Leiden
+//  Copyright 2026, Gerrit A. van der Velde, Leiden
 
 //  list of cpp defines
 //  ----------------------------------------------------------------------------
@@ -17,13 +17,13 @@
 #define NBACKUP                         60000000L
 #define NBOARDS                         128
 #define NIL                             (void *) 0
-#define NJOINC                          1000000L
-#define NNODE                           1600000000L
+#define NJOINC                          60000L
+#define NNODE                           800000000L
 #define NO                              0
 #define NPLIES                          52
+#define NSCARD                          40000L
 #define NS( p )                         ( ( p == north ) || ( p == south ) )
-#define NSCARD                          100000L
-#define NSEQC                           1000000L
+#define NSEQC                           160000L
 #define RENONCE                         ( (COLOR) 0 )
 #define set( i )                        ( 1 << i )
 #define YES                             1
@@ -53,7 +53,6 @@ struct JOINC {
     struct JOINC  *r;                   //  pointer to the right sibling node
     struct SCARD  *scard;               //  pointer to the output SCARD tree
     COLOR         brd[4];               //  the cards of each player
-    unsigned int  s;                    //  the suit
 };
 
 struct NODE {
@@ -90,11 +89,10 @@ struct SCARD {
     struct SCARD  *r;                   //  pointer to the right sibling
     struct SEQC   *seqc;                //  the list of SEQC sequences
     COLOR         brd[4];               //  the cards of each player
-    unsigned int  s;                    //  the suit of the sequence
 };
 
 struct SEQC {
-    struct SEQC   *r;                   //  pointer to the right sibling
+    struct SEQC   *d;                   //  pointer to the right sibling
     COLOR         c;                    //  the cards in the sequence
     unsigned int  n,                    //  the number of cards in the sequence
                   p;                    //  the player of the sequence
@@ -124,21 +122,17 @@ struct TARGET {
 void           bottomup_tree( int d, int b );
 void           build_node( int d, int b, int s, int p, COLOR c );
 void           build_ply( int d, int b, int p );
-struct SEQC   *build_seqc( int d, int b, int s );
+struct SEQC   *build_seqc( COLOR *brd );
 void           build_tree( int d, int b );
 void           check_board( void );
 int            dds( int argc, char **argv );
 struct NODE   *delete_tree( int d_start, struct NODE *root );
 int            hashbackup( int d, int b );
-void           join_scard( int d, int b, int s );
+struct SCARD  *join_scard( COLOR *brd );
 void           order_plays( int d );
 void           play_board( int d, int p );
 void           play_board_start( void );
 void           print_all_boards( int d );
 void           print_all_results( int d, COLOR *cards );
-void           print_board( COLOR brd[4][4] );
-void           print_node( int d, struct NODE *root, char *ident );
-void           print_scard( struct SCARD *lscard );
 void           print_stat( char c );
-void           print_tree( int d_start, struct NODE *root, char *ident );
 void           process_args( int argc, char **argv );

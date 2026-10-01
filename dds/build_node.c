@@ -11,7 +11,7 @@
 //      p               in      the player of this node
 //      c               in      the cards of this node
 //
-//  Copyright 2025, Gerrit A. van der Velde, Leiden
+//  Copyright 2026, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -22,7 +22,6 @@ void build_node( int d, int b, int s, int p, COLOR c )
 
     //  create the new NODE
     ncount++;
-    ncalls[0]++;
     wnode[d]->r = nextnode;
     wnode[d] = wnode[d]->r;
     if ( ncountmax < ncount ) {
