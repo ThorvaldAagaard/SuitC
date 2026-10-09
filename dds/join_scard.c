@@ -13,11 +13,11 @@
 
 struct SCARD *join_scard( COLOR *brd )
 {
-    int           match, p, qcountback;
+    int           match, p;
     unsigned long inx;
     struct JOINC  *ljoinc;
     struct SCARD  *ltable, *tscard;
-    struct SEQC   *lseqc, *nextseqcback, *tseqc, zseqc;
+    struct SEQC   *lseqc, *tseqc, zseqc;
 
     //  locate an existing JOINC slot
     inx = 0L;
@@ -49,9 +49,7 @@ struct SCARD *join_scard( COLOR *brd )
     for ( p = 0; p < 4; p++ )
         ljoinc->brd[p] = brd[p];
 
-    //  build the card sequences
-    nextseqcback = nextseqc;
-    qcountback = qcount;
+    //  build the SEQC card sequences
     zseqc.d = build_seqc( brd );
 
     //  locate an existing SCARD slot
@@ -80,8 +78,6 @@ struct SCARD *join_scard( COLOR *brd )
         //  we found an old SCARD slot
         if ( match && lseqc == NIL && tseqc == NIL ) {
             ljoinc->scard = ltable;
-            nextseqc = nextseqcback;
-            qcount = qcountback;
             return( ltable );
         }
 

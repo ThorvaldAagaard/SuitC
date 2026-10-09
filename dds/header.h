@@ -24,6 +24,7 @@
 #define NSCARD                          40000L
 #define NS( p )                         ( ( p == north ) || ( p == south ) )
 #define NSEQC                           160000L
+#define QHASHL                          100000L
 #define RENONCE                         ( (COLOR) 0 )
 #define set( i )                        ( 1 << i )
 #define YES                             1
@@ -92,7 +93,8 @@ struct SCARD {
 };
 
 struct SEQC {
-    struct SEQC   *d;                   //  pointer to the right sibling
+    struct SEQC   *d,                   //  pointer to the oldest son node
+                  *r;                   //  pointer to the right sibling node
     COLOR         c;                    //  the cards in the sequence
     unsigned int  n,                    //  the number of cards in the sequence
                   p;                    //  the player of the sequence
@@ -128,11 +130,13 @@ void           check_board( void );
 int            dds( int argc, char **argv );
 struct NODE   *delete_tree( int d_start, struct NODE *root );
 int            hashbackup( int d, int b );
+struct SEQC   *hashseqc( struct SEQC *seqc );
 struct SCARD  *join_scard( COLOR *brd );
 void           order_plays( int d );
 void           play_board( int d, int p );
 void           play_board_start( void );
 void           print_all_boards( int d );
 void           print_all_results( int d, COLOR *cards );
+void           print_seqc_tree( struct SEQC *seqc );
 void           print_stat( char c );
 void           process_args( int argc, char **argv );

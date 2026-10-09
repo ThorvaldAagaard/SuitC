@@ -15,6 +15,7 @@ int    ncountmax;                       //  the maximum number of active NODE en
 int    nresult;                         //  the number of results
 int    ntricks;                         //  the number of tricks that will be played
 int    qcount;                          //  the number of SEQC entries
+int    qfill;                           //  the number of occupied slots in the SEQC hashtable
 int    scount;                          //  the number of active SCARD entries
 int    trump;                           //  the trump suit
 struct BACKUP *backup[14];              //  the pointers to the BACKUP slots for each trick
@@ -30,5 +31,6 @@ struct SCARD  *nextscard;               //  the first unused slot in the SCARD t
 struct SCARD  *scard[14][NBOARDS][4];   //  pointer to the SCARD slots with remaining cards
 struct SCARD  *scardtable[2*NSCARD+2];  //  the SCARD hash table
 struct SEQC   *nextseqc;                //  the first unused slot in the SEQC list
+struct SEQC   *seqctable[QHASHL];       //  the SEQC hash table
 struct STACK  st[NPLIES+1];             //  the description of each ply
 struct TARGET target;                   //  the target for alpha-beta pruning

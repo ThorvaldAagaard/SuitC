@@ -14,9 +14,10 @@
 struct SEQC *build_seqc( COLOR *brd )
 {
     int         i, p, q = unknown;
-    struct SEQC *tseqc, zseqc;
+    struct SEQC *nextsq, seqc[14], *tseqc, zseqc;
 
     //  build the SEQC card sequences
+    nextsq = &seqc[0];
     tseqc = &zseqc;
     tseqc->d = NIL;
     for ( i = ace; i >= two; i-- ) {
@@ -24,15 +25,11 @@ struct SEQC *build_seqc( COLOR *brd )
             if ( brd[p] & set(i) ) {
                 if ( p != q ) {
                     q = p;
-                    qcount++;
-                    if ( qcount == NSEQC ) {
-                        printf( "No more memory for the SEQC entries; increase the value of NSEQC\n" );
-                        print_stat( 'P' );
-                    }
-                    tseqc->d = nextseqc;
+                    tseqc->d = nextsq;
                     tseqc = tseqc->d;
-                    nextseqc++;
+                    nextsq++;
                     tseqc->d = NIL;
+                    tseqc->r = NIL;
                     tseqc->n = 1;
                     tseqc->p = p;
                     tseqc->c = set(i);
@@ -45,5 +42,6 @@ struct SEQC *build_seqc( COLOR *brd )
         }
     }
 
-    return( zseqc.d );
+    //  check the SEQC hashtable for existing SEQC lists
+    return ( hashseqc( zseqc.d ) );
 }

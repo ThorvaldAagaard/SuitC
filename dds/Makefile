@@ -4,7 +4,7 @@
 #
 #  This is a restart of Rev1.036
 #
-#  Copyright 2025, Gerrit A. van der Velde, Leiden
+#  Copyright 2026, Gerrit A. van der Velde, Leiden
 #
 #-----------------------------------------------------------------------
 
@@ -23,6 +23,7 @@ OBJECTS	= 			\
 	  check_board.o		\
 	  delete_tree.o		\
 	  hashbackup.o		\
+	  hashseqc.o		\
 	  join_scard.o		\
 	  order_plays.o		\
 	  play_board.o		\
@@ -32,6 +33,7 @@ OBJECTS	= 			\
 	  print_board.o		\
 	  print_node.o		\
 	  print_scard.o		\
+	  print_seqc_tree.o	\
 	  print_stat.o		\
 	  print_tree.o		\
 	  process_args.o	\

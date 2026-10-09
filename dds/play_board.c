@@ -22,17 +22,15 @@ void play_board( int d, int p )
     static char   *suit[] = { "spades", "hearts", "diamonds", "clubs", "notrump", "discard" };
     static char   symbols[] = "-123456789TJQKA=";
     struct NODE   *bnode[NPLIES+1], znode;
-    struct SEQC   *lseqc, zseqc;
 
     if ( st[d].ld ) {
         for ( l = 0; l < boardcount[d]; l++ ) {
             b = blist[d][l];
             for ( s = 0; s < 4; s++ ) {
                 scount++;
-                zseqc.d = build_seqc( brd[t-1][b][s] );
                 scard[t][b][s] = nextscard;
                 nextscard++;
-                scard[t][b][s]->seqc = zseqc.d;
+                scard[t][b][s]->seqc = build_seqc( brd[t-1][b][s] );
                 for ( q = 0; q < 4; q++ ) {
                     scard[t][b][s]->brd[q] = brd[t-1][b][s][q];
                     brd[t][b][s][q] = scard[t][b][s]->brd[q];
@@ -96,7 +94,7 @@ redo:
         for ( i = ace; i >= two; i-- ) {
             for ( l = 0; l < boardcount[d]; l++ ) {
                 b = blist[d][l];
-                if ( ( st[d].ld || s == lds || brd[t][b][lds][p] == RENONCE ) && brd[t][b][s][p] & set(i) ) {
+                if ( ( st[d].ld || s == lds || scard[t][b][lds]->brd[p] == RENONCE ) && scard[t][b][s]->brd[p] & set(i) ) {
                     out[k++] = symbols[i];
                     break;
                 }
@@ -175,7 +173,7 @@ redo:
     boardcount[d+1] = 0;
     for ( l = 0; l < boardcount[d]; l++ ) {
         b = blist[d][l];
-        if ( brd[t][b][s][p] && ( st[d].ld || s == lds || ! brd[t][b][lds][p] ) && brd[t][b][s][p] & playc ) {
+        if ( scard[t][b][s]->brd[p] && ( st[d].ld || s == lds || ! scard[t][b][lds]->brd[p] ) && scard[t][b][s]->brd[p] & playc ) {
             blist[d+1][boardcount[d+1]] = b;
             boardcount[d+1]++;
         }

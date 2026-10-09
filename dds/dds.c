@@ -67,6 +67,7 @@ int main( int argc, char **argv )
 
     //  allocate memory for the SEQC entries
     qcount = 0;
+    qfill = 0;
     nextseqc = malloc( (NSEQC+2) * sizeof( struct SEQC ) );
     if ( nextseqc == NIL ) {
         printf( "The allocation of memory for the SEQC entries failed\n" );

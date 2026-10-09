@@ -23,6 +23,7 @@ void print_stat( char c )
     printf( "%-11s %11d\n", "ncount", ncountmax );
     printf( "%-11s %11d\n", "qcount", qcount );
     printf( "%-11s %11d\n", "scount", scount );
+    printf( "%-11s %11d\n", "qfill", qfill );
     if ( c == 'P' ) {
         printf( "\n d     count\n==    ======\n" );
             for ( d = 1; d <= 4*ntricks; d++ )

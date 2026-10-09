@@ -9,7 +9,7 @@
 //      b               in      the board that is analysed
 //      p               in      the player of this ply
 //
-//  Copyright 2025, Gerrit A. van der Velde, Leiden
+//  Copyright 2026, Gerrit A. van der Velde, Leiden
 
 #include "header.h"
 
@@ -25,7 +25,7 @@ void build_ply( int d, int b, int p )
 
     for ( s = 0; s < 4; s++ ) {
         lds = st[d].ld ? s : wnode[st[d].l]->s;
-        if ( brd[t][b][s][p] && ( st[d].ld || s == lds || ! brd[t][b][lds][p] ) ) {
+        if ( scard[t][b][s]->brd[p] && ( st[d].ld || s == lds || ! scard[t][b][lds]->brd[p] ) ) {
             lseqc = scard[t][b][s]->seqc;
             while ( lseqc ) {
                 if ( lseqc->p == p )

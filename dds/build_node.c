@@ -34,8 +34,8 @@ void build_node( int d, int b, int s, int p, COLOR c )
     }
     else
         nextnode = nextnode->r;
-    wnode[d]->r = NIL;
     wnode[d]->d = NIL;
+    wnode[d]->r = NIL;
 
     if ( st[d].ld || s == wnode[d-1]->w_s && c > wnode[d-1]->w_c || s == trump && wnode[d-1]->w_s != trump ) {
         wnode[d]->w_p = p;
@@ -64,15 +64,17 @@ void build_node( int d, int b, int s, int p, COLOR c )
 
     for ( l = d+1; l <= st[d].l+3; l++ ) {
         q = (p+l-d)%4;
-        if ( w.s == lds && brd[t][b][lds][q] > w.c ) {
+        if ( w.s == lds && scard[t][b][lds]->brd[q] > w.c ) {
             w.p = q;
             w.s = lds;
-            w.c = brd[t][b][lds][q];
+            w.c = scard[t][b][lds]->brd[q];
         }
-        if ( ! brd[t][b][lds][q] && ( w.s == trump && brd[t][b][trump][q] > w.c || trump != notrump && w.s != trump && brd[t][b][trump][q] ) ) {
+        if ( ! scard[t][b][lds]->brd[q] &&
+             ( w.s == trump && scard[t][b][trump]->brd[q] > w.c ||
+               trump != notrump && w.s != trump && scard[t][b][trump]->brd[q] ) ) {
             w.p = q;
             w.s = trump;
-            w.c = brd[t][b][trump][q];
+            w.c = scard[t][b][trump]->brd[q];
         }
     }
 
