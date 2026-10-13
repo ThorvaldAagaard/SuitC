@@ -1,0 +1,78 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+    tags: ['rev-*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: linux-x64,   os: ubuntu-24.04 }
+          - { name: linux-arm64, os: ubuntu-24.04-arm }
+          - { name: macos-arm64, os: macos-15 }
+          - { name: macos-x64,   os: macos-15-intel }
+          - { name: windows-x64, os: windows-2025 }
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --config Release --parallel
+
+      - name: Test
+        run: ctest --test-dir build -C Release --output-on-failure
+
+      - name: Package
+        shell: bash
+        run: |
+          name="suitc-${GITHUB_REF_NAME//\//-}-${{ matrix.name }}"
+          cmake --install build --config Release --prefix "stage/$name"
+          cp LICENSE README.md AUTHORS.md CHANGELOG.md "stage/$name/"
+          cd stage
+          if [[ "${{ runner.os }}" == "Windows" ]]; then
+            7z a -tzip "../$name.zip" "$name" > /dev/null
+          else
+            tar czf "../$name.tar.gz" "$name"
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: suitc-${{ matrix.name }}
+          path: |
+            suitc-*.tar.gz
+            suitc-*.zip
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/rev-')
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "SuitC ${GITHUB_REF_NAME#rev-}" \
+            --notes "SuitC Rev ${GITHUB_REF_NAME#rev-}. See CHANGELOG.md for the changes. The suit-combination database (suitc-database.tar.gz) is attached separately."
