@@ -1,0 +1,24 @@
+# Build output
+/build*/
+/bin/
+/out/
+*.o
+*.obj
+*.exe
+*.pdb
+*.ilk
+
+# Generated from global.h by the Makefiles (CMake generates it in the build directory)
+src/extern.h
+dds/extern.h
+
+# Database runs and downloaded database files
+*.xp
+
+# Editors and tools
+.vscode/
+.vs/
+.idea/
+.claude/settings.local.json
+*.swp
+.DS_Store

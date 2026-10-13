@@ -1,0 +1,4 @@
+# Keep LF line endings everywhere: the scripts must run under bash and Perl,
+# and the expected test output is compared byte for byte.
+* text=auto eol=lf
+*.png binary
