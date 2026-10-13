@@ -35,8 +35,10 @@ does better than the one SuitC reports, together with its probability.
 ## Versions
 
 SuitC keeps Gerrit van der Velde's revision numbering (Rev 2.011, ...).
-Releases are tagged `rev-<revision>`. Add an entry for your change under
-*Unreleased* in [CHANGELOG.md](CHANGELOG.md).
+The tags `rev-<revision>` mark his revisions; published releases are tagged
+`v<revision>`, which builds and attaches the binaries for all platforms. Add
+an entry for your change to [CHANGELOG.md](CHANGELOG.md) under a section
+*Unreleased* at the top.
 
 ## Licence
 

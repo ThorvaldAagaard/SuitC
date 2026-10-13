@@ -3,7 +3,7 @@ name: Build
 on:
   push:
     branches: ['**']
-    tags: ['rev-*']
+    tags: ['v*']
   pull_request:
   workflow_dispatch:
 
@@ -57,7 +57,7 @@ jobs:
             suitc-*.zip
 
   release:
-    if: startsWith(github.ref, 'refs/tags/rev-')
+    if: startsWith(github.ref, 'refs/tags/v')
     needs: build
     runs-on: ubuntu-24.04
     permissions:
@@ -74,5 +74,5 @@ jobs:
         run: |
           gh release create "$GITHUB_REF_NAME" dist/* \
             --repo "$GITHUB_REPOSITORY" \
-            --title "SuitC ${GITHUB_REF_NAME#rev-}" \
-            --notes "SuitC Rev ${GITHUB_REF_NAME#rev-}. See CHANGELOG.md for the changes. The suit-combination database (suitc-database.tar.gz) is attached separately."
+            --title "SuitC Rev ${GITHUB_REF_NAME#v}" \
+            --notes "SuitC Rev ${GITHUB_REF_NAME#v}: SuitC, dds and playc for Linux, macOS and Windows. See CHANGELOG.md for the changes."

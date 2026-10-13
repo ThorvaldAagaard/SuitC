@@ -2,15 +2,24 @@
 
 SuitC, dds and playc are versioned with the revision numbers of their author,
 Gerrit A. van der Velde. Each revision below is a commit in the git history
-(see `git log`); the release tags are `rev-1.037`, `rev-1.038`, `rev-1.039`,
-`rev-2.010` and `rev-2.011`. The entries are Gerrit's own comments from his
+(see `git log`). The tags `rev-1.037`, `rev-1.038`, `rev-1.039`, `rev-2.010` and
+`rev-2.011` mark the revisions Gerrit distributed; published releases, with
+binaries for all platforms, are tagged `v<revision>`. The entries are Gerrit's own comments from his
 RCS history files, which are kept unchanged in [docs/history](docs/history).
 
-## Unreleased
+## v2.011: open-source release
 
-- Prepared for the open-source release: MIT licence, documentation, CMake build
-  for Linux, macOS and Windows, regression tests and continuous integration.
-  The analysis code is unchanged from Rev 2.011.
+The first public release of SuitC, at Gerrit's revision 2.011. The analysis
+code is unchanged from Rev 2.011.
+
+- MIT licence, documentation, and the git history rebuilt from Gerrit's RCS
+  archives.
+- CMake build for Linux, macOS and Windows (no WSL or Cygwin needed), with
+  pre-built programs for Linux x64/arm64, macOS arm64/x64 and Windows x64.
+- Regression tests and continuous integration.
+- The Makefiles for dds and playc no longer report an error after a
+  successful build outside Cygwin.
+- The suit-combination database is published as a release asset.
 
 ## SuitC Rev 2 (2025)
 
