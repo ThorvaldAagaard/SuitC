@@ -56,14 +56,19 @@ which it is optimal:
 |---|---|
 | `MAX` | maximum expected number of tricks |
 | `N<k>` | safety play: the best chance of at least `<k>` tricks |
-| `MP` | best play at matchpoints (with `-M`) |
-| `IMP` | best play at IMPs (with `-I`) |
+| `MP`, `IMP` | best play at matchpoints (`-M`) or IMPs (`-I`) |
+| `S<k>` | as `N<k>`, when the defenders lead to every trick (`-D`) |
+| `MIN`, `L<k>` | the East-West view, with `-DW` |
+
+A play with no label (only printed with `-A`) is not optimal for any of
+these objectives. With `-M` or `-I` every play also shows an `MP-score` or
+`IMPscore` line: how far its matchpoint or IMP score falls short of the
+optimal one, where `0` means it is optimal.
 
 When several strategies tie for an objective, SuitC picks the one with the
 most expected tricks. The figures under the title give the probability of
 exactly `<k>` tricks for this strategy, followed by its expected number of
-tricks (`Result`). With `-M` or `-I` the deviation from the optimal matchpoint
-or IMP score is shown as well.
+tricks (`Result`).
 
 ## The game tree
 
