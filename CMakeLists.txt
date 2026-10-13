@@ -53,6 +53,8 @@ if(SUITC_APP)
 else()
   target_compile_definitions(suitc PRIVATE SUITCAPP=NO)
 endif()
+# Since Rev 2.0xx BLANK is set on the compiler command line, as in src/Makefile.
+target_compile_definitions(suitc PRIVATE BLANK=NO)
 suitc_program_settings(suitc)
 
 # ---------------------------------------------------------------- dds
