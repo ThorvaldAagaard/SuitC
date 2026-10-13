@@ -45,7 +45,7 @@ The Makefiles generate `extern.h` next to the sources with `sed`. If you
 switch between the two build systems, delete `src/extern.h` and
 `dds/extern.h` first, so that CMake's generated copy is used.
 
-## SUITCAPP
+## SUITCAPP and BLANK
 
 `SUITCAPP` is a compile-time switch, set in the Makefile (`-DSUITCAPP=NO`)
 or with the CMake option `SUITC_APP`. It was introduced in Rev 1.018 for
@@ -58,6 +58,11 @@ embedding SuitC in other applications. With `SUITCAPP=YES`:
   card sequences are printed with the same symbol by default.
 
 The analysis results themselves are the same.
+
+Since Rev 2.020, `BLANK` is also set on the compiler command line
+(`-DBLANK=NO` in the Makefile; the CMake build does the same). With
+`BLANK=YES`, the summary printed by `-a` blanks out the repeated start of
+each line, so that only the part that differs from the line above is shown.
 
 ## Memory limits
 

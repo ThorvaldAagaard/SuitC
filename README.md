@@ -29,7 +29,7 @@ The optimum play for: MAX N2
                                           - J J J J J J K K K K K K K
                                           J   J J J J J   J J J J J J
                                           ...
-N:A  KJ-  5  KJ-    S:5  K   2  J-     ns=2 2 2 2 2 2 - - - - - - - -
+N:A  KJ-  3  KJ-    S:5  K   2  J-     ns=2 2 2 2 2 2 - - - - - - - -
                          J-  Q  KJ-    ns=2 2 2 2 2 2 2 2 1 1 1 1 1 1
 ```
 

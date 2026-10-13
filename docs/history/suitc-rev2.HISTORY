@@ -186,3 +186,112 @@ Affected modules:
    print_suitc.c - sid: 1.4
    print_tree.c - sid: 1.4
    process_args.c - sid: 1.9
+==========================================
+Modification time stamp: 16.06.25-09:55:15
+History id: 2.012
+Comment:
+Minor correction.
+
+Affected modules:
+
+   global.h - sid: 1.9
+   print_tree.c - sid: 1.5
+   process_args.c - sid: 1.10
+==========================================
+Modification time stamp: 14.07.25-13:00:40
+History id: 2.013
+Comment:
+Check the cards.
+
+Affected modules:
+
+   process_args.c - sid: 1.11
+==========================================
+Modification time stamp: 11.09.25-13:18:40
+History id: 2.014
+Comment:
+Bug fix.
+
+Affected modules:
+
+   merge_nodes.c - sid: 1.3
+   process_args.c - sid: 1.12
+==========================================
+Modification time stamp: 17.09.25-11:51:02
+History id: 2.015
+Comment:
+Bug fix.
+
+Affected modules:
+
+   create_boards.c - sid: 1.7
+==========================================
+Modification time stamp: 15.10.25-10:13:36
+History id: 2.016
+Comment:
+We added alternatives for the order in which the game tree is folded.
+UP		start at the last branch and work upwards;
+UPSTRIDE	start at the last branch and work upwards with equal strides;
+DOWN		start at the first branch and work downwards;
+DOWNSTRIDE	start at the first branch and work downwards with equal strides.
+
+Affected modules:
+
+   fold_tree.c - sid: 1.3
+==========================================
+Modification time stamp: 17.02.26-15:26:18
+History id: 2.017
+Comment:
+The fold mode of the final tree is entered with parameter -m{U|US|D|DS}. The default is mode DOWN.
+
+Affected modules:
+
+   Makefile - sid: 1.5
+   fold_tree.c - sid: 1.4
+   global.h - sid: 1.10
+   header.h - sid: 1.10
+   print_all_results.c - sid: 1.7
+   print_stat.c - sid: 1.2
+   print_tree.c - sid: 1.6
+   process_args.c - sid: 1.13
+   suitc.c - sid: 1.11
+==========================================
+Modification time stamp: 22.04.26-21:45:38
+History id: 2.018
+Comment:
+We have added the facility to skip folding the first n plies of the
+tree with the argument -Fs<n>. This produces trees where it is clear
+how east-west play at the first n plies.
+
+Affected modules:
+
+   fold_tree.c - sid: 1.5
+   global.h - sid: 1.11
+   print_stat.c - sid: 1.3
+   print_tree.c - sid: 1.7
+   process_args.c - sid: 1.14
+   suitc.c - sid: 1.12
+==========================================
+Modification time stamp: 03.07.26-21:53:17
+History id: 2.019
+Comment:
+We re-introduced throwin plays.
+
+Affected modules:
+
+   create_tricks.c - sid: 1.6
+   fold_ew_tree.c - sid: 1.4
+   global.h - sid: 1.12
+   print_suitc.c - sid: 1.5
+   process_args.c - sid: 1.15
+   suitc.c - sid: 1.13
+==========================================
+Modification time stamp: 13.10.26-17:41:22
+History id: 2.020
+Comment:
+Two minor bug fixes in handling IMP scores.
+
+Affected modules:
+
+   evaluate_mp_results.c - sid: 1.2
+   suitc.c - sid: 1.14

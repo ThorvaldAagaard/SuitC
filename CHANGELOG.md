@@ -2,10 +2,25 @@
 
 SuitC, dds and playc are versioned with the revision numbers of their author,
 Gerrit A. van der Velde. Each revision below is a commit in the git history
-(see `git log`). The tags `rev-1.037`, `rev-1.038`, `rev-1.039`, `rev-2.010` and
-`rev-2.011` mark the revisions Gerrit distributed; published releases, with
-binaries for all platforms, are tagged `v<revision>`. The entries are Gerrit's own comments from his
-RCS history files, which are kept unchanged in [docs/history](docs/history).
+(see `git log`). The tags `rev-1.037`, `rev-1.038`, `rev-1.039`, `rev-2.010`,
+`rev-2.011` and `rev-2.020` mark the revisions Gerrit distributed; published
+releases, with binaries for all platforms, are tagged `v<revision>`. The
+entries are Gerrit's own comments from his RCS history files, which are kept
+unchanged in [docs/history](docs/history).
+
+## v2.020
+
+Gerrit's latest revision. The results are identical to Rev 2.011 for all
+regression cases; only the presentation of the game trees differs slightly.
+
+- New options for presenting the game tree: `-F8` (select the North-South
+  plays, then fold the East-West plays), `-Fs<n>` (do not fold the first `<n>`
+  plies) and `-m{U|US|D|DS}` (the order in which the tree is folded).
+- Throw-in plays are back: `-H<player>` makes that player lead to the next
+  trick if he won the last one.
+- Fixes for IMP scoring; `-I` without scores no longer reads an
+  uninitialised variable.
+- Bug fixes and a check of the cards entered (Rev 2.012 – 2.015).
 
 ## v2.011: open-source release
 
@@ -21,8 +36,17 @@ code is unchanged from Rev 2.011.
   successful build outside Cygwin.
 - The suit-combination database is published as a release asset.
 
-## SuitC Rev 2 (2025)
+## SuitC Rev 2 (2025 – 2026)
 
+- **Rev 2.020** (2026-10-13) — Two minor bug fixes in handling IMP scores.
+- **Rev 2.019** (2026-07-03) — We re-introduced throwin plays.
+- **Rev 2.018** (2026-04-22) — We have added the facility to skip folding the first n plies of the tree with the argument -Fs<n>. This produces trees where it is clear how east-west play at the first n plies.
+- **Rev 2.017** (2026-02-17) — The fold mode of the final tree is entered with parameter -m{U|US|D|DS}. The default is mode DOWN. *(In the code of Rev 2.020 the default is UP.)*
+- **Rev 2.016** (2025-10-15) — We added alternatives for the order in which the game tree is folded. UP start at the last branch and work upwards; UPSTRIDE start at the last branch and work upwards with equal strides; DOWN start at the first branch and work downwards; DOWNSTRIDE start at the first branch and work downwards with equal strides.
+- **Rev 2.015** (2025-09-17) — Bug fix.
+- **Rev 2.014** (2025-09-11) — Bug fix.
+- **Rev 2.013** (2025-07-14) — Check the cards.
+- **Rev 2.012** (2025-06-16) — Minor correction.
 - **Rev 2.011** (2025-02-20) — Some minor adjustments.
 - **Rev 2.010** (2025-02-09) — The code to maximize entries in the suit itself is moved from determine_trick_count to use_suit_entries; A number of variables have been initialized in the declaration.
 - **Rev 2.009** (2025-02-06) — A new option has been added for the selection of the north-south plays in the final game tree. The option '-v' selects the play in which north-south win the tricks as soon as possible and where the use of outside entries is minimized. *(Renamed to `-u` in Rev 2.010.)*

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.21)
 
-# The version follows Gerrit van der Velde's revision numbering: Rev 2.011 -> 2.11.
-project(SuitC VERSION 2.11 DESCRIPTION "Bridge suit combination analyzer" LANGUAGES C)
+# The version follows Gerrit van der Velde's revision numbering: Rev 2.020 -> 2.20.
+project(SuitC VERSION 2.20 DESCRIPTION "Bridge suit combination analyzer" LANGUAGES C)
 
 option(SUITC_APP "Build SuitC with SUITCAPP=YES (the reduced output used by embedding applications)" OFF)
 option(SUITC_BUILD_DDS "Build the dds double dummy solver" ON)

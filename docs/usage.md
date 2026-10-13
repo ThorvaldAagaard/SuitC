@@ -46,7 +46,9 @@ SuitC -M AKJT32 54 Q9876       # best play at matchpoints
 
 | Option | Meaning |
 |---|---|
-| `-F<n>` | Presentation of the game tree, as a sum of: `1` = fold East-West plays, `2` = fold North-South plays, `4` = select North-South plays. The default is `5`. `-F0` prints the full, unfolded tree, which contains all information. `-F3` gives a more compact tree. |
+| `-F<n>` | Presentation of the game tree, as a sum of: `1` = fold East-West plays, `2` = fold North-South plays, `4` = select North-South plays, `8` = select North-South plays and then fold East-West plays. The default is `5`. `-F0` prints the full, unfolded tree, which contains all information. `-F3` gives a more compact tree. |
+| `-Fs<n>` | Do not fold the first `<n>` plies (cards) of the tree. This shows exactly how East-West play at the start. |
+| `-m{U,US,D,DS}` | The order in which the tree is folded: `U` (up) starts at the last branch and works upwards, `D` (down) starts at the first branch and works downwards, and `US`/`DS` do the same with equal strides. The default is `U`. |
 | `-P<n>` | Card symbols: `0` = English lower case, `1` = Dutch lower case, `2` = English upper case (default), `3` = Dutch upper case. |
 | `-pH` | Show the highest card of a North-South card sequence instead of the lowest. |
 | `-pI`, `-pM` | Print IMP or matchpoint information for all plays. |
@@ -71,6 +73,7 @@ SuitC -M AKJT32 54 Q9876       # best play at matchpoints
 | `-t<n>` | Play only `<n>` tricks in the suit. |
 | `-S<card2>:<card3>` | Third-hand rule: if second hand plays a card from `<card2>`, third hand plays a card from `<card3>`. Use it together with `-L`, e.g. `-Ls -S9876:J`. |
 | `-D` | The defenders lead to every trick, which is useful for stopper analysis. Use it only if East-West hold at least twice as many cards as North-South. `-DW` prints the East-West winners instead. |
+| `-H{w,n,e,s}` | Throw-in: if this player won the last trick, he must lead to the next one. |
 
 ### Objectives and selection
 

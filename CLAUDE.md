@@ -10,7 +10,7 @@ The repository also holds dds (a multi-layout double-dummy solver), playc (a
 suit combination enumerator), Gerrit's database scripts (bash/Perl), examples
 and documentation. See README.md and docs/.
 
-The git history up to Rev 2.011 was reconstructed from Gerrit's RCS archives.
+The git history up to Rev 2.020 was reconstructed from Gerrit's RCS archives.
 Those commits are authored by him and carry an `RCS-History-Id` trailer. Do
 not rewrite them.
 
@@ -26,7 +26,7 @@ ctest --test-dir build -C Release --output-on-failure
 - `extern.h` is generated from `global.h` (CMake: in the build dir; Makefiles:
   next to the sources). Never edit or commit `extern.h`; edit `global.h`.
 - `tests/cases.txt` lists the regression cases; `tests/expected/*.out` is
-  the output of Rev 2.011, identical on gcc, clang and MSVC. Any change not
+  the output of Rev 2.020, identical on gcc, clang and MSVC. Any change not
   meant to alter the analysis must keep every test passing. Regenerate the
   expected output with `cmake -DSUITC=<binary> -P tests/update_expected.cmake`
   only for intended changes of results.

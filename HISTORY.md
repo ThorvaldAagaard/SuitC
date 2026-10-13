@@ -15,8 +15,8 @@ history id and a comment, and those history files survive. The git history of
 this repository was rebuilt from them, so every commit corresponds to one
 revision in Gerrit's RCS history. Each commit carries his original comment and
 timestamp, and an `RCS-History-Id` trailer. The rebuilt snapshots were checked
-against the source archives he distributed (Rev 1.037, 1.039, 2.010, 2.011 and
-dds 1.030) and are byte-for-byte identical, apart from the generated `extern.h`.
+against the source archives he distributed (Rev 1.037, 1.039, 2.010, 2.011,
+2.020 and dds 1.030) and are byte-for-byte identical, apart from the generated `extern.h`.
 
 ## Milestones
 
@@ -36,7 +36,10 @@ dds 1.030) and are byte-for-byte identical, apart from the generated `extern.h`.
 | 2024-07-28 | 1.039 | `SUITCAPP` moves from `header.h` to the Makefile |
 | 2025-01-14 | 2.001 | Rev 2 line, restarted from the undistributed Rev 1.050 |
 | 2025-02-06 | 2.009 | New option to win tricks early and save outside entries (`-v`, renamed `-u` in 2.010) |
-| 2025-02-20 | 2.011 | Last revision before the open-source release |
+| 2025-02-20 | 2.011 | First open-source release (v2.011) |
+| 2025-10 – 2026-04 | 2.016 – 2.018 | Fold modes (`-m`) and unfolded first plies (`-Fs`) for clearer game trees |
+| 2026-07-03 | 2.019 | Throw-in plays re-introduced (`-H`) |
+| 2026-10-13 | 2.020 | IMP fixes; sent by Gerrit for the open-source release |
 
 ## SuitC in other programs
 
