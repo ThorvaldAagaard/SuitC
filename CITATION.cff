@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use SuitC in your work, please cite it as below."
+title: "SuitC: a bridge suit combination analyser"
+type: software
+authors:
+  - family-names: "van der Velde"
+    given-names: "Gerrit A."
+    affiliation: "Leiden, the Netherlands"
+version: "2.011"
+date-released: "2025-02-20"
+license: MIT
+repository-code: "https://github.com/ThorvaldAagaard/SuitC"
+keywords:
+  - bridge
+  - card game
+  - suit combinations
+  - game theory
+  - single dummy analysis

@@ -1,0 +1,540 @@
+==========================================
+Modification time stamp: 23.07.21-11:01:32
+History id: 1.001
+Comment:
+This version is the same as ../Backups/dds.20201125153554.Rev1.016.tgz
+
+Affected modules:
+
+==========================================
+Modification time stamp: 23.07.21-11:25:08
+History id: 1.002
+Comment:
+This is a temporary work around for a compiler problem. The compiler
+cannot handle the situation that a header file is included in each
+source, so we commented out the #include statements in the source files
+and included all sources in the new file dda.c.
+
+Affected modules:
+
+   Makefile - sid: 1.2
+   bottomup_tree.c - sid: 1.2
+   build_node.c - sid: 1.2
+   build_scard.c - sid: 1.2
+   build_tree.c - sid: 1.2
+   build_trick.c - sid: 1.2
+   check_board.c - sid: 1.2
+   delete_tree.c - sid: 1.2
+   hashbackup.c - sid: 1.2
+   join_scard.c - sid: 1.2
+   play_board.c - sid: 1.2
+   play_board_start.c - sid: 1.2
+   print_board.c - sid: 1.2
+   print_node.c - sid: 1.2
+   print_scard.c - sid: 1.2
+   print_stat.c - sid: 1.2
+   print_tree.c - sid: 1.2
+   process_args.c - sid: 1.2
+==========================================
+Modification time stamp: 23.07.21-11:36:44
+History id: 1.003
+Comment:
+The code for handling backup information is simplified.
+The depth in the tree is changed by one in hashbackup and join_scard.
+Routine join_scard is rewritten.
+
+Affected modules:
+
+   bottomup_tree.c - sid: 1.3
+   build_tree.c - sid: 1.3
+   check_board.c - sid: 1.3
+   dds.c - sid: 1.2
+   hashbackup.c - sid: 1.3
+   header.h - sid: 1.2
+   join_scard.c - sid: 1.3
+   play_board.c - sid: 1.3
+   play_board_start.c - sid: 1.3
+==========================================
+Modification time stamp: 23.07.21-12:23:35
+History id: 1.004
+Comment:
+'struct SCARD' has been split into 'struct SCARD' and 'struct SEQC' to keep track of card sequences;
+The code has been revised to keep track of cards that are still in play.
+
+Affected modules:
+
+   bottomup_tree.c - sid: 1.4
+   build_scard.c - sid: 1.3
+   build_tree.c - sid: 1.4
+   build_trick.c - sid: 1.3
+   hashbackup.c - sid: 1.4
+   header.h - sid: 1.3
+   join_scard.c - sid: 1.4
+   play_board.c - sid: 1.4
+   print_scard.c - sid: 1.3
+   print_tree.c - sid: 1.3
+==========================================
+Modification time stamp: 23.07.21-12:32:09
+History id: 1.005
+Comment:
+Routine build_trick has been renamed to build_ply;
+routine print_scard has been rewritten.
+
+Affected modules:
+
+   Makefile - sid: 1.3
+   build_tree.c - sid: 1.5
+   dda.c - sid: 1.2
+   hashbackup.c - sid: 1.5
+   header.h - sid: 1.4
+   play_board.c - sid: 1.5
+   print_scard.c - sid: 1.4
+==========================================
+Modification time stamp: 23.07.21-12:39:17
+History id: 1.006
+Comment:
+The '#define' statements in header.h are inlined.
+
+Affected modules:
+
+   build_node.c - sid: 1.3
+   build_scard.c - sid: 1.4
+   delete_tree.c - sid: 1.3
+   hashbackup.c - sid: 1.6
+   header.h - sid: 1.5
+   join_scard.c - sid: 1.5
+   play_board.c - sid: 1.6
+==========================================
+Modification time stamp: 23.07.21-13:07:46
+History id: 1.007
+Comment:
+Routine build_tree has been rewritten as a recursive routine.
+
+Affected modules:
+
+   build_tree.c - sid: 1.6
+   header.h - sid: 1.6
+   play_board.c - sid: 1.7
+   play_board_start.c - sid: 1.4
+==========================================
+Modification time stamp: 23.07.21-13:27:04
+History id: 1.008
+Comment:
+A. We use now 2 routines to build a list of plays for a ply. Routine
+build_ply is called from play_board, routine build_trick is called from
+build_tree and hashbackup. The purpose is to modify build_trick to reduce
+the number of plays;
+B. The card sequences are deleted from 'struct SCARD'. The holding of
+each player is now standardised by shifting the cards to use the highest
+cards. As a consequence we can use the holding of the players to locate
+existing SCARD slots.
+
+Affected modules:
+
+   Makefile - sid: 1.4
+   bottomup_tree.c - sid: 1.5
+   build_node.c - sid: 1.4
+   build_ply.c - sid: 1.2
+   build_scard.c - sid: 1.5
+   build_tree.c - sid: 1.7
+   build_trick.c - sid: 1.4
+   dda.c - sid: 1.3
+   dds.c - sid: 1.3
+   delete_tree.c - sid: 1.4
+   hashbackup.c - sid: 1.7
+   header.h - sid: 1.7
+   join_scard.c - sid: 1.6
+   play_board.c - sid: 1.8
+   print_scard.c - sid: 1.5
+   print_tree.c - sid: 1.4
+==========================================
+Modification time stamp: 23.07.21-13:47:13
+History id: 1.009
+Comment:
+We switch to shifted card holdings, i.e. we always use card holdings
+that have the ace, king, etc. without holes. This idea has been copied
+fron Bo Haglund.
+
+Affected modules:
+
+   build_ply.c - sid: 1.3
+   build_scard.c - sid: 1.6
+   build_trick.c - sid: 1.5
+   header.h - sid: 1.8
+   join_scard.c - sid: 1.7
+   play_board.c - sid: 1.9
+   print_node.c - sid: 1.3
+   print_scard.c - sid: 1.6
+==========================================
+Modification time stamp: 15.08.21-09:33:13
+History id: 1.010
+Comment:
+Renaming of the executable.
+
+Affected modules:
+
+   Makefile - sid: 1.5
+==========================================
+Modification time stamp: 17.04.22-10:27:28
+History id: 1.011
+Comment:
+Routine build_trick renamed as build_ply.
+EOF
+
+Affected modules:
+
+   Makefile - sid: 1.6
+   build_tree.c - sid: 1.8
+   check_board.c - sid: 1.4
+   dda.c - sid: 1.4
+   hashbackup.c - sid: 1.8
+   header.h - sid: 1.9
+==========================================
+Modification time stamp: 17.04.22-13:22:35
+History id: 1.012
+Comment:
+Copyright statements have been added;
+member qt has been replaced by member rnk in 'struct NODE'.
+
+Affected modules:
+
+   Makefile - sid: 1.7
+   bottomup_tree.c - sid: 1.6
+   build_node.c - sid: 1.5
+   build_ply.c - sid: 1.4
+   build_scard.c - sid: 1.7
+   build_tree.c - sid: 1.9
+   check_board.c - sid: 1.5
+   dds.c - sid: 1.4
+   delete_tree.c - sid: 1.5
+   hashbackup.c - sid: 1.9
+   header.h - sid: 1.10
+   join_scard.c - sid: 1.8
+   order_plays.c - sid: 1.2
+   play_board.c - sid: 1.10
+   play_board_start.c - sid: 1.5
+   print_board.c - sid: 1.3
+   print_node.c - sid: 1.4
+   print_scard.c - sid: 1.7
+   print_stat.c - sid: 1.3
+   print_tree.c - sid: 1.5
+   process_args.c - sid: 1.3
+==========================================
+Modification time stamp: 17.04.22-13:56:10
+History id: 1.013
+Comment:
+The code to keep track of winning plays has been modified;
+The order of assignments in dds has been changed.
+
+Affected modules:
+
+   build_node.c - sid: 1.6
+   build_scard.c - sid: 1.8
+   check_board.c - sid: 1.6
+   dds.c - sid: 1.5
+   hashbackup.c - sid: 1.10
+   header.h - sid: 1.11
+   join_scard.c - sid: 1.9
+   play_board.c - sid: 1.11
+   play_board_start.c - sid: 1.6
+   print_node.c - sid: 1.5
+   print_tree.c - sid: 1.6
+   process_args.c - sid: 1.4
+==========================================
+Modification time stamp: 17.04.22-21:52:22
+History id: 1.014
+Comment:
+Elimination of superfluous variable.
+
+Affected modules:
+
+   bottomup_tree.c - sid: 1.7
+   build_node.c - sid: 1.7
+   build_tree.c - sid: 1.10
+   header.h - sid: 1.12
+   play_board.c - sid: 1.12
+==========================================
+Modification time stamp: 20.05.22-15:50:25
+History id: 1.015
+Comment:
+Renaming of struct member.
+
+Affected modules:
+
+   hashbackup.c - sid: 1.11
+   header.h - sid: 1.13
+   print_scard.c - sid: 1.8
+==========================================
+Modification time stamp: 11.08.23-11:12:32
+History id: 1.016
+Comment:
+Some cosmetic changes;
+The statistics can be printed selectively.
+
+Affected modules:
+
+   Makefile - sid: 1.8
+   bottomup_tree.c - sid: 1.8
+   build_node.c - sid: 1.8
+   build_ply.c - sid: 1.5
+   build_scard.c - sid: 1.9
+   build_tree.c - sid: 1.11
+   check_board.c - sid: 1.7
+   delete_tree.c - sid: 1.6
+   hashbackup.c - sid: 1.12
+   header.h - sid: 1.14
+   join_scard.c - sid: 1.10
+   order_plays.c - sid: 1.3
+   play_board.c - sid: 1.13
+   play_board_start.c - sid: 1.7
+   print_board.c - sid: 1.4
+   print_node.c - sid: 1.6
+   print_scard.c - sid: 1.9
+   print_stat.c - sid: 1.4
+   print_tree.c - sid: 1.7
+   process_args.c - sid: 1.5
+==========================================
+Modification time stamp: 14.08.23-13:39:26
+History id: 1.017
+Comment:
+The code has been adapted to handle multiple hands. This is an
+intermediate version that requires additional fine tunung.
+
+Affected modules:
+
+   bottomup_tree.c - sid: 1.9
+   build_node.c - sid: 1.9
+   build_ply.c - sid: 1.6
+   build_scard.c - sid: 1.10
+   build_tree.c - sid: 1.12
+   check_board.c - sid: 1.8
+   dds.c - sid: 1.6
+   hashbackup.c - sid: 1.13
+   header.h - sid: 1.15
+   join_scard.c - sid: 1.11
+   play_board.c - sid: 1.14
+   play_board_start.c - sid: 1.8
+   print_board.c - sid: 1.5
+   print_scard.c - sid: 1.10
+   print_stat.c - sid: 1.5
+   process_args.c - sid: 1.6
+==========================================
+Modification time stamp: 15.08.23-21:32:44
+History id: 1.018
+Comment:
+This code implements the handling of multiple hands.
+
+Affected modules:
+
+   build_node.c - sid: 1.10
+   build_ply.c - sid: 1.7
+   check_board.c - sid: 1.9
+   dds.c - sid: 1.7
+   header.h - sid: 1.16
+   play_board.c - sid: 1.15
+   play_board_start.c - sid: 1.9
+   process_args.c - sid: 1.7
+==========================================
+Modification time stamp: 16.08.23-10:47:28
+History id: 1.019
+Comment:
+The results of all hands are combined in a single report.
+
+Affected modules:
+
+   Makefile - sid: 1.9
+   dds.c - sid: 1.8
+   header.h - sid: 1.17
+   play_board.c - sid: 1.16
+==========================================
+Modification time stamp: 17.08.23-17:02:54
+History id: 1.020
+Comment:
+In print_all_boards the boards are now printed five at a time to improve the layout.
+
+Affected modules:
+
+   check_board.c - sid: 1.10
+   play_board.c - sid: 1.17
+   print_all_boards.c - sid: 1.2
+   print_all_results.c - sid: 1.2
+==========================================
+Modification time stamp: 19.08.23-15:23:12
+History id: 1.021
+Comment:
+Chnge in variable names.
+
+Affected modules:
+
+   bottomup_tree.c - sid: 1.10
+   build_node.c - sid: 1.11
+   build_ply.c - sid: 1.8
+   build_scard.c - sid: 1.11
+   build_tree.c - sid: 1.13
+   check_board.c - sid: 1.11
+   dds.c - sid: 1.9
+   hashbackup.c - sid: 1.14
+   header.h - sid: 1.18
+   play_board.c - sid: 1.18
+   play_board_start.c - sid: 1.10
+   print_all_boards.c - sid: 1.3
+   print_all_results.c - sid: 1.3
+   print_board.c - sid: 1.6
+   print_tree.c - sid: 1.8
+   process_args.c - sid: 1.8
+==========================================
+Modification time stamp: 28.08.23-10:14:52
+History id: 1.022
+Comment:
+The calling sequence of a number of routines has been changed.
+
+Affected modules:
+
+   build_node.c - sid: 1.12
+   build_ply.c - sid: 1.9
+   build_scard.c - sid: 1.12
+   build_tree.c - sid: 1.14
+   dds.c - sid: 1.10
+   hashbackup.c - sid: 1.15
+   header.h - sid: 1.19
+   join_scard.c - sid: 1.12
+   play_board.c - sid: 1.19
+   play_board_start.c - sid: 1.11
+   process_args.c - sid: 1.9
+==========================================
+Modification time stamp: 07.09.23-17:21:24
+History id: 1.023
+Comment:
+An additional option has been added to specify the starting player in the BOARD description.
+
+Affected modules:
+
+   process_args.c - sid: 1.10
+==========================================
+Modification time stamp: 15.11.23-17:40:53
+History id: 1.024
+Comment:
+The name of the NODE tree has been changed from lnode into wnode.
+
+Affected modules:
+
+   bottomup_tree.c - sid: 1.11
+   build_node.c - sid: 1.13
+   build_ply.c - sid: 1.10
+   build_tree.c - sid: 1.15
+   check_board.c - sid: 1.12
+   dds.c - sid: 1.11
+   delete_tree.c - sid: 1.7
+   hashbackup.c - sid: 1.16
+   header.h - sid: 1.20
+   order_plays.c - sid: 1.4
+   play_board.c - sid: 1.20
+   play_board_start.c - sid: 1.12
+   print_tree.c - sid: 1.9
+==========================================
+Modification time stamp: 30.11.23-12:07:20
+History id: 1.025
+Comment:
+Introducing symbolic names for constants.
+
+Affected modules:
+
+   header.h - sid: 1.21
+   play_board.c - sid: 1.21
+   print_all_boards.c - sid: 1.4
+   print_board.c - sid: 1.7
+   print_scard.c - sid: 1.11
+   print_tree.c - sid: 1.10
+   process_args.c - sid: 1.11
+==========================================
+Modification time stamp: 02.01.24-12:33:06
+History id: 1.026
+Comment:
+Some decarations are re-arranged.
+
+Affected modules:
+
+   header.h - sid: 1.22
+==========================================
+Modification time stamp: 02.01.24-16:21:24
+History id: 1.027
+Comment:
+The header files are now correct. The global variables are contained
+in file global.h. File header.h includes file extern.h. File extern.h
+defines all global variables as external.
+
+Affected modules:
+
+   Makefile - sid: 1.10
+   bottomup_tree.c - sid: 1.12
+   build_node.c - sid: 1.14
+   build_ply.c - sid: 1.11
+   build_scard.c - sid: 1.13
+   build_tree.c - sid: 1.16
+   check_board.c - sid: 1.13
+   dds.c - sid: 1.12
+   delete_tree.c - sid: 1.8
+   hashbackup.c - sid: 1.17
+   header.h - sid: 1.23
+   join_scard.c - sid: 1.13
+   order_plays.c - sid: 1.5
+   play_board.c - sid: 1.22
+   play_board_start.c - sid: 1.13
+   print_all_boards.c - sid: 1.5
+   print_all_results.c - sid: 1.4
+   print_board.c - sid: 1.8
+   print_node.c - sid: 1.7
+   print_scard.c - sid: 1.12
+   print_stat.c - sid: 1.6
+   print_tree.c - sid: 1.11
+   process_args.c - sid: 1.12
+==========================================
+Modification time stamp: 19.02.24-15:28:40
+History id: 1.028
+Comment:
+Multiple cards enabled for the play.
+
+Affected modules:
+
+   play_board.c - sid: 1.23
+   process_args.c - sid: 1.13
+==========================================
+Modification time stamp: 01.04.24-11:42:36
+History id: 1.029
+Comment:
+The SEQC information is stored in lists in stead of arrays;
+The memory management is moved to a separate include file.
+
+Affected modules:
+
+   Makefile - sid: 1.11
+   build_node.c - sid: 1.15
+   build_ply.c - sid: 1.12
+   build_scard.c - sid: 1.14
+   dds.c - sid: 1.13
+   global.h - sid: 1.2
+   hashbackup.c - sid: 1.18
+   header.h - sid: 1.24
+   join_scard.c - sid: 1.14
+   print_scard.c - sid: 1.13
+   print_stat.c - sid: 1.7
+==========================================
+Modification time stamp: 01.04.24-18:28:12
+History id: 1.030
+Comment:
+Renaming of variables.
+
+Affected modules:
+
+   bottomup_tree.c - sid: 1.13
+   check_board.c - sid: 1.14
+   dds.c - sid: 1.14
+   global.h - sid: 1.3
+   header.h - sid: 1.25
+   play_board.c - sid: 1.24
+   play_board_start.c - sid: 1.14
+   print_all_boards.c - sid: 1.6
+   print_all_results.c - sid: 1.5
+   print_board.c - sid: 1.9
+   print_scard.c - sid: 1.14
+   process_args.c - sid: 1.14

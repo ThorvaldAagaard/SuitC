@@ -1,0 +1,188 @@
+==========================================
+Modification time stamp: 14.01.25-11:18:35
+History id: 2.001
+Comment:
+Original version
+
+Affected modules:
+
+==========================================
+Modification time stamp: 16.01.25-12:37:51
+History id: 2.002
+Comment:
+Change in the name of a variable.
+
+Affected modules:
+
+   create_tricks.c - sid: 1.2
+   global.h - sid: 1.2
+   print_all_results.c - sid: 1.2
+   process_args.c - sid: 1.2
+   suitc.c - sid: 1.2
+==========================================
+Modification time stamp: 21.01.25-15:08:46
+History id: 2.003
+Comment:
+An obsolete option is deleted;
+THe criteria to lump finals plays together have been sharpended.
+
+Affected modules:
+
+   create_board_header.c - sid: 1.2
+   create_boards.c - sid: 1.2
+   create_tricks.c - sid: 1.3
+   global.h - sid: 1.3
+   header.h - sid: 1.2
+   print_suitc.c - sid: 1.2
+   print_summary_results.c - sid: 1.2
+   process_args.c - sid: 1.3
+   select_ns_plays.c - sid: 1.2
+   suitc.c - sid: 1.3
+==========================================
+Modification time stamp: 26.01.25-13:33:38
+History id: 2.004
+Comment:
+The facility to sort the plays in decreasing number of leaves before
+building the QUIRK tree has been deleted.
+
+Affected modules:
+
+   Makefile - sid: 1.2
+   determine_trick_count.c - sid: 1.2
+   global.h - sid: 1.4
+   header.h - sid: 1.3
+   process_args.c - sid: 1.4
+   suitc.c - sid: 1.4
+==========================================
+Modification time stamp: 28.01.25-14:03:35
+History id: 2.005
+Comment:
+This is some simplification of the code. 'struct STACK' and global
+variables ns and w have been eliminated. Their functionality is now part
+of 'struct NODE'.
+
+Affected modules:
+
+   add_node.c - sid: 1.2
+   copy_node.c - sid: 1.2
+   copy_tree.c - sid: 1.2
+   create_boards.c - sid: 1.3
+   create_ply1.c - sid: 1.2
+   create_ply2.c - sid: 1.2
+   create_ply3.c - sid: 1.2
+   create_ply4.c - sid: 1.2
+   create_tricks.c - sid: 1.4
+   determine_trick_count.c - sid: 1.3
+   fold_ew_tree.c - sid: 1.2
+   fold_ns_tree.c - sid: 1.2
+   fold_tree.c - sid: 1.2
+   global.h - sid: 1.5
+   header.h - sid: 1.4
+   merge_nodes.c - sid: 1.2
+   print_node.c - sid: 1.2
+   print_suitc.c - sid: 1.3
+   print_tree.c - sid: 1.2
+   process_args.c - sid: 1.5
+   select_ew_plays.c - sid: 1.2
+   select_ns_plays.c - sid: 1.3
+   suitc.c - sid: 1.5
+==========================================
+Modification time stamp: 28.01.25-17:40:03
+History id: 2.006
+Comment:
+The print out of results has been adapted. The new code restores the
+version that was used before Rev1.046.
+
+Affected modules:
+
+   print_results.c - sid: 1.2
+   suitc.c - sid: 1.6
+==========================================
+Modification time stamp: 31.01.25-21:02:56
+History id: 2.007
+Comment:
+Option '-nC' has been deleted.
+
+Affected modules:
+
+   Makefile - sid: 1.3
+   copy_node.c - sid: 1.3
+   copy_tree.c - sid: 1.3
+   create_ply1.c - sid: 1.3
+   global.h - sid: 1.6
+   header.h - sid: 1.5
+   print_all_results.c - sid: 1.3
+   process_args.c - sid: 1.6
+   suitc.c - sid: 1.7
+==========================================
+Modification time stamp: 05.02.25-17:47:14
+History id: 2.008
+Comment:
+Routine print_tree has been brushed up.
+
+Affected modules:
+
+   create_boards.c - sid: 1.4
+   determine_trick_count.c - sid: 1.4
+   header.h - sid: 1.6
+   print_all_results.c - sid: 1.4
+   print_tree.c - sid: 1.3
+   suitc.c - sid: 1.8
+==========================================
+Modification time stamp: 06.02.25-13:41:50
+History id: 2.009
+Comment:
+A new option has been added for the selection of the north-south plays in
+the final game tree. The option '-v' selects the play in which north-south
+win the tricks as soon as possible and where the use of outside entries
+is minimized.
+
+Affected modules:
+
+   add_node.c - sid: 1.3
+   copy_node.c - sid: 1.4
+   copy_tree.c - sid: 1.4
+   create_boards.c - sid: 1.5
+   create_ply1.c - sid: 1.4
+   create_tricks.c - sid: 1.5
+   determine_trick_count.c - sid: 1.5
+   global.h - sid: 1.7
+   header.h - sid: 1.7
+   process_args.c - sid: 1.7
+   suitc.c - sid: 1.9
+==========================================
+Modification time stamp: 09.02.25-16:23:49
+History id: 2.010
+Comment:
+The code to maximize entries in the suit itself is moved from
+determine_trick_count to use_suit_entries;
+A number of variables have been initialized in the declaration.
+
+Affected modules:
+
+   Makefile - sid: 1.4
+   copy_node.c - sid: 1.5
+   copy_tree.c - sid: 1.5
+   create_boards.c - sid: 1.6
+   determine_trick_count.c - sid: 1.6
+   fold_ew_tree.c - sid: 1.3
+   global.h - sid: 1.8
+   header.h - sid: 1.8
+   merge_quirk.c - sid: 1.2
+   print_all_results.c - sid: 1.5
+   print_node.c - sid: 1.3
+   process_args.c - sid: 1.8
+   suitc.c - sid: 1.10
+==========================================
+Modification time stamp: 20.02.25-09:45:47
+History id: 2.011
+Comment:
+Some minor adjustments.
+
+Affected modules:
+
+   header.h - sid: 1.9
+   print_all_results.c - sid: 1.6
+   print_suitc.c - sid: 1.4
+   print_tree.c - sid: 1.4
+   process_args.c - sid: 1.9
