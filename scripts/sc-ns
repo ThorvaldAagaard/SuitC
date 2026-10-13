@@ -5,7 +5,7 @@ PGM=${0##*/}
 USAGE() {
     print "\
 NAME
-    ${PGM} - delete 100 percent resultsunless it are safety plays
+    ${PGM} - delete 100 percent results unless it are safety plays
 
 SYNOPSIS
     ${PGM} [infile]

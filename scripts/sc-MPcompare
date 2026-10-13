@@ -1,0 +1,92 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    printf "
+NAME
+    ${PGM} - compare the matchpoint results of a number of lines of play
+
+SYNOPSIS
+    ${PGM} [file]
+
+DESCRIPTION
+    ${PGM} compares the matchpoint results of a number of lines of play
+    The input consists of:
+    1. A list of probabilities as produced by SuitC;
+    2. The results as produced by the -a option of SuitC
+
+PARAMETERS
+    file    the input file
+
+AUTHOR
+    G.A. van der Velde
+" 1>&2
+    exit 22
+}
+
+# set defaults
+fil=
+
+# process the parameters of the command
+while [[ -n "$1" ]]
+do
+    case $1 in
+	-*|\?)   USAGE;;
+	*)       fil="$1";;
+    esac
+    shift
+done
+
+nawk '
+BEGIN { CNT = 0 }
+{
+    if ( $2 ~ /x/ ) { N = NR; perc[N] = $1 * $3; next }
+    CNT++; for ( n = 1; n <= N; n++ ) v[CNT,n] = $n
+}
+END {
+    printf "    "; for ( k = 1; k <= CNT; k++ ) printf "   %2d. win    draw    loss", k; printf "\n"
+    printf "    "; for ( k = 1; k <= CNT; k++ ) printf "    ======================"; printf "\n"
+    for ( k = 1; k <= CNT; k++ ) {
+	printf "%4d", k
+	for ( l = 1; l <= CNT; l++ ) {
+	    for ( n = 1; n <= 3; n++ ) score[n] = 0.
+	    for ( n = 1; n <= N; n++ ) {
+		if ( v[k,n]  > v[l,n] ) score[1] += perc[n]
+		if ( v[k,n] == v[l,n] ) score[2] += perc[n]
+		if ( v[k,n]  < v[l,n] ) score[3] += perc[n]
+	    }
+	    printf "%10.2f%8.2f%8.2f", score[1], score[2], score[3]
+	}
+	printf "\n"
+    }
+} ' kind=$kind $fil
+
+exit
+
+sc-MPcompare << EOF
+     1 x  0.0824    KQ987654   -           1 - 1
+     6 x  0.1785    KQ98765    4           1 - 1
+    15 x  0.3060    KQ9876     54          1 - 1
+    20 x  0.4207    KQ987      654         1 - 1
+    15 x  0.4675    KQ98       7654        1 - 1
+     6 x  0.4207    KQ9        87654       1 - 1
+     1 x  0.3060    KQ         987654      1 - 2
+     2 x  0.1785    K987654    Q           2 - 2
+    12 x  0.3060    K98765     Q4          1 - 2
+    30 x  0.4207    K9876      Q54         1 - 2
+    40 x  0.4675    K987       Q654        1 - 2
+    30 x  0.4207    K98        Q7654       1 - 2
+    12 x  0.3060    K9         Q87654      1 - 2
+     2 x  0.1785    K          Q987654     1 - 2
+     1 x  0.3060    987654     KQ          2 - 2
+     6 x  0.4207    98765      KQ4         1 - 2
+    15 x  0.4675    9876       KQ54        1 - 2
+    20 x  0.4207    987        KQ654       1 - 2
+    15 x  0.3060    98         KQ7654      1 - 2
+     6 x  0.1785    9          KQ87654     1 - 2
+     1 x  0.0824    -          KQ987654    1 - 2
+ 1 1 1 1 1 1 2 2 2 1 1 1 1 1 2 2 2 2 2 2 2  71.6653  28.3347  1.2833
+ 1 1 1 1 1 1 2 2 1 1 1 1 1 2 2 1 1 1 1 1 1  98.6741   1.3259  1.0133
+ 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2  24.0000  76.0000  1.7600
+EOF

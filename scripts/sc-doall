@@ -1,0 +1,66 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    print "
+NAME
+    ${PGM} - analyse all suit combinations
+
+SYNOPSIS
+    ${PGM}
+
+DESCRIPTION
+    ${PGM} analyses all suit combinations. this script should be run
+    after sc-install has installed the ??/?? scripts.
+
+PARAMETERS
+    none
+
+AUTHOR
+    G.A. van der Velde, Leiden
+" 1>&2
+    exit 22
+}
+
+# process the parameters of the command
+while [[ -n "$1" ]]
+do
+    case $1 in
+	-*|\? )  USAGE;;
+	*)       USAGE;;
+    esac
+    shift
+done
+
+# analyse the suit combinations
+# generate the ??.xp, ??.no and ??.so files
+# generate ??.all* files
+
+# analyse these combinations separately because they are long running
+# ( cd 05; SuitC -T1 . KJ975 AQT86432 > 0.db975 ) &
+# ( cd 50; SuitC -T1 KJ975 . AQT86432 > db975.0 ) &
+
+# these directories are analysed with 2 runs in parallel
+for m in 05 50 06 15 24 42 51 60
+do
+    while [[ $( ps | grep perl | wc | nawk ' { printf "%02d\n", $1 } ' ) > 01 ]]
+    do
+	sleep 10
+    done
+    echo "sc-runit $m"
+    sc-runit $m &
+    sleep 4
+done
+
+# these directories are analysed with 8 runs in parallel
+for m in 00 01 10 02 11 20 03 12 21 30 04 13 22 31 40 14 23 32 41 33 07 16 25 34 43 52 61 70 08 17 26 35 44 53 62 71 80 09 18 27 36 45 54 63 72 81 90 0a 19 28 37 46 55 64 73 82 91 a0 0b 1a 29 38 47 56 65 74 83 92 a1 b0 0c 1b 2a 39 48 57 66 75 84 93 a2 b1 c0 0d 1c 2b 3a 49 58 67 76 85 94 a3 b2 c1 d0
+do
+    while [[ $( ps | grep perl | wc | nawk ' { printf "%02d\n", $1 } ' ) > 07 ]]
+    do
+	sleep 10
+    done
+    echo "sc-runit $m"
+    sc-runit $m &
+    sleep 4
+done

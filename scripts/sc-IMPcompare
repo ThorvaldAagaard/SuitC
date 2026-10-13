@@ -1,0 +1,143 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    printf "
+NAME
+    ${PGM} - compare the IMP results of a number of lines of play
+
+SYNOPSIS
+    ${PGM} [file]
+
+DESCRIPTION
+    ${PGM} compares the IMP results of a number of lines of play
+    The input consists of:
+    1. The IMP score for each number of tricks for 2 or more contracts.
+       A typical input line is:
+       1 3   2 -100   3 600   4 630
+       This line applies to the results 1-3; the score for 2 tricks is
+       -100 points, the core for 3 tricks is 600 points and the score
+       for 4 tricks is 630 points;
+    2. A list of probabilities as produced by the -b option of SuitC;
+    3. The results as produced by the -a option of SuitC
+
+PARAMETERS
+    file    the input file
+
+AUTHOR
+    G.A. van der Velde
+" 1>&2
+    exit 22
+}
+
+# set defaults
+fil=
+
+# process the parameters of the command
+while [[ -n "$1" ]]
+do
+    case $1 in
+	-*|\?)   USAGE;;
+	*)       fil="$1";;
+    esac
+    shift
+done
+
+nawk '
+BEGIN {
+    N = 0
+    CNT = 0
+    start = 1
+    imptable[00] =   10
+    imptable[01] =   40
+    imptable[02] =   80
+    imptable[03] =  120
+    imptable[04] =  160
+    imptable[05] =  210
+    imptable[06] =  260
+    imptable[07] =  310
+    imptable[08] =  360
+    imptable[09] =  420
+    imptable[10] =  490
+    imptable[11] =  590
+    imptable[12] =  740
+    imptable[13] =  890
+    imptable[14] = 1090
+    imptable[15] = 1290
+    imptable[16] = 1490
+    imptable[17] = 1740
+    imptable[18] = 1990
+    imptable[19] = 2240
+    imptable[20] = 2490
+    imptable[21] = 2990
+    imptable[22] = 3490
+    imptable[23] = 3990
+}
+{
+    if ( start && $2 !~ /x/ )
+	for ( i = 3; i < NF; i += 2 )
+	    for ( n = $1; n <= $2; n++ )
+		points[n,$i] = $(i+1);
+    else if ( $2 ~ /x/ ) {
+	N++
+	perc[N] = $1 * $3
+	start = 0
+    }
+    else {
+	CNT++;
+	for ( n = 1; n <= N; n++ )
+	    v[CNT,n] = $n
+    }
+}
+END {
+    printf " "
+    for ( k = 1; k <= CNT; k++ )
+	printf "%10d", k
+    printf "\n"
+    printf "    "
+    for ( k = 1; k <= CNT; k++ )
+	printf "    ======", k
+    printf "\n"
+    for ( k = 1; k <= CNT; k++ ) {
+	printf "%4d", k
+	for ( l = 1; l <= CNT; l++ ) {
+	    imps = 0.0
+	    for ( n = 1; n <= N; n++ ) {
+		rslt = points[k,v[k,n]] - points[l,v[l,n]]
+		rslt = points[k,v[k,n]] >= points[l,v[l,n]] ? rslt : -rslt;
+		i = 24
+		while ( i && imptable[i-1] >= rslt )
+		    i--
+		imps += perc[n] * ( points[k,v[k,n]] >= points[l,v[l,n]] ? i : -i )
+	    }
+	    printf "%10.4f", .01 * imps
+	}
+	printf "\n"
+    }
+} ' $fil
+
+exit
+
+sc-IMPcompare << EOF
+1 1    2 -100  3 600   4 630
+2 2    2 120   3 150   4 180
+     1 x  1.9565    KT876   -        2 - 3
+     3 x  2.8261    KT87    6        2 - 3
+     1 x  2.8261    K876    T        2 - 3
+     1 x  2.8261    T876    K        2 - 3
+     3 x  3.3913    KT8     76       2 - 3
+     3 x  3.3913    K87     T6       2 - 3
+     3 x  3.3913    T87     K6       3 - 3
+     1 x  3.3913    876     KT       3 - 4
+     1 x  3.3913    KT      876      2 - 3
+     3 x  3.3913    K8      T76      2 - 3
+     3 x  3.3913    T8      K76      2 - 4
+     3 x  3.3913    87      KT6      2 - 3
+     1 x  2.8261    K       T876     3 - 3
+     1 x  2.8261    T       K876     2 - 3
+     3 x  2.8261    8       KT76     2 - 3
+     1 x  1.9565    -       KT876    2 - 3
+ 3 3 3 2 3 3 3 3 3 3 3 3 3 3 3 3   2.8261  97.1739   0.0000  2.9717
+ 2 2 3 2 3 3 3 4 3 3 4 3 3 3 3 3  13.2609  73.1739  13.5652  3.0030
+EOF

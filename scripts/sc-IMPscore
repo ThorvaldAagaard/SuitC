@@ -1,0 +1,88 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    printf "
+NAME
+    ${PGM} - print a list of selected output files of SuitC with the [I]MP score of MAX and Nx
+
+SYNOPSIS
+    ${PGM} [-N<x>] [-o<opt>] [file]
+
+DESCRIPTION
+    ${PGM} prints a list of selected output files of SuitC with the [I]MP score of MAX and Nx
+
+PARAMETERS
+    N      The N<x> play that is used as reference
+    opt    The selected plays:
+	   opt=1    The analysis yields multiple IMP or MP plays
+	   opt=2    The result of the IMP or MP play is the same as the result of the MAX play
+	   opt=3    The result of the IMP or MP play is the same as the result of the N<x> play
+	   opt=4    The result of the IMP or MP play differs from the results of the MAX and the N<x> plays
+	   opt=5    The analysis yields no IMP or MP plays and the result of the N<x> play is the same as the result of the MAX play
+	   opt=6    The analysis yields no IMP or MP plays and the result of the N<x> play differs from result of the MAX play
+	   opt=7    The analysis yields no IMP or MP plays and no N<x> play is reported
+    file   A file with results of a SuitC run, e.g. 35.all-ns
+
+AUTHOR
+    G.A. van der Velde, Leiden
+" 1>&2
+    exit 22
+}
+
+# set defaults
+fil=??.all-nm-ns
+Nx=N3
+opt=4
+
+# process the parameters of the command
+while [ -n "$1" ]
+do
+    case $1 in
+	-N)     Nx=N$2; shift;;
+	-N*)    Nx=N${1#-N};;
+	-o)     opt=$2; shift;;
+	-o*)    opt=${1#-o};;
+	-*|\?)  USAGE;;
+	*)      fil=$1;;
+    esac
+    shift
+done
+
+nawk '
+BEGIN { fil = ""; MAXscore = 0; Nxscore = 0 }
+function printit() {
+    printf "%s", fil
+    if ( MAXscore ) printf "   MAX-score: %7s", MAXscore
+    if ( Nxscore ) printf "    %s-score: %7s", Nx, Nxscore
+    printf "\n"
+}
+{
+    if ( FILENAME != fil ) {
+	if ( fil ) printit()
+	MAXscore = 0
+	Nxscore = 0
+	fil = FILENAME
+    }
+    if ( $2 ~ /optimum/ )
+	line = $0
+    if ( $0 ~/score/ ) {
+	if ( line ~ /MAX/ ) MAXscore = MAXscore < $2 ? MAXscore : $2
+	if ( line ~ Nx    ) Nxscore = Nxscore < $2 ? Nxscore : $2
+    }
+}
+END {
+    if ( fil ) printit()
+} ' Nx="$Nx" $( sc-IMPlist -$Nx -o$opt $fil | sed '
+    s/A/e/
+    s/K/d/
+    s/Q/c/
+    s/J/b/
+    s/T/a/
+' | nawk ' { printf "plays/%s.%s\n", $2, $4 } ' )
+
+exit
+
+
+

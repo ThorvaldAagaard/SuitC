@@ -1,9 +1,9 @@
-#!/bin/bash -x
+#!/bin/bash
 
 PGM=${0##*/}
 
 USAGE() {
-    print "
+    printf "
 NAME
     ${PGM} - analyse all suit combinations
 
@@ -12,7 +12,8 @@ SYNOPSIS
 
 DESCRIPTION
     ${PGM} analyses all suit combinations. this script should be run
-    after sc-install has installed the ??/?? scripts.
+    after /home/gerrit/bridge/Backups/suit-combinations.Rev4.20260217.tgz
+    has been untarred.
 
 PARAMETERS
     none
@@ -23,49 +24,14 @@ AUTHOR
     exit 22
 }
 
-# process the parameters of the command
-while [[ -n "$1" ]]
-do
-    case $1 in
-	-*|\? )  USAGE;;
-	*)       USAGE;;
-    esac
-    shift
-done
+# check the parameter
+[[ $1 ]] || USAGE
 
-# analyse the suit combinations
-# generate the ??.xp, ??.no and ??.so files
-# generate ??.all* files
-
-( cd 05; SuitC -T1 . KJ975 AQT86432 > 0.db975 ) &
-( cd 50; SuitC -T1 KJ975 . AQT86432 > db975.0 ) &
-
-for m in 00 01 10 02 11 20 03 12 21 30 04 13 22 31 40 14 23 32 41 33 07 16 25 34 43 52 61 70 08 17 26 35 44 53 62 71 80 09 18 27 36 45 54 63 72 81 90 0a 19 28 37 46 55 64 73 82 91 a0 0b 1a 29 38 47 56 65 74 83 92 a1 b0 0c 1b 2a 39 48 57 66 75 84 93 a2 b1 c0 0d 1c 2b 3a 49 58 67 76 85 94 a3 b2 c1 d0
+for m in $1
 do
     (
 	cd $m
-	rm -f plays/*
-	P-run $m > res
-	sc-norm res > $m.res
-	cat $m.res | P-all > $m.all
-	cat $m.res | sc-nm  | P-all > $m.all-nm
-	cat $m.res | sc-nmp | P-all > $m.all-nmp
-	cat $m.res | sc-ns  | P-all > $m.all-ns
-	cat $m.res | sc-nm  | sc-nmp | P-all > $m.all-nm-nmp
-	cat $m.res | sc-ns  | sc-nm  | P-all > $m.all-nm-ns
-	cat $m.res | sc-ns  | sc-nmp | P-all > $m.all-nmp-ns
-	cat $m.res | sc-ns  | sc-nm  | sc-nmp | P-all > $m.all-nm-nmp-ns
-	sc-expand $m.res
-	sc-strength $m.xp
-    )
-done
-
-wait
-
-for m in 05 06 15 24 42 51 60 50
-do
-    (
-	cd $m
+	[[ -a plays ]] || mkdir plays
 	rm -f plays/*
 	P-run $m > res
 	sc-norm res > $m.res

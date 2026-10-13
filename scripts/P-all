@@ -41,53 +41,53 @@ for ( $bot = 0; $bot < $N; $bot++ ) {
     $n = $no[$bot];
     for ( $n1 = 12; $n1 > 0; $n1-- ) {
 	next if $no[$bot] !~ /$cards[$n1]/;
-        next if $no[$bot] =~ /$cards[$n1-1]/;
+	next if $no[$bot] =~ /$cards[$n1-1]/;
 	$c = $cards[$n1];
 	$v = $cards[$n1-1];
 	# print "n1=$n1 c=$c v=$v\n";
 
-        # find south cards in sequence
-        $s = $so[$bot];
-        for ( $s1 = $n1-1; $s1 > 0; $s1-- ) {
-            last if $s !~ /$cards[$s1]/;
-            $s =~ s/$v/$c/;
-            $c = $v;
+	# find south cards in sequence
+	$s = $so[$bot];
+	for ( $s1 = $n1-1; $s1 > 0; $s1-- ) {
+	    last if $s !~ /$cards[$s1]/;
+	    $s =~ s/$v/$c/;
+	    $c = $v;
 	    $v = $cards[$s1-1];
-            # print "s=$s c=$c v=$v\n";
-        }
+	    # print "s=$s c=$c v=$v\n";
+	}
 
-        # fix all hands
-        $n = $no[$bot];
+	# fix all hands
+	$n = $no[$bot];
 	$n =~ s/$cards[$n1]/$v/;
 	$e = $ew[$bot];
 	$e =~ s/$cards[$s1]/$c/;
 	order();
-        $ix = $rank{$n,$s,$e};
-        $val = substr($line[$ix],$m);
-        if ( $res eq $val ) { $accept[$ix] = 0; }
-        # print "N: n1=$n1 s1=$s1 c=$c v=$v N: $n   S: $s   EW: $e ix=$ix accept=$accept[$ix]\n";
+	$ix = $rank{$n,$s,$e};
+	$val = substr($line[$ix],$m);
+	if ( $res eq $val ) { $accept[$ix] = 0; }
+	# print "N: n1=$n1 s1=$s1 c=$c v=$v N: $n   S: $s   EW: $e ix=$ix accept=$accept[$ix]\n";
     }
 
     # exchange a card between the south and the east-west hands
     $s = $so[$bot];
     for ( $s1 = 12; $s1 > 0; $s1-- ) {
 	next if $so[$bot] !~ /$cards[$s1]/;
-        next if $so[$bot] =~ /$cards[$s1-1]/;
+	next if $so[$bot] =~ /$cards[$s1-1]/;
 	$c = $cards[$s1];
 	$v = $cards[$s1-1];
 	# print "s1=$s1 c=$c v=$v\n";
 
-        # fix all hands
-        $n = $no[$bot];
-        $s = $so[$bot];
+	# fix all hands
+	$n = $no[$bot];
+	$s = $so[$bot];
 	$s =~ s/$c/$v/;
 	$e = $ew[$bot];
 	$e =~ s/$v/$c/;
 	order();
-        $ix = $rank{$n,$s,$e};
-        $val = substr($line[$ix],$m);
-        if ( $res eq $val ) { $accept[$ix] = 0; }
-        # print "S: s1=$s1 c=$c v=$v N: $n   S: $s   EW: $e ix=$ix accept=$accept[$ix]\n";
+	$ix = $rank{$n,$s,$e};
+	$val = substr($line[$ix],$m);
+	if ( $res eq $val ) { $accept[$ix] = 0; }
+	# print "S: s1=$s1 c=$c v=$v N: $n   S: $s   EW: $e ix=$ix accept=$accept[$ix]\n";
     }
 }
 
@@ -95,10 +95,10 @@ sub order {
     for ( $i = 11; $i >= 0; $i-- ) {
 	if ( $n =~ /$cards[$i]/ && $s =~ /$cards[$i+1]/ ) {
 	    for ( $j = $i; $j <= 12; $j++ ) {
-	        if ( $n =~ /$cards[$j]/ && $s =~ /$cards[$j+1]/ ) {
-	            substr($n,index($n,$cards[$j]),1) = $cards[$j+1];
-	            substr($s,index($s,$cards[$j+1]),1) = $cards[$j];
-	        }
+		if ( $n =~ /$cards[$j]/ && $s =~ /$cards[$j+1]/ ) {
+		    substr($n,index($n,$cards[$j]),1) = $cards[$j+1];
+		    substr($s,index($s,$cards[$j+1]),1) = $cards[$j];
+		}
 		else { last; }
 	    }
 	}

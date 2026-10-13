@@ -33,6 +33,5 @@ do
 done
 
 sed '
-    s/ *IMP.*//
     s/ *MP.*//
 ' $fil
