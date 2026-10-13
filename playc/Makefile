@@ -2,7 +2,7 @@
 #  Makefile for program playc
 #-----------------------------------------------------------------------
 
-SHELL	= /bin/sh
+SHELL	= /bin/bash
 CPFLAGS	=
 CFLAGS	= -O3
 CC	= gcc
@@ -23,7 +23,7 @@ EXEC	= ../bin/playc
 
 ${EXEC}: ${OBJECTS}
 	${LD} ${LDFLAGS} -o ${EXEC} ${OBJECTS}
-	[[ -f ${EXEC}.exe ]] && mv ${EXEC}.exe ${EXEC}
+	[[ -f ${EXEC}.exe ]] && mv ${EXEC}.exe ${EXEC} || true
 
 .SUFFIXES:
 .SUFFIXES: .o .c .h

@@ -37,7 +37,7 @@ OBJECTS	= 			\
 
 ${EXEC}: ${OBJECTS}
 	${CC} ${CFLAGS} -o ${EXEC} ${OBJECTS}
-	[[ -f ${EXEC}.exe ]] && mv ${EXEC}.exe ${EXEC}
+	[[ -f ${EXEC}.exe ]] && mv ${EXEC}.exe ${EXEC} || true
 
 .SUFFIXES:
 .SUFFIXES: .o .c .h
