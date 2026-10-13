@@ -36,6 +36,8 @@ int main( int argc, char **argv )
         nfree[0][p] = NCARDS;
     for ( p = 0; p < 4; p++ )
         nruff[0][p] = 0;
+    for ( i = 0; i <= NCARDS; i++ )
+        pointscore[i] = 0;
     opening_lead = 0x7fff;
     printallmatchpoint = NO;
     printallresults = NO;
