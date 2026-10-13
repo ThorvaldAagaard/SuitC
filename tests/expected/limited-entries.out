@@ -3,14 +3,14 @@
 	West : K865432
 	East : K865432
 
-	cutoff              : 10000
+	cutoff              : 20000
 	the lead is in      : South
 	#free entries South : 1
 	min number of tricks: 1
 	max number of tricks: 5
 	number of plays     : 1
 
-	Copyright 2025, Gerrit A. van der Velde, Leiden
+	Copyright 2026, Gerrit A. van der Velde, Leiden
 
 
 
@@ -42,7 +42,7 @@ The optimum play for: MAX N2 N3 N4 N5
                                                                  K K K K K K K K K K K K 8 8 8 8 8 8 6 6 6 6 6 -
 S:7  K86-  A  K86-    S:Q  K    -  86-      .  .    .  .      ns=1 1 1 1 1 1 1 1 1 1 1 - - - - - - - - - - - - - 
                            86-  -  K        .  .    .  .      ns=- - - - - - - - - - - - - 1 1 1 1 1 1 1 1 1 1 1 
-                                   86-    S:Q  86-  -  86-    ns=- - - - - - - - - - - 5 5 - - - - - - - - - - - 
+                                   86-    S:J  86-  -  86-    ns=- - - - - - - - - - - 5 5 - - - - - - - - - - - 
 
 
 

@@ -7,7 +7,7 @@
 	max number of tricks: 3
 	number of plays     : 2
 
-	Copyright 2025, Gerrit A. van der Velde, Leiden
+	Copyright 2026, Gerrit A. van der Velde, Leiden
 
 
 
@@ -53,8 +53,8 @@ The optimum play for: MAX N3
                                          T T T T T   T T T T T   T T
                                          T T T T T T   T T T T T   T
                                          K K K K K K K T T T T T T -
-S:4  K   A  T-     N:Q  T-  4  T-     ns=3 3 3 3 3 3 3 - - - - - - - 
-     T-  Q  KT-    S:4  K   A  T-     ns=3 3 3 3 3 3 - - - - - - - - 
+S:4  K   A  T-     N:Q  T-  2  T-     ns=3 3 3 3 3 3 3 - - - - - - - 
+     T-  J  KT-    S:3  K   A  T-     ns=3 3 3 3 3 3 - - - - - - - - 
                         T-  Q  KT-    ns=3 3 3 3 3 - - 2 2 2 2 2 2 2 
 
 
