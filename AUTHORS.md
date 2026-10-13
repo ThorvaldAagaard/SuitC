@@ -26,11 +26,6 @@ and using entries economically, which became the `-u` option.
   of East-West distributions in the app build follows his (Rev 1.028). He also
   suggested skipping insignificant small cards when building the database
   (`P-run`).
-- **Jan Boerhout**, Gerrit's colleague at NEC, pointed out portability issues
-  that were fixed in Rev 1.013x.
-- **Huub van der Wouden**, owner of the Dutch *IMP* magazine: the dds examples
-  `H17` and `LV` come from his collection (Gerrit kept them in a folder named
-  HvdW).
 - **Bo Haglund**, author of the DDS double-dummy solver: dds takes its
   shifted-holdings technique from his work.
 

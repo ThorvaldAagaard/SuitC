@@ -72,7 +72,8 @@ macOS, Cygwin and WSL. See [docs/building.md](docs/building.md) for details.
 - [Reading the output](docs/output.md)
 - [How SuitC works](docs/algorithm.md)
 - [Building](docs/building.md): compile options and memory limits
-- [The suit-combination database and scripts](docs/database.md)
+- [The suit-combination database and scripts](docs/database.md), and
+  [how the database is built](docs/building-the-database.md) by Gerrit A. van der Velde
 - [dds and playc](docs/dds-and-playc.md)
 - [Hand Valuation and Computers](docs/hand-valuation.md), an essay by Gerrit A. van der Velde
 - [History](HISTORY.md) and [changelog](CHANGELOG.md)

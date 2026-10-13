@@ -25,7 +25,7 @@ against the source archives he distributed (Rev 1.037, 1.039, 2.010, 2.011,
 | 2008-08-03 | playc 1.1 | playc: enumeration of suit distributions |
 | 2020-04-25 | SuitC 1.001 | SuitC continues ExpertPlay Rev 6.102 |
 | 2020-10 | 1.010 | Throw-ins: an opponent who wins a trick can be required to lead |
-| 2021-03 | 1.013x | Portability fixes after remarks by Jan Boerhout |
+| 2021-03 | 1.013x | Portability fixes |
 | 2021-06 | 1.018 – 1.019 | `SUITCAPP` build for Lars Kappel Hansen's web application |
 | 2021-07-23 | dds 1.001 | dds enters RCS |
 | 2022-07 | 1.022 – 1.024 | Matchpoint score printed for every play; optimal IMP plays |

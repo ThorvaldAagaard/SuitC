@@ -41,7 +41,7 @@ code is unchanged from Rev 2.011.
 - **Rev 2.020** (2026-10-13) — Two minor bug fixes in handling IMP scores.
 - **Rev 2.019** (2026-07-03) — We re-introduced throwin plays.
 - **Rev 2.018** (2026-04-22) — We have added the facility to skip folding the first n plies of the tree with the argument -Fs<n>. This produces trees where it is clear how east-west play at the first n plies.
-- **Rev 2.017** (2026-02-17) — The fold mode of the final tree is entered with parameter -m{U|US|D|DS}. The default is mode DOWN. *(In the code of Rev 2.020 the default is UP.)*
+- **Rev 2.017** (2026-02-17) — The fold mode of the final tree is entered with parameter -m{U|US|D|DS}. The default is mode DOWN. *(The default is UP; confirmed by Gerrit.)*
 - **Rev 2.016** (2025-10-15) — We added alternatives for the order in which the game tree is folded. UP start at the last branch and work upwards; UPSTRIDE start at the last branch and work upwards with equal strides; DOWN start at the first branch and work downwards; DOWNSTRIDE start at the first branch and work downwards with equal strides.
 - **Rev 2.015** (2025-09-17) — Bug fix.
 - **Rev 2.014** (2025-09-11) — Bug fix.
@@ -91,7 +91,7 @@ Rev 2.001 restarted from Rev 1.050.
 - **Rev 1.015** (2021-05-07) — A bug fix and a few typographical changes in the output.
 - **Rev 1.014** (2021-04-24) — r1.3 of print_tree.c introduced a bug; this has been corrected. Error checks are introduced for the malloc statements. A default value CUTOFF is introduced for the valur of the cutoff variable. The code for handling fixed cards has been improved.
 - **Rev 1.013** (2021-04-23) — Work around for a Cygwin error.
-- **Rev 1.013x** (2021-03-16) — Jan Boerhout's remark on potability issues are applied.
+- **Rev 1.013x** (2021-03-16) — Remarks on portability issues are applied.
 - **Rev 1.012** (2020-11-14) — Minor bug fix.
 - **Rev 1.011** (2020-10-21) — The logic to specify 3rd hand strategies has again be implemented.
 - **Rev 1.010** (2020-10-21) — The code for throwins has been adapted. It is now possible to specify that an opponent is thrown in if he wins a trick, but this option contains a serious flaw. The program cannot handle the situation that an opponent is thrown in at the moment that he has no cards left. We added the possibility that a player is thrown in at trick 1. To do this we specify -Lw[<card>] or -Le<[card>] on the command line to force a lead at trick 1 rom west or east.

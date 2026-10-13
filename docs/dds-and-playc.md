@@ -31,8 +31,7 @@ to go back to ply `<n>`, `p` or `P` to print statistics, or `.` to stop.
   two-suit ending;
 - `ben`: a deal from a BEN match, with the layouts consistent with the
   auction;
-- `H17` and `LV`: two examples from Huub van der Wouden, owner of the Dutch
-  *IMP* magazine; `LV.out` is the output of `LV`;
+- `H17` and `LV`: two further examples; `LV.out` is the output of `LV`;
 - `dds.out`: a short interactive session on one layout of the `doit` deal;
 - `s14.out`: the output of a run over 14 layouts (compare `TA`).
 
