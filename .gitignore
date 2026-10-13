@@ -22,3 +22,4 @@ dds/extern.h
 .claude/settings.local.json
 *.swp
 .DS_Store
+debug.log
