@@ -1,0 +1,38 @@
+	North: QJ6
+	South: KT73
+	West : A98542
+	East : A98542
+
+	min number of tricks: 3
+	max number of tricks: 3
+	number of plays     : 1
+
+	Copyright 2025, Gerrit A. van der Velde, Leiden
+
+
+
+The optimal results
+===================
+
+	Result  :   3.0000
+
+
+
+The optimum play for: MAX
+=========================
+
+	3 tricks: 100.0000
+	Result  :   3.0000
+
+                                                                           - 2 5 5 5 5 9 9 9 9 9 9 9 9 9 9 9 9 A A A A A A A A A A A A A A A A A A
+                                                                           2     2 5 5   2 5 5 5 5 9 9 9 9 9 9   2 5 5 5 5 9 9 9 9 9 9 9 9 9 9 9 9
+                                                                           5 5 2     2 2     2 5 5   2 5 5 5 5 2     2 5 5   2 5 5 5 5 9 9 9 9 9 9
+                                                                           5 5 5 5 2   5 5 2     2 2     2 5 5 5 5 2     2 2     2 5 5   2 5 5 5 5
+                                                                           9 9 9 9 9 9 5 5 5 5 2   5 5 2     2 5 5 5 5 2   5 5 2     2 2     2 5 5
+                                                                           9 9 9 9 9 9 9 9 9 9 9 9 5 5 5 5 2   9 9 9 9 9 9 5 5 5 5 2   5 5 2     2
+                                                                           A A A A A A A A A A A A A A A A A A 9 9 9 9 9 9 9 9 9 9 9 9 5 5 5 5 2 -
+N:Q  A952-  3  A952-    N:Q  A952-  7  A952-    N:6  A952-  T  A952-    ns=3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+
+
+
+

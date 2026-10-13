@@ -1,0 +1,41 @@
+	North: AJ9
+	South: KQ2
+	West : T876543
+	East : T876543
+
+	the lead is in      : South
+	the lead is the     : Q
+	min number of tricks: 3
+	max number of tricks: 3
+	number of plays     : 1
+
+	Copyright 2025, Gerrit A. van der Velde, Leiden
+
+
+
+The optimal results
+===================
+
+	Result  :   3.0000
+
+
+
+The optimum play for: MAX
+=========================
+
+	3 tricks: 100.0000
+	Result  :   3.0000
+
+                                           - 8 8 8 8 8 8 T T T T T T T
+                                           8   8 8 8 8 8   8 8 8 8 8 8
+                                           8 8   8 8 8 8 8   8 8 8 8 8
+                                           8 8 8   8 8 8 8 8   8 8 8 8
+                                           8 8 8 8   8 8 8 8 8   8 8 8
+                                           8 8 8 8 8   8 8 8 8 8   8 8
+                                           8 8 8 8 8 8   8 8 8 8 8   8
+                                           T T T T T T T 8 8 8 8 8 8 -
+S:K  T8-  9  T8-    N:A  T8-  2  T8-    ns=3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+
+
+
+

@@ -1,0 +1,44 @@
+	North: AQ2
+	South: 543
+	West : KJT9876
+	East : KJT9876
+
+	the lead is in      : South
+	#free entries South : 0
+	min number of tricks: 1
+	max number of tricks: 2
+	number of plays     : 2
+
+	Copyright 2025, Gerrit A. van der Velde, Leiden
+
+
+
+The optimal results
+===================
+
+	2 tricks:  50.0000
+	Result  :   1.5000
+
+
+
+The optimum play for: MAX N2
+============================
+
+	2 tricks:  50.0000
+	1 tricks:  50.0000
+	Result  :   1.5000
+
+                                         - J J J J J J K K K K K K K
+                                         J   J J J J J   J J J J J J
+                                         J J   J J J J J   J J J J J
+                                         J J J   J J J J J   J J J J
+                                         J J J J   J J J J J   J J J
+                                         J J J J J   J J J J J   J J
+                                         J J J J J J   J J J J J   J
+                                         K K K K K K K J J J J J J -
+S:5  K   A  J-     N:Q  J-  5  J-     ns=2 2 2 2 2 2 2 - - - - - - - 
+     J-  Q  KJ-    N:A  J-  5  KJ-    ns=2 2 2 2 2 2 - 1 1 1 1 1 1 1 
+
+
+
+

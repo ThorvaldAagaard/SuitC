@@ -1,0 +1,48 @@
+	North: K2
+	South: 3
+	West : AQJT987654
+	East : AQJT987654
+
+	min number of tricks: 0
+	max number of tricks: 1
+	number of plays     : 2
+
+	Copyright 2025, Gerrit A. van der Velde, Leiden
+
+
+
+The optimal results
+===================
+
+	1 tricks:  50.0054
+	Result  :   0.5001
+
+
+
+The optimum play for: MAX S1
+============================
+
+	1 tricks:  50.0054
+	0 tricks:  49.9946
+	Result  :   0.5001
+
+                     - Q Q Q Q Q Q Q Q Q A A A A A A A A A A
+                     Q   Q Q Q Q Q Q Q Q   Q Q Q Q Q Q Q Q Q
+                     Q Q   Q Q Q Q Q Q Q Q   Q Q Q Q Q Q Q Q
+                     Q Q Q   Q Q Q Q Q Q Q Q   Q Q Q Q Q Q Q
+                     Q Q Q Q   Q Q Q Q Q Q Q Q   Q Q Q Q Q Q
+                     Q Q Q Q Q   Q Q Q Q Q Q Q Q   Q Q Q Q Q
+                     Q Q Q Q Q Q   Q Q Q Q Q Q Q Q   Q Q Q Q
+                     Q Q Q Q Q Q Q   Q Q Q Q Q Q Q Q   Q Q Q
+                     Q Q Q Q Q Q Q Q   Q Q Q Q Q Q Q Q   Q Q
+                     Q Q Q Q Q Q Q Q Q   Q Q Q Q Q Q Q Q   Q
+                     A A A A A A A A A A Q Q Q Q Q Q Q Q Q -
+W:A  2  Q-   3    ns=1 1 1 1 1 1 1 1 1 1 - - - - - - - - - - 
+W:Q  K  AQ-  3    ns=1 1 1 1 1 1 1 1 1 - 0 0 0 0 0 0 0 0 0 - 
+E:A  3  -    2    ns=- - - - - - - - - - - - - - - - - - - 1 
+E:Q  3  A    2    ns=- 1 1 1 1 1 1 1 1 1 - - - - - - - - - - 
+        Q-   K    ns=- 1 1 1 1 1 1 1 1 - - - - - - - - - - 1 
+
+
+
+

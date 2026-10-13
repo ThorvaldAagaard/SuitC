@@ -1,0 +1,47 @@
+	North: AK43
+	South: J52
+	West : QT9876
+	East : QT9876
+
+	#score for 0 tricks : -300
+	#score for 1 tricks : -200
+	#score for 2 tricks : -100
+	#score for 3 tricks : 620
+	#score for 4 tricks : 650
+	min number of tricks: 2
+	max number of tricks: 3
+	number of plays     : 2
+
+	Copyright 2025, Gerrit A. van der Velde, Leiden
+
+
+
+The optimal results
+===================
+
+	3 tricks:  68.9752
+	Result  :   2.6898
+
+
+
+The optimum play for: MAX N3
+============================
+
+	3 tricks:  68.9752
+	2 tricks:  31.0248
+	Result  :   2.6898
+	IMPscore:   0.0000
+
+                                                             - T T T T T Q Q Q Q Q Q
+                                                             T   T T T T   T T T T T
+                                                             T T   T T T T   T T T T
+                                                             T T T   T T T T   T T T
+                                                             T T T T   T T T T   T T
+                                                             T T T T T   T T T T   T
+                                                             Q Q Q Q Q Q T T T T T -
+N:A  QT-  2  QT-    N:4  Q   5  T-     S:J  T-   4  T-    ns=- - - - - - - 3 3 3 3 3 
+                         T-  J  QT-    N:A  QT-  5  T-    ns=2 2 2 3 2 3 3 3 - 3 3 3 
+
+
+
+

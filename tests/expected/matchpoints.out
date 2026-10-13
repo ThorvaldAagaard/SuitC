@@ -1,0 +1,43 @@
+	North: AKJT32
+	South: 54
+	West : Q9876
+	East : Q9876
+
+	min number of tricks: 4
+	max number of tricks: 6
+	number of plays     : 3
+
+	Copyright 2025, Gerrit A. van der Velde, Leiden
+
+
+
+The optimal results
+===================
+
+	6 tricks:  48.0435
+	5 tricks:  98.0435
+	Result  :   5.4609
+
+
+
+The optimum play for: MAX N5 N6
+===============================
+
+	6 tricks:  48.0435
+	5 tricks:  50.0000
+	4 tricks:   1.9565
+	Result  :   5.4609
+
+                                         - 9 9 9 9 Q Q Q Q Q
+                                         9   9 9 9   9 9 9 9
+                                         9 9   9 9 9   9 9 9
+                                         9 9 9   9 9 9   9 9
+                                         9 9 9 9   9 9 9   9
+                                         Q Q Q Q Q 9 9 9 9 -
+S:5  Q   A  9-     N:A  9-  5  9-     ns=5 6 6 6 6 - - - - - 
+     9-  J  Q9-    S:5  Q   A  9-     ns=5 6 6 6 - - - - - - 
+                        9-  J  Q9-    ns=5 6 6 - - 5 5 5 5 4 
+
+
+
+

@@ -1,0 +1,39 @@
+	North: HB9
+	South: V32
+	West : AT87654
+	East : AT87654
+
+	min number of tricks: 2
+	max number of tricks: 2
+	number of plays     : 1
+
+	Copyright 2025, Gerrit A. van der Velde, Leiden
+
+
+
+The optimal results
+===================
+
+	Result  :   2.0000
+
+
+
+The optimum play for: MAX
+=========================
+
+	2 tricks: 100.0000
+	Result  :   2.0000
+
+                                               - 8 8 8 8 8 T T T T T T A A A A A A A A A A A A
+                                               8   8 8 8 8   8 8 8 8 8   8 8 8 8 8 T T T T T T
+                                               8 8   8 8 8 8   8 8 8 8 8   8 8 8 8   8 8 8 8 8
+                                               8 8 8   8 8 8 8   8 8 8 8 8   8 8 8 8   8 8 8 8
+                                               8 8 8 8   8 8 8 8   8 8 8 8 8   8 8 8 8   8 8 8
+                                               8 8 8 8 8   8 8 8 8   8 8 8 8 8   8 8 8 8   8 8
+                                               T T T T T T 8 8 8 8 8   8 8 8 8 8   8 8 8 8   8
+                                               A A A A A A A A A A A A T T T T T T 8 8 8 8 8 -
+N:H  AT8-  3  AT8-    S:V  AT8-  9  AT8-    ns=2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+
+
+
+

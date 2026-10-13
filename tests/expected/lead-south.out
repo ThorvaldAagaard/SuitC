@@ -1,0 +1,43 @@
+	North: AKJT
+	South: 432
+	West : Q98765
+	East : Q98765
+
+	the lead is in      : South
+	min number of tricks: 3
+	max number of tricks: 4
+	number of plays     : 2
+
+	Copyright 2025, Gerrit A. van der Velde, Leiden
+
+
+
+The optimal results
+===================
+
+	4 tricks:  51.2112
+	Result  :   3.5121
+
+
+
+The optimum play for: MAX N4
+============================
+
+	4 tricks:  51.2112
+	3 tricks:  48.7888
+	Result  :   3.5121
+
+                                                             - 9 9 9 9 9 Q Q Q Q Q Q
+                                                             9   9 9 9 9   9 9 9 9 9
+                                                             9 9   9 9 9 9   9 9 9 9
+                                                             9 9 9   9 9 9 9   9 9 9
+                                                             9 9 9 9   9 9 9 9   9 9
+                                                             9 9 9 9 9   9 9 9 9   9
+                                                             Q Q Q Q Q Q 9 9 9 9 9 -
+S:4  Q9-  A  Q9-    S:4  Q   A  9-     N:J  9-  4  9-     ns=4 4 4 4 4 - - - - - - - 
+                         9-  J  Q9-    S:4  Q   A  9-     ns=4 4 4 4 - - - - - - - - 
+                                            9-  J  Q9-    ns=4 4 4 4 4 4 4 3 3 3 3 3 
+
+
+
+

@@ -1,0 +1,47 @@
+	North: AQJ
+	South: 432
+	West : KT98
+	East : K98765
+
+	minimum length West : 2
+	#vacant places West : 3
+	minimum length East : 4
+	#vacant places East : 5
+	min number of tricks: 2
+	max number of tricks: 3
+	number of plays     : 1
+
+	Copyright 2025, Gerrit A. van der Velde, Leiden
+
+
+
+The optimal results
+===================
+
+	3 tricks:  37.5000
+	Result  :   2.3750
+
+
+
+The optimum play for: MAX N3
+============================
+
+	3 tricks:  37.5000
+	2 tricks:  62.5000
+	Result  :   2.3750
+
+                                     T T K K
+                                     T T T T
+                                     T T T T
+                                     T T T T
+                                       T   T
+                                     T   T  
+                                     T T T T
+                                     K K T T
+S:4  K  A  T     N:Q  T  4  T     ns=3 3 - - 
+     T  Q  KT    S:4  K  A  T     ns=3 3 - - 
+                      T  Q  KT    ns=3 - 2 2 
+
+
+
+

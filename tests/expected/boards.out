@@ -1,0 +1,62 @@
+	North: AQJ
+	South: 432
+	West : KT98765
+	East : KT98765
+
+	min number of tricks: 2
+	max number of tricks: 3
+	number of plays     : 2
+
+	Copyright 2025, Gerrit A. van der Velde, Leiden
+
+
+
+The optimal results
+===================
+
+	3 tricks:  50.0000
+	Result  :   2.5000
+
+
+
+       Probabilities    West       East       tricks
+     ===============    ====       ====       ======
+     1 x  0.26086957    KT98765    -           2 - 3
+     6 x  0.48447205    KT9876     5           2 - 3
+    15 x  0.72670807    KT987      65          2 - 3
+    20 x  0.88819876    KT98       765         2 - 3
+    15 x  0.88819876    KT9        8765        2 - 3
+     6 x  0.72670807    KT         98765       2 - 3
+     1 x  0.48447205    K          T98765      3 - 3
+     1 x  0.48447205    T98765     K           2 - 3
+     6 x  0.72670807    T9876      K5          2 - 2
+    15 x  0.88819876    T987       K65         2 - 2
+    20 x  0.88819876    T98        K765        2 - 2
+    15 x  0.72670807    T9         K8765       2 - 2
+     6 x  0.48447205    T          K98765      2 - 2
+     1 x  0.26086957    -          KT98765     2 - 2
+
+
+
+The optimum play for: MAX N3
+============================
+
+	3 tricks:  50.0000
+	2 tricks:  50.0000
+	Result  :   2.5000
+
+                                         - T T T T T T K K K K K K K
+                                         T   T T T T T   T T T T T T
+                                         T T   T T T T T   T T T T T
+                                         T T T   T T T T T   T T T T
+                                         T T T T   T T T T T   T T T
+                                         T T T T T   T T T T T   T T
+                                         T T T T T T   T T T T T   T
+                                         K K K K K K K T T T T T T -
+S:4  K   A  T-     N:Q  T-  4  T-     ns=3 3 3 3 3 3 3 - - - - - - - 
+     T-  Q  KT-    S:4  K   A  T-     ns=3 3 3 3 3 3 - - - - - - - - 
+                        T-  Q  KT-    ns=3 3 3 3 3 - - 2 2 2 2 2 2 2 
+
+
+
+

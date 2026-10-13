@@ -1,0 +1,15 @@
+# Regenerate tests/expected/*.out with the given SuitC binary.
+#   cmake -DSUITC=build/SuitC -P tests/update_expected.cmake
+if(NOT SUITC)
+  message(FATAL_ERROR "usage: cmake -DSUITC=<path to SuitC> -P tests/update_expected.cmake")
+endif()
+get_filename_component(here "${CMAKE_CURRENT_LIST_FILE}" DIRECTORY)
+file(STRINGS "${here}/cases.txt" cases REGEX "^[a-z0-9-]+:")
+foreach(line IN LISTS cases)
+  string(REGEX MATCH "^([a-z0-9-]+):[ \t]*(.*)$" _ "${line}")
+  set(ARGS "${CMAKE_MATCH_2}")
+  set(EXPECTED "${here}/expected/${CMAKE_MATCH_1}.out")
+  set(UPDATE ON)
+  include("${here}/run_case.cmake")
+  message(STATUS "updated ${CMAKE_MATCH_1}")
+endforeach()

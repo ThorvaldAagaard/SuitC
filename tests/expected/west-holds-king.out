@@ -1,0 +1,43 @@
+	North: AQJ
+	South: 432
+	West : KT98765
+	East : T98765
+
+	fixed West cards    : K
+	minimum length West : 1
+	min number of tricks: 3
+	max number of tricks: 3
+	number of plays     : 1
+
+	Copyright 2025, Gerrit A. van der Velde, Leiden
+
+
+
+The optimal results
+===================
+
+	Result  :   3.0000
+
+
+
+The optimum play for: MAX
+=========================
+
+	3 tricks: 100.0000
+	Result  :   3.0000
+
+                                      - T T T T T T
+                                      T   T T T T T
+                                      T T   T T T T
+                                      T T T   T T T
+                                      T T T T   T T
+                                      T T T T T   T
+                                      T T T T T T  
+                                      K K K K K K K
+S:4  K  A  T-    N:Q  T-  4  T-    ns=3 3 3 3 3 3 3 
+     T  Q  T-    S:4  K   A  T-    ns=3 3 3 3 3 3 - 
+                      T   Q  T-    ns=3 3 3 3 3 - - 
+
+
+
+

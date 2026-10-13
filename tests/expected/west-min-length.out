@@ -1,0 +1,44 @@
+	North: AQT2
+	South: J93
+	West : K87654
+	East : K7654
+
+	terminate play after: 3 tricks
+	minimum length West : 2
+	min number of tricks: 2
+	max number of tricks: 3
+	number of plays     : 2
+
+	Copyright 2025, Gerrit A. van der Velde, Leiden
+
+
+
+The optimal results
+===================
+
+	3 tricks:  53.0385
+	Result  :   2.5304
+
+
+
+The optimum play for: MAX N3
+============================
+
+	3 tricks:  53.0385
+	2 tricks:  46.9615
+	Result  :   2.5304
+
+                                                           - 8 8 8 8 K K K K
+                                                           8   8 8 8   8 8 8
+                                                           8 8   8 8 8   8 8
+                                                           8 8 8   8 8 8   8
+                                                           8 8 8 8   8 8 8  
+                                                           8 8 8 8 8 8 8 8 8
+                                                           K K K K K 8 8 8 8
+S:J  K  A  8-     N:Q  8-  3  8      N:T  8-  9  8-     ns=3 3 3 3 3 - - - - 
+     8  2  K8-    S:3  K   A  8-     N:Q  8-  9  8-     ns=3 3 3 3 3 - - - - 
+                       8   T  K8-    N:A  8-  9  K8-    ns=3 3 3 3 - 2 2 2 2 
+
+
+
+

@@ -1,0 +1,43 @@
+	North: AQT9
+	South: J32
+	West : K87654
+	East : K87654
+
+	min number of tricks: 3
+	max number of tricks: 4
+	number of plays     : 2
+
+	Copyright 2025, Gerrit A. van der Velde, Leiden
+
+
+
+The optimal results
+===================
+
+	4 tricks:  50.0000
+	Result  :   3.5000
+
+
+
+The optimum play for: MAX N4
+============================
+
+	4 tricks:  50.0000
+	3 tricks:  50.0000
+	Result  :   3.5000
+
+                                                            - 8 8 8 8 8 K K K K K K
+                                                            8   8 8 8 8   8 8 8 8 8
+                                                            8 8   8 8 8 8   8 8 8 8
+                                                            8 8 8   8 8 8 8   8 8 8
+                                                            8 8 8 8   8 8 8 8   8 8
+                                                            8 8 8 8 8   8 8 8 8   8
+                                                            K K K K K K 8 8 8 8 8 -
+S:J  K   A  8-     N:Q  8-  3  8-     N:T  8-  3  8-     ns=4 4 4 4 4 4 - - - - - - 
+     8-  T  K8-    S:3  K   A  8-     N:Q  8-  3  8-     ns=4 4 4 4 4 - - - - - - - 
+                        8-  T  K8-    S:3  K   A  8-     ns=4 4 4 4 - - - - - - - - 
+                                           8-  Q  K8-    ns=4 4 4 - - - 3 3 3 3 3 3 
+
+
+
+
