@@ -23,3 +23,6 @@ dds/extern.h
 *.swp
 .DS_Store
 debug.log
+
+# Private correspondence kept locally
+Mail/
