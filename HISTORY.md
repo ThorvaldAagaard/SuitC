@@ -56,7 +56,10 @@ tricks earliest and uses the fewest outside entries.
 
 Between 2024 and 2026 Thorvald kept a private backup of Gerrit's source
 distributions on GitHub. In October 2026 Gerrit agreed to release SuitC as open
-source, and asked Thorvald to take responsibility for the public project.
+source under the MIT licence, and asked Thorvald to take responsibility for the
+public project. For the release he sent his latest revision (2.020), the
+complete set of database scripts and a description of how the database is
+built.
 Gerrit continues to help with documentation and with questions about how
 SuitC works.
 
