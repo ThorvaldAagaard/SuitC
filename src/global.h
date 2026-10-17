@@ -60,7 +60,6 @@ int    qhcountmax;                      //  the maximum number of active QUIRKH 
 int    reorder;                         //  flag to indicate that Jeroen Warmerdam's order of the boards is used
 int    resultsonly;                     //  report only the results, no plays
 int    trace;                           //  trace options: 1=timing, 2=minimax progress
-int    throwin;                         //  the winner of the last trick leads to the current trick
 int    tricklimit;                      //  limit on the number of tricks that are played
 int    usesuitentries;                  //  maximize the use of entries in the suit itself
 int    westvac;                         //  the number of vacant places in the west hand

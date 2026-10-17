@@ -36,8 +36,6 @@ int main( int argc, char **argv )
         nfree[0][p] = NCARDS;
     for ( p = 0; p < 4; p++ )
         nruff[0][p] = 0;
-    for ( i = 0; i <= NCARDS; i++ )
-        pointscore[i] = 0;
     opening_lead = 0x7fff;
     printallmatchpoint = NO;
     printallresults = NO;
@@ -53,7 +51,6 @@ int main( int argc, char **argv )
     resultsonly = NO;
     for ( d = 0; d < NPLIES+1; d++ )
         quirkdl[d].ic = boardcount;
-    throwin = NO;
     trace = 0x0;
     tricklimit = NCARDS;
     usesuitentries = NO;
