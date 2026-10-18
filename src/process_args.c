@@ -123,6 +123,10 @@ void process_args( int argc, char **argv )
                         val = 10 * val + c - '0';
                     k++;
                 }
+                if ( val == 0 ) {
+                    printf( "Incorrect specification of the IMP score: %s; the program stops\n", argv[i] );
+                    exit( 1 );
+                }
                 pointscore[n] = sign * val;
             }
             else if ( c == 'L' ) {
