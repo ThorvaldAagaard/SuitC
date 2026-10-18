@@ -56,6 +56,23 @@ are written in bash and Perl, and were developed under Cygwin and Linux.
 | `sc-MPcompare`, `sc-IMPcompare` | Compare the matchpoint or IMP results of several lines of play, from SuitC's `-b` and `-a` output and, for IMPs, the score of each number of tricks. |
 | `sc-IMPlist`, `sc-IMPscore` | Select and list the MP or IMP plays, compared with the MAX play and an `N<x>` safety play. |
 
+**Reports from the database**
+
+The `v-` scripts work on a list of the significant cards of every
+combination, made by `v-equals`. Gerrit shows how to use them in
+[Using the SuitC database](using-the-database.md).
+
+| Script | Purpose |
+|---|---|
+| `v-equals` | List the significant cards of every suit combination: one line per combination, with the north and south cards, the number of card sequences, the number of cards and the distribution. |
+| `v-view` | Report the combinations with given high cards in north (`-n`), south (`-s`) or both (`-h`), a given number of cards (`-c`) and distribution (`-d`), with all plays (`-a`), the East-West distributions (`-b`) and the game tree (`-p`). |
+| `v-select`, `v-accept`, `v-strength` | Select holdings from the list and generate report scripts. |
+| `v-side`, `v-strong`, `v-weak` | Select the combinations where north or south is the long or strong side. |
+| `v-reverse` | Reverse the order of the combinations in the list. |
+| `v-trim` | Trim the north and south distributions by deleting the cards 2 to 8. |
+| `v-list`, `v-notes`, `v-report` | Create overview reports from the SuitC output. |
+| `v-install`, `v-doall` | Generate the reports on the play of all suit combinations. |
+
 ## Playing-strength studies
 
 [examples/strength](../examples/strength) contains Gerrit's studies built on
