@@ -1,7 +1,7 @@
 # Regression cases for SuitC.
 #
 # Each line is  <name>: <SuitC arguments>
-# The expected output of each case is stored in expected/<name>.out (from Rev 2.020).
+# The expected output of each case is stored in expected/<name>.out (from Rev 2.022).
 # To regenerate the expected output after an intended change of results:
 #   ctest --test-dir build -C Release   (shows which cases differ)
 #   cmake -DSUITC=build/SuitC -DUPDATE=ON -P tests/update_expected.cmake
@@ -37,12 +37,10 @@ no-entries:         -Ls -ls0 AQ2 543 KJT9876
 ruffs:              -Rn1 AQ 5432 KJT9876
 third-hand-rule:    -Ls -S9876:J AKJT32 54 Q9876
 defence:            -D K2 3 AQJT987654
-throw-in:           -HE -Ls KJ9 432 AQT8765
 
 # --- scoring objectives
 matchpoints:        -M AKJT32 54 Q9876
 matchpoints-mixed:  -b -d -M -pM -Ls -ln0 -S9876:J AKJT32 54 Q9876
 imps:               -pI -I0:-300 -I1:-200 -I2:-100 -I3:620 -I4:650 AK43 J52 QT9876
-imps-no-scores:     -I AK43 J52 QT9876
 suit-entries:       -u QJ6 KT73 A98542
 zermelo:            -z1 AQT9 J32 K87654

@@ -73,7 +73,6 @@ SuitC -M AKJT32 54 Q9876       # best play at matchpoints
 | `-t<n>` | Play only `<n>` tricks in the suit. |
 | `-S<card2>:<card3>` | Third-hand rule: if second hand plays a card from `<card2>`, third hand plays a card from `<card3>`. Use it together with `-L`, e.g. `-Ls -S9876:J`. |
 | `-D` | The defenders lead to every trick, which is useful for stopper analysis. Use it only if East-West hold at least twice as many cards as North-South. `-DW` prints the East-West winners instead. |
-| `-H{w,n,e,s}` | Throw-in: if this player won the last trick, he must lead to the next one. |
 
 ### Objectives and selection
 
@@ -81,7 +80,7 @@ SuitC -M AKJT32 54 Q9876       # best play at matchpoints
 |---|---|
 | *(default)* | Maximum expected tricks, plus the safety plays for each number of tricks. |
 | `-M[<nodes>]` | Find the optimal matchpoint play. This may be a mixed strategy, solved with the simplex method on at most `<nodes>` nodes. |
-| `-I<n>:<score>` | Find the optimal play at IMPs, where taking `<n>` tricks in the suit scores `<score>` points. Give the option once for each trick count, e.g. `-I2:-100 -I3:620 -I4:650`. |
+| `-I<n>:<score>` | Find the optimal play at IMPs, where taking `<n>` tricks in the suit scores `<score>` points. Give the option once for each trick count, e.g. `-I2:-100 -I3:620 -I4:650`. A score of 0 need not be given, and SuitC stops if one is. |
 | `-u` | Among equally good plays, prefer the one that wins tricks as early as possible, uses as few outside entries as possible, and uses the entries in the suit itself first. (Added in Rev 2.009 as `-v`.) |
 | `-z<n>` | Remove weakly dominated plays: `1` = in `check_zermelo`, `2` = in `evaluate_mp_results`. |
 | `-c<n>[k,m,g]` | Cut-off: a limit on the product of the number of quirks while quirk trees are merged (`k` = thousand, `m` = million, `g` = billion). Use it only for pathological combinations such as `KJ93 75 AQT8642`. It trades accuracy for time and memory. |

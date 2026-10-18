@@ -3,12 +3,12 @@
 SuitC, dds and playc are versioned with the revision numbers of their author,
 Gerrit A. van der Velde. Each revision below is a commit in the git history
 (see `git log`). The tags `rev-1.037`, `rev-1.038`, `rev-1.039`, `rev-2.010`,
-`rev-2.011` and `rev-2.020` mark the revisions Gerrit distributed; published
+`rev-2.011`, `rev-2.020` and `rev-2.022` mark the revisions Gerrit distributed; published
 releases, with binaries for all platforms, are tagged `v<revision>`. The
 entries are Gerrit's own comments from his RCS history files, which are kept
 unchanged in [docs/history](docs/history).
 
-## v2.020
+## v2.022
 
 Gerrit's latest revision. The results are identical to Rev 2.011 for all
 regression cases; only the presentation of the game trees differs slightly.
@@ -16,10 +16,10 @@ regression cases; only the presentation of the game trees differs slightly.
 - New options for presenting the game tree: `-F8` (select the North-South
   plays, then fold the East-West plays), `-Fs<n>` (do not fold the first `<n>`
   plies) and `-m{U|US|D|DS}` (the order in which the tree is folded).
-- Throw-in plays are back: `-H<player>` makes that player lead to the next
-  trick if he won the last one.
-- Fixes for IMP scoring; `-I` without scores no longer reads an
+- Fixes for IMP scoring. `-I` without a score is now rejected; it read an
   uninitialised variable.
+- Folding the East-West plays is back to the Rev 2.011 code, which also
+  handles `-D`, where both West and East can lead.
 - Bug fixes and a check of the cards entered (Rev 2.012 – 2.015).
 
 ## v2.011: open-source release
@@ -38,6 +38,8 @@ code is unchanged from Rev 2.011.
 
 ## SuitC Rev 2 (2025 – 2026)
 
+- **Rev 2.022** (2026-10-18) — A problem with incomplete specification of the -I parameter is handled.
+- **Rev 2.021** (2026-10-17) — The code to handle throwins has been deleted again.
 - **Rev 2.020** (2026-10-13) — Two minor bug fixes in handling IMP scores.
 - **Rev 2.019** (2026-07-03) — We re-introduced throwin plays.
 - **Rev 2.018** (2026-04-22) — We have added the facility to skip folding the first n plies of the tree with the argument -Fs<n>. This produces trees where it is clear how east-west play at the first n plies.

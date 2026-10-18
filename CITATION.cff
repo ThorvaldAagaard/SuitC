@@ -6,8 +6,8 @@ authors:
   - family-names: "van der Velde"
     given-names: "Gerrit A."
     affiliation: "Leiden, the Netherlands"
-version: "2.020"
-date-released: "2026-10-13"
+version: "2.022"
+date-released: "2026-10-18"
 license: MIT
 repository-code: "https://github.com/ThorvaldAagaard/SuitC"
 keywords:

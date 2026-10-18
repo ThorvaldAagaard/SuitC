@@ -295,3 +295,27 @@ Affected modules:
 
    evaluate_mp_results.c - sid: 1.2
    suitc.c - sid: 1.14
+==========================================
+Modification time stamp: 17.10.26-22:26:11
+History id: 2.021
+Comment:
+The code to handle throwins has been deleted again.
+
+Affected modules:
+
+   create_tricks.c - sid: 1.7
+   fold_ew_tree.c - sid: 1.5
+   global.h - sid: 1.13
+   print_suitc.c - sid: 1.6
+   process_args.c - sid: 1.16
+   suitc.c - sid: 1.15
+==========================================
+Modification time stamp: 18.10.26-10:05:58
+History id: 2.022
+Comment:
+A problem with incomplete specification of the -I parameter is handled.
+
+Affected modules:
+
+   process_args.c - sid: 1.17
+   suitc.c - sid: 1.16

@@ -16,7 +16,7 @@ this repository was rebuilt from them, so every commit corresponds to one
 revision in Gerrit's RCS history. Each commit carries his original comment and
 timestamp, and an `RCS-History-Id` trailer. The rebuilt snapshots were checked
 against the source archives he distributed (Rev 1.037, 1.039, 2.010, 2.011,
-2.020 and dds 1.030) and are byte-for-byte identical, apart from the generated `extern.h`.
+2.020, 2.022 and dds 1.030) and are byte-for-byte identical, apart from the generated `extern.h`.
 
 ## Milestones
 
@@ -40,6 +40,7 @@ against the source archives he distributed (Rev 1.037, 1.039, 2.010, 2.011,
 | 2025-10 – 2026-04 | 2.016 – 2.018 | Fold modes (`-m`) and unfolded first plies (`-Fs`) for clearer game trees |
 | 2026-07-03 | 2.019 | Throw-in plays re-introduced (`-H`) |
 | 2026-10-13 | 2.020 | IMP fixes; sent by Gerrit for the open-source release |
+| 2026-10-18 | 2.021 – 2.022 | Throw-in removed again; `-I` without a score is rejected |
 
 ## SuitC in other programs
 
@@ -57,7 +58,7 @@ tricks earliest and uses the fewest outside entries.
 Between 2024 and 2026 Thorvald kept a private backup of Gerrit's source
 distributions on GitHub. In October 2026 Gerrit agreed to release SuitC as open
 source under the MIT licence, and asked Thorvald to take responsibility for the
-public project. For the release he sent his latest revision (2.020), the
+public project. For the release he sent his latest revision (2.020, followed by 2.022), the
 complete set of database scripts and a description of how the database is
 built.
 Gerrit continues to help with documentation and with questions about how
