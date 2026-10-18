@@ -1,0 +1,50 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    printf "
+NAME
+    ${PGM} - reverse the order of the suit combinations in an output file of v-equals
+
+SYNOPSIS
+    ${PGM} files
+
+DESCRIPTION
+    ${PGM} reverses the order of the suit combinations in an output file of v-equals
+
+PARAMETERS
+    files    the input files. these files are output files of script v-equals
+
+AUTHOR
+    G.A. van der Velde, Leiden
+" 1>&2
+    exit 1
+}
+
+# set defaults
+fil=
+
+# process the parameters of the command
+while [[ -n "$1" ]]
+do
+    case $1 in
+	-*|\? )  USAGE;;
+	*)       fil="$fil $1";;
+    esac
+    shift
+done
+
+nawk ' {
+    n = substr($6,1,1)
+    s = substr($6,2,1)
+    printf "%s\t%s\t%s\t%s\t%s\t%s%s\t%s\n", $1, $2, $3, $4, $5, s, n, $7
+} ' $fil |\
+
+sort -k6,6 -k1 |\
+
+nawk ' {
+    n = substr($6,1,1)
+    s = substr($6,2,1)
+    printf "%s\t%s\t%s\t%s\t%s\t%s%s\t%s\n", $1, $2, $3, $4, $5, s, n, $7
+} '

@@ -1,0 +1,59 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    printf "
+NAME
+    ${PGM} - create overview reports from the output of the SuitC program
+
+SYNOPSIS
+    ${PGM} [-a] [-b] [-p] [-d<dir>] [-n<Notes>] [files>]
+
+DESCRIPTION
+    ${PGM} creates overview reports from the output of the SuitC program
+
+PARAMETERS
+    -a       set the -a option for v-report
+    -b       set the -b option for v-report
+    -p       set the -p option for v-report
+    dir      the directory with the SuitC analysis of all suit combinations
+    Notes    the output directory for the v-report reports
+    files    the input files. these files are output files of script v-equals
+
+AUTHOR
+    G.A. van der Velde, Leiden
+" 1>&2
+    exit 1
+}
+
+# set defaults
+a=
+b=
+p=
+Notes=Notes
+dir=..
+fil=
+
+# process the parameters of the command
+while [[ -n "$1" ]]
+do
+    case $1 in
+	-a)      a="-a";;
+	-b)      b="-b";;
+	-p)      p="-p";;
+	-n)      Notes=$2; shift;;
+	-n*)     Notes=${1#-n};;
+	-d)      dir=$2; shift;;
+	-d*)     dir=${1#-d};;
+	-*|\? )  USAGE;;
+	*)       fil="$fil $1";;
+    esac
+    shift
+done
+
+[[ -d $Notes ]] || mkdir $Notes
+
+nawk ' {
+   printf "v-report %s %s %s %s/%s/plays/%s >> %s/%s-%s\n", a, b, p, dir, $6, $7, Notes, $2, $3
+} ' a=$a b=$b p=$p dir=$dir Notes=$Notes $fil

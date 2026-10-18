@@ -1,0 +1,60 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    printf "
+NAME
+    ${PGM} - select specified holdings from a alist file and generate report scripts
+
+SYNOPSIS
+    ${PGM} [-a <accept>] [-r <refuse>] infile
+
+DESCRIPTION
+    ${PGM} selects specified holdings from a alist file and generates report scripts
+
+PARAMETERS
+    accept    regular expression that should be matched by the holding
+    refuse    regular expression that should not be matched by the holding
+    infile    the input file
+
+AUTHOR
+    G.A. van der Velde, Leiden
+" 1>&2
+    exit 22
+}
+
+# set defaults
+accept=[edcba9876543210]{1}
+refuse=[x]
+inf=
+
+# process the parameters of the command
+while [[ -n "$1" ]]
+do
+    case $1 in
+	-a)      accept=$2; shift;;
+	-a*)     accept=${1#-a};;
+	-r)      refuse=$2; shift;;
+	-r*)     refuse=${1#-r};;
+	-*|\? )  USAGE;;
+	*)       inf="$1";;
+    esac
+    shift
+done
+
+# check that a correct input file is supplied
+# [[ -z $inf || ! -f $inf  ]] && USAGE
+
+# create the headers
+nawk '
+
+    # translate the parameters into regular expressions
+    NR == 1 {
+	accept = index(accept,"[") || index(accept,"{") ? accept : "[" accept "]{" sprintf("%d",length(accept)) "}"
+	refuse = index(refuse,"[") || index(refuse,"{") ? refuse : "[" refuse "]"
+    }
+
+    $1 ~ accept && $1 !~ refuse { printf "v-select -h %-8s -n %-8s -s %-8s  %s | v-list -a -b -p | bash\n", $1, $2, $3, fil }
+
+' accept=$accept refuse=$refuse fil="$inf" $inf | sort -u

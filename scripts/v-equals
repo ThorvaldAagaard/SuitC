@@ -1,0 +1,120 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    printf "\
+NAME
+    ${PGM} - generate a report with the significant cards of the suit combinations
+
+SYNOPSIS
+    ${PGM} [-a {all|all-nm|all-nm-nmp|all-nm-nmp-ns|all-nm-ns|all-nmp|all-nmp-ns|all-ns}] [-d<dir>]
+
+DESCRIPTION
+    ${PGM} generates a report with the significant cards of the suit combinations
+    The output consists off:
+    field 1   the significant north-south cards
+    field 2   the north cards with equivalent cards represented by the same symbol
+    field 3   the south cards with equivalent cards represented by the same symbol
+    field 4   the number of different sequences in all hands
+    field 5   the number of cards in the north-south hands
+    field 6   the distribution in the form <#south><#north>
+    field 7   the distribution in the form <north cards>.<south cards>
+
+PARAMETERS
+    a   the type of the input file
+    d   the directory with the input files
+
+AUTHOR
+    G.A. van der Velde, Leiden
+" 1>&2
+    exit 1
+}
+
+# set defaults
+all=all
+dir=..
+
+# process the parameters of the command
+while [ -n "$1" ]
+do
+    case $1 in
+	-a)     all=$2; shift;;
+	-a*)    all=${1#-a};;
+	-d)     dir=$2; shift;;
+	-d*)    dir=${1#-d};;
+	-*|\?)  USAGE;;
+    esac
+    shift
+done
+
+for m in $(cd $dir; ls -d ??)
+do
+    awk '
+    BEGIN {
+	hex[0] = "0"
+	hex[2] = "2"
+	hex[3] = "3"
+	hex[4] = "4"
+	hex[5] = "5"
+	hex[6] = "6"
+	hex[7] = "7"
+	hex[8] = "8"
+	hex[9] = "9"
+	hex[10] = "a"
+	hex[11] = "b"
+	hex[12] = "c"
+	hex[13] = "d"
+	hex[14] = "e"
+	sym[0] = "0"
+	sym[2] = "2"
+	sym[3] = "3"
+	sym[4] = "4"
+	sym[5] = "5"
+	sym[6] = "6"
+	sym[7] = "7"
+	sym[8] = "8"
+	sym[9] = "9"
+	sym[10] = "T"
+	sym[11] = "J"
+	sym[12] = "Q"
+	sym[13] = "K"
+	sym[14] = "A"
+    }
+    {
+	no = ""
+	so = ""
+	ok = 0
+	fil = $2 "." $4
+	tag = ""
+
+	for ( i = 2; i <= 14; i++ ) {
+	    if ( $2 ~ sym[i] || $4 ~ sym[i] ) {
+		if ( ok && $2 ~ sym[i] )
+		    no = sym[i] no
+		if ( ok && $4 ~ sym[i] )
+		    so = sym[i] so
+		if ( ok )
+		    tag = sym[i] tag
+	    }
+	    else
+		ok = 1
+	}
+
+	if ( ! no ) no = "0" 
+	if ( ! so ) so = "0" 
+	if ( ! tag ) tag = "0"
+
+	gsub( "-", "0", fil );
+	for ( i = 10; i <= 14; i++ )
+	    gsub( sym[i], hex[i], fil );
+
+	seq = 1
+	for ( i = 2; i < 14; i++ )
+	    seq += fil ~ hex[i] ? ( fil ~ hex[i+1] ? 0 : 1 ) : ( fil ~ hex[i+1] ? 1 : 0 );
+
+	len = length( $2 ) + length( $4 )
+	len -= ( $2 ~ /[-]/ ? 1 : 0 ) + ( $4 ~ /[-]/ ? 1 : 0 )
+	printf "%s\t%s\t%s\t%03d\t%x\t%s\t%s\n", tag, no, so, seq, len, fn, fil
+    } ' fn=$m $dir/$m/$m.$all
+done

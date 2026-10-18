@@ -1,0 +1,57 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    printf "
+NAME
+    ${PGM} - create overview reports from the output of the SuitC program
+
+SYNOPSIS
+    ${PGM} [-a] [-b] [-p] [-d<dir>] [files>]
+
+DESCRIPTION
+    ${PGM} creates overview reports from the output of the SuitC program
+
+PARAMETERS
+    -a       set the -a option for v-report
+    -b       set the -b option for v-report
+    -p       set the -p option for v-report
+    dir      the directory with the SuitC analysis of all suit combinations
+    files    the input files. these files are output files of script v-equals
+
+AUTHOR
+    G.A. van der Velde, Leiden
+" 1>&2
+    exit 1
+}
+
+# set defaults
+all=
+boards=
+plays=
+dir=..
+fil=
+
+# process the parameters of the command
+while [[ -n "$1" ]]
+do
+    case $1 in
+	-a)      all="-a";;
+	-b)      boards="-b";;
+	-p)      plays="-p";;
+	-d)      dir=$2; shift;;
+	-d*)     dir=${1#-d};;
+	-*|\? )  USAGE;;
+	*)       fil="$fil $1";;
+    esac
+    shift
+done
+
+nawk ' {
+   if ( NR == 1 ) printf "v-report %s %s %s", all, boards, plays
+   printf " %s/%s/plays/%s", dir, $6, $7
+}
+END {
+    printf "\n"
+} ' all=$all boards=$boards plays=$plays dir=$dir $fil

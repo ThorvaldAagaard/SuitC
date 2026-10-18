@@ -1,0 +1,47 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    printf "\
+NAME
+    ${PGM} - script to generate reports on the play of suit combinations
+
+SYNOPSIS
+    ${PGM} [-d<dir>]
+
+DESCRIPTION
+    ${PGM} generates reports on the play of suit combinations
+
+PARAMETERS
+    dir   the directory with the results of the analysis of suit combinations
+
+AUTHOR
+    G.A. van der Velde, Leiden
+" 1>&2
+    exit 1
+}
+
+# set defaults
+dir=..
+
+# process the parameters of the command
+while [ -n "$1" ]
+do
+    case $1 in
+	-d)     dir=$2; shift;;
+	-d*)    dir=${1#-d};;
+	-*|\?)  USAGE;;
+    esac
+    shift
+done
+
+# generate the lists with equal plays
+v-equals -a all           -d $dir | sort -k6,6 -k1,3 > alist
+v-equals -a all-nm        -d $dir | sort -k6,6 -k1,3 > alist-nm
+v-equals -a all-nm-nmp    -d $dir | sort -k6,6 -k1,3 > alist-nm-nmp
+v-equals -a all-nm-nmp-ns -d $dir | sort -k6,6 -k1,3 > alist-nm-nmp-ns
+v-equals -a all-nm-ns     -d $dir | sort -k6,6 -k1,3 > alist-nm-ns
+v-equals -a all-nmp       -d $dir | sort -k6,6 -k1,3 > alist-nmp
+v-equals -a all-nmp-ns    -d $dir | sort -k6,6 -k1,3 > alist-nmp-ns
+v-equals -a all-ns        -d $dir | sort -k6,6 -k1,3 > alist-ns

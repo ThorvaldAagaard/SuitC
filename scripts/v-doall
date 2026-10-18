@@ -1,0 +1,144 @@
+#!/bin/bash -x
+
+PGM=${0##*/}
+
+USAGE() {
+    printf "\
+NAME
+    ${PGM} - script to generate reports on the play of suit combinations
+
+SYNOPSIS
+    ${PGM} [-d <directory>] [-x <list with equal plays>]
+
+DESCRIPTION
+    ${PGM} generates reports on the play of suit combinations
+
+PARAMETERS
+    d   the directory with the results of the analysis of suit combinations
+    x   the list with equal plays
+
+AUTHOR
+    G.A. van der Velde, Leiden
+" 1>&2
+    exit 22
+}
+
+# set defaults
+d=..
+x=slist-ns
+
+# process the parameters of the command
+while [ -n "$1" ]
+do
+    case $1 in
+	-d)     d=$2; shift;;
+        -d*)    d=${1#-d};;
+	-x)     x=$2; shift;;
+        -x*)    x=${1#-x};;
+        -*|\?)  USAGE;;
+    esac
+    shift
+done
+
+# generate the lists with equal plays
+v-equals -a all           -d $d | sort -k6,6 -k1,3 > alist
+v-equals -a all-nm        -d $d | sort -k6,6 -k1,3 > alist-nm
+v-equals -a all-nm-nmp    -d $d | sort -k6,6 -k1,3 > alist-nm-nmp
+v-equals -a all-nm-nmp-ns -d $d | sort -k6,6 -k1,3 > alist-nm-nmp-ns
+v-equals -a all-nm-ns     -d $d | sort -k6,6 -k1,3 > alist-nm-ns
+v-equals -a all-nmp       -d $d | sort -k6,6 -k1,3 > alist-nmp
+v-equals -a all-nmp-ns    -d $d | sort -k6,6 -k1,3 > alist-nmp-ns
+v-equals -a all-ns        -d $d | sort -k6,6 -k1,3 > alist-ns
+
+# generate the lists with equal plays with south the short/weak hand
+v-weak alist           > wlist
+v-weak alist-nm        > wlist-nm
+v-weak alist-nm-nmp    > wlist-nm-nmp
+v-weak alist-nm-nmp-ns > wlist-nm-nmp-ns
+v-weak alist-nm-ns     > wlist-nm-ns
+v-weak alist-nmp       > wlist-nmp
+v-weak alist-nmp-ns    > wlist-nmp-ns
+v-weak alist-ns        > wlist-ns
+
+# generate the lists with equal plays with south the long/strong hand
+v-strong alist           > slist
+v-strong alist-nm        > slist-nm
+v-strong alist-nm-nmp    > slist-nm-nmp
+v-strong alist-nm-nmp-ns > slist-nm-nmp-ns
+v-strong alist-nm-ns     > slist-nm-ns
+v-strong alist-nmp       > slist-nmp
+v-strong alist-nmp-ns    > slist-nmp-ns
+v-strong alist-ns        > slist-ns
+
+# generate the lists with equal plays sorted by the combined number of cards in the north and south hands
+for m in alist alist-nm alist-nm-nmp alist-nm-nmp-ns alist-nm-ns alist-nmp alist-nmp-ns alist-ns
+do
+    echo | awk ' END {
+        for ( i = 0; i <= 13; i++ )
+            for ( j = 0; j <= i; j++ )
+             printf "grep \"\t[0-9a-e]\t%x%x\t\" %s\n", j, i-j, d
+    } ' d=$m | bash > $(echo $m | sed 's/alist/zlist/')
+done
+
+rm -rf Notes
+mkdir Notes
+
+# extract the distributions
+awk ' { printf "%s\t%s\t%s\n", $1, $2, $3 } ' $x | \
+
+# trim the distributions
+sed '
+    s/\t[2-8]*\t/\t0\t/
+    s/\t[2-8]*$/\t0/
+    s/[2-8]*//g
+    s/99/9/g
+    s/99/9/g
+    s/99/9/g
+    s/aaa/aa/g
+    s/aaa/aa/g
+    s/aaa/aa/g
+    s/bbbb/bbb/g
+    s/bbbb/bbb/g
+    s/bbbb/bbb/g
+    s/ccccc/cccc/g
+    s/ccccc/cccc/g
+    s/dddddd/ddddd/g
+' | sort -k3,3 -k2 -u | \
+
+# trim the distributions
+awk ' {
+     if ( $3 ~ /0/ ) printf "%s\n", $0
+     else if ( $1 != a1 || $3 != a3 ) printf "%s\n", $0
+     a1 = $1
+     a3 = $3
+} ' | \
+
+# generate the report scripts
+awk ' {
+    if ( $1  ~ /0/ )                     printf "grep \"^[^9a-e\t]*\t" 
+    else                                 printf "grep \"^%s[^9a-e\t]*\t" , $1
+                                         printf "[^\t]*\t" 
+    if ( $3  ~ /0/ )                     printf "[02-8]" 
+    else if ( length($1) == length($3) ) printf "%s" , $3
+    else                                 printf "%s[^9a-e]" , $3
+    printf "\" %s | v-notes %s > Notes/%s-%s\n", x, d, $2, $3
+} ' d=$d x=$x | sed 's/=/"/g' | \
+
+# correct the report scripts
+sed '
+    s/9..9a-e]"/9"/
+    s/aa..9a-e]"/aa"/
+    s/bbb..9a-e]"/bbb"/
+    s/cccc..9a-e]"/cccc"/
+' | bash
+
+# create the report directory
+rm -rf Notes-d
+mkdir Notes-d
+
+# generate the report scripts
+awk ' { printf "%s\n", $6 } ' $x | sort -u | \
+
+awk ' {
+    printf "grep =\t%s\t= %s | v-notes %s > Notes-d/%s\n", $1, x, d, $1
+} ' d=$d x=$x | sed 's/=/"/g' | bash

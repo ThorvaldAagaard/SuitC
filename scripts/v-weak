@@ -1,0 +1,60 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    print "\
+NAME
+    ${PGM} - select from the the v-equals output all lines with south the longer or stronger hand
+
+SYNOPSIS
+    ${PGM} infile
+
+DESCRIPTION
+    ${PGM} selects from the v-equals output all lines with north the longer or stronger hand
+
+PARAMETERS
+    infile    an output file from script v-equals
+
+AUTHOR
+    G.A. van der Velde, Leiden
+" 1>&2
+    exit 22
+}
+
+awk '
+BEGIN {
+    n = 0
+    s = 0
+    sym[1] = "1"
+    sym[2] = "2"
+    sym[3] = "3"
+    sym[4] = "4"
+    sym[5] = "5"
+    sym[6] = "6"
+    sym[7] = "7"
+    sym[8] = "8"
+    sym[9] = "9"
+    sym[10] = "a"
+    sym[11] = "b"
+    sym[12] = "c"
+    sym[13] = "d"
+    sym[14] = "e"
+}
+{
+    n = 0
+    s = 0
+    split($7,a,".")
+    if ( length(a[1]) > length(a[2]) )
+	printf "%s\n", $0
+    else if ( length(a[1]) == length(a[2]) ) {
+	for ( i = 14; i >= 1; i-- ) {
+	    if ( index(a[1],sym[i]) || index(a[2],sym[i]) ) {
+		if ( index(a[1],sym[i]) ) n++
+		if ( index(a[2],sym[i]) ) s++
+	    }
+	    else if ( n < s ) break;
+	    else if ( n > s || i == 1 ) { printf "%s\n", $0; break }
+	}
+    }
+} ' $1

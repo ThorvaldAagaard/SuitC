@@ -1,0 +1,60 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    printf "\
+NAME
+    ${PGM} - select a list of holdings from a v-equals output file
+
+SYNOPSIS
+    ${PGM} [-h<highc>] [-n<north>] [-s<south>] [-c<count>] [-d<dirs>] [file]
+
+DESCRIPTION
+    ${PGM} generates a list of SuitC output files from a v-equals output file
+
+PARAMETERS
+    highc    the combined holding in high cards in north and south
+    north    the holding in high cards in north
+    south    the holding in high cards in south
+    count    the number of cards in the north and south hand combined
+    dirs     the distribution in the north-south hands, e.g. 34, 52 or 55
+    files    the input files. these files are output files of script v-equals
+
+AUTHOR
+    G.A. van der Velde, Leiden
+" 1>&2
+    exit 1
+}
+
+# set defaults
+highc=[0-e]*
+north=[0-e]*
+south=[0-e]*
+count=.
+dirs=..
+fil=
+t='	'
+x='[^0-e	]*'
+
+# process the parameters of the command
+while [[ -n "$1" ]]
+do
+    case $1 in
+	-h)      highc=$2; shift;;
+	-h*)     highc=${1#-h};;
+	-n)      north=$2; shift;;
+	-n*)     north=${1#-n};;
+	-s)      south=$2; shift;;
+	-s*)     south=${1#-s};;
+	-c)      count=$2; shift;;
+	-c*)     count=${1#-c};;
+	-d)      dirs=$2; shift;;
+	-d*)     dirs=${1#-d};;
+	-*|\? )  USAGE;;
+	*)       fil="$fil $1";;
+    esac
+    shift
+done
+
+grep "^$highc$x	$north$x	$south$x	...	$count	$dirs" $fil

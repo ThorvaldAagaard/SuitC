@@ -1,0 +1,77 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    printf "\
+NAME
+    ${PGM} - script to trim the north and south distributions by deleting cards 2..8
+	     and by restricting the number of symbols 9..d
+
+SYNOPSIS
+    ${PGM} [files]
+
+DESCRIPTION
+    ${PGM} trims the north and south distrributions by deleting cards
+
+PARAMETERS
+    files    the input files. these files are output files of script v-equals
+
+AUTHOR
+    G.A. van der Velde, Leiden
+" 1>&2
+    exit 1
+}
+
+# set defaults
+fil=
+
+# process the parameters of the command
+while [ -n "$1" ]
+do
+    case $1 in
+	-*|\?)   USAGE;;
+	*)       fil="$fil $1";;
+    esac
+    shift
+done
+
+nawk ' {
+    n = $2; gsub( /[2-8]*/, "", n);
+    s = $3; gsub( /[2-8]*/, "", s);
+
+    if      ( s ~ /99*/     ) gsub( /99*/    , "9"    , s )
+    if      ( s ~ /9/       ) gsub( /9*/     , ""     , n )
+    if      ( n ~ /99*/     ) gsub( /99*/    , "9"    , n )
+
+    if      ( s ~ /aaa*/    ) gsub( /aaa*/   , "aa"   , s )
+    if      ( s ~ /aa/      ) gsub( /a*/     , ""     , n )
+    else if ( s ~ /a/       ) gsub( /aa*/    , "a"    , n )
+    if      ( n ~ /aaa*/    ) gsub( /aaa*/   , "aa"   , n )
+
+    if      ( s ~ /bbbb*/   ) gsub( /bbbb*/  , "bbb"  , s )
+    if      ( s ~ /bbb/     ) gsub( /b*/     , ""     , n )
+    else if ( s ~ /bb/      ) gsub( /bb*/    , "b"    , n )
+    else if ( s ~ /b/       ) gsub( /bbb*/   , "bb"   , n )
+    if      ( n ~ /bbbb*/   ) gsub( /bbbb*/  , "bbb"  , n )
+
+    if      ( s ~ /ccccc*/  ) gsub( /ccccc*/ , "cccc" , s )
+    if      ( s ~ /cccc/    ) gsub( /c*/     , ""     , n )
+    else if ( s ~ /ccc/     ) gsub( /cc*/    , "c"    , n )
+    else if ( s ~ /cc/      ) gsub( /ccc*/   , "cc"   , n )
+    else if ( s ~ /c/       ) gsub( /cccc*/  , "ccc"  , n )
+    if      ( n ~ /ccccc*/  ) gsub( /ccccc*/ , "cccc" , n )
+
+    if      ( s ~ /dddddd*/ ) gsub( /dddddd*/, "ddddd", s )
+    if      ( s ~ /ddddd/   ) gsub( /d*/     , ""     , n )
+    else if ( s ~ /dddd/    ) gsub( /dd*/    , "d"    , n )
+    else if ( s ~ /ddd/     ) gsub( /ddd*/   , "dd"   , n )
+    else if ( s ~ /dd/      ) gsub( /dddd*/  , "ddd"  , n )
+    else if ( s ~ /d/       ) gsub( /ddddd*/ , "dddd" , n )
+    if      ( n ~ /dddddd*/ ) gsub( /dddddd*/, "ddddd", n )
+
+    if ( ! n ) n = "0"
+    if ( ! s ) s = "0"
+
+    printf "%s\t%s\t%s\t%s\t%s\t%s\t%s\n", $1, n, s, $4, $5, $6, $7
+} ' $fil | sed 's/[2-8]//g' | nawk ' { printf "v-select -h %-8s -n %-8s -s %-8s %s | v-list -a -b -p | bash\n", $1, $2, $3, fil } ' fil="$fil" | sort -u

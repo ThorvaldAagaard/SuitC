@@ -1,0 +1,66 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    printf "
+NAME
+    ${PGM} - select combinations with North or South the long/strong side in an output file of v-equals
+
+SYNOPSIS
+    ${PGM} [-m{h|l}] [-l] [-n] [-s] [files]
+
+DESCRIPTION
+    ${PGM} selects combinations with North or South the long/strong side in an output file of v-equals
+
+PARAMETERS
+    -mh      use the high card strength to decide
+    -ml      use the length of the holding to decide
+    -n       select North as the long/strong side
+    -s       select South as the long/strong side
+    files    the input files. these files are output files of script v-equals
+
+AUTHOR
+    G.A. van der Velde, Leiden
+" 1>&2
+    exit 1
+}
+
+# set defaults
+hand=south
+select=strength
+fil=
+
+# process the parameters of the command
+while [[ -n "$1" ]]
+do
+    case $1 in
+	-mh)     select=strength;;
+	-ml)     select=length;;
+	-n)      hand=north;;
+	-s)      hand=south;;
+	-*|\?)   USAGE;;
+	*)       fil="$fil $1";;
+    esac
+    shift
+done
+
+nawk ' {
+    if ( hand ~ /north/ && select ~ /strength/ ) {
+	if ( $2  < $3) next
+	if ( $2 == $3 && substr($6,1,1) < substr($6,2,1) ) next
+    }
+    if ( hand ~ /north/ && select ~ /length/ ) {
+	if ( substr($6,1,1)  < substr($6,2,1) ) next
+	if ( substr($6,1,1) == substr($6,2,1) && $2 < $3) next
+    }
+    if ( hand ~ /south/ && select ~ /strength/ ) {
+	if ( $2  > $3) next
+	if ( $2 == $3 && substr($6,1,1) > substr($6,2,1) ) next
+    }
+    if ( hand ~ /south/ && select ~ /length/ ) {
+	if ( substr($6,1,1)  > substr($6,2,1) ) next
+	if ( substr($6,1,1) == substr($6,2,1) && $2 > $3) next
+    }
+    printf "%s\n", $0
+} ' hand=$hand select=$select $fil
