@@ -48,4 +48,4 @@ ctest --test-dir build -C Release --output-on-failure
 ## Related project
 
 SuitCWinLib (github.com/codescrut/SuitCWinLib) wraps this code as a shared
-library with a JSON interface for BEN, Lia and CCAnalyzer.
+library with a JSON interface for BEN, Lia and Lars's SuitC web application.

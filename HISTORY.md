@@ -48,7 +48,8 @@ In 2021 Lars Kappel Hansen ported SuitC to Microsoft Visual C++ and gave it a
 JSON interface for a web application. In April 2024 Thorvald Aagaard asked
 Gerrit whether SuitC could be used in the bridge robot **BEN**. Gerrit agreed,
 and Lars's port became the basis of **SuitCWinLib**, a library build for
-Windows, Linux and macOS. BEN, Lia and CCAnalyzer now use SuitC through it.
+Windows, Linux and macOS. BEN, Lia and Lars's SuitC web application now use
+SuitC through it.
 
 Working with BEN produced several improvements in 2024 and 2025: a bug fix in
 1.038, the memory-pool settings for library use, and the `-u` option

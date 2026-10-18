@@ -13,7 +13,8 @@ SuitC was written by **Gerrit A. van der Velde** (Leiden, the Netherlands). Its
 roots go back about 25 years, to his earlier program ExpertPlay. Gerrit's own
 revision history from 2008 onwards is preserved in this repository; see
 [HISTORY.md](HISTORY.md). SuitC is used by the bridge programs
-[BEN](https://github.com/lorserker/ben), Lia and CCAnalyzer, through the
+[BEN](https://github.com/lorserker/ben) and Lia, and by Lars Kappel Hansen's
+[SuitC web application](https://bridge.esmarkkappel.dk/suitc/main.html), through the
 [SuitCWinLib](https://github.com/codescrut/SuitCWinLib) library.
 
 ```text

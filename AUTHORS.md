@@ -18,9 +18,10 @@ and using entries economically, which became the `-u` option.
 ## Contributors
 
 - **Lars Kappel Hansen** ported SuitC to Microsoft Visual C++ and gave it a
-  JSON interface. That port became the basis of SuitCWinLib and of the SuitC
-  web service behind CCAnalyzer. The `SUITCAPP` build option was introduced
-  for his application in 2021 (Rev 1.018).
+  JSON interface. That port became the basis of SuitCWinLib and of his
+  [SuitC web service](https://bridge.esmarkkappel.dk/suitc/main.html). The
+  `SUITCAPP` build option was introduced for his application in 2021
+  (Rev 1.018).
 - **Jeroen Warmerdam** introduced matchpoint plays for suit combinations in
   the Dutch IMP magazine in 1998 and wrote SuitPlay. SuitC's default ordering
   of East-West distributions in the app build follows his (Rev 1.028). He also
