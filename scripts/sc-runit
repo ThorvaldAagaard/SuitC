@@ -36,14 +36,5 @@ do
 	P-run $m > res
 	sc-norm res > $m.res
 	cat $m.res | P-all > $m.all
-	cat $m.res | sc-nm  | P-all > $m.all-nm
-	cat $m.res | sc-nmp | P-all > $m.all-nmp
-	cat $m.res | sc-ns  | P-all > $m.all-ns
-	cat $m.res | sc-nm  | sc-nmp | P-all > $m.all-nm-nmp
-	cat $m.res | sc-ns  | sc-nm  | P-all > $m.all-nm-ns
-	cat $m.res | sc-ns  | sc-nmp | P-all > $m.all-nmp-ns
-	cat $m.res | sc-ns  | sc-nm  | sc-nmp | P-all > $m.all-nm-nmp-ns
-	sc-expand $m.res
-	sc-strength $m.xp
     )
 done

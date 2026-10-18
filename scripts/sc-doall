@@ -34,8 +34,7 @@ do
 done
 
 # analyse the suit combinations
-# generate the ??.xp, ??.no and ??.so files
-# generate ??.all* files
+# generate the ??.res and ??.all files
 
 # analyse these combinations separately because they are long running
 # ( cd 05; SuitC -T1 . KJ975 AQT86432 > 0.db975 ) &

@@ -39,7 +39,7 @@ are written in bash and Perl, and were developed under Cygwin and Linux.
 | Script | Purpose |
 |---|---|
 | `sc-install [-M] [<c>]` | Generate the SuitC command for every combination, using `playc` to enumerate the distributions, one directory per pair of hand lengths. `-M` adds a matchpoint analysis; `<c>` (such as `100k` or `001M`) adds a cut-off for the few combinations that need more resources than a laptop has. |
-| `sc-runit ??`, `sc-doall` | Run the analyses of one directory (such as `35`), or of all of them, and produce the `??.xp` files. |
+| `sc-runit ??`, `sc-doall` | Run the analyses of one directory (such as `35`), or of all of them, and produce the `??.res` and `??.all` files. The `??.xp` files are made from `??.res` with `sc-expand`. |
 | `P-run` | Run the commands in one directory, skipping combinations whose insignificant small cards make no difference. |
 | `sc-check` | Reuse an earlier result if a combination was already analysed. |
 | `P-result`, `P-resultm` | Turn a SuitC output into one line, such as `N: J98 S: AK32 EW: QT7654 MAX(1): 2.8537 N3(2): 78.2609 2.7947 ...`. |
