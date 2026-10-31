@@ -3,9 +3,13 @@
 ## Origins
 
 Gerrit A. van der Velde trained as a quantum chemist. He wrote SuitC as a C
-console program for Unix, and parts of the code are about 25 years old. Its
+console program for Unix. The project started in the late 1990s. Its
 predecessor was called **ExpertPlay**: SuitC Rev 1.001 (25 April 2020) is
-recorded as "identical to ExpertPlay-Rev6.102". The oldest code in this
+recorded as "identical to ExpertPlay-Rev6.102". Gerrit used the program to
+verify Jeroen Warmerdam's correction of Eric Crowhurst's analysis of suit
+combinations in the 5th edition of *The Official Encyclopedia of Bridge*.
+
+The oldest code in this
 repository is **playc**, first checked in on 3 August 2008. **dds**, a
 double-dummy solver for comparing plays over several layouts of a deal, joined
 the set in 2020/2021.

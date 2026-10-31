@@ -9,8 +9,8 @@ It does this for several objectives:
 - safety plays: the best chance of making at least *n* tricks,
 - the best play at **matchpoints** and at **IMPs**, including mixed strategies.
 
-SuitC was written by **Gerrit A. van der Velde** (Leiden, the Netherlands). Its
-roots go back about 25 years, to his earlier program ExpertPlay. Gerrit's own
+SuitC was written by **Gerrit A. van der Velde** (Leiden, the Netherlands). The
+project started in the late 1990s, with his earlier program ExpertPlay. Gerrit's own
 revision history from 2008 onwards is preserved in this repository; see
 [HISTORY.md](HISTORY.md). SuitC is used by the bridge programs
 [BEN](https://github.com/lorserker/ben) and Lia, and by Lars Kappel Hansen's
