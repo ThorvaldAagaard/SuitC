@@ -319,3 +319,15 @@ Affected modules:
 
    process_args.c - sid: 1.17
    suitc.c - sid: 1.16
+==========================================
+Modification time stamp: 01.11.26-09:58:31
+History id: 2.023
+Comment:
+The code to measure times has been adapted for use in Linux and macOS;
+A fix to detect incorrect specification of the '-I' parameter.
+
+Affected modules:
+
+   header.h - sid: 1.11
+   process_args.c - sid: 1.18
+   suitc.c - sid: 1.17

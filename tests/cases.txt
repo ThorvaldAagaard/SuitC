@@ -1,7 +1,7 @@
 # Regression cases for SuitC.
 #
 # Each line is  <name>: <SuitC arguments>
-# The expected output of each case is stored in expected/<name>.out (from Rev 2.022).
+# The expected output of each case is stored in expected/<name>.out (from Rev 2.022; Rev 2.023 gives the same output).
 # To regenerate the expected output after an intended change of results:
 #   ctest --test-dir build -C Release   (shows which cases differ)
 #   cmake -DSUITC=build/SuitC -DUPDATE=ON -P tests/update_expected.cmake

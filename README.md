@@ -45,7 +45,7 @@ is 1.5048. [docs/output.md](docs/output.md) explains how to read the game tree.
 | [src/](src) | SuitC, the suit combination analyser |
 | [dds/](dds) | dds, a double-dummy solver that compares plays over several layouts of a deal |
 | [playc/](playc) | playc, which enumerates the distributions of a suit (used to build the database) |
-| [scripts/](scripts) | Gerrit's scripts to build a database of all suit combinations and report on it |
+| [scripts/](scripts) | Gerrit's scripts to build a database of all suit combinations and report on it; [scripts/rcs](scripts/rcs) holds the scripts with which he maintains his RCS archives |
 | [examples/](examples) | Example input and output for dds and for the playing-strength studies |
 | [docs/](docs) | Documentation |
 | [tests/](tests) | Regression tests |

@@ -80,7 +80,7 @@ SuitC -M AKJT32 54 Q9876       # best play at matchpoints
 |---|---|
 | *(default)* | Maximum expected tricks, plus the safety plays for each number of tricks. |
 | `-M[<nodes>]` | Find the optimal matchpoint play. This may be a mixed strategy, solved with the simplex method on at most `<nodes>` nodes. |
-| `-I<n>:<score>` | Find the optimal play at IMPs, where taking `<n>` tricks in the suit scores `<score>` points. Give the option once for each trick count, e.g. `-I2:-100 -I3:620 -I4:650`. A score of 0 need not be given, and SuitC stops if one is. |
+| `-I<n>:<score>` | Find the optimal play at IMPs, where taking `<n>` tricks in the suit scores `<score>` points. Give the option once for each trick count, e.g. `-I2:-100 -I3:620 -I4:650`. A score of 0 need not be given. SuitC stops if `<n>:` is missing or `<n>` is larger than 13. |
 | `-u` | Among equally good plays, prefer the one that wins tricks as early as possible, uses as few outside entries as possible, and uses the entries in the suit itself first. (Added in Rev 2.009 as `-v`.) |
 | `-z<n>` | Remove weakly dominated plays: `1` = in `check_zermelo`, `2` = in `evaluate_mp_results`. |
 | `-c<n>[k,m,g]` | Cut-off: a limit on the product of the number of quirks while quirk trees are merged (`k` = thousand, `m` = million, `g` = billion). Use it only for pathological combinations such as `KJ93 75 AQT8642`. It trades accuracy for time and memory. |

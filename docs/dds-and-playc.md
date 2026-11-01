@@ -37,6 +37,17 @@ to go back to ply `<n>`, `p` or `P` to print statistics, or `.` to stop.
 
 dds took the technique of shifted holdings from Bo Haglund's DDS.
 
+Since dds Rev 2 the NODE tree has room for 800 million entries, about 19 GB,
+which dds asks for at startup. If that much memory is not available, dds
+halves the number until the allocation succeeds and prints
+`Only <n> NODE entries fit in memory`. The analysis is the same as long as
+the tree fits; if it does not, dds stops with
+`No more memory for the NODE entries`. The `doit` example needs between 40
+and 100 million entries.
+
+The `.out` files in [examples/dds](../examples/dds) were made with dds 1.x.
+dds Rev 2 lays out the boards differently, but gives the same trick counts.
+
 ## playc
 
 playc lists all suit combinations. For every set of cards North-South can

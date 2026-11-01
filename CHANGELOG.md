@@ -3,10 +3,26 @@
 SuitC, dds and playc are versioned with the revision numbers of their author,
 Gerrit A. van der Velde. Each revision below is a commit in the git history
 (see `git log`). The tags `rev-1.037`, `rev-1.038`, `rev-1.039`, `rev-2.010`,
-`rev-2.011`, `rev-2.020` and `rev-2.022` mark the revisions Gerrit distributed; published
+`rev-2.011`, `rev-2.020`, `rev-2.022` and `rev-2.023` mark the revisions Gerrit distributed; published
 releases, with binaries for all platforms, are tagged `v<revision>`. The
 entries are Gerrit's own comments from his RCS history files, which are kept
 unchanged in [docs/history](docs/history).
+
+## v2.023 (not yet released)
+
+- SuitC Rev 2.023: times are measured with `clock() / CLOCKS_PER_SEC`, so the
+  timings are right on Linux and macOS. `-I` is checked more strictly: `-I`
+  without `<n>:`, or with `<n>` larger than 13, is rejected, and a score of 0
+  is accepted. The results are unchanged for all regression cases.
+- dds Rev 2 (2.001 – 2.009): Gerrit's new line of dds, restarted from the
+  undistributed dds 1.036, with the SEQC hash table and much larger memory
+  pools.
+- dds no longer crashes with gcc on Linux ("stack smashing detected"):
+  `delete_tree` wrote one entry past the end of a local array.
+- dds asks for about 19 GB for its NODE tree. If that much memory is not
+  available it now uses a smaller tree and says so, instead of stopping.
+- Gerrit's scripts for maintaining his RCS archives are in
+  [scripts/rcs](scripts/rcs).
 
 ## v2.022
 
@@ -38,6 +54,7 @@ code is unchanged from Rev 2.011.
 
 ## SuitC Rev 2 (2025 – 2026)
 
+- **Rev 2.023** (2026-11-01) — The code to measure times has been adapted for use in Linux and macOS; A fix to detect incorrect specification of the '-I' parameter.
 - **Rev 2.022** (2026-10-18) — A problem with incomplete specification of the -I parameter is handled.
 - **Rev 2.021** (2026-10-17) — The code to handle throwins has been deleted again.
 - **Rev 2.020** (2026-10-13) — Two minor bug fixes in handling IMP scores.
@@ -109,6 +126,15 @@ Rev 2.001 restarted from Rev 1.050.
 
 ## dds
 
+- **dds 2.009** (2026-11-01) — The code to measure times has been adapted for use in Linux and macOS.
+- **dds 2.008** (2026-10-09) — In some routines the use of scard->brd replaces the use of brd; We introduced the SEQC hashtable.
+- **dds 2.007** (2026-10-01) — routine join_scard has been cleaned up; the parameters of a couple of routine have been changed from 'int d, int b, int s' into 'COLOR brd'; member r of struct SEQC has been renamed to member d; THe output in lower case has been changed to output in upper case at a couple of places.
+- **dds 2.006** (2026-08-30) — A minor correction.
+- **dds 2.005** (2026-08-13) — Some cleanup.
+- **dds 2.004** (2025-04-02) — Reorganisation of routine join_scard and play_board. Routine build_seqc has been added and routine build_scard has been removed.
+- **dds 2.003** (2025-03-21) — Some minor bug fixes.
+- **dds 2.002** (2025-03-18) — The code in build_scard, join_scard and hashbackup has been rearranged; The printout of the results has been adapted; Some minor cleanup.
+- **dds 2.001** (2025-03-05) — Original version *(a restart of the undistributed dds 1.036)*.
 - **dds 1.030** (2024-04-01) — Renaming of variables.
 - **dds 1.029** (2024-04-01) — The SEQC information is stored in lists in stead of arrays; The memory management is moved to a separate include file.
 - **dds 1.028** (2024-02-19) — Multiple cards enabled for the play.
