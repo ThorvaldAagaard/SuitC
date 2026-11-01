@@ -10,7 +10,7 @@
 
 SHELL	= /bin/bash
 CC	= gcc
-CFLAGS	= -O3 -DTICK=1.0e-3
+CFLAGS	= -O3
 
 EXEC	= ../bin/dds
 

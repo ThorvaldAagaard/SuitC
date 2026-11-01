@@ -15,7 +15,7 @@ void print_stat( char c )
 {
     int           d;
 
-    times[1] = TICK * clock();
+    times[1] = (double) clock() / CLOCKS_PER_SEC;
     printf( "\n\nroutine          #calls\n===========    ========\n" );
     printf( "%-11s %11.3f\n", "cpu time", times[1] - times[0] );
     printf( "%-11s %11d\n", "bcount", bcount );

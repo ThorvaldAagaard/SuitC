@@ -19,7 +19,7 @@ int main( int argc, char **argv )
     struct NODE   znode;
 
     //  initialise variables
-    times[0] = TICK * clock();
+    times[0] = (double) clock() / CLOCKS_PER_SEC;
     target.set = NO;
     for ( d = 0; d <= NPLIES; d++ ) {
         st[d].l = 4 * ( ( d - 1 ) / 4 ) + 1;
