@@ -63,7 +63,6 @@ if(SUITC_BUILD_DDS)
   suitc_generate_extern(dds)
   add_executable(dds ${DDS_SOURCES} "${EXTERN_H}")
   target_include_directories(dds PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/generated/dds" "${CMAKE_CURRENT_SOURCE_DIR}/dds")
-  target_compile_definitions(dds PRIVATE TICK=1.0e-3)
   suitc_program_settings(dds)
 endif()
 
