@@ -51,7 +51,15 @@ int main( int argc, char **argv )
     ncountmax = 0;
     wnode[0] = &znode;
     wnode[0]->r = NIL;
-    nextnode = malloc( (NNODE+2) * sizeof( struct NODE ) );
+    //  if NNODE entries do not fit, halve the number until they do
+    nodemax = NNODE;
+    nextnode = malloc( (nodemax+2) * sizeof( struct NODE ) );
+    while ( nextnode == NIL && nodemax > NNODE / 64 ) {
+        nodemax /= 2;
+        nextnode = malloc( (nodemax+2) * sizeof( struct NODE ) );
+    }
+    if ( nextnode != NIL && nodemax < NNODE )
+        printf( "Only %d NODE entries fit in memory; NNODE is %ld\n", nodemax, NNODE );
     if ( nextnode == NIL ) {
         printf( "The allocation of memory for the NODE tree failed\n" );
         print_stat( 'p' );

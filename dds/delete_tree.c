@@ -15,7 +15,7 @@
 struct NODE *delete_tree( int d_start, struct NODE *root )
 {
     int           d = d_start;
-    struct NODE   *anode, *bnode[53], *nnode;
+    struct NODE   *anode, *bnode[NPLIES+2], *nnode;
 
     //  unlink root from the tree
     nnode = root->r;

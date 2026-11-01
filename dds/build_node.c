@@ -27,7 +27,7 @@ void build_node( int d, int b, int s, int p, COLOR c )
     if ( ncountmax < ncount ) {
         ncountmax++;
         nextnode++;
-        if ( ncountmax == NNODE ) {
+        if ( ncountmax == nodemax ) {
             printf( "No more memory for the NODE entries; increase the value of NNODE\n" );
             print_stat( 'P' );
         }

@@ -12,6 +12,7 @@ int    jcount;                          //  the number of occupied slots in the 
 int    ld;                              //  the opening leader
 int    ncount;                          //  the number of active NODE entries
 int    ncountmax;                       //  the maximum number of active NODE entries
+int    nodemax;                         //  the number of slots allocated for the NODE tree
 int    nresult;                         //  the number of results
 int    ntricks;                         //  the number of tricks that will be played
 int    qcount;                          //  the number of SEQC entries
