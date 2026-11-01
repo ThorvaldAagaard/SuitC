@@ -1,0 +1,45 @@
+#!/bin/bash -x
+
+PGM=${0##*/}
+
+USAGE() {
+    print "
+NAME
+    ${PGM} - list all unconsolidated changes in RCS controled files
+
+SYNOPSIS
+    ${PGM}
+
+DESCRIPTION
+    ${PGM} lists all unconsolidated changes in RCS controled files.
+
+PARAMETERS
+    none
+
+AUTHOR
+    G.A. van der Velde
+" 1>&2
+    exit 22
+}
+
+MODS=$(ls -l | \
+grep rw | \
+sed '
+    s/.* //
+    /RCS/d
+    /\.o$/d
+    /\.mod$/d
+')
+
+for m in ${MODS}
+do
+     echo "::::: rcsdiff $m :::::"
+     rcsdiff $m 2> /dev/null
+done
+
+exit
+
+
+
+
+

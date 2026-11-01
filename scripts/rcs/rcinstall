@@ -1,0 +1,133 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    printf "
+NAME
+    ${PGM} - install program version with given HISTORY id
+
+SYNOPSIS
+    ${PGM} [-rSID] [[-d]<dir>]
+
+DESCRIPTION
+    ${PGM} installs the version of program with HISTORY id SID. The
+    working directory is changed to <dir> if the directory parameter
+    is given. The HISTORY file in this directory is used to translate
+    the SID option to a RCS SID for each file. The files that have
+    been modified in HISTORY id SID or earlier are checked in with the
+    appropriate RCS SID.
+
+    To ensure that the proper version of a program is installed
+    correctly no RCS file should be left checked out before scinstall
+    is called. Files that are checked out will be checked in by sccclean,
+    unless they they are checked out for editing. These files should be
+    checked in with scdelta befor scinstall is called. scinstall set the
+    _VERSION to the HISTORY id that is installed.
+
+PARAMETERS
+    -rSID     The HISTORY id that will be installed.
+
+    -d<dir>   The directory that contains the RCS files
+
+AUTHOR
+    G.A. van der Velde
+" 1>&2
+    exit 22
+}
+
+# check the availability of the RCS commands
+# scpath; [[ "$?" = "0" ]] || exit 99
+
+# Set defaults
+dir=.
+sid=
+
+while [[ -n "$1" ]]
+do
+    case $1 in
+    -r*)  sid=${1#-r};;
+    -d)   dir=$2; shift;;
+    -d*)  dir=${1#-d};;
+    -*|\?)  USAGE;;
+    *)    dir=$1;;
+    esac
+    shift
+done
+
+# Check if the directory exists
+[[ -d $dir ]] || {
+    printf "ERROR: ${PGM}: directory $dir not found" 1>&2
+    exit 21
+}
+
+# Check if a RCS directory exists
+rcs=$dir; [[ -d $dir/RCS ]] && rcs=$dir/RCS
+
+# Check if the HISTORY file exists
+[[ -f $rcs/HISTORY ]] || {
+    printf "ERROR: ${PGM}: directory $rcs contains no HISTORY file" 1>&2
+    exit 20
+}
+
+# Check if a sid has been provided
+[[ -z $sid ]] && sid=$(grep 'History *id:' $rcs/HISTORY 2> /dev/null | tail -1 | awk '{ printf $3 }')
+
+#  Check if any file is checked out for editing
+lsp=$(ls $rcs/p.* 2>/dev/null); [[ -n $lsp ]] && {
+    echo "WARNING: ${PGM}: the directory contains checked out files" 1>&2
+}
+
+# Get -r1.1 of all RCS files that aren't edited
+echo "co -r1.1 *,v"
+co -r1.1 -s $rcs/*,v
+
+# Create a list of RCS files to be checked out
+
+cat << EOF > .AWK$$
+BEGIN {
+    goon = 1
+    status = 1
+}
+{
+#   Add files to be checked out with SID != 1.1
+    while ( status == 1 && goon == 1 ) {
+        while ( \$1 !~ /History/ || \$2 !~ /id:/ ) {
+            getline
+        }
+        if ( \$3 ~ /$sid/ || \$4 ~ /$sid/ ) { goon = 0 }
+        while ( \$1 !~ /Affected/ || \$2 !~ /modules:/ ) {
+            getline
+        }
+        getline
+        status = getline
+        while ( status == 1 && \$1 !~ /^[=]*$/ ) {
+            n = split( \$1, arr, "/" )
+	    l = length( arr[n] )
+	    if ( substr( arr[n], l-1, 2) == ",v" )
+	        arr[n] = substr( arr[n], 1, l-2 )
+            file[arr[n]]  = arr[n]
+            sidnr[arr[n]] = \$4
+            status = getline
+        }
+    }
+}
+END{
+    printf "%s\n", "#!/bin/sh" > ".G$$"
+    for ( f in file ) {
+        printf "echo '%s %s%s %s'\n", "co", "-r", sidnr[f], f > ".G$$"
+        printf "%s %s%s %s $rcs/%s,v\n", "co -s", "-r", sidnr[f], "-s", f > ".G$$"
+    }
+}
+EOF
+
+# Install the correct versions of the files
+awk -f .AWK$$ $rcs/HISTORY
+sed 's/s\.s\./s\./' .G$$ > .S$$
+chmod 700 .S$$
+.S$$
+
+# Update the VERSION file
+echo "Installed version: History id -r$sid" > $rcs/VERSION
+
+rm .AWK$$ .G$$ .S$$

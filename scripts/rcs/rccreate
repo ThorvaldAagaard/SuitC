@@ -1,0 +1,87 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    print "
+NAME
+    ${PGM} - create RCS files from the input files
+
+SYNOPSIS
+    ${PGM} files
+
+DESCRIPTION
+    ${PGM} creates RCS files from the input files. The input files are
+    stripped from trailing whitespace before they are brought under
+    RCS control. The files HISTORY and VERSION are created if they
+    don't yet exist. If the input files have execute permission, the
+    RCS file gets also execute permission, and the file is again
+    checked out with execute permission.
+
+PARAMETERS
+    files          list of files to be brought under RCS control.
+
+AUTHOR
+    G.A. van der Velde
+" 1>&2
+    exit 22
+}
+
+# set defaults
+dir=.
+fil=
+
+# process the parameters of the command
+while [[ -n "$1" ]]
+do
+    case $1 in
+        -*|\?)  USAGE;;
+        *)    fil="$fil $1";;
+    esac
+    shift
+done
+
+# create the directory if it doesn't exist
+[[ -d RCS ]] || mkdir -p RCS || {
+    print "ERROR: ${PGM}: directory $dir/RCS could not be created\a" 1>&2
+    exit 23
+}
+
+# check that file parameters have been supplied
+[[ -z "$fil" ]] && {
+    print "ERROR: ${PGM}: no file parameters have been supplied\a" 1>&2
+    exit 23
+}
+
+for f in $fil
+do
+    if [[ -f $f ]]
+    then
+        sed 's/ *$//' $f > .tmp_$$
+	print "" | ci .tmp_$$
+	mv RCS/.tmp_$$,v RCS/$f,v
+        rm -f .tmp_$$
+        chmod -w $f
+        [[ -x $f ]] && chmod +x RCS/$f,v
+    else
+	print "ERROR: ${PGM}: file $f not found\a" 1>&2
+    fi
+done
+
+#  Add HISTORY file if it doesn't exist
+
+datum=`date +%d.%m.%y-%H:%M:%S`
+[[ -f $dir/HISTORY ]] || cat << EOF > $dir/HISTORY
+==========================================
+Modification time stamp: $datum
+History id: 1.1
+Comment:
+Original version
+
+Affected modules:
+
+EOF
+
+#  Add VERSION file if it doesn't exist
+
+[[ -f $dir/VERSION ]] || print "Installed version: History id -r$sid" > VERSION

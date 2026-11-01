@@ -1,0 +1,112 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    printf "
+NAME
+    ${PGM} - checkin of a modified RCS file
+
+SYNOPSIS
+    ${PGM} files
+
+DESCRIPTION
+    ${PGM} checks in modified RCS files. It writes a list of modified RCS
+    files to the HISTORY file together with the comment for the
+    modification. If a RCS file is unmodified the SID is removed again,and
+    the file is not listed in the HISTORY file.
+
+    If the filename contains no postfix the postfix ,v is added before the
+    RCS commands are invoked.
+
+PARAMETERS
+    files     The list of files that will be checked in. Both the RCS
+              name or the plain filename can be used.
+
+AUTHOR
+    G.A. van der Velde
+" 1>&2
+    exit 22
+}
+
+# check the availability of the RCS commands
+ok=$(which ci)
+[[ -z $ok ]] && {
+    printf "ERROR: ${PGM}: The RCS commands aren't in your path\n"
+    exit 99
+}
+
+# set defaults
+fil=
+dir=.
+
+# Check if a RCS directory exists
+[[ -d $dir/RCS ]] && dir=$dir/RCS
+
+# process the parameters of the command
+while [ -n "$1" ]
+do
+    case $1 in
+        -*|\?)  USAGE;;
+        *)      fil="$fil $1";;
+    esac
+    shift
+done
+
+# check that file parameters have been supplied
+[[ -z "$fil" ]] && {
+    printf "ERROR: ${PGM}: no file parameters have been supplied\n" 1>&2
+    exit 23
+}
+
+# read the comment for this delta
+> .com$$
+comment="x"
+while [[ -n "$comment" ]]
+do
+    read comment
+    printf "$comment\n" >> .com$$
+done
+
+checkin() {
+    typeset f=${f%,v}
+    if [[ -f RCS/$f,v ]]
+    then
+        ci $f < .com$$ 2> .err$$
+        cat .err$$
+        sid=$(cat .err$$ | grep '^new' | awk '{ split ( $3, arr, ";" ); printf arr[1] }' )
+        [[ -n "$sid" ]] && modlist="$modlist\n   $f - sid: $sid"
+        co $f
+        [[ -x RCS/$f,v ]] && chmod +x $f
+    else
+        printf "ERROR: ${PGM}: RCS file RCS/$f,v not found\n" 1>&2
+    fi
+}
+
+# check in all files
+modlist=
+for f in $fil
+do
+    checkin $f
+done
+
+# If any RCS files were modified, then we write to the HISTORY file
+datum=`date +%d.%m.%y-%H:%M:%S`
+if [[ -n "$modlist" ]]
+then
+    sid="$(grep 'History *id' $dir/HISTORY | tail -1 | awk '{ split($3,a,"."); printf "%d.%03d", a[1], a[2]+1 }')"
+    printf "==========================================\n" >> $dir/HISTORY
+    printf "Modification time stamp: $datum\n" >> $dir/HISTORY
+    printf "History id: $sid\n" >> $dir/HISTORY
+    printf "Comment:\n" >> $dir/HISTORY
+    cat   .com$$ >> $dir/HISTORY
+    printf "Affected modules:\n" >> $dir/HISTORY
+    printf "$modlist\n" >> $dir/HISTORY
+    printf "Modification time stamp is: $datum\n"
+    printf "History id is: $sid\n"
+fi
+
+# Reset the $dir/VERSION
+echo "Installed version: History id -r$sid" > $dir/VERSION
+
+rm -f .com$$ .err$$

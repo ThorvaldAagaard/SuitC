@@ -1,0 +1,78 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    print "\
+NAME
+    ${PGM} - check RCS files out for editing
+
+SYNOPSIS
+    ${PGM} [-rSID] [-s] files
+
+DESCRIPTION
+    ${PGM} checks the specified files out for editing. It sets the VERSION
+    file to the next HISTORY id. The checked out file gets the same execute
+    permission as the RCS file.
+
+    If the filename contains no postfix the postfix ,v is added before the
+    RCS commands are invoked.
+
+PARAMETERS
+    -rSID     The SID (see the RCS commands) that will be used
+
+    -s        Use silent mode for checking out of the file
+
+    files     The list of files that will be checked out. Both the RCS
+	      name or the plain filename can be used.
+
+AUTHOR
+    G.A. van der Velde
+" 1>&2
+    exit 22
+}
+
+# set defaults
+sid=
+flg=
+fil=
+
+# process the parameters of the command
+while [ -n "$1" ]
+do
+    case $1 in
+        -r*) sid=$1;;
+        -s)  flg="-s";;
+        -*|\?)  USAGE;;
+        *)   fil="$fil $1";;
+    esac
+    shift
+done
+
+# check that file parameters have been supplied
+[[ -z "$fil" ]] && {
+    print "ERROR: ${PGM}: no file parameters have been supplied\a" 1>&2
+    exit 23
+}
+
+checkout() {
+    typeset f=${1%,v}
+    if [[ -f RCS/$f,v ]]
+    then
+	co -l $sid $flg RCS/$f,v
+        [[ -x RCS/$f,v ]] && chmod +x $f
+    else
+	print "ERROR: ${PGM}: RCS file RCS/$f,v not found\a" 1>&2
+    fi
+}
+
+# do a checkout for all the files
+for f in $fil
+do
+    checkout $f
+done
+
+# update the VERSION file
+id="$(grep 'History *id' HISTORY | tail -1 | awk '{ print $3 }')"
+id="${id%%.*}.$((${id##*.}+1))"
+echo "Installed version: History id -r$id" > VERSION

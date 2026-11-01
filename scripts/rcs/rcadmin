@@ -1,0 +1,104 @@
+#!/bin/bash
+
+PGM=${0##*/}
+
+USAGE() {
+    printf "
+NAME
+    ${PGM} - create RCS files from the input files
+
+SYNOPSIS
+    ${PGM} [-norcs] [-d<directory>] files
+
+DESCRIPTION
+    ${PGM} creates RCS files from the input files. The files HISTORY
+    and VERSION are created if they don't yet exist. If the input files
+    have execute permission, the RCS file gets also execute permission,
+    and the file is again checked out with execute permission.
+
+PARAMETERS
+    -norcs         Don't create a RCS subdirectory
+
+    -d<directory>  directory in which the RCS files are created.
+		   Default is directory RCS unless RCS files exist in
+		   the current directory.
+
+    files          list of files to be brought under RCS control.
+
+AUTHOR
+    G.A. van der Velde
+" 1>&2
+    exit 22
+}
+
+# check the availability of the RCS commands
+ok=$(which ci)
+[[ -z $ok ]] && {
+    printf "ERROR: ${PGM}: The RCS commands aren't in your path\a"
+    exit 99
+}
+
+# set defaults
+dir=.
+sub=
+fil=
+
+# process the parameters of the command
+while [[ -n "$1" ]]
+do
+    case $1 in
+	-norcs)  sub="NO";;
+	-d)      dir=$2; shift;;
+	-d*)     dir=${1#-d};;
+	-*|\? )  USAGE;;
+	*)       fil="$fil $1";;
+    esac
+    shift
+done
+
+# check that file parameters have been supplied
+[[ -z "$fil" ]] && {
+    printf "ERROR: ${PGM}: no file parameters have been supplied\a" 1>&2
+    exit 23
+}
+
+# create the directory if it doesn't exist
+[[ -d $dir ]] || mkdir -p $dir || {
+    printf "ERROR: ${PGM}: directory $dir could not be created\a" 1>&2
+    exit 23
+}
+
+# Check if a RCS directory exists
+[[ -d $dir/RCS || -f $dir/HISTORY ]] || ( [[ -z $sub ]] && mkdir $dir/RCS )
+rcs=$dir; [[ -d $dir/RCS ]] && rcs=$dir/RCS
+
+for f in $fil
+do
+    if [[ -f $f ]]
+    then
+	exec=
+	[[ -x $f ]] && exec=x
+	echo "" | ci $f
+	co $f
+	[[ -n $exec ]] && chmod +x $f $rcs/$f,v
+    else
+	printf "ERROR: ${PGM}: file $f not found\a" 1>&2
+    fi
+done
+
+#  Add HISTORY file if it doesn't exist
+
+datum=`date +%d.%m.%y-%H:%M:%S`
+[[ -f $rcs/HISTORY ]] || cat << EOF > $rcs/HISTORY
+==========================================
+Modification time stamp: $datum
+History id: 1.001
+Comment:
+Original version
+
+Affected modules:
+
+EOF
+
+#  Create the VERSION file if it doesn't exist
+[[ -f $rcs/VERSION ]] || printf "Installed version: History id -r$sid" > $rcs/VERSION
