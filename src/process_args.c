@@ -107,6 +107,7 @@ void process_args( int argc, char **argv )
                 matchpoint = IMP;
                 matchpointtime = IMP;
                 k = 2;
+                n = -1;
                 val = 0;
                 sign = +1;
                 while ( argv[i][k] ) {
@@ -123,7 +124,7 @@ void process_args( int argc, char **argv )
                         val = 10 * val + c - '0';
                     k++;
                 }
-                if ( val == 0 ) {
+                if ( n < 0 || n > NCARDS ) {
                     printf( "Incorrect specification of the IMP score: %s; the program stops\n", argv[i] );
                     exit( 1 );
                 }

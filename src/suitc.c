@@ -98,7 +98,7 @@ int main( int argc, char **argv )
         fflush( stdout );
     }
 
-    times[0] = TICK * clock();
+    times[0] = (double) clock() / CLOCKS_PER_SEC;
 
     //  initialise the QUIRKD list
     qdcount = 0;
@@ -162,7 +162,7 @@ int main( int argc, char **argv )
     if ( printboards )
         print_boards();
 
-    times[1] = TICK * clock();
+    times[1] = (double) clock() / CLOCKS_PER_SEC;
 
     //  evaluate the MP or IMP plays
     if ( matchpoint ) {
@@ -170,7 +170,7 @@ int main( int argc, char **argv )
         evaluate_mp_results();
     }
 
-    times[2] = TICK * clock();
+    times[2] = (double) clock() / CLOCKS_PER_SEC;
 
     if ( ! resultsonly ) {
 
@@ -195,6 +195,6 @@ int main( int argc, char **argv )
     //  print the results
     buildtree = 2;
     print_all_results();
-    times[3] = TICK * clock();
+    times[3] = (double) clock() / CLOCKS_PER_SEC;
     print_stat( trace );
 }

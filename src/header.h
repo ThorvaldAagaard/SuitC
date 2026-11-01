@@ -27,7 +27,6 @@
 #define NPLIES                          52
 #define NS( p )                         ( ( p == north ) || ( p == south ) )
 #define RENONCE                         ( (COLOR) 0 )
-#define TICK                            1.0e-3
 #define w_ew( lnode )                   ( lnode[d]->w_c & ( brd[0][west] | brd[0][east] ) )
 #define w_ns( lnode )                   ( lnode[d]->c & lnode[d]->w_c )
 #define YES                             1
