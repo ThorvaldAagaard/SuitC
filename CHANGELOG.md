@@ -11,7 +11,7 @@ unchanged in [docs/history](docs/history).
 ## v2.023 (not yet released)
 
 - SuitC Rev 2.023: times are measured with `clock() / CLOCKS_PER_SEC`, so the
-  timings are right on Linux and macOS. `-I` is checked more strictly: `-I`
+  timings are right on Linux and macOS ([#2](../../issues/2)). `-I` is checked more strictly: `-I`
   without `<n>:`, or with `<n>` larger than 13, is rejected, and a score of 0
   is accepted. The results are unchanged for all regression cases.
 - dds Rev 2 (2.001 – 2.009): Gerrit's new line of dds, restarted from the

@@ -40,7 +40,7 @@ SuitC -M AKJT32 54 Q9876       # best play at matchpoints
 | `-r` | Print only the results, without game trees. Uses much less memory. |
 | `-d` | Print the truncated NODE tree (diagnostic). |
 | `-f` | Print the full NODE tree (diagnostic). |
-| `-T<n>` | Trace output for development: `1` = timing and memory counters, `2` = minimax progress. |
+| `-T<n>` | Trace output for development: `1` = timing and memory counters, `2` = minimax progress. The times are in seconds, measured with the C function `clock()`: elapsed (wall-clock) time on Windows, processor time on Linux and macOS. Before Rev 2.023 they were 1000 times too large on Linux and macOS. |
 
 ### How the game tree is printed
 

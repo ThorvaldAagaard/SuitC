@@ -23,6 +23,9 @@ Dutch card symbols in either case, e.g. `AKT7.KJT5.QJ62.6`.
 
 At the prompt, enter a card to play (e.g. `h9`), `b` to go back one ply, `b<n>`
 to go back to ply `<n>`, `p` or `P` to print statistics, or `.` to stop.
+The statistics start with the `cpu time` in seconds, measured as in SuitC's
+`-T1` (see [Usage](usage.md)): elapsed time on Windows, processor time on
+Linux and macOS.
 
 [examples/dds](../examples/dds) contains Gerrit's examples:
 
